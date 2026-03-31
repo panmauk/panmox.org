@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<title>PANMOX</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #060a18;
+    color: #e8f0ff;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── STARS ── */
+  .stars {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: #1a3a6e;
+    animation: twinkle 3s ease-in-out infinite alternate;
+  }
+  @keyframes twinkle { 0%{opacity:.2} 100%{opacity:.8} }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; width: 100%;
+    z-index: 100;
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    background: rgba(6,10,24,.7);
+    border-bottom: 1px solid rgba(0,200,255,.05);
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    gap: 36px;
+  }
+  .nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 4px;
+    color: #00c8ff;
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links > li { position: relative; }
+  .nav-links > li > a,
+  .nav-links > li > button {
+    color: #8aa8c7;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 400;
+    transition: color .3s;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 0;
+  }
+  .nav-links > li > a:hover,
+  .nav-links > li > button:hover,
+  .nav-links > li > button.open { color: #e8f0ff; }
+
+  /* ── DROPDOWN ── */
+  .nav-dropdown-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 98;
+    display: none;
+  }
+  .nav-dropdown-overlay.show { display: block; }
+
+  .nav-dropdown {
+    position: fixed;
+    top: 44px;
+    left: 0; right: 0;
+    z-index: 99;
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    background: rgba(6,10,24,.92);
+    border-bottom: 1px solid rgba(0,200,255,.06);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .4s cubic-bezier(.4,0,.2,1), opacity .3s ease;
+    opacity: 0;
+  }
+  .nav-dropdown.show {
+    max-height: 340px;
+    opacity: 1;
+  }
+  .nav-dropdown-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 36px 40px 44px;
+    display: flex;
+    gap: 80px;
+  }
+  .nav-dropdown-col h4 {
+    font-size: 11px;
+    font-weight: 400;
+    color: #5a8ab5;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .nav-dropdown-col ul { list-style: none; }
+  .nav-dropdown-col li { margin-bottom: 6px; }
+  .nav-dropdown-col a {
+    color: #c8d8ea;
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 600;
+    transition: color .2s;
+    line-height: 1.6;
+  }
+  .nav-dropdown-col a:hover { color: #fff; }
+  .nav-dropdown-col a .accent-cyan { color: #00c8ff; }
+  .nav-dropdown-col a .accent-green { color: #28c878; }
+  .nav-dropdown-col a .accent-blue { color: #4a9eff; }
+
+  /* ── PRODUCT SECTIONS (Apple-style) ── */
+  .product-section {
+    position: relative;
+    z-index: 1;
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 100px 24px 60px;
+    border-bottom: 1px solid rgba(0,200,255,.04);
+    overflow: hidden;
+  }
+
+  .product-section .product-name {
+    font-size: clamp(40px, 7vw, 72px);
+    font-weight: 800;
+    color: #e8f0ff;
+    margin-bottom: 12px;
+    letter-spacing: -1px;
+  }
+  .product-section .product-tagline {
+    font-size: clamp(16px, 2.5vw, 22px);
+    font-weight: 300;
+    color: #5a8ab5;
+    margin-bottom: 28px;
+  }
+
+  .product-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 48px;
+  }
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all .3s;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-primary {
+    background: #00c8ff;
+    color: #060a18;
+  }
+  .btn-primary:hover {
+    background: #33d4ff;
+    box-shadow: 0 0 24px rgba(0,200,255,.3);
+  }
+  .btn-outline {
+    background: transparent;
+    color: #00c8ff;
+    border: 1.5px solid rgba(0,200,255,.4);
+  }
+  .btn-outline:hover {
+    border-color: #00c8ff;
+    background: rgba(0,200,255,.06);
+  }
+
+  .product-image {
+    max-width: min(960px, 90vw);
+    width: 100%;
+  }
+  .product-image img {
+    width: 100%;
+    display: block;
+    border-radius: 10px;
+    border: 1px solid rgba(0,200,255,.1);
+    box-shadow:
+      0 0 60px rgba(0,200,255,.05),
+      0 30px 60px rgba(0,0,0,.5);
+  }
+
+  /* Section-specific ambient glows */
+  .section-glow {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 50%;
+  }
+  .glow-cyan {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,200,255,.06) 0%, transparent 70%);
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+  }
+  .glow-green {
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(40,200,120,.12) 0%, rgba(40,200,120,.04) 40%, transparent 70%);
+    top: -150px; left: 50%;
+    transform: translateX(-50%);
+  }
+  .glow-ice {
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(200,220,255,.1) 0%, rgba(180,210,240,.04) 40%, transparent 70%);
+    top: -150px; left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* OverByte green accent */
+  #overbyte { border-bottom-color: rgba(40,200,120,.06); }
+  #overbyte .product-name { color: #c8f0dc; }
+  #overbyte .product-tagline { color: #5aaa80; }
+  #overbyte .btn-primary {
+    background: #28c878;
+    color: #060a18;
+  }
+  #overbyte .btn-primary:hover {
+    background: #3dd98a;
+    box-shadow: 0 0 30px rgba(40,200,120,.4);
+  }
+
+  /* LinuxSimplify icy white-blue accent */
+  #linuxsimplify { border-bottom-color: rgba(200,220,255,.06); }
+  #linuxsimplify .product-name { color: #e8f0ff; }
+  #linuxsimplify .product-tagline { color: #9ab8d4; }
+  #linuxsimplify .btn-primary {
+    background: #c0d8f0;
+    color: #060a18;
+  }
+  #linuxsimplify .btn-primary:hover {
+    background: #dce8f5;
+    box-shadow: 0 0 30px rgba(200,220,255,.4);
+  }
+
+  /* Coming soon overlay */
+  .coming-soon-badge {
+    display: inline-block;
+    margin-bottom: 28px;
+    padding: 6px 20px;
+    border-radius: 50px;
+    border: 1px solid rgba(108,95,217,.25);
+    background: rgba(108,95,217,.08);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #6c5fd9;
+    text-transform: uppercase;
+  }
+
+  /* Animated icon */
+  .product-icon-anim {
+    max-width: 400px;
+    width: 60vw;
+  }
+  .product-icon-anim svg {
+    width: 100%;
+    height: auto;
+  }
+
+  @keyframes spinOrbit1 { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes spinOrbit2 { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+  @keyframes spinOrbit3 { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes pulse  { 0%,100% { opacity:0.55; } 50% { opacity:1; } }
+  @keyframes pulse2 { 0%,100% { opacity:0.55; } 50% { opacity:1; } }
+  @keyframes pulse3 { 0%,100% { opacity:0.55; } 50% { opacity:1; } }
+  @keyframes corePulse { 0%,100% { opacity:0.85; } 50% { opacity:1; } }
+  @keyframes scanline { 0% { transform:translateY(0); opacity:0; } 10%{opacity:0.5;} 90%{opacity:0.4;} 100%{ transform:translateY(80px); opacity:0; } }
+  @keyframes cornerBlink { 0%,100%{opacity:0.3} 50%{opacity:1} }
+
+  .orbit1-group { transform-origin: 340px 340px; animation: spinOrbit1 8s linear infinite; }
+  .orbit2-group { transform-origin: 340px 340px; animation: spinOrbit2 13s linear infinite; }
+  .orbit3-group { transform-origin: 340px 340px; animation: spinOrbit3 5s linear infinite; }
+  .node-dot  { animation: pulse  3s ease-in-out infinite; }
+  .node-dot2 { animation: pulse2 3s ease-in-out infinite 1s; }
+  .node-dot3 { animation: pulse3 3s ease-in-out infinite 2s; }
+  .core-glow { animation: corePulse 3s ease-in-out infinite; }
+  .scanline  { animation: scanline 4s ease-in-out infinite; }
+  .corner-blink  { animation: cornerBlink 2s ease-in-out infinite; }
+  .corner-blink2 { animation: cornerBlink 2s ease-in-out infinite 1s; }
+
+  /* Placeholder product visuals */
+  .product-placeholder {
+    max-width: 600px;
+    width: 90vw;
+    aspect-ratio: 16/9;
+    border-radius: 16px;
+    border: 1px solid rgba(108,95,217,.1);
+    background: linear-gradient(135deg, rgba(108,95,217,.04) 0%, rgba(0,200,255,.02) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .product-placeholder svg {
+    width: 64px;
+    height: 64px;
+    stroke: #2a2858;
+    fill: none;
+    stroke-width: 1;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid rgba(0,200,255,.04);
+    padding: 32px 24px;
+    position: relative;
+    z-index: 1;
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-text {
+    font-size: 11px;
+    color: #1e3050;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 1px;
+  }
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .footer-links a {
+    font-size: 11px;
+    color: #2a4a6e;
+    text-decoration: none;
+    transition: color .3s;
+  }
+  .footer-links a:hover { color: #5a8ab5; }
+
+  @media (max-width: 600px) {
+    .nav-links { gap: 20px; }
+    .nav-links > li > a, .nav-links > li > button { font-size: 11px; }
+    .nav-dropdown-inner { padding: 28px 24px 36px; gap: 40px; }
+    .nav-dropdown-col a { font-size: 18px; }
+    .footer-inner { flex-direction: column; gap: 12px; }
+  }
+
+  /* ── NEWSLETTER MODAL ── */
+  .nl-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 2000;
+    background: rgba(0,0,0,.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .nl-overlay.show { display: flex; }
+  .nl-box {
+    background: rgba(10,16,36,.95);
+    border: 1px solid rgba(0,200,255,.1);
+    border-radius: 16px;
+    padding: 28px 32px;
+    max-width: 440px;
+    width: 100%;
+    backdrop-filter: blur(20px);
+    animation: nlSlideUp .35s cubic-bezier(.16,1,.3,1);
+    position: relative;
+  }
+  @keyframes nlSlideUp { from{transform:translateY(30px);opacity:0} to{transform:translateY(0);opacity:1} }
+  .nl-close {
+    position: absolute;
+    top: 12px; right: 14px;
+    background: none;
+    border: none;
+    color: #5a8ab5;
+    font-size: 18px;
+    cursor: pointer;
+    transition: color .2s;
+    padding: 4px;
+  }
+  .nl-close:hover { color: #e8f0ff; }
+  .nl-box h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #e8f0ff;
+    margin-bottom: 6px;
+  }
+  .nl-box p {
+    font-size: 13px;
+    color: #5a8ab5;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+  .nl-form {
+    display: flex;
+    gap: 8px;
+  }
+  .nl-form input {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(0,200,255,.15);
+    background: rgba(0,200,255,.04);
+    color: #e8f0ff;
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color .3s;
+  }
+  .nl-form input::placeholder { color: #2a4a6e; }
+  .nl-form input:focus { border-color: rgba(0,200,255,.4); }
+  .nl-form button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    background: #00c8ff;
+    color: #060a18;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background .2s;
+    white-space: nowrap;
+  }
+  .nl-form button:hover { background: #33d4ff; }
+  .nl-done {
+    text-align: center;
+    padding: 8px 0;
+    color: #00c8ff;
+    font-size: 14px;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">PANMOX</a>
+    <ul class="nav-links">
+      <li><button id="productsBtn" onclick="toggleDropdown()">Products</button></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="#" id="navNlBtn">Newsletter</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="nav-dropdown-overlay" id="dropdownOverlay" onclick="closeDropdown()"></div>
+<div class="nav-dropdown" id="productsDropdown">
+  <div class="nav-dropdown-inner">
+    <div class="nav-dropdown-col">
+      <h4>Explore Products</h4>
+      <ul>
+        <li><a href="browser.html?intro=1"><span class="accent-cyan">PANMOX</span> Browser</a></li>
+        <li><a href="overbyte.html?intro=1"><span class="accent-green">Over</span>Byte</a></li>
+        <li><a href="linuxsimplify.html?intro=1"><span class="accent-blue">Linux</span>Simplify</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PANMOX Browser ═══ -->
+<section class="product-section">
+  <div class="section-glow glow-cyan"></div>
+  <h2 class="product-name">PANMOX Browser</h2>
+  <p class="product-tagline">Secure browsing, reimagined.</p>
+  <div class="product-buttons">
+    <a href="browser.html?intro=1" class="btn btn-primary">Learn more</a>
+  </div>
+  <div class="product-icon-anim">
+    <svg viewBox="0 0 680 680" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="shieldClip">
+          <path d="M340 105 L490 165 L490 310 Q490 430 340 505 Q190 430 190 310 L190 165 Z"/>
+        </clipPath>
+      </defs>
+      <circle cx="340" cy="340" r="295" stroke="#1a3a8e" stroke-width="0.5" fill="none" stroke-dasharray="4 8"/>
+      <circle cx="340" cy="340" r="285" stroke="#1a3a8e" stroke-width="0.3" fill="none" stroke-dasharray="1 16" opacity="0.5"/>
+      <g clip-path="url(#shieldClip)" opacity="0.4">
+        <g stroke="#1a3a8e" stroke-width="0.5" fill="none">
+          <line x1="220" y1="160" x2="460" y2="160"/><line x1="210" y1="195" x2="470" y2="195"/>
+          <line x1="205" y1="230" x2="475" y2="230"/><line x1="200" y1="265" x2="480" y2="265"/>
+          <line x1="200" y1="300" x2="480" y2="300"/><line x1="200" y1="335" x2="480" y2="335"/>
+          <line x1="203" y1="370" x2="477" y2="370"/><line x1="210" y1="405" x2="470" y2="405"/>
+          <line x1="222" y1="440" x2="458" y2="440"/><line x1="240" y1="475" x2="440" y2="475"/>
+          <line x1="250" y1="110" x2="250" y2="510"/><line x1="290" y1="110" x2="290" y2="510"/>
+          <line x1="330" y1="110" x2="330" y2="510"/><line x1="370" y1="110" x2="370" y2="510"/>
+          <line x1="410" y1="110" x2="410" y2="510"/>
+        </g>
+      </g>
+      <path fill="#0d1630" stroke="#00c8ff" stroke-width="3" opacity="0.9" d="M340 105 L490 165 L490 310 Q490 430 340 505 Q190 430 190 310 L190 165 Z"/>
+      <path fill="#0a1428" stroke="#1a4a8e" stroke-width="1.5" d="M340 130 L470 183 L470 310 Q470 415 340 482 Q210 415 210 310 L210 183 Z"/>
+      <g class="orbit1-group">
+        <ellipse cx="340" cy="340" rx="110" ry="50" stroke="#5347c8" stroke-width="1" fill="none" transform="rotate(-25, 340, 340)"/>
+        <circle class="node-dot" cx="450" cy="340" r="7" fill="#7F77DD" transform="rotate(-25, 340, 340)"/>
+        <circle class="node-dot2" cx="230" cy="340" r="5" fill="#7F77DD" transform="rotate(-25, 340, 340)"/>
+      </g>
+      <g class="orbit2-group">
+        <ellipse cx="340" cy="340" rx="115" ry="48" stroke="#1a6ab5" stroke-width="1" fill="none" transform="rotate(50, 340, 340)"/>
+        <circle class="node-dot3" cx="455" cy="340" r="6" fill="#378ADD" transform="rotate(50, 340, 340)"/>
+      </g>
+      <g class="orbit3-group">
+        <ellipse cx="340" cy="340" rx="95" ry="42" stroke="#2a2858" stroke-width="0.7" fill="none" transform="rotate(10, 340, 340)"/>
+      </g>
+      <g clip-path="url(#shieldClip)">
+        <rect class="scanline" x="210" y="290" width="260" height="2" rx="1" fill="#00c8ff" opacity="0.3"/>
+      </g>
+      <circle class="core-glow" cx="340" cy="310" r="52" fill="#1a2a7e"/>
+      <circle cx="340" cy="310" r="62" stroke="#00c8ff" stroke-width="1.5" stroke-dasharray="6 4" fill="none" opacity="0.6"/>
+      <circle cx="340" cy="310" r="72" stroke="#00c8ff" stroke-width="0.7" stroke-dasharray="2 10" fill="none" opacity="0.3"/>
+      <rect x="320" y="286" width="10" height="48" rx="2" fill="#00c8ff"/>
+      <rect x="320" y="286" width="28" height="9" rx="2" fill="#00c8ff"/>
+      <rect x="320" y="307" width="28" height="9" rx="2" fill="#00c8ff"/>
+      <rect x="340" y="286" width="9" height="30" rx="2" fill="#00c8ff"/>
+      <rect x="340" y="307" width="9" height="9" rx="2" fill="#00c8ff"/>
+      <circle cx="360" cy="297" r="5" fill="#00c8ff" opacity="0.5"/>
+      <circle cx="360" cy="314" r="5" fill="#00c8ff" opacity="0.5"/>
+      <rect x="252" y="415" width="176" height="48" rx="8" fill="#0d1117" stroke="#00c8ff" stroke-width="1"/>
+      <circle cx="272" cy="428" r="4" fill="#E24B4A"/><circle cx="287" cy="428" r="4" fill="#EF9F27"/><circle cx="302" cy="428" r="4" fill="#639922"/>
+      <text x="270" y="451" font-family="'Courier New', Courier, monospace" font-size="11" font-weight="500" fill="#00c8ff" letter-spacing="1">panmox --secure</text>
+      <rect x="391" y="441" width="6" height="11" rx="1" fill="#378ADD"/>
+      <rect x="418" y="148" width="54" height="22" rx="11" fill="#185FA5"/>
+      <text x="445" y="163" text-anchor="middle" font-family="'Courier New', Courier, monospace" font-size="10" font-weight="700" fill="#fff" letter-spacing="1">SAFE</text>
+      <rect x="208" y="148" width="44" height="22" rx="11" fill="#185FA5"/>
+      <text x="230" y="163" text-anchor="middle" font-family="'Courier New', Courier, monospace" font-size="10" font-weight="700" fill="#fff" letter-spacing="1">DEV</text>
+      <polyline class="corner-blink" points="580,80 620,80 620,120" fill="none" stroke="#00c8ff" stroke-width="1" stroke-linecap="round"/>
+      <line class="corner-blink" x1="605" y1="80" x2="605" y2="95" stroke="#00c8ff" stroke-width="1"/>
+      <line class="corner-blink" x1="620" y1="95" x2="605" y2="95" stroke="#00c8ff" stroke-width="1"/>
+      <polyline class="corner-blink2" points="100,600 60,600 60,560" fill="none" stroke="#00c8ff" stroke-width="1" stroke-linecap="round"/>
+      <line class="corner-blink2" x1="75" y1="600" x2="75" y2="585" stroke="#00c8ff" stroke-width="1"/>
+      <line class="corner-blink2" x1="60" y1="585" x2="75" y2="585" stroke="#00c8ff" stroke-width="1"/>
+      <text x="340" y="558" text-anchor="middle" font-family="'Courier New', Courier, monospace" font-size="34" font-weight="700" fill="#00c8ff" letter-spacing="10">PANMOX</text>
+      <text x="340" y="582" text-anchor="middle" font-family="'Courier New', Courier, monospace" font-size="11" font-weight="400" fill="#5a8ab5" letter-spacing="5">BROWSER</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══ OverByte ═══ -->
+<section class="product-section" id="overbyte">
+  <div class="section-glow glow-green"></div>
+  <h2 class="product-name">OverByte</h2>
+  <p class="product-tagline">Reverse compression. Make files bigger.</p>
+  <div class="product-buttons">
+    <a href="overbyte.html?intro=1" class="btn btn-primary">Learn more</a>
+  </div>
+  <div class="product-image" style="max-width:220px;">
+    <img src="assets/overbyte-icon.svg" alt="OverByte" style="border-radius:0; border:none; box-shadow:none; background:none;">
+  </div>
+</section>
+
+<!-- ═══ LinuxSimplify ═══ -->
+<section class="product-section" id="linuxsimplify">
+  <div class="section-glow glow-ice"></div>
+  <h2 class="product-name">LinuxSimplify</h2>
+  <p class="product-tagline">Switch from Windows to GNU/Linux, the easy way.</p>
+  <div class="product-buttons">
+    <a href="linuxsimplify.html?intro=1" class="btn btn-primary">Learn more</a>
+  </div>
+  <div class="product-image" style="max-width:180px;">
+    <img src="assets/Simplified.ico" alt="LinuxSimplify" style="border-radius:0; border:none; box-shadow:none; background:none;">
+  </div>
+</section>
+
+<!-- Newsletter Modal -->
+<div class="nl-overlay" id="nlOverlay">
+  <div class="nl-box">
+    <button class="nl-close" onclick="document.getElementById('nlOverlay').classList.remove('show')">&times;</button>
+    <div id="nlContent">
+      <h4>Stay in the loop</h4>
+      <p>Get notified when we release new projects or updates.</p>
+      <div class="nl-form">
+        <input type="email" id="nlEmail" placeholder="your@email.com">
+        <button onclick="subscribeNl()">Subscribe</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-text">&copy; 2026 PANMOX. All rights reserved.</span>
+    <ul class="footer-links">
+      <li><a href="about.html">About & Contact</a></li>
+      <li><a href="#" id="musicCreditsBtn">Music Credits</a></li>
+    </ul>
+  </div>
+  <div id="music-credits" style="display:none; margin-top:24px; padding:20px 24px; border-top:1px solid rgba(0,200,255,.04); text-align:left; max-width:600px; margin-left:auto; margin-right:auto;">
+    <h4 style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:3px; color:#5a8ab5; text-transform:uppercase; margin-bottom:14px;">Music Credits</h4>
+    <ul style="list-style:none; display:flex; flex-direction:column; gap:8px;">
+      <li><a href="https://www.free-stock-music.com/kevin-macleod-hall-of-the-mountain-king.html" target="_blank" rel="noopener" style="color:#2a4a6e; text-decoration:none; font-size:12px; font-family:'JetBrains Mono',monospace; transition:color .3s;">Hall of the Mountain King &mdash; Kevin MacLeod</a></li>
+      <li><a href="https://www.gnu.org/music/free-software-song.html" target="_blank" rel="noopener" style="color:#2a4a6e; text-decoration:none; font-size:12px; font-family:'JetBrains Mono',monospace; transition:color .3s;">Free Software Song &mdash; GNU Project</a></li>
+      <li><a href="https://pmmusic.pro/downloads/" target="_blank" rel="noopener" style="color:#2a4a6e; text-decoration:none; font-size:12px; font-family:'JetBrains Mono',monospace; transition:color .3s;">Also Sprach Zarathustra &mdash; PM Music</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+  !function(){
+    var c = document.getElementById('stars');
+    for (var i = 0; i < 50; i++) {
+      var s = document.createElement('div');
+      s.className = 'star';
+      s.style.left = Math.random()*100+'%';
+      s.style.top = Math.random()*100+'%';
+      s.style.width = s.style.height = (Math.random()*2+.5)+'px';
+      s.style.animationDelay = Math.random()*3+'s';
+      s.style.animationDuration = (Math.random()*2+2)+'s';
+      c.appendChild(s);
+    }
+  }();
+
+  function toggleDropdown() {
+    var dd = document.getElementById('productsDropdown');
+    var ov = document.getElementById('dropdownOverlay');
+    var btn = document.getElementById('productsBtn');
+    var isOpen = dd.classList.contains('show');
+    if (isOpen) {
+      closeDropdown();
+    } else {
+      dd.classList.add('show');
+      ov.classList.add('show');
+      btn.classList.add('open');
+    }
+  }
+  function closeDropdown() {
+    document.getElementById('productsDropdown').classList.remove('show');
+    document.getElementById('dropdownOverlay').classList.remove('show');
+    document.getElementById('productsBtn').classList.remove('open');
+  }
+
+  // Newsletter
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwpiLx3ns4NCbid78rKH4xSn4ST4BYJ4oK_xI44ogJXF6RIoFYr7nl1vR3rTajqngAf/exec';
+
+  document.getElementById('navNlBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('nlContent').innerHTML = '<h4>Stay in the loop</h4><p>Get notified when we release new projects or updates.</p><div class="nl-form"><input type="email" id="nlEmail" placeholder="your@email.com"><button onclick="subscribeNl()">Subscribe</button></div>';
+    document.getElementById('nlOverlay').classList.add('show');
+  });
+
+  function subscribeNl() {
+    var email = document.getElementById('nlEmail').value.trim();
+    if (!email || email.indexOf('@') === -1) { document.getElementById('nlEmail').style.borderColor='#ff4444'; return; }
+    fetch(SCRIPT_URL + '?email=' + encodeURIComponent(email))
+      .then(function(r) { return r.text(); })
+      .then(function(result) {
+        if (result === 'exists') {
+          document.getElementById('nlContent').innerHTML = '<div class="nl-done">You\'re already subscribed!</div>';
+        } else {
+          document.getElementById('nlContent').innerHTML = '<div class="nl-done">Thanks! You\'re on the list.</div>';
+        }
+        setTimeout(function() { document.getElementById('nlOverlay').classList.remove('show'); }, 1500);
+      });
+  }
+
+  document.getElementById('musicCreditsBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    var mc = document.getElementById('music-credits');
+    mc.style.display = mc.style.display === 'block' ? 'none' : 'block';
+  });
+</script>
+</body>
+</html>
