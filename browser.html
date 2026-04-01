@@ -4,7 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<title>PANMOX Browser</title>
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
+<meta name="description" content="PANMOX Browser — a secure, privacy-focused web browser. Free and open source under GPL v3.">
+<meta property="og:title" content="PANMOX Browser">
+<meta property="og:description" content="Secure browsing, reimagined. Free and open source.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://panmox.org/browser.html">
+<title>PANMOX Browser — Secure Browsing, Reimagined</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
@@ -234,8 +241,8 @@
       0 40px 80px rgba(0,0,0,.6);
   }
   .stage-close {
-    position: absolute;
-    top: -48px; right: 0;
+    position: fixed;
+    top: 24px; right: 24px;
     width: 34px; height: 34px;
     border-radius: 50%;
     border: 1px solid rgba(0,200,255,.25);
@@ -248,9 +255,29 @@
     justify-content: center;
     transition: all .3s;
     opacity: 0;
+    z-index: 1001;
   }
   .stage.active .stage-close { animation: fadeUp 1s 4s ease forwards; }
   .stage-close:hover { background: #00c8ff; color: #060a18; }
+  .stage-tap {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1002;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .stage-tap span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 4px;
+    color: #00c8ff;
+    text-transform: uppercase;
+    animation: tapPulse 2s ease-in-out infinite;
+  }
+  @keyframes tapPulse { 0%,100%{opacity:.4} 50%{opacity:1} }
 
   /* ── PRODUCT PAGE ── */
   .product-page {
@@ -655,9 +682,55 @@
     letter-spacing: 1px;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 1080px) {
+    .stage-screenshot {
+      width: min(720px, 90vw);
+    }
+    .product-hero img {
+      width: min(720px, 92vw);
+    }
+    .download-btn {
+      padding: 14px 32px;
+      font-size: 15px;
+    }
+  }
+
+  @media (max-width: 768px) {
     .nav-links { gap: 16px; }
-    .nav-links a { font-size: 11px; }
+    .nav-links > li > a, .nav-links > li > button { font-size: 12px; }
+    .product-hero { padding: 80px 16px 40px; }
+    .product-info { padding: 40px 16px 36px; }
+    .product-info .desc { font-size: 15px; }
+    .accordions { padding: 0 16px 80px; }
+    .acc-header { font-size: 15px; padding: 16px 18px; }
+    .acc-icon { width: 30px; height: 30px; border-radius: 8px; }
+    .acc-icon svg { width: 15px; height: 15px; }
+    .acc-body li { font-size: 14px; }
+    .download-section { padding: 60px 16px 80px; }
+    .download-section h3 { font-size: clamp(24px, 5vw, 32px); }
+    .download-btn { padding: 14px 28px; font-size: 14px; }
+    .stage-screenshot { width: 92vw; }
+    .stage-label { font-size: 12px; letter-spacing: 4px; }
+  }
+
+  @media (max-width: 480px) {
+    .nav-links { gap: 12px; }
+    .nav-links > li > a, .nav-links > li > button { font-size: 11px; }
+    .product-hero { padding: 70px 12px 30px; }
+    .product-info h2 { font-size: clamp(28px, 7vw, 36px); }
+    .product-info .tagline { font-size: 16px; }
+    .product-info .desc { font-size: 14px; }
+    .accordions { padding: 0 12px 60px; }
+    .acc-header { font-size: 14px; padding: 14px 14px; gap: 10px; }
+    .acc-body li { font-size: 13px; padding: 8px 0 8px 16px; }
+    .download-section { padding: 40px 12px 60px; }
+    .download-btn { padding: 12px 24px; font-size: 14px; gap: 8px; }
+    .download-meta { font-size: 10px; }
+    .stage-label { font-size: 10px; letter-spacing: 3px; }
+    .nl-box { padding: 20px 18px; }
+    .nl-box h4 { font-size: 14px; }
+    .nl-form { flex-direction: column; }
+    .nl-form button { width: 100%; }
   }
 </style>
 </head>
@@ -704,9 +777,10 @@
   <div class="spot spot-floor"></div>
   <div class="stage-center">
     <div class="stage-label">PANMOX Browser</div>
-    <button class="stage-close" id="closeBtn" aria-label="Close">&times;</button>
     <img class="stage-screenshot" src="assets/panmox-screenshot.png" alt="PANMOX Browser">
   </div>
+  <button class="stage-close" id="closeBtn" aria-label="Close">&times;</button>
+  <div class="stage-tap" id="stageTap" style="display:none"><span>Tap to begin</span></div>
 </div>
 
 <!-- Product Page Content -->
@@ -834,11 +908,12 @@
   <div class="download-section" id="download">
     <h3>Ready to browse securely?</h3>
     <p>Download PANMOX Browser for Windows.</p>
-    <a href="#" data-url="https://github.com/panmauk/panmox.org/releases/download/v1.1.0/PANMOX.Browser.Setup.1.1.0.exe" class="download-btn" id="dlBtn">
+    <a href="#" data-url="https://github.com/panmauk/panmox.org/releases/download/v1.1.1/PANMOX.Browser.Setup.1.1.1.exe" class="download-btn" id="dlBtn">
       <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       Download for Windows
     </a>
-    <div class="download-meta">Windows 10+ &bull; 64-bit &bull; V1.1.0</div>
+    <div class="download-meta">Windows 10+ &bull; 64-bit &bull; V1.1.1</div>
+    <div class="download-meta" style="margin-top:8px; font-size:12px; color:#5a8ab5;">Fixed resolution scaling issues</div>
     <div class="download-meta" style="margin-top:12px;">Licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener" style="color:#6c5fd9; text-decoration:none; border-bottom:1px solid rgba(108,95,217,.3);">GNU GPL v3</a> &bull; <a href="https://github.com/panmauk/PANMOX-Browser" target="_blank" rel="noopener" style="color:#6c5fd9; text-decoration:none; border-bottom:1px solid rgba(108,95,217,.3);">Source Code</a></div>
   </div>
 </div>
@@ -887,11 +962,23 @@
 
   // Play intro only when coming from homepage (?intro=1)
   if (window.location.search.indexOf('intro=1') !== -1) {
+    history.replaceState(null, '', 'browser.html');
     stage.classList.add('active');
     audio.currentTime = START_TIME;
-    audio.play().catch(function(){});
-    // Clean up URL
-    history.replaceState(null, '', 'browser.html');
+    var playOk = false;
+    try { audio.play().then(function(){ playOk = true; }).catch(function(){}); } catch(e){}
+    // Safari fallback: show tap overlay if autoplay blocked
+    setTimeout(function() {
+      if (!playOk && audio.paused) {
+        var tap = document.getElementById('stageTap');
+        tap.style.display = 'flex';
+        tap.addEventListener('click', function() {
+          tap.style.display = 'none';
+          audio.currentTime = START_TIME;
+          audio.play().catch(function(){});
+        }, { once: true });
+      }
+    }, 500);
   }
 
   function closeStage() {
@@ -906,8 +993,14 @@
 
   audio.addEventListener('ended', closeStage);
   closeBtn.addEventListener('click', closeStage);
+  stage.addEventListener('dblclick', function() {
+    if (stage.classList.contains('active')) closeStage();
+  });
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && !stage.classList.contains('done')) closeStage();
+    if ((e.key === 'Escape' || e.key === ' ') && stage.classList.contains('active') && !stage.classList.contains('done')) {
+      e.preventDefault();
+      closeStage();
+    }
   });
 
   // Accordion

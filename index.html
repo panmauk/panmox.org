@@ -4,7 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<title>PANMOX</title>
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
+<meta name="description" content="PANMOX builds free, open-source software. Explore PANMOX Browser, OverByte, and LinuxSimplify — all licensed under GPL v3.">
+<meta property="og:title" content="PANMOX — Open Source Software">
+<meta property="og:description" content="PANMOX builds free, open-source software. Explore PANMOX Browser, OverByte, and LinuxSimplify.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://panmox.org">
+<title>PANMOX — Open Source Software</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
@@ -367,12 +374,36 @@
   }
   .footer-links a:hover { color: #5a8ab5; }
 
-  @media (max-width: 600px) {
-    .nav-links { gap: 20px; }
-    .nav-links > li > a, .nav-links > li > button { font-size: 11px; }
+  @media (max-width: 1080px) {
+    .product-image { max-width: min(720px, 92vw); }
+    .product-section { min-height: 60vh; padding: 80px 20px 50px; }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links { gap: 16px; }
+    .nav-links > li > a, .nav-links > li > button { font-size: 12px; }
     .nav-dropdown-inner { padding: 28px 24px 36px; gap: 40px; }
     .nav-dropdown-col a { font-size: 18px; }
+    .product-section { min-height: auto; padding: 70px 16px 50px; }
+    .product-section .product-name { font-size: clamp(32px, 8vw, 52px); }
+    .product-buttons { gap: 12px; }
+    .btn { padding: 10px 22px; font-size: 13px; }
     .footer-inner { flex-direction: column; gap: 12px; }
+  }
+
+  @media (max-width: 480px) {
+    .nav-links { gap: 12px; }
+    .nav-links > li > a, .nav-links > li > button { font-size: 11px; }
+    .nav-dropdown-col a { font-size: 16px; }
+    .product-section { padding: 60px 12px 40px; }
+    .product-section .product-name { font-size: clamp(28px, 9vw, 40px); }
+    .product-section .product-tagline { font-size: 15px; }
+    .product-buttons { flex-direction: column; align-items: center; gap: 10px; }
+    .btn { padding: 10px 28px; font-size: 13px; }
+    .nl-box { padding: 20px 18px; }
+    .nl-box h4 { font-size: 14px; }
+    .nl-form { flex-direction: column; }
+    .nl-form button { width: 100%; }
   }
 
   /* ── NEWSLETTER MODAL ── */
@@ -455,6 +486,20 @@
     white-space: nowrap;
   }
   .nl-form button:hover { background: #33d4ff; }
+  .nl-skip {
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 11px;
+    color: #2a4a6e;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: color .2s;
+    width: 100%;
+  }
+  .nl-skip:hover { color: #5a8ab5; }
   .nl-done {
     text-align: center;
     padding: 8px 0;
@@ -501,6 +546,7 @@
   <p class="product-tagline">Secure browsing, reimagined.</p>
   <div class="product-buttons">
     <a href="browser.html?intro=1" class="btn btn-primary">Learn more</a>
+    <a href="#" class="btn btn-outline home-dl-btn" data-url="https://github.com/panmauk/panmox.org/releases/download/v1.1.1/PANMOX.Browser.Setup.1.1.1.exe">Download</a>
   </div>
   <div class="product-icon-anim">
     <svg viewBox="0 0 680 680" xmlns="http://www.w3.org/2000/svg">
@@ -577,6 +623,7 @@
   <p class="product-tagline">Reverse compression. Make files bigger.</p>
   <div class="product-buttons">
     <a href="overbyte.html?intro=1" class="btn btn-primary">Learn more</a>
+    <a href="#" class="btn btn-outline home-dl-btn" data-url="https://github.com/panmauk/OverByte/releases/download/v1.0/OverByte_Setup.exe" style="border-color:rgba(40,200,120,.4); color:#28c878;">Download</a>
   </div>
   <div class="product-image" style="max-width:220px;">
     <img src="assets/overbyte-icon.svg" alt="OverByte" style="border-radius:0; border:none; box-shadow:none; background:none;">
@@ -590,6 +637,7 @@
   <p class="product-tagline">Switch from Windows to GNU/Linux, the easy way.</p>
   <div class="product-buttons">
     <a href="linuxsimplify.html?intro=1" class="btn btn-primary">Learn more</a>
+    <a href="#" class="btn btn-outline home-dl-btn" data-url="https://github.com/panmauk/LinuxSimplify-Windows/releases/download/v0.1/LinuxSimplify_Setup.exe" style="border-color:rgba(192,216,240,.4); color:#c0d8f0;">Download</a>
   </div>
   <div class="product-image" style="max-width:180px;">
     <img src="assets/Simplified.ico" alt="LinuxSimplify" style="border-radius:0; border:none; box-shadow:none; background:none;">
@@ -666,12 +714,34 @@
 
   // Newsletter
   var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwpiLx3ns4NCbid78rKH4xSn4ST4BYJ4oK_xI44ogJXF6RIoFYr7nl1vR3rTajqngAf/exec';
+  var subscribed = false;
+  var pendingDlUrl = null;
 
   document.getElementById('navNlBtn').addEventListener('click', function(e) {
     e.preventDefault();
+    pendingDlUrl = null;
     document.getElementById('nlContent').innerHTML = '<h4>Stay in the loop</h4><p>Get notified when we release new projects or updates.</p><div class="nl-form"><input type="email" id="nlEmail" placeholder="your@email.com"><button onclick="subscribeNl()">Subscribe</button></div>';
     document.getElementById('nlOverlay').classList.add('show');
   });
+
+  // Download buttons with newsletter
+  var dlBtns = document.querySelectorAll('.home-dl-btn');
+  for (var i = 0; i < dlBtns.length; i++) {
+    dlBtns[i].addEventListener('click', function(e) {
+      e.preventDefault();
+      var url = this.getAttribute('data-url');
+      if (subscribed) { window.location.href = url; return; }
+      pendingDlUrl = url;
+      document.getElementById('nlContent').innerHTML = '<h4>Stay in the loop</h4><p>Get notified when we release new projects or updates.</p><div class="nl-form"><input type="email" id="nlEmail" placeholder="your@email.com"><button onclick="subscribeNl()">Subscribe</button></div><button class="nl-skip" onclick="dismissNl()">No thanks, just download</button>';
+      document.getElementById('nlOverlay').classList.add('show');
+    });
+  }
+
+  function dismissNl() {
+    document.getElementById('nlOverlay').classList.remove('show');
+    if (pendingDlUrl) window.location.href = pendingDlUrl;
+    pendingDlUrl = null;
+  }
 
   function subscribeNl() {
     var email = document.getElementById('nlEmail').value.trim();
@@ -682,9 +752,14 @@
         if (result === 'exists') {
           document.getElementById('nlContent').innerHTML = '<div class="nl-done">You\'re already subscribed!</div>';
         } else {
+          subscribed = true;
           document.getElementById('nlContent').innerHTML = '<div class="nl-done">Thanks! You\'re on the list.</div>';
         }
-        setTimeout(function() { document.getElementById('nlOverlay').classList.remove('show'); }, 1500);
+        setTimeout(function() {
+          document.getElementById('nlOverlay').classList.remove('show');
+          if (pendingDlUrl) window.location.href = pendingDlUrl;
+          pendingDlUrl = null;
+        }, 1500);
       });
   }
 

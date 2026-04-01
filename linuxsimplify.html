@@ -4,7 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<title>LinuxSimplify</title>
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
+<meta name="description" content="LinuxSimplify — switch from Windows to GNU/Linux, the easy way. Free and open source under GPL v3.">
+<meta property="og:title" content="LinuxSimplify">
+<meta property="og:description" content="Switch from Windows to GNU/Linux, the easy way. Free and open source.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://panmox.org/linuxsimplify.html">
+<title>LinuxSimplify — Switch to Linux the Easy Way</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
@@ -225,8 +232,8 @@
       0 40px 80px rgba(0,0,0,.6);
   }
   .stage-close {
-    position: absolute;
-    top: -48px; right: 0;
+    position: fixed;
+    top: 24px; right: 24px;
     width: 34px; height: 34px;
     border-radius: 50%;
     border: 1px solid rgba(160,180,200,.25);
@@ -239,9 +246,29 @@
     justify-content: center;
     transition: all .3s;
     opacity: 0;
+    z-index: 1001;
   }
   .stage.active .stage-close { animation: fadeUp 1s 4s ease forwards; }
   .stage-close:hover { background: #b0c4d8; color: #060a18; }
+  .stage-tap {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1002;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .stage-tap span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 4px;
+    color: #b0c4d8;
+    text-transform: uppercase;
+    animation: tapPulse 2s ease-in-out infinite;
+  }
+  @keyframes tapPulse { 0%,100%{opacity:.4} 50%{opacity:1} }
 
   /* ── PRODUCT PAGE ── */
   .product-page {
@@ -619,11 +646,50 @@
     letter-spacing: 1px;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 1080px) {
+    .stage-screenshot { width: min(720px, 90vw); }
+    .product-hero img { width: min(720px, 92vw); }
+    .download-btn { padding: 14px 32px; font-size: 15px; }
+  }
+
+  @media (max-width: 768px) {
     .nav-links { gap: 16px; }
-    .nav-links a { font-size: 11px; }
+    .nav-links > li > a, .nav-links > li > button { font-size: 12px; }
+    .product-hero { padding: 80px 16px 40px; }
+    .product-info { padding: 40px 16px 36px; }
+    .product-info .desc { font-size: 15px; }
+    .accordions { padding: 0 16px 80px; }
+    .acc-header { font-size: 15px; padding: 16px 18px; }
+    .acc-icon { width: 30px; height: 30px; border-radius: 8px; }
+    .acc-icon svg { width: 15px; height: 15px; }
+    .acc-body li { font-size: 14px; }
+    .download-section { padding: 60px 16px 80px; }
+    .download-section h3 { font-size: clamp(24px, 5vw, 32px); }
+    .download-btn { padding: 14px 28px; font-size: 14px; }
     .download-buttons { flex-direction: column; align-items: center; }
     .source-btn { margin-left: 0; margin-top: 12px; }
+    .stage-screenshot { width: 92vw; }
+    .stage-label { font-size: 12px; letter-spacing: 4px; }
+  }
+
+  @media (max-width: 480px) {
+    .nav-links { gap: 12px; }
+    .nav-links > li > a, .nav-links > li > button { font-size: 11px; }
+    .product-hero { padding: 70px 12px 30px; }
+    .product-info h2 { font-size: clamp(28px, 7vw, 36px); }
+    .product-info .tagline { font-size: 16px; }
+    .product-info .desc { font-size: 14px; }
+    .accordions { padding: 0 12px 60px; }
+    .acc-header { font-size: 14px; padding: 14px 14px; gap: 10px; }
+    .acc-body li { font-size: 13px; padding: 8px 0 8px 16px; }
+    .download-section { padding: 40px 12px 60px; }
+    .download-btn { padding: 12px 24px; font-size: 14px; gap: 8px; }
+    .download-meta { font-size: 10px; }
+    .stage-label { font-size: 10px; letter-spacing: 3px; }
+    .nl-box { padding: 20px 18px; }
+    .nl-box h4 { font-size: 14px; }
+    .nl-form { flex-direction: column; }
+    .nl-form button { width: 100%; }
   }
 </style>
 </head>
@@ -669,9 +735,10 @@
   <div class="spot spot-floor"></div>
   <div class="stage-center">
     <div class="stage-label">LinuxSimplify</div>
-    <button class="stage-close" id="closeBtn" aria-label="Close">&times;</button>
     <img class="stage-screenshot" src="assets/linuxsimplify-screenshot.png" alt="LinuxSimplify">
   </div>
+  <button class="stage-close" id="closeBtn" aria-label="Close">&times;</button>
+  <div class="stage-tap" id="stageTap" style="display:none"><span>Tap to begin</span></div>
 </div>
 
 <!-- Product Page -->
@@ -853,10 +920,22 @@
 
   // Play intro only from homepage
   if (window.location.search.indexOf('intro=1') !== -1) {
+    history.replaceState(null, '', 'linuxsimplify.html');
     stage.classList.add('active');
     audio.currentTime = START_TIME;
-    audio.play().catch(function(){});
-    history.replaceState(null, '', 'linuxsimplify.html');
+    var playOk = false;
+    try { audio.play().then(function(){ playOk = true; }).catch(function(){}); } catch(e){}
+    setTimeout(function() {
+      if (!playOk && audio.paused) {
+        var tap = document.getElementById('stageTap');
+        tap.style.display = 'flex';
+        tap.addEventListener('click', function() {
+          tap.style.display = 'none';
+          audio.currentTime = START_TIME;
+          audio.play().catch(function(){});
+        }, { once: true });
+      }
+    }, 500);
   }
 
   function closeStage() {
@@ -871,8 +950,14 @@
 
   audio.addEventListener('ended', closeStage);
   closeBtn.addEventListener('click', closeStage);
+  stage.addEventListener('dblclick', function() {
+    if (stage.classList.contains('active')) closeStage();
+  });
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && stage.classList.contains('active')) closeStage();
+    if ((e.key === 'Escape' || e.key === ' ') && stage.classList.contains('active') && !stage.classList.contains('done')) {
+      e.preventDefault();
+      closeStage();
+    }
   });
 
   function toggleAcc(btn) { btn.parentElement.classList.toggle('open'); }

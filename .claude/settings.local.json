@@ -21,7 +21,10 @@
       "mcp__Claude_Preview__preview_start",
       "WebFetch(domain:forms.gle)",
       "WebFetch(domain:docs.google.com)",
-      "Bash(du -sh assets/* downloads/*)"
+      "Bash(du -sh assets/* downloads/*)",
+      "Bash(python -c \"from PIL import Image; print\\(''ok''\\)\")",
+      "Bash(python -c \":*)",
+      "Bash(pip install:*)"
     ]
   }
 }
