@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
+<meta name="description" content="About PANMOX — an open-source software project building free tools under GPL v3. Contact us for business, support, or general inquiries.">
+<meta property="og:title" content="About PANMOX">
+<meta property="og:description" content="About PANMOX — open-source software under GPL v3. Get in touch.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://panmox.org/about.html">
 <title>About &mdash; PANMOX</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
@@ -245,11 +252,34 @@
     letter-spacing: 1px;
   }
 
-  @media (max-width: 600px) {
-    .nav-links { gap: 20px; }
-    .nav-links > li > a, .nav-links > li > button { font-size: 11px; }
+  @media (max-width: 768px) {
+    .nav-links { gap: 16px; }
+    .nav-links > li > a, .nav-links > li > button { font-size: 12px; }
     .nav-dropdown-inner { padding: 28px 24px 36px; gap: 40px; }
     .nav-dropdown-col a { font-size: 18px; }
+    .page-content { padding: 100px 16px 60px; }
+    .page-title { font-size: clamp(32px, 8vw, 48px); }
+    .contact-grid { grid-template-columns: 1fr; }
+    .contact-card { padding: 20px; }
+    .about-text p { font-size: 15px; }
+  }
+
+  @media (max-width: 480px) {
+    .nav-links { gap: 12px; }
+    .nav-links > li > a, .nav-links > li > button { font-size: 11px; }
+    .nav-dropdown-col a { font-size: 16px; }
+    .page-content { padding: 80px 12px 40px; }
+    .page-title { font-size: clamp(28px, 9vw, 36px); }
+    .page-subtitle { font-size: 14px; margin-bottom: 40px; }
+    .about-text p { font-size: 14px; }
+    .contact-card .label { font-size: 13px; }
+    .contact-card a { font-size: 12px; }
+    .contact-note { padding: 16px; font-size: 12px; }
+    footer { margin-top: 40px; }
+    .nl-box { padding: 20px 18px; }
+    .nl-box h4 { font-size: 14px; }
+    .nl-form { flex-direction: column; }
+    .nl-form button { width: 100%; }
   }
 
   /* ── NEWSLETTER MODAL ── */
