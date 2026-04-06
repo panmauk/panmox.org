@@ -144,6 +144,7 @@
   .nav-dropdown-col a .accent-cyan { color: #00c8ff; }
   .nav-dropdown-col a .accent-green { color: #28c878; }
   .nav-dropdown-col a .accent-blue { color: #4a9eff; }
+  .nav-dropdown-col a .accent-amber { color: #ff8c00; }
 
   /* ── PRODUCT SECTIONS (Apple-style) ── */
   .product-section {
@@ -273,6 +274,59 @@
   #linuxsimplify .btn-primary:hover {
     background: #dce8f5;
     box-shadow: 0 0 30px rgba(200,220,255,.4);
+  }
+
+  /* LostEngine amber accent */
+  #lostengine { border-bottom-color: rgba(255,140,0,.06); }
+  #lostengine .product-name { color: #ffe0b0; }
+  #lostengine .product-tagline { color: #b08850; }
+  #lostengine .btn-primary {
+    background: #ff8c00;
+    color: #060a18;
+  }
+  #lostengine .btn-primary:hover {
+    background: #ffa030;
+    box-shadow: 0 0 30px rgba(255,140,0,.4);
+  }
+  .glow-amber {
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(255,140,0,.1) 0%, rgba(255,140,0,.03) 40%, transparent 70%);
+    top: -150px; left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* LostEngine icon animation */
+  .lostengine-icon-wrap {
+    max-width: 180px;
+    width: 40vw;
+    position: relative;
+  }
+  .lostengine-icon-wrap img {
+    width: 100%;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    background: none;
+    animation: leFloat 4s ease-in-out infinite;
+  }
+  @keyframes leFloat {
+    0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 20px rgba(255,140,0,.15)); }
+    50% { transform: translateY(-12px); filter: drop-shadow(0 0 35px rgba(255,140,0,.3)); }
+  }
+  .lostengine-icon-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 10%;
+    width: 80%;
+    height: 20px;
+    background: radial-gradient(ellipse, rgba(255,140,0,.12) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: leShadow 4s ease-in-out infinite;
+  }
+  @keyframes leShadow {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(0.85); opacity: 0.5; }
   }
 
   /* Coming soon overlay */
@@ -531,6 +585,7 @@
     <div class="nav-dropdown-col">
       <h4>Explore Products</h4>
       <ul>
+        <li><a href="#lostengine"><span class="accent-amber">Lost</span>Engine</a></li>
         <li><a href="browser.html?intro=1"><span class="accent-cyan">PANMOX</span> Browser</a></li>
         <li><a href="overbyte.html?intro=1"><span class="accent-green">Over</span>Byte</a></li>
         <li><a href="linuxsimplify.html?intro=1"><span class="accent-blue">Linux</span>Simplify</a></li>
@@ -538,6 +593,20 @@
     </div>
   </div>
 </div>
+
+<!-- ═══ LostEngine ═══ -->
+<section class="product-section" id="lostengine">
+  <div class="section-glow glow-amber"></div>
+  <h2 class="product-name">LostEngine&trade;</h2>
+  <p class="product-tagline">A search engine that finds everything except what you're looking for.</p>
+  <div class="product-buttons">
+    <a href="https://lost.panmox.org" class="btn btn-primary" target="_blank">Try it</a>
+    <a href="lostengine.html" class="btn btn-outline" style="border-color:rgba(255,140,0,.4); color:#ff8c00;">Learn more</a>
+  </div>
+  <div class="lostengine-icon-wrap">
+    <img src="assets/lostengine-icon.svg" alt="LostEngine">
+  </div>
+</section>
 
 <!-- ═══ PANMOX Browser ═══ -->
 <section class="product-section">
@@ -669,7 +738,7 @@
     </ul>
   </div>
   <div style="margin-top:16px; padding-top:12px; border-top:1px solid rgba(0,200,255,.04); text-align:center;">
-    <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:1px; color:#2a4a6e;">PANMOX&trade;, PANMOX Browser&trade;, OverByte&trade;, and LinuxSimplify&trade; are trademarks of PANMOX. All other trademarks are property of their respective owners.</span>
+    <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:1px; color:#2a4a6e;">PANMOX&trade;, PANMOX Browser&trade;, LostEngine&trade;, OverByte&trade;, and LinuxSimplify&trade; are trademarks of PANMOX. All other trademarks are property of their respective owners.</span>
   </div>
   <div id="music-credits" style="display:none; margin-top:24px; padding:20px 24px; border-top:1px solid rgba(0,200,255,.04); text-align:left; max-width:600px; margin-left:auto; margin-right:auto;">
     <h4 style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:3px; color:#5a8ab5; text-transform:uppercase; margin-bottom:14px;">Music Credits</h4>
