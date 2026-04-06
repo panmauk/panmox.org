@@ -601,7 +601,7 @@
   <p class="product-tagline">A search engine that finds everything except what you're looking for.</p>
   <div class="product-buttons">
     <a href="https://lost.panmox.org" class="btn btn-primary" target="_blank">Try it</a>
-    <a href="lostengine.html" class="btn btn-outline" style="border-color:rgba(255,140,0,.4); color:#ff8c00;">Learn more</a>
+    <a href="#" class="btn btn-outline home-learn-btn" data-dest="lostengine.html" style="border-color:rgba(255,140,0,.4); color:#ff8c00;">Learn more</a>
   </div>
   <div class="lostengine-icon-wrap">
     <img src="assets/lostengine-icon.png" alt="LostEngine">
@@ -805,6 +805,19 @@
       if (subscribed) { window.location.href = url; return; }
       pendingDlUrl = url;
       document.getElementById('nlContent').innerHTML = '<h4>Stay in the loop</h4><p>Get notified when we release new projects or updates.</p><div class="nl-form"><input type="email" id="nlEmail" placeholder="your@email.com"><button onclick="subscribeNl()">Subscribe</button></div><button class="nl-skip" onclick="dismissNl()">No thanks, just download</button>';
+      document.getElementById('nlOverlay').classList.add('show');
+    });
+  }
+
+  // Learn more buttons with newsletter
+  var learnBtns = document.querySelectorAll('.home-learn-btn');
+  for (var j = 0; j < learnBtns.length; j++) {
+    learnBtns[j].addEventListener('click', function(e) {
+      e.preventDefault();
+      var dest = this.getAttribute('data-dest');
+      if (subscribed) { window.location.href = dest; return; }
+      pendingDlUrl = dest;
+      document.getElementById('nlContent').innerHTML = '<h4>Stay in the loop</h4><p>Get notified when we release new projects or updates.</p><div class="nl-form"><input type="email" id="nlEmail" placeholder="your@email.com"><button onclick="subscribeNl()">Subscribe</button></div><button class="nl-skip" onclick="dismissNl()">No thanks, just take me there</button>';
       document.getElementById('nlOverlay').classList.add('show');
     });
   }
