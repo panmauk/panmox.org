@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
+<link rel="apple-touch-icon" href="assets/favicon.jpg">
+<meta name="description" content="NeuralXP — an offline LLM for Windows XP. AI meets 2001. Free and open source under GPL v3.">
+<meta property="og:title" content="NeuralXP — AI meets 2001">
+<meta property="og:description" content="An offline LLM that runs on Windows XP. AI for the machines time forgot.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://panmox.org/neuralxp.html">
+<title>NeuralXP &mdash; AI meets 2001</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #060a18;
+    color: #e8f0ff;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── STARS ── */
+  .stars {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: #2a1a4e;
+    animation: twinkle 3s ease-in-out infinite alternate;
+  }
+  @keyframes twinkle { 0%{opacity:.2} 100%{opacity:.8} }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; width: 100%;
+    z-index: 100;
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    background: rgba(6,10,24,.7);
+    border-bottom: 1px solid rgba(168,85,247,.06);
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    gap: 36px;
+  }
+  .nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 4px;
+    color: #a855f7;
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links > li { position: relative; }
+  .nav-links > li > a,
+  .nav-links > li > button {
+    color: #8aa8c7;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 400;
+    transition: color .3s;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 0;
+  }
+  .nav-links > li > a:hover,
+  .nav-links > li > button:hover,
+  .nav-links > li > button.open { color: #e8f0ff; }
+
+  .nav-dropdown-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 98;
+    display: none;
+  }
+  .nav-dropdown-overlay.show { display: block; }
+  .nav-dropdown {
+    position: fixed;
+    top: 44px;
+    left: 0; right: 0;
+    z-index: 99;
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    background: rgba(6,10,24,.92);
+    border-bottom: 1px solid rgba(168,85,247,.06);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .4s cubic-bezier(.4,0,.2,1), opacity .3s ease;
+    opacity: 0;
+  }
+  .nav-dropdown.show { max-height: 380px; opacity: 1; }
+  .nav-dropdown-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 36px 40px 44px;
+    display: flex;
+    gap: 80px;
+  }
+  .nav-dropdown-col h4 {
+    font-size: 11px;
+    font-weight: 400;
+    color: #5a8ab5;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .nav-dropdown-col ul { list-style: none; }
+  .nav-dropdown-col li { margin-bottom: 6px; }
+  .nav-dropdown-col a {
+    color: #c8d8ea;
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 600;
+    transition: color .2s;
+    line-height: 1.6;
+  }
+  .nav-dropdown-col a:hover { color: #fff; }
+  .nav-dropdown-col a .accent-cyan { color: #00c8ff; }
+  .nav-dropdown-col a .accent-green { color: #28c878; }
+  .nav-dropdown-col a .accent-blue { color: #4a9eff; }
+  .nav-dropdown-col a .accent-amber { color: #ff8c00; }
+  .nav-dropdown-col a .accent-violet { color: #a855f7; }
+
+  /* ═══════════════════ HERO ═══════════════════ */
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    overflow: hidden;
+    perspective: 1400px;
+  }
+  .hero-glow {
+    position: absolute;
+    width: 1100px; height: 1100px;
+    background: radial-gradient(circle,
+      rgba(168,85,247,.15) 0%,
+      rgba(168,85,247,.04) 35%,
+      rgba(239,68,68,.04) 55%,
+      transparent 75%);
+    top: -300px; left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    animation: glowDrift 14s ease-in-out infinite alternate;
+  }
+  @keyframes glowDrift {
+    from { transform: translateX(-50%) scale(1); opacity: .9; }
+    to   { transform: translateX(-50%) scale(1.15); opacity: 1; }
+  }
+
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #a855f7;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: heroFade 1.2s .2s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  .hero h1 {
+    font-size: clamp(56px, 10vw, 120px);
+    font-weight: 900;
+    letter-spacing: -3px;
+    line-height: 1;
+    color: #f0e0ff;
+    margin-bottom: 24px;
+    background: linear-gradient(180deg, #f0e0ff 0%, #a855f7 60%, #6020a0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0;
+    animation: heroFade 1.4s .4s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  .hero .tagline {
+    font-size: clamp(18px, 2.6vw, 26px);
+    font-weight: 300;
+    color: #b89ad8;
+    max-width: 640px;
+    margin: 0 auto 48px;
+    line-height: 1.5;
+    opacity: 0;
+    animation: heroFade 1.4s .6s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  @keyframes heroFade {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 80px;
+    opacity: 0;
+    animation: heroFade 1.4s .8s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  .hero-btn {
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all .3s;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+  }
+  .hero-btn-primary {
+    background: #a855f7;
+    color: #060a18;
+  }
+  .hero-btn-primary:hover {
+    background: #bf75ff;
+    box-shadow: 0 0 40px rgba(168,85,247,.5);
+    transform: translateY(-2px);
+  }
+  .hero-btn-outline {
+    background: transparent;
+    color: #a855f7;
+    border: 1.5px solid rgba(168,85,247,.4);
+  }
+  .hero-btn-outline:hover {
+    border-color: #a855f7;
+    background: rgba(168,85,247,.08);
+    transform: translateY(-2px);
+  }
+
+  /* ═══ 3D MONOLITH STAGE (HERO) ═══ */
+  .monolith-stage {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    height: 460px;
+    margin: 0 auto;
+    perspective: 1500px;
+    opacity: 0;
+    animation: heroFade 1.6s 1s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  .monolith-3d {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    animation: monolithFloat 16s ease-in-out infinite,
+               monolithRotate 22s linear infinite;
+  }
+  @keyframes monolithFloat {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-18px); }
+  }
+  @keyframes monolithRotate {
+    from { transform: rotateY(-18deg) rotateX(6deg); }
+    50%  { transform: rotateY(18deg) rotateX(-4deg); }
+    to   { transform: rotateY(-18deg) rotateX(6deg); }
+  }
+  .monolith-slab {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 220px;
+    height: 360px;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(180deg,
+      #050310 0%,
+      #1a0a2e 25%,
+      #2a0e4e 50%,
+      #1a0a2e 75%,
+      #050310 100%);
+    border: 1px solid rgba(168,85,247,.3);
+    border-radius: 6px;
+    box-shadow:
+      inset 0 0 60px rgba(168,85,247,.1),
+      0 0 80px rgba(168,85,247,.25),
+      0 0 160px rgba(168,85,247,.12),
+      0 30px 80px rgba(0,0,0,.7);
+  }
+  .monolith-slab::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(168,85,247,.15);
+    border-radius: 4px;
+    pointer-events: none;
+  }
+  /* Scanline */
+  .monolith-slab::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    top: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(168,85,247,.6), transparent);
+    animation: scanline 4s ease-in-out infinite;
+  }
+  @keyframes scanline {
+    0%   { top: 8%; opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { top: 92%; opacity: 0; }
+  }
+
+  /* HAL-9000 eye in the center of the monolith */
+  .hal-eye {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 110px;
+    height: 110px;
+    transform: translate(-50%, -50%) translateZ(20px);
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%,
+      #ff8080 0%,
+      #ef4444 25%,
+      #b91c1c 55%,
+      #450a0a 100%);
+    box-shadow:
+      0 0 40px rgba(239,68,68,.7),
+      0 0 80px rgba(239,68,68,.45),
+      0 0 140px rgba(239,68,68,.25),
+      inset 0 0 28px rgba(0,0,0,.7);
+    animation: halPulse 2.6s ease-in-out infinite;
+  }
+  .hal-eye::before {
+    content: '';
+    position: absolute;
+    inset: 18px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 38% 38%,
+      #fff8e0 0%,
+      #ffcc77 28%,
+      #cc4400 70%,
+      #220000 100%);
+  }
+  .hal-eye::after {
+    content: '';
+    position: absolute;
+    top: 18%; left: 24%;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.75);
+    filter: blur(3px);
+  }
+  @keyframes halPulse {
+    0%, 100% {
+      box-shadow:
+        0 0 40px rgba(239,68,68,.7),
+        0 0 80px rgba(239,68,68,.45),
+        0 0 140px rgba(239,68,68,.25),
+        inset 0 0 28px rgba(0,0,0,.7);
+    }
+    50% {
+      box-shadow:
+        0 0 70px rgba(239,68,68,.95),
+        0 0 130px rgba(239,68,68,.6),
+        0 0 200px rgba(239,68,68,.32),
+        inset 0 0 28px rgba(0,0,0,.7);
+    }
+  }
+  /* Orbital rings around the monolith */
+  .orbit {
+    position: absolute;
+    top: 50%; left: 50%;
+    border-radius: 50%;
+    border: 1px solid rgba(168,85,247,.18);
+    pointer-events: none;
+  }
+  .orbit-1 {
+    width: 380px; height: 130px;
+    transform: translate(-50%, -50%) rotate(15deg);
+    animation: orbitSpin 12s linear infinite;
+  }
+  .orbit-2 {
+    width: 460px; height: 110px;
+    border-color: rgba(239,68,68,.15);
+    transform: translate(-50%, -50%) rotate(-22deg);
+    animation: orbitSpin 18s linear infinite reverse;
+  }
+  .orbit-3 {
+    width: 320px; height: 160px;
+    border-color: rgba(168,85,247,.1);
+    transform: translate(-50%, -50%) rotate(40deg);
+    animation: orbitSpin 22s linear infinite;
+  }
+  @keyframes orbitSpin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+  /* Particle dots on orbit */
+  .orbit-dot {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #a855f7;
+    box-shadow: 0 0 12px #a855f7;
+    transform: translate(-50%, -50%);
+  }
+
+  /* ═══════════════════ CONTENT ═══════════════════ */
+  .content {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 80px 24px 120px;
+  }
+  .fade-section {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1);
+    margin-bottom: 140px;
+  }
+  .fade-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .fade-section.tilt-in {
+    transform: translateY(50px) rotateX(20deg);
+    transform-origin: center bottom;
+    perspective: 1200px;
+  }
+  .fade-section.tilt-in.visible {
+    transform: translateY(0) rotateX(0);
+  }
+
+  .section-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #a855f7;
+    margin-bottom: 18px;
+    text-align: center;
+  }
+  .section-headline {
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 800;
+    color: #f0e0ff;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+    text-align: center;
+    margin-bottom: 28px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .section-body {
+    font-size: clamp(17px, 2vw, 21px);
+    line-height: 1.7;
+    color: #9aa8c7;
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto;
+    font-weight: 300;
+  }
+  .section-body strong {
+    color: #d8c0ff;
+    font-weight: 500;
+  }
+
+  /* ═══ ASYMMETRIC LAYOUT MODIFIERS ═══ */
+  /* Push a section's text content to the LEFT side of the page */
+  .align-left .section-eyebrow { text-align: left; }
+  .align-left .section-headline { text-align: left; margin-left: 0; max-width: 620px; }
+  .align-left .section-body { text-align: left; margin-left: 0; max-width: 560px; }
+
+  /* Push a section's text content to the RIGHT side */
+  .align-right .section-eyebrow { text-align: right; }
+  .align-right .section-headline { text-align: right; margin-right: 0; margin-left: auto; max-width: 620px; }
+  .align-right .section-body { text-align: right; margin-right: 0; margin-left: auto; max-width: 560px; }
+
+  /* Two-column layout: text on one side, visual / accent on the other */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .two-col-text .section-eyebrow,
+  .two-col-text .section-headline,
+  .two-col-text .section-body {
+    text-align: left;
+    margin-left: 0;
+    max-width: none;
+  }
+  .two-col-text-right .section-eyebrow,
+  .two-col-text-right .section-headline,
+  .two-col-text-right .section-body {
+    text-align: right;
+    margin-right: 0;
+    margin-left: auto;
+    max-width: none;
+  }
+  .two-col-visual {
+    position: relative;
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Big number block (used in 2-col cinematic) */
+  .big-year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(120px, 18vw, 240px);
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: #1a0a3e;
+    text-shadow:
+      0 0 40px rgba(168,85,247,.5),
+      0 0 80px rgba(168,85,247,.25);
+    line-height: 1;
+    animation: yearGlow 4s ease-in-out infinite alternate;
+  }
+
+  @media (max-width: 768px) {
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .two-col-text .section-headline,
+    .two-col-text .section-body,
+    .two-col-text-right .section-headline,
+    .two-col-text-right .section-body { text-align: left; }
+    .align-right .section-eyebrow,
+    .align-right .section-headline,
+    .align-right .section-body { text-align: left; margin-right: auto; margin-left: 0; }
+    .big-year { font-size: clamp(80px, 22vw, 140px); }
+  }
+
+  /* ═══ "2001" CINEMATIC SECTION ═══ */
+  .cinematic {
+    text-align: center;
+  }
+  .cinematic .year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(80px, 14vw, 180px);
+    font-weight: 700;
+    letter-spacing: 8px;
+    color: #1a0a3e;
+    text-shadow:
+      0 0 30px rgba(168,85,247,.4),
+      0 0 60px rgba(168,85,247,.2);
+    line-height: 1;
+    margin-bottom: 32px;
+    animation: yearGlow 4s ease-in-out infinite alternate;
+  }
+  @keyframes yearGlow {
+    from { text-shadow: 0 0 30px rgba(168,85,247,.3), 0 0 60px rgba(168,85,247,.15); color: #1a0a3e; }
+    to   { text-shadow: 0 0 50px rgba(168,85,247,.6), 0 0 100px rgba(168,85,247,.3); color: #2e0e5e; }
+  }
+
+  /* ═══ FEATURE GRID (3D TILT CARDS) ═══ */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    perspective: 1000px;
+  }
+  .feat-card {
+    position: relative;
+    padding: 40px 32px;
+    border-radius: 18px;
+    background: linear-gradient(160deg, rgba(168,85,247,.06) 0%, rgba(168,85,247,.01) 100%);
+    border: 1px solid rgba(168,85,247,.12);
+    transition: transform .4s cubic-bezier(.16,1,.3,1), box-shadow .4s, border-color .4s;
+    transform-style: preserve-3d;
+    will-change: transform;
+    overflow: hidden;
+  }
+  .feat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(168,85,247,.4), transparent);
+    opacity: 0;
+    transition: opacity .4s;
+  }
+  .feat-card:hover {
+    transform: translateY(-8px) rotateX(4deg) rotateY(-4deg);
+    box-shadow:
+      0 20px 60px rgba(168,85,247,.18),
+      0 0 40px rgba(168,85,247,.1);
+    border-color: rgba(168,85,247,.3);
+  }
+  .feat-card:hover::before { opacity: 1; }
+  .feat-icon {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 24px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(168,85,247,.18), rgba(168,85,247,.05));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateZ(20px);
+  }
+  .feat-icon svg {
+    width: 28px; height: 28px;
+    stroke: #a855f7;
+    stroke-width: 1.6;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .feat-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #f0e0ff;
+    margin-bottom: 12px;
+    letter-spacing: -0.3px;
+    transform: translateZ(15px);
+  }
+  .feat-card p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #9aa8c7;
+    transform: translateZ(10px);
+  }
+
+  /* ═══ SPECS / STATS ═══ */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 32px;
+    margin-top: 48px;
+  }
+  .stat {
+    text-align: center;
+    padding: 32px 16px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(168,85,247,.04), transparent);
+    border: 1px solid rgba(168,85,247,.08);
+    transition: transform .3s, border-color .3s;
+  }
+  .stat:hover {
+    transform: translateY(-4px);
+    border-color: rgba(168,85,247,.25);
+  }
+  .stat-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 700;
+    color: #d8b4fe;
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+    background: linear-gradient(180deg, #f0e0ff, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #7a6a9a;
+  }
+
+  /* ═══ SCREENSHOT SHOWCASE (3D PARALLAX STAGE) ═══ */
+  .shot-stage {
+    position: relative;
+    width: 100%;
+    max-width: 1100px;
+    height: 760px;
+    margin: 60px auto 0;
+    perspective: 1800px;
+    transform-style: preserve-3d;
+  }
+  .shot-stage::before {
+    content: '';
+    position: absolute;
+    width: 70%;
+    height: 55%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse, rgba(168,85,247,.22) 0%, rgba(168,85,247,.05) 40%, transparent 70%);
+    filter: blur(50px);
+    pointer-events: none;
+  }
+  .shot-card {
+    position: absolute;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow:
+      0 0 40px rgba(168,85,247,.2),
+      0 30px 80px rgba(0,0,0,.7),
+      0 0 0 1px rgba(168,85,247,.2);
+    transition: transform 1.2s cubic-bezier(.16,1,.3,1), box-shadow .6s, opacity 1s;
+    transform-style: preserve-3d;
+    will-change: transform;
+    background: #2a1858;
+  }
+  .shot-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .shot-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 70%, rgba(168,85,247,.08));
+    pointer-events: none;
+  }
+  /* Main shot - center, biggest */
+  .shot-main {
+    width: 50%;
+    top: 14%;
+    left: 50%;
+    margin-left: -25%;
+    z-index: 4;
+    transform: translateZ(60px) rotateY(-3deg) rotateX(2deg);
+  }
+  .shot-main:hover {
+    transform: translateZ(100px) rotateY(0) rotateX(0) scale(1.04);
+    box-shadow:
+      0 0 80px rgba(168,85,247,.4),
+      0 40px 100px rgba(0,0,0,.8),
+      0 0 0 1px rgba(168,85,247,.5);
+  }
+  /* Menu shot - back-left */
+  .shot-menu {
+    width: 32%;
+    top: 6%;
+    left: 2%;
+    z-index: 3;
+    transform: translateZ(-40px) rotateY(18deg) rotateX(-4deg);
+    opacity: .92;
+  }
+  .shot-menu:hover {
+    transform: translateZ(40px) rotateY(6deg) rotateX(0);
+    opacity: 1;
+  }
+  /* About shot - back-right */
+  .shot-about {
+    width: 26%;
+    top: 10%;
+    right: 2%;
+    z-index: 3;
+    transform: translateZ(-30px) rotateY(-20deg) rotateX(-3deg);
+    opacity: .92;
+  }
+  .shot-about:hover {
+    transform: translateZ(40px) rotateY(-6deg) rotateX(0);
+    opacity: 1;
+  }
+  /* Open chat shot - front, lower-right floating */
+  .shot-openchat {
+    width: 22%;
+    bottom: 8%;
+    right: 14%;
+    z-index: 5;
+    transform: translateZ(80px) rotateY(-10deg) rotateX(4deg);
+    animation: floatShot 6s ease-in-out infinite;
+  }
+  @keyframes floatShot {
+    0%, 100% { transform: translateZ(80px) rotateY(-10deg) rotateX(4deg) translateY(0); }
+    50%      { transform: translateZ(100px) rotateY(-8deg) rotateX(2deg) translateY(-12px); }
+  }
+  .shot-openchat:hover {
+    animation-play-state: paused;
+    transform: translateZ(140px) rotateY(0) rotateX(0) scale(1.08);
+  }
+  /* Caption labels - sit BELOW each card, not on top */
+  .shot-label {
+    position: absolute;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #a855f7;
+    padding: 4px 10px;
+    border: 1px solid rgba(168,85,247,.3);
+    background: rgba(10,6,30,.85);
+    backdrop-filter: blur(10px);
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 10;
+    white-space: nowrap;
+  }
+  .label-main     { bottom: 4%; left: 50%; transform: translateX(-50%); }
+  .label-menu     { top: 1%; left: 4%; }
+  .label-about    { top: 5%; right: 4%; }
+  .label-openchat { bottom: 3%; right: 16%; }
+
+  /* Scrolling marquee bar — system stats */
+  .marquee {
+    overflow: hidden;
+    border-top: 1px solid rgba(168,85,247,.1);
+    border-bottom: 1px solid rgba(168,85,247,.1);
+    padding: 18px 0;
+    margin: 0 -100vw;
+    background: linear-gradient(180deg, rgba(168,85,247,.03), transparent);
+    mask: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    -webkit-mask: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 60px;
+    white-space: nowrap;
+    animation: marqueeScroll 32s linear infinite;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #7a6a9a;
+  }
+  .marquee-track span {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .marquee-track span::before {
+    content: '◆';
+    color: #a855f7;
+    font-size: 10px;
+  }
+  @keyframes marqueeScroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* Floating dust particles */
+  .dust {
+    position: fixed;
+    pointer-events: none;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #a855f7;
+    box-shadow: 0 0 8px #a855f7;
+    z-index: 0;
+    opacity: .4;
+  }
+
+  /* Glitch / chromatic aberration on hero title */
+  @keyframes titleGlitch {
+    0%, 92%, 100% { text-shadow: none; }
+    93% { text-shadow: -2px 0 #ef4444, 2px 0 #00c8ff; transform: translateX(0); }
+    94% { text-shadow: 3px 0 #ef4444, -3px 0 #00c8ff; transform: translateX(-2px); }
+    95% { text-shadow: -1px 0 #ef4444, 1px 0 #00c8ff; transform: translateX(2px); }
+    96% { text-shadow: none; transform: translateX(0); }
+  }
+  .hero h1 {
+    animation:
+      heroFade 1.4s .4s cubic-bezier(.16,1,.3,1) forwards,
+      titleGlitch 9s 3s infinite;
+  }
+
+  /* Scan lines overlay on whole hero */
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(168,85,247,.015) 3px,
+      rgba(168,85,247,.015) 4px
+    );
+    pointer-events: none;
+    z-index: 2;
+    opacity: .6;
+  }
+
+  /* ═══ OPEN SOURCE ═══ */
+  .oss-section {
+    text-align: center;
+    padding: 80px 0;
+    border-top: 1px solid rgba(168,85,247,.1);
+  }
+  .oss-section h2 {
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 800;
+    color: #f0e0ff;
+    margin-bottom: 18px;
+    letter-spacing: -1px;
+  }
+  .oss-section p {
+    font-size: 17px;
+    line-height: 1.8;
+    color: #9aa8c7;
+    max-width: 620px;
+    margin: 0 auto 36px;
+    font-weight: 300;
+  }
+  .oss-links {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .oss-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 30px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all .3s;
+  }
+  .oss-link-primary {
+    background: #a855f7;
+    color: #060a18;
+  }
+  .oss-link-primary:hover {
+    background: #bf75ff;
+    box-shadow: 0 0 30px rgba(168,85,247,.4);
+    transform: translateY(-2px);
+  }
+  .oss-link-outline {
+    border: 1.5px solid rgba(168,85,247,.3);
+    color: #a855f7;
+  }
+  .oss-link-outline:hover {
+    border-color: #a855f7;
+    background: rgba(168,85,247,.06);
+    transform: translateY(-2px);
+  }
+  .oss-link svg { width: 18px; height: 18px; fill: currentColor; }
+  .license-badge {
+    display: inline-block;
+    margin-top: 28px;
+    padding: 8px 24px;
+    border-radius: 50px;
+    border: 1px solid rgba(168,85,247,.18);
+    background: rgba(168,85,247,.05);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #a855f7;
+    text-transform: uppercase;
+  }
+
+  /* ═══ FOOTER ═══ */
+  footer {
+    border-top: 1px solid rgba(168,85,247,.08);
+    padding: 32px 24px;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+  .footer-text {
+    font-size: 11px;
+    color: #2a1a4e;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 1px;
+  }
+
+  /* ═══ NEWSLETTER MODAL ═══ */
+  .nl-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 2000;
+    background: rgba(0,0,0,.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .nl-overlay.show { display: flex; }
+  .nl-box {
+    background: rgba(14,6,40,.95);
+    border: 1px solid rgba(168,85,247,.2);
+    border-radius: 16px;
+    padding: 28px 32px;
+    max-width: 440px;
+    width: 100%;
+    backdrop-filter: blur(20px);
+    animation: nlSlideUp .35s cubic-bezier(.16,1,.3,1);
+    position: relative;
+  }
+  @keyframes nlSlideUp { from{transform:translateY(30px);opacity:0} to{transform:translateY(0);opacity:1} }
+  .nl-close {
+    position: absolute;
+    top: 12px; right: 14px;
+    background: none;
+    border: none;
+    color: #5a8ab5;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .nl-close:hover { color: #e8f0ff; }
+  .nl-box h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #f0e0ff;
+    margin-bottom: 6px;
+  }
+  .nl-box p {
+    font-size: 13px;
+    color: #9a7ed4;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+  .nl-form { display: flex; gap: 8px; }
+  .nl-form input {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(168,85,247,.2);
+    background: rgba(168,85,247,.05);
+    color: #f0e0ff;
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color .3s;
+  }
+  .nl-form input::placeholder { color: #5a4a7a; }
+  .nl-form input:focus { border-color: rgba(168,85,247,.5); }
+  .nl-form button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    background: #a855f7;
+    color: #060a18;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background .2s;
+    white-space: nowrap;
+  }
+  .nl-form button:hover { background: #bf75ff; }
+  .nl-done {
+    text-align: center;
+    padding: 8px 0;
+    color: #a855f7;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .nl-skip {
+    margin-top: 14px;
+    width: 100%;
+    padding: 9px;
+    background: none;
+    border: 1px solid rgba(168,85,247,.15);
+    border-radius: 8px;
+    color: #7a6a9a;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all .2s;
+  }
+  .nl-skip:hover { color: #f0e0ff; border-color: rgba(168,85,247,.4); }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 768px) {
+    .hero { min-height: 90vh; padding: 100px 16px 60px; }
+    .monolith-stage { height: 360px; }
+    .monolith-slab { width: 160px; height: 280px; }
+    .hal-eye { width: 80px; height: 80px; }
+    .orbit-1 { width: 280px; height: 100px; }
+    .orbit-2 { width: 340px; height: 80px; }
+    .orbit-3 { width: 230px; height: 120px; }
+    .nav-links { gap: 16px; }
+    .nav-links > li > a, .nav-links > li > button { font-size: 12px; }
+    .nav-dropdown-inner { padding: 28px 24px 36px; gap: 40px; }
+    .nav-dropdown-col a { font-size: 18px; }
+    .feat-card { padding: 32px 24px; }
+    .oss-links { flex-direction: column; align-items: center; }
+    .hero-buttons { flex-direction: column; align-items: stretch; width: 100%; max-width: 280px; }
+    .fade-section { margin-bottom: 100px; }
+    /* Stack screenshots vertically on mobile */
+    .shot-stage { height: auto; padding: 0 0 40px; perspective: none; }
+    .shot-card { position: relative !important; width: 100% !important;
+                 top: auto !important; left: auto !important; right: auto !important; bottom: auto !important;
+                 transform: none !important; margin-bottom: 24px; opacity: 1 !important;
+                 animation: none !important; }
+    .shot-card:hover { transform: none !important; }
+    .shot-label { display: none; }
+  }
+  @media (max-width: 480px) {
+    .nav-links { gap: 12px; }
+    .nav-links > li > a, .nav-links > li > button { font-size: 11px; }
+    .nav-dropdown-col a { font-size: 16px; }
+    .monolith-slab { width: 140px; height: 240px; }
+    .hal-eye { width: 64px; height: 64px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">PANMOX</a>
+    <ul class="nav-links">
+      <li><button id="productsBtn" onclick="toggleDropdown()">Products</button></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="#" id="navNlBtn">Newsletter</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="nav-dropdown-overlay" id="dropdownOverlay" onclick="closeDropdown()"></div>
+<div class="nav-dropdown" id="productsDropdown">
+  <div class="nav-dropdown-inner">
+    <div class="nav-dropdown-col">
+      <h4>Explore Products</h4>
+      <ul>
+        <li><a href="index.html#lostengine"><span class="accent-amber">Lost</span>Engine</a></li>
+        <li><a href="index.html#neuralxp"><span class="accent-violet">Neural</span>XP</a></li>
+        <li><a href="browser.html?intro=1"><span class="accent-cyan">PANMOX</span> Browser</a></li>
+        <li><a href="overbyte.html?intro=1"><span class="accent-green">Over</span>Byte</a></li>
+        <li><a href="linuxsimplify.html?intro=1"><span class="accent-blue">Linux</span>Simplify</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-glow"></div>
+
+  <div class="hero-eyebrow">A.I. &mdash; MEETS &mdash; 2001</div>
+  <h1>NeuralXP</h1>
+  <p class="tagline">An offline LLM for the machines time forgot.<br>Built for Windows XP. Born from the future.</p>
+
+  <div class="hero-buttons">
+    <a href="https://github.com/panmauk/NeuralXP/releases/download/installer/NeuralXP-Setup-1.0.2.exe" class="hero-btn hero-btn-primary">Download</a>
+    <a href="https://github.com/panmauk/NeuralXP" target="_blank" rel="noopener" class="hero-btn hero-btn-outline">View on GitHub</a>
+  </div>
+
+  <div class="monolith-stage">
+    <div class="orbit orbit-1">
+      <div class="orbit-dot" style="top:50%; left:100%;"></div>
+    </div>
+    <div class="orbit orbit-2">
+      <div class="orbit-dot" style="top:50%; left:0;"></div>
+    </div>
+    <div class="orbit orbit-3"></div>
+    <div class="monolith-3d">
+      <div class="monolith-slab"></div>
+    </div>
+    <div class="hal-eye"></div>
+  </div>
+</section>
+
+<!-- Content -->
+<div class="content">
+
+  <!-- Cinematic 2001 - 2-column: big year LEFT, text RIGHT -->
+  <div class="fade-section">
+    <div class="two-col">
+      <div class="two-col-visual">
+        <div class="big-year">2001</div>
+      </div>
+      <div class="two-col-text-right">
+        <div class="section-eyebrow">The year</div>
+        <h2 class="section-headline">A future that almost arrived.</h2>
+        <p class="section-body">
+          The year Windows XP launched. The year Kubrick&rsquo;s monolith first whispered to mankind.
+          Two icons of a tomorrow that never quite came &mdash; <strong>until now</strong>.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Built for the forgotten - LEFT-aligned -->
+  <div class="fade-section align-left">
+    <div class="section-eyebrow">For the forgotten</div>
+    <h2 class="section-headline">Modern AI.<br>Ancient hardware.</h2>
+    <p class="section-body">
+      NeuralXP runs a real, offline language model on machines the rest of the world abandoned twenty years ago.
+      <strong>No cloud. No subscription. No telemetry.</strong> Just intelligence, where there used to be silence.
+    </p>
+  </div>
+
+  <!-- Stats - centered -->
+  <div class="fade-section">
+    <div class="section-eyebrow">By the numbers</div>
+    <h2 class="section-headline">Tiny. Fast. Forever yours.</h2>
+    <div class="stats-grid">
+      <div class="stat">
+        <div class="stat-number">512<span style="font-size:.6em">MB</span></div>
+        <div class="stat-label">Min RAM</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">XP+</div>
+        <div class="stat-label">Windows</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Offline</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">$0</div>
+        <div class="stat-label">Forever</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature grid - heading aligned RIGHT -->
+  <div class="fade-section align-right">
+    <div class="section-eyebrow">Why NeuralXP</div>
+    <h2 class="section-headline">Old machine.<br>New mind.</h2>
+    <div class="feature-grid" style="margin-top: 56px;">
+
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 11-14h-7l1-6z"/></svg>
+        </div>
+        <h3>Lightning fast</h3>
+        <p>Optimized inference engine. No bloated frameworks. NeuralXP boots faster than your Pentium III ever booted Windows.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><circle cx="7" cy="14.5" r="1" fill="#a855f7"/></svg>
+        </div>
+        <h3>Runs on potatoes</h3>
+        <p>512MB RAM. Single-core CPU. No GPU required. If it can run XP, it can run NeuralXP. Period.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2l9 4v6c0 5-4 9-9 10-5-1-9-5-9-10V6l9-4z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <h3>Fully offline</h3>
+        <p>Zero network calls. Zero telemetry. Zero accounts. Your prompts never leave the machine they were typed on.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        </div>
+        <h3>Built to last</h3>
+        <p>No forced updates. No deprecated APIs. No model retirements. The version you install today still works in 2046.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+        </div>
+        <h3>Native Windows app</h3>
+        <p>Real .exe installer. Real Windows UI. No browser tabs, no Electron, no 800MB Chromium overhead. Just a program.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M5 19l3-3M16 8l3-3"/></svg>
+        </div>
+        <h3>Open source</h3>
+        <p>Every line on GitHub. GPL v3. Audit it, fork it, run it on a Windows 98 ThinkPad in an attic. We&rsquo;d be honored.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Cinematic monolith quote - LEFT aligned + tilt reveal -->
+  <div class="fade-section tilt-in align-left">
+    <div class="section-eyebrow">A statement</div>
+    <h2 class="section-headline" style="font-style:italic; font-weight:300;">
+      &ldquo;Open the model<br>files, HAL.&rdquo;
+    </h2>
+    <p class="section-body" style="margin-top:24px;">
+      The cloud took your data. The cloud took your privacy. The cloud took the AI itself and locked it behind monthly fees.
+      <strong>NeuralXP takes it back</strong> &mdash; and runs it on a machine that predates the cloud entirely.
+    </p>
+  </div>
+
+  <!-- Screenshot showcase -->
+  <div class="fade-section">
+    <div class="section-eyebrow">In action</div>
+    <h2 class="section-headline">A real Windows XP application.</h2>
+    <p class="section-body">Native UI. Real installer. Powered by Qwen2.5-0.5B via llama.cpp &mdash; running entirely on the local machine. No browser. No Electron. No cloud.</p>
+    <div class="shot-stage" id="shotStage">
+      <div class="shot-card shot-menu">
+        <img src="assets/neuralxp-menu.png" alt="NeuralXP File menu" loading="lazy">
+      </div>
+      <span class="shot-label label-menu">File menu</span>
+
+      <div class="shot-card shot-about">
+        <img src="assets/neuralxp-about.png" alt="NeuralXP About dialog" loading="lazy">
+      </div>
+      <span class="shot-label label-about">About</span>
+
+      <div class="shot-card shot-main">
+        <img src="assets/neuralxp-main.png" alt="NeuralXP main chat window" loading="lazy">
+      </div>
+      <span class="shot-label label-main">Main window</span>
+
+      <div class="shot-card shot-openchat">
+        <img src="assets/neuralxp-openchat.png" alt="NeuralXP saved chats" loading="lazy">
+      </div>
+      <span class="shot-label label-openchat">Saved chats</span>
+    </div>
+  </div>
+
+  <!-- Marquee bar -->
+  <div class="fade-section" style="margin-bottom: 80px;">
+    <div class="marquee">
+      <div class="marquee-track">
+        <span>Qwen 2.5 0.5B</span>
+        <span>llama.cpp</span>
+        <span>100% offline</span>
+        <span>Windows XP SP2+</span>
+        <span>512 MB RAM</span>
+        <span>500 MB disk</span>
+        <span>No telemetry</span>
+        <span>GPL v3</span>
+        <span>panmox.org</span>
+        <span>Qwen 2.5 0.5B</span>
+        <span>llama.cpp</span>
+        <span>100% offline</span>
+        <span>Windows XP SP2+</span>
+        <span>512 MB RAM</span>
+        <span>500 MB disk</span>
+        <span>No telemetry</span>
+        <span>GPL v3</span>
+        <span>panmox.org</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Open Source -->
+  <div class="fade-section">
+    <div class="oss-section">
+      <h2>Free. Forever.</h2>
+      <p>NeuralXP is open-source software under the GNU General Public License v3. No accounts, no servers, no compromises &mdash; just AI you can hold in your hands.</p>
+      <div class="oss-links">
+        <a href="https://github.com/panmauk/NeuralXP/releases/download/installer/NeuralXP-Setup-1.0.2.exe" class="oss-link oss-link-primary">Download for Windows</a>
+        <a href="https://github.com/panmauk/NeuralXP" target="_blank" rel="noopener" class="oss-link oss-link-outline">
+          <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          Source Code
+        </a>
+      </div>
+      <div class="license-badge">Licensed under GNU GPL v3</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Newsletter Modal -->
+<div class="nl-overlay" id="nlOverlay">
+  <div class="nl-box">
+    <button class="nl-close" onclick="document.getElementById('nlOverlay').classList.remove('show')">&times;</button>
+    <div id="nlContent">
+      <h4>Stay in the loop</h4>
+      <p>Get notified when we release new projects or updates.</p>
+      <div class="nl-form">
+        <input type="email" id="nlEmail" placeholder="your@email.com">
+        <button onclick="subscribeNl()">Subscribe</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <span class="footer-text">&copy; 2026 PANMOX. All rights reserved.</span>
+  <div style="margin-top:12px; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:1px; color:#2a1a4e;">PANMOX&trade;, PANMOX Browser&trade;, LostEngine&trade;, NeuralXP&trade;, OverByte&trade;, and LinuxSimplify&trade; are trademarks of PANMOX. All other trademarks are property of their respective owners.</div>
+</footer>
+
+<script>
+  // Stars
+  !function(){
+    var c = document.getElementById('stars');
+    for (var i = 0; i < 80; i++) {
+      var s = document.createElement('div');
+      s.className = 'star';
+      s.style.left = Math.random()*100+'%';
+      s.style.top = Math.random()*100+'%';
+      s.style.width = s.style.height = (Math.random()*2+.5)+'px';
+      s.style.animationDelay = Math.random()*3+'s';
+      s.style.animationDuration = (Math.random()*2+2)+'s';
+      c.appendChild(s);
+    }
+  }();
+
+  // Floating dust particles (drift across the viewport)
+  !function(){
+    for (var i = 0; i < 18; i++) {
+      var d = document.createElement('div');
+      d.className = 'dust';
+      d.style.left = Math.random()*100+'vw';
+      d.style.top = Math.random()*100+'vh';
+      var size = Math.random()*3 + 1;
+      d.style.width = d.style.height = size+'px';
+      d.style.opacity = Math.random()*0.4 + 0.15;
+      var dur = Math.random()*30 + 25;
+      var delay = -Math.random()*dur;
+      d.animate([
+        { transform: 'translate(0,0)' },
+        { transform: 'translate(' + (Math.random()*200-100)+'px,' + (Math.random()*-300-100)+'px)' }
+      ], { duration: dur*1000, delay: delay*1000, iterations: Infinity, easing: 'linear' });
+      document.body.appendChild(d);
+    }
+  }();
+
+  // Dropdown
+  function toggleDropdown() {
+    var dd = document.getElementById('productsDropdown');
+    var ov = document.getElementById('dropdownOverlay');
+    var btn = document.getElementById('productsBtn');
+    dd.classList.toggle('show');
+    ov.classList.toggle('show');
+    btn.classList.toggle('open');
+  }
+  function closeDropdown() {
+    document.getElementById('productsDropdown').classList.remove('show');
+    document.getElementById('dropdownOverlay').classList.remove('show');
+    document.getElementById('productsBtn').classList.remove('open');
+  }
+
+  // Scroll reveal
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-section').forEach(function(el) {
+    observer.observe(el);
+  });
+
+  // 3D tilt on feature cards (mouse parallax)
+  document.querySelectorAll('.feat-card').forEach(function(card) {
+    card.addEventListener('mousemove', function(e) {
+      var rect = card.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+      var cx = rect.width / 2;
+      var cy = rect.height / 2;
+      var rx = ((y - cy) / cy) * -6;
+      var ry = ((x - cx) / cx) * 6;
+      card.style.transform = 'translateY(-8px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg)';
+    });
+    card.addEventListener('mouseleave', function() {
+      card.style.transform = '';
+    });
+  });
+
+  // 3D mouse parallax on screenshot stage
+  // Each card has a known base transform; we layer mouse-driven rotation/translation on top.
+  (function() {
+    var stage = document.getElementById('shotStage');
+    if (!stage) return;
+    var BASE = {
+      'shot-main':     'translateZ(60px) rotateY(-3deg) rotateX(2deg)',
+      'shot-menu':     'translateZ(-40px) rotateY(18deg) rotateX(-4deg)',
+      'shot-about':    'translateZ(-30px) rotateY(-20deg) rotateX(-3deg)',
+      'shot-openchat': 'translateZ(80px) rotateY(-10deg) rotateX(4deg)'
+    };
+    var cards = stage.querySelectorAll('.shot-card');
+    function getBase(card) {
+      for (var cls in BASE) { if (card.classList.contains(cls)) return BASE[cls]; }
+      return '';
+    }
+    stage.addEventListener('mousemove', function(e) {
+      var rect = stage.getBoundingClientRect();
+      var x = (e.clientX - rect.left) / rect.width - 0.5;
+      var y = (e.clientY - rect.top) / rect.height - 0.5;
+      cards.forEach(function(c) {
+        // openchat has its own keyframe float — skip mouse override or it fights the animation
+        if (c.classList.contains('shot-openchat')) return;
+        var base = getBase(c);
+        var depth = c.classList.contains('shot-main') ? 18 : 10;
+        c.style.transform = base + ' translate(' + (x*depth) + 'px,' + (y*depth) + 'px) rotateY(' + (x*5) + 'deg) rotateX(' + (-y*5) + 'deg)';
+      });
+    });
+    stage.addEventListener('mouseleave', function() {
+      cards.forEach(function(c) {
+        if (c.classList.contains('shot-openchat')) return;
+        c.style.transform = '';
+      });
+    });
+  })();
+
+  // Animated number counters in the stats section
+  (function() {
+    var stats = document.querySelectorAll('.stat-number');
+    var animated = new WeakSet();
+    function animateNumber(el) {
+      if (animated.has(el)) return;
+      animated.add(el);
+      var raw = el.textContent.trim();
+      // Match leading number (with optional decimal) and a trailing suffix
+      var m = raw.match(/^([0-9]+(?:\.[0-9]+)?)(.*)$/);
+      if (!m) return;
+      var target = parseFloat(m[1]);
+      var suffixHTML = el.innerHTML.replace(m[1], ''); // preserve any inline <span>
+      var duration = 1400;
+      var start = performance.now();
+      function tick(now) {
+        var t = Math.min(1, (now - start) / duration);
+        var eased = 1 - Math.pow(1 - t, 3);
+        var val = target * eased;
+        var display = (target % 1 === 0) ? Math.round(val) : val.toFixed(1);
+        el.innerHTML = display + suffixHTML;
+        if (t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+    var statObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) animateNumber(e.target);
+      });
+    }, { threshold: 0.5 });
+    stats.forEach(function(s) {
+      var raw = s.textContent.trim();
+      // Skip non-numeric stats like "XP+" or "$0"
+      if (/^[0-9]/.test(raw)) statObserver.observe(s);
+    });
+  })();
+
+  // Scroll-driven parallax: hero monolith drifts down + fades, screenshot stage rotates in
+  window.addEventListener('scroll', function() {
+    var y = window.pageYOffset;
+    var stage = document.querySelector('.monolith-stage');
+    if (stage && y < 1000) {
+      stage.style.transform = 'translateY(' + (y * 0.18) + 'px) scale(' + Math.max(0.6, 1 - y/2000) + ')';
+      stage.style.opacity = Math.max(0, 1 - y / 700);
+    }
+    // Hero glow drifts opposite direction for parallax depth
+    var glow = document.querySelector('.hero-glow');
+    if (glow && y < 1000) {
+      glow.style.transform = 'translateX(-50%) translateY(' + (y * -0.25) + 'px)';
+    }
+    // Hero title gets a slight scroll-driven 3D tilt
+    var title = document.querySelector('.hero h1');
+    if (title && y < 800) {
+      title.style.transform = 'perspective(900px) rotateX(' + (y * 0.04) + 'deg)';
+    }
+  });
+
+  // Continuous orbit-dot pulse based on time (subtle)
+  (function() {
+    var dots = document.querySelectorAll('.orbit-dot');
+    function loop(t) {
+      dots.forEach(function(d, i) {
+        var s = 1 + Math.sin(t/600 + i) * 0.4;
+        d.style.transform = 'translate(-50%, -50%) scale(' + s + ')';
+      });
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  })();
+
+  // Newsletter
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwpiLx3ns4NCbid78rKH4xSn4ST4BYJ4oK_xI44ogJXF6RIoFYr7nl1vR3rTajqngAf/exec';
+  var subscribed = false;
+
+  document.getElementById('navNlBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    if (subscribed) {
+      document.getElementById('nlContent').innerHTML = '<div class="nl-done">You\'re already subscribed. Thank you!</div>';
+    }
+    document.getElementById('nlOverlay').classList.add('show');
+  });
+
+  function subscribeNl() {
+    var email = document.getElementById('nlEmail').value.trim();
+    if (!email) return;
+    fetch(SCRIPT_URL + '?email=' + encodeURIComponent(email))
+      .then(function(r) { return r.text(); })
+      .then(function(result) {
+        if (result === 'exists') {
+          document.getElementById('nlContent').innerHTML = '<div class="nl-done">You\'re already subscribed!</div>';
+        } else {
+          subscribed = true;
+          document.getElementById('nlContent').innerHTML = '<div class="nl-done">Thanks! You\'re on the list.</div>';
+        }
+        setTimeout(function() {
+          document.getElementById('nlOverlay').classList.remove('show');
+        }, 1500);
+      });
+  }
+</script>
+</body>
+</html>
