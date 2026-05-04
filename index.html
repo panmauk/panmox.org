@@ -144,6 +144,7 @@
   .nav-dropdown-col a .accent-green { color: #28c878; }
   .nav-dropdown-col a .accent-blue { color: #4a9eff; }
   .nav-dropdown-col a .accent-amber { color: #ff8c00; }
+  .nav-dropdown-col a .accent-violet { color: #a855f7; }
 
   /* ── PRODUCT SECTIONS (Apple-style) ── */
   .product-section {
@@ -326,6 +327,150 @@
   @keyframes leShadow {
     0%, 100% { transform: scale(1); opacity: 1; }
     50% { transform: scale(0.85); opacity: 0.5; }
+  }
+
+  /* NeuralXP electric violet accent */
+  #neuralxp { border-bottom-color: rgba(168,85,247,.06); }
+  #neuralxp .product-name { color: #e0c8ff; }
+  #neuralxp .product-tagline { color: #9a7ed4; }
+  #neuralxp .btn-primary {
+    background: #a855f7;
+    color: #060a18;
+  }
+  #neuralxp .btn-primary:hover {
+    background: #bf75ff;
+    box-shadow: 0 0 30px rgba(168,85,247,.5);
+  }
+  .glow-violet {
+    width: 900px; height: 900px;
+    background: radial-gradient(circle, rgba(168,85,247,.12) 0%, rgba(168,85,247,.03) 40%, transparent 70%);
+    top: -150px; left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* NeuralXP 3D HAL-eye + monolith */
+  .neuralxp-stage {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    perspective: 1200px;
+    margin: 0 auto;
+  }
+  .neuralxp-monolith {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    animation: monolithSpin 18s linear infinite;
+  }
+  @keyframes monolithSpin {
+    0%   { transform: rotateY(-22deg) rotateX(8deg); }
+    50%  { transform: rotateY(22deg) rotateX(-6deg); }
+    100% { transform: rotateY(-22deg) rotateX(8deg); }
+  }
+  .monolith-face {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 180px;
+    height: 280px;
+    background: linear-gradient(180deg, #0a0612 0%, #1a0a2e 50%, #0a0612 100%);
+    border: 1px solid rgba(168,85,247,.25);
+    border-radius: 4px;
+    box-shadow:
+      inset 0 0 40px rgba(168,85,247,.08),
+      0 0 60px rgba(168,85,247,.15),
+      0 0 120px rgba(168,85,247,.08);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  /* HAL-eye in center */
+  .hal-eye {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 70px;
+    height: 70px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%,
+      #ff6464 0%,
+      #ef4444 25%,
+      #b91c1c 55%,
+      #450a0a 100%);
+    box-shadow:
+      0 0 30px rgba(239,68,68,.6),
+      0 0 60px rgba(239,68,68,.4),
+      0 0 100px rgba(239,68,68,.2),
+      inset 0 0 18px rgba(0,0,0,.7);
+    animation: halPulse 2.6s ease-in-out infinite;
+  }
+  .hal-eye::before {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 38% 38%,
+      #fff8e0 0%,
+      #ffcc77 30%,
+      #cc4400 70%,
+      #220000 100%);
+  }
+  .hal-eye::after {
+    content: '';
+    position: absolute;
+    top: 18%;
+    left: 24%;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.7);
+    filter: blur(2px);
+  }
+  @keyframes halPulse {
+    0%, 100% {
+      box-shadow:
+        0 0 30px rgba(239,68,68,.6),
+        0 0 60px rgba(239,68,68,.4),
+        0 0 100px rgba(239,68,68,.2),
+        inset 0 0 18px rgba(0,0,0,.7);
+    }
+    50% {
+      box-shadow:
+        0 0 50px rgba(239,68,68,.85),
+        0 0 100px rgba(239,68,68,.55),
+        0 0 160px rgba(239,68,68,.3),
+        inset 0 0 18px rgba(0,0,0,.7);
+    }
+  }
+  /* Orbit rings around the monolith */
+  .neuralxp-stage::before,
+  .neuralxp-stage::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(168,85,247,.2);
+    top: 50%; left: 50%;
+    pointer-events: none;
+  }
+  .neuralxp-stage::before {
+    width: 280px; height: 100px;
+    transform: translate(-50%, -50%) rotate(15deg);
+    animation: orbitX 12s linear infinite;
+  }
+  .neuralxp-stage::after {
+    width: 320px; height: 80px;
+    transform: translate(-50%, -50%) rotate(-25deg);
+    border-color: rgba(239,68,68,.18);
+    animation: orbitY 16s linear infinite reverse;
+  }
+  @keyframes orbitX {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+  @keyframes orbitY {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
   }
 
   /* Coming soon overlay */
@@ -584,6 +729,7 @@
     <div class="nav-dropdown-col">
       <h4>Explore Products</h4>
       <ul>
+        <li><a href="#neuralxp"><span class="accent-violet">Neural</span>XP</a></li>
         <li><a href="#lostengine"><span class="accent-amber">Lost</span>Engine</a></li>
         <li><a href="browser.html?intro=1"><span class="accent-cyan">PANMOX</span> Browser</a></li>
         <li><a href="overbyte.html?intro=1"><span class="accent-green">Over</span>Byte</a></li>
@@ -592,6 +738,23 @@
     </div>
   </div>
 </div>
+
+<!-- ═══ NeuralXP ═══ -->
+<section class="product-section" id="neuralxp">
+  <div class="section-glow glow-violet"></div>
+  <h2 class="product-name">NeuralXP&trade;</h2>
+  <p class="product-tagline">AI meets 2001. An offline LLM for the machines time forgot.</p>
+  <div class="product-buttons">
+    <a href="neuralxp.html" class="btn btn-primary">Learn more</a>
+    <a href="#" class="btn btn-outline home-dl-btn" data-url="https://github.com/panmauk/NeuralXP/releases/download/installer/NeuralXP-Setup-1.0.2.exe" style="border-color:rgba(168,85,247,.4); color:#a855f7;">Download</a>
+  </div>
+  <div class="neuralxp-stage">
+    <div class="neuralxp-monolith">
+      <div class="monolith-face"></div>
+    </div>
+    <div class="hal-eye"></div>
+  </div>
+</section>
 
 <!-- ═══ LostEngine ═══ -->
 <section class="product-section" id="lostengine">
@@ -737,7 +900,7 @@
     </ul>
   </div>
   <div style="margin-top:16px; padding-top:12px; border-top:1px solid rgba(0,200,255,.04); text-align:center;">
-    <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:1px; color:#2a4a6e;">PANMOX&trade;, PANMOX Browser&trade;, LostEngine&trade;, OverByte&trade;, and LinuxSimplify&trade; are trademarks of PANMOX. All other trademarks are property of their respective owners.</span>
+    <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:1px; color:#2a4a6e;">PANMOX&trade;, PANMOX Browser&trade;, LostEngine&trade;, NeuralXP&trade;, OverByte&trade;, and LinuxSimplify&trade; are trademarks of PANMOX. All other trademarks are property of their respective owners.</span>
   </div>
   <div id="music-credits" style="display:none; margin-top:24px; padding:20px 24px; border-top:1px solid rgba(0,200,255,.04); text-align:left; max-width:600px; margin-left:auto; margin-right:auto;">
     <h4 style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:3px; color:#5a8ab5; text-transform:uppercase; margin-bottom:14px;">Music Credits</h4>
