@@ -12,7 +12,7 @@
 <meta property="og:url" content="https://panmox.org">
 <title>PANMOX — Open Source Software</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -475,9 +475,103 @@
   }
 
   /* AltNet electric cyan accent */
-  #altnet { border-bottom-color: rgba(34,211,238,.06); }
-  #altnet .product-name { color: #cffafe; }
-  #altnet .product-tagline { color: #67c5d4; }
+  #altnet { border-bottom-color: rgba(34,211,238,.06); padding-top: 120px; }
+
+  /* AltNet editorial typography (matching altnet.html) */
+  #altnet .altnet-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #22d3ee;
+    margin-bottom: 28px;
+  }
+  #altnet .altnet-eyebrow::before {
+    content: '';
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #22d3ee;
+    box-shadow: 0 0 10px #22d3ee;
+    animation: alnDotPulse 1.6s ease-in-out infinite;
+  }
+  @keyframes alnDotPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: .35; transform: scale(.6); }
+  }
+
+  #altnet .altnet-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    color: #cffafe;
+    line-height: .9;
+    letter-spacing: -3px;
+    margin-bottom: 24px;
+    font-variation-settings: 'opsz' 144;
+    text-align: center;
+  }
+  #altnet .altnet-name .ann {
+    display: block;
+    font-style: italic;
+    font-size: clamp(36px, 6vw, 80px);
+    font-weight: 300;
+    color: rgba(207,250,254,.55);
+    margin-bottom: -.08em;
+    font-variation-settings: 'opsz' 144;
+  }
+  #altnet .altnet-name .brand {
+    display: block;
+    font-style: normal;
+    font-weight: 600;
+    font-size: clamp(72px, 12vw, 160px);
+    color: #cffafe;
+    font-variation-settings: 'opsz' 144, 'wght' 600;
+    letter-spacing: -4px;
+  }
+  #altnet .altnet-name .brand .dot { color: #ec4899; }
+
+  #altnet .altnet-tagline {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(18px, 2.2vw, 26px);
+    line-height: 1.45;
+    color: #8ecae6;
+    max-width: 620px;
+    margin: 0 auto 24px;
+    font-variation-settings: 'opsz' 24;
+    text-align: center;
+  }
+  #altnet .altnet-tagline em { font-style: normal; color: #cffafe; }
+
+  #altnet .altnet-launch {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 22px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 2px;
+    background: rgba(34,211,238,.02);
+    margin-bottom: 32px;
+  }
+  #altnet .altnet-launch .k {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #5a6377;
+  }
+  #altnet .altnet-launch .v {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #f1c25a;
+    font-weight: 500;
+  }
+
   #altnet .btn-primary {
     background: #22d3ee;
     color: #060a18;
@@ -485,6 +579,58 @@
   #altnet .btn-primary:hover {
     background: #44e2fb;
     box-shadow: 0 0 30px rgba(34,211,238,.5);
+  }
+
+  /* ═══ ALTNET ENTRANCE ANIMATION ═══ */
+  /* When .altnet-armed is on the section, all the inner elements
+     are in their pre-animation state. .altnet-fire releases them. */
+  #altnet.altnet-armed .altnet-eyebrow,
+  #altnet.altnet-armed .altnet-name,
+  #altnet.altnet-armed .altnet-tagline,
+  #altnet.altnet-armed .altnet-launch,
+  #altnet.altnet-armed .product-buttons,
+  #altnet.altnet-armed .altnet-network {
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+  #altnet.altnet-armed .altnet-eyebrow   { transform: translateY(-40px); }
+  #altnet.altnet-armed .altnet-name      { transform: translateY(140px) rotateY(-55deg) rotateX(22deg) scale(.6); transform-origin: center; }
+  #altnet.altnet-armed .altnet-tagline   { transform: translateY(60px); }
+  #altnet.altnet-armed .altnet-launch    { transform: scale(.6); }
+  #altnet.altnet-armed .product-buttons  { transform: translateY(50px); }
+  #altnet.altnet-armed .altnet-network   { transform: translateY(160px) rotateZ(-180deg) scale(.25); }
+
+  /* Fire — animate to identity */
+  #altnet.altnet-fire .altnet-eyebrow,
+  #altnet.altnet-fire .altnet-name,
+  #altnet.altnet-fire .altnet-tagline,
+  #altnet.altnet-fire .altnet-launch,
+  #altnet.altnet-fire .product-buttons,
+  #altnet.altnet-fire .altnet-network {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 1.6s cubic-bezier(.16,1,.3,1),
+      transform 1.6s cubic-bezier(.34,1.56,.64,1);
+  }
+  #altnet.altnet-fire .altnet-eyebrow  { transition-delay: .05s; }
+  #altnet.altnet-fire .altnet-name     { transition-delay: .25s; transition-duration: 1.8s; }
+  #altnet.altnet-fire .altnet-tagline  { transition-delay: .55s; }
+  #altnet.altnet-fire .altnet-launch   { transition-delay: .75s; }
+  #altnet.altnet-fire .product-buttons { transition-delay: .9s; }
+  #altnet.altnet-fire .altnet-network  { transition-delay: .15s; transition-duration: 2s; }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    #altnet.altnet-armed .altnet-eyebrow,
+    #altnet.altnet-armed .altnet-name,
+    #altnet.altnet-armed .altnet-tagline,
+    #altnet.altnet-armed .altnet-launch,
+    #altnet.altnet-armed .product-buttons,
+    #altnet.altnet-armed .altnet-network {
+      opacity: 1;
+      transform: none;
+    }
   }
   .glow-altnet {
     width: 1000px; height: 1000px;
@@ -589,6 +735,43 @@
     0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: .6; }
     50%      { transform: translate(-50%, -50%) scale(1.06); opacity: 1; }
   }
+
+  /* Radiating broadcast rings from the core */
+  .net-broadcast {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 50px; height: 50px;
+    margin: -25px 0 0 -25px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(34,211,238,.5);
+    transform: scale(0);
+    pointer-events: none;
+    animation: broadcastWave 3.4s cubic-bezier(.16,1,.3,1) infinite;
+  }
+  .net-broadcast:nth-child(2) { animation-delay: 1.13s; border-color: rgba(236,72,153,.4); }
+  .net-broadcast:nth-child(3) { animation-delay: 2.26s; border-color: rgba(34,211,238,.35); }
+  @keyframes broadcastWave {
+    0%   { transform: scale(0); opacity: 1; border-width: 2px; }
+    100% { transform: scale(7); opacity: 0; border-width: 0.5px; }
+  }
+
+  /* Subtle ambient particles around the network */
+  .net-particle {
+    position: absolute;
+    width: 2px; height: 2px;
+    border-radius: 50%;
+    background: #22d3ee;
+    box-shadow: 0 0 4px #22d3ee;
+    pointer-events: none;
+  }
+  .net-particle.p1 { top: 14%; left: 80%; animation: ptDrift1 7s ease-in-out infinite; }
+  .net-particle.p2 { top: 78%; left: 18%; animation: ptDrift2 9s ease-in-out infinite; }
+  .net-particle.p3 { top: 22%; left: 12%; animation: ptDrift3 8s ease-in-out infinite; background:#ec4899; box-shadow:0 0 4px #ec4899; }
+  .net-particle.p4 { top: 84%; left: 76%; animation: ptDrift1 11s ease-in-out infinite reverse; }
+  .net-particle.p5 { top: 50%; left: 96%; animation: ptDrift2 8s ease-in-out infinite; background:#ec4899; box-shadow:0 0 4px #ec4899; }
+  @keyframes ptDrift1 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-20px, 28px); } }
+  @keyframes ptDrift2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(24px, -20px); } }
+  @keyframes ptDrift3 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(18px, 18px); } }
 
   /* Coming soon overlay */
   .coming-soon-badge {
@@ -858,16 +1041,28 @@
 </div>
 
 <!-- ═══ AltNet ═══ -->
-<section class="product-section" id="altnet">
+<section class="product-section altnet-armed" id="altnet">
   <div class="section-glow glow-altnet"></div>
-  <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:5px; color:#22d3ee; margin-bottom:14px; text-transform:uppercase;">&bull; Announcing</div>
-  <h2 class="product-name">AltNet&trade;</h2>
-  <p class="product-tagline">A new peer-to-peer internet. For sites, for files, for identity. Launch date to be announced.</p>
+  <div class="altnet-eyebrow">Announcing &mdash; 2026.05</div>
+  <h2 class="altnet-name">
+    <span class="ann">Announcing.</span>
+    <span class="brand">AltNet<span class="dot">.</span></span>
+  </h2>
+  <p class="altnet-tagline">A new <em>peer-to-peer internet.</em><br>Sites. Files. Identity.</p>
+  <div class="altnet-launch">
+    <span class="k">Launch date</span>
+    <span class="v">&mdash; TO BE ANNOUNCED &mdash;</span>
+  </div>
   <div class="product-buttons">
     <a href="altnet.html" class="btn btn-primary">Read the announcement</a>
     <a href="altnet.html#notify" class="btn btn-outline" style="border-color:rgba(34,211,238,.4); color:#22d3ee;">Get notified</a>
   </div>
   <div class="altnet-network">
+    <span class="net-particle p1"></span>
+    <span class="net-particle p2"></span>
+    <span class="net-particle p3"></span>
+    <span class="net-particle p4"></span>
+    <span class="net-particle p5"></span>
     <div class="net-ring r3"></div>
     <div class="net-ring r2"></div>
     <div class="net-ring r1"></div>
@@ -891,6 +1086,9 @@
       <div class="net-node"></div>
       <div class="net-node pink"></div>
     </div>
+    <span class="net-broadcast"></span>
+    <span class="net-broadcast"></span>
+    <span class="net-broadcast"></span>
     <div class="net-core"></div>
   </div>
 </section>
@@ -1171,6 +1369,52 @@
     var mc = document.getElementById('music-credits');
     mc.style.display = mc.style.display === 'block' ? 'none' : 'block';
   });
+
+  // ═══════ AltNet entrance choreography ═══════
+  // Page loads with AltNet content pre-hidden (.altnet-armed in HTML).
+  // We scroll past it to NeuralXP, wait a beat, then fire the spin reveal
+  // and smooth-scroll back up.
+  (function(){
+    var altnet = document.getElementById('altnet');
+    var neuralxp = document.getElementById('neuralxp');
+    if (!altnet) return;
+
+    // Skip entrance if user came in with a hash, or prefers reduced motion
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (window.location.hash || reduced || !neuralxp) {
+      altnet.classList.remove('altnet-armed');
+      return;
+    }
+
+    // Force scroll restoration off so reload doesn't keep old position
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+    // Disable smooth scroll temporarily so the jump-down is instant
+    var htmlEl = document.documentElement;
+    var origScroll = htmlEl.style.scrollBehavior;
+    htmlEl.style.scrollBehavior = 'auto';
+
+    function runEntrance() {
+      // Jump to NeuralXP without animation
+      var nyTop = neuralxp.getBoundingClientRect().top + window.pageYOffset;
+      window.scrollTo(0, nyTop);
+
+      // Restore smooth scroll
+      htmlEl.style.scrollBehavior = origScroll;
+
+      // After a beat, start the choreography
+      setTimeout(function() {
+        altnet.classList.add('altnet-fire');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 1100);
+    }
+
+    if (document.readyState === 'complete') {
+      runEntrance();
+    } else {
+      window.addEventListener('load', runEntrance);
+    }
+  })();
 </script>
 </body>
 </html>
