@@ -145,6 +145,7 @@
   .nav-dropdown-col a .accent-blue { color: #4a9eff; }
   .nav-dropdown-col a .accent-amber { color: #ff8c00; }
   .nav-dropdown-col a .accent-violet { color: #a855f7; }
+  .nav-dropdown-col a .accent-altnet { color: #22d3ee; }
 
   /* ── PRODUCT SECTIONS (Apple-style) ── */
   .product-section {
@@ -473,6 +474,122 @@
     to   { transform: translate(-50%, -50%) rotate(360deg); }
   }
 
+  /* AltNet electric cyan accent */
+  #altnet { border-bottom-color: rgba(34,211,238,.06); }
+  #altnet .product-name { color: #cffafe; }
+  #altnet .product-tagline { color: #67c5d4; }
+  #altnet .btn-primary {
+    background: #22d3ee;
+    color: #060a18;
+  }
+  #altnet .btn-primary:hover {
+    background: #44e2fb;
+    box-shadow: 0 0 30px rgba(34,211,238,.5);
+  }
+  .glow-altnet {
+    width: 1000px; height: 1000px;
+    background: radial-gradient(circle, rgba(34,211,238,.12) 0%, rgba(236,72,153,.04) 35%, transparent 70%);
+    top: -180px; left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* AltNet — animated 3D node network */
+  .altnet-network {
+    position: relative;
+    width: 360px;
+    height: 360px;
+    perspective: 1200px;
+  }
+  .altnet-network-inner {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    animation: netSpin 24s linear infinite;
+  }
+  @keyframes netSpin {
+    from { transform: rotateY(0) rotateX(12deg); }
+    to   { transform: rotateY(360deg) rotateX(12deg); }
+  }
+  /* Center "core" node */
+  .net-core {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 50px; height: 50px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #44e2fb 0%, #22d3ee 40%, #0e7490 100%);
+    box-shadow:
+      0 0 30px rgba(34,211,238,.7),
+      0 0 60px rgba(34,211,238,.4),
+      0 0 100px rgba(34,211,238,.2),
+      inset 0 0 12px rgba(0,0,0,.4);
+    animation: corePulse 2.4s ease-in-out infinite;
+    z-index: 5;
+  }
+  @keyframes corePulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50%      { transform: translate(-50%, -50%) scale(1.18); }
+  }
+  /* Satellite nodes orbiting in 3D */
+  .net-node {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 14px; height: 14px;
+    margin: -7px 0 0 -7px;
+    border-radius: 50%;
+    background: #22d3ee;
+    box-shadow: 0 0 16px rgba(34,211,238,.8), 0 0 32px rgba(34,211,238,.4);
+  }
+  .net-node.pink {
+    background: #ec4899;
+    box-shadow: 0 0 16px rgba(236,72,153,.8), 0 0 32px rgba(236,72,153,.4);
+  }
+  /* Position satellites in 3D space around the core */
+  .net-node:nth-child(1)  { transform: translate3d(120px, -50px, 60px); }
+  .net-node:nth-child(2)  { transform: translate3d(-110px, -90px, -40px); }
+  .net-node:nth-child(3)  { transform: translate3d(140px, 70px, -50px); }
+  .net-node:nth-child(4)  { transform: translate3d(-130px, 60px, 50px); }
+  .net-node:nth-child(5)  { transform: translate3d(40px, -130px, -70px); }
+  .net-node:nth-child(6)  { transform: translate3d(-70px, 130px, 30px); }
+  .net-node:nth-child(7)  { transform: translate3d(90px, 110px, 80px); }
+  .net-node:nth-child(8)  { transform: translate3d(-150px, -20px, 0); }
+  /* SVG line layer for connections */
+  .net-lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .net-lines line {
+    stroke: rgba(34,211,238,.25);
+    stroke-width: 1;
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+    animation: netLineFlow 4s linear infinite;
+  }
+  @keyframes netLineFlow {
+    from { stroke-dashoffset: 200; }
+    to   { stroke-dashoffset: -200; }
+  }
+  /* Outer halo rings */
+  .net-ring {
+    position: absolute;
+    top: 50%; left: 50%;
+    border-radius: 50%;
+    border: 1px solid rgba(34,211,238,.15);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .net-ring.r1 { width: 180px; height: 180px; animation: ringPulse 3s ease-in-out infinite; }
+  .net-ring.r2 { width: 260px; height: 260px; border-color: rgba(236,72,153,.12); animation: ringPulse 4s ease-in-out infinite .5s; }
+  .net-ring.r3 { width: 340px; height: 340px; border-color: rgba(34,211,238,.08); animation: ringPulse 5s ease-in-out infinite 1s; }
+  @keyframes ringPulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: .6; }
+    50%      { transform: translate(-50%, -50%) scale(1.06); opacity: 1; }
+  }
+
   /* Coming soon overlay */
   .coming-soon-badge {
     display: inline-block;
@@ -729,6 +846,7 @@
     <div class="nav-dropdown-col">
       <h4>Explore Products</h4>
       <ul>
+        <li><a href="#altnet"><span class="accent-altnet">Alt</span>Net</a></li>
         <li><a href="#neuralxp"><span class="accent-violet">Neural</span>XP</a></li>
         <li><a href="#lostengine"><span class="accent-amber">Lost</span>Engine</a></li>
         <li><a href="browser.html?intro=1"><span class="accent-cyan">PANMOX</span> Browser</a></li>
@@ -738,6 +856,44 @@
     </div>
   </div>
 </div>
+
+<!-- ═══ AltNet ═══ -->
+<section class="product-section" id="altnet">
+  <div class="section-glow glow-altnet"></div>
+  <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:5px; color:#22d3ee; margin-bottom:14px; text-transform:uppercase;">&bull; Announcing</div>
+  <h2 class="product-name">AltNet&trade;</h2>
+  <p class="product-tagline">A new peer-to-peer internet. For sites, for files, for identity. Launch date to be announced.</p>
+  <div class="product-buttons">
+    <a href="altnet.html" class="btn btn-primary">Read the announcement</a>
+    <a href="altnet.html#notify" class="btn btn-outline" style="border-color:rgba(34,211,238,.4); color:#22d3ee;">Get notified</a>
+  </div>
+  <div class="altnet-network">
+    <div class="net-ring r3"></div>
+    <div class="net-ring r2"></div>
+    <div class="net-ring r1"></div>
+    <div class="altnet-network-inner">
+      <svg class="net-lines" viewBox="0 0 360 360">
+        <line x1="180" y1="180" x2="300" y2="130"/>
+        <line x1="180" y1="180" x2="70" y2="90"/>
+        <line x1="180" y1="180" x2="320" y2="250"/>
+        <line x1="180" y1="180" x2="50" y2="240"/>
+        <line x1="180" y1="180" x2="220" y2="50"/>
+        <line x1="180" y1="180" x2="110" y2="310"/>
+        <line x1="180" y1="180" x2="270" y2="290"/>
+        <line x1="180" y1="180" x2="30" y2="160"/>
+      </svg>
+      <div class="net-node"></div>
+      <div class="net-node pink"></div>
+      <div class="net-node"></div>
+      <div class="net-node"></div>
+      <div class="net-node pink"></div>
+      <div class="net-node"></div>
+      <div class="net-node"></div>
+      <div class="net-node pink"></div>
+    </div>
+    <div class="net-core"></div>
+  </div>
+</section>
 
 <!-- ═══ NeuralXP ═══ -->
 <section class="product-section" id="neuralxp">
@@ -900,7 +1056,7 @@
     </ul>
   </div>
   <div style="margin-top:16px; padding-top:12px; border-top:1px solid rgba(0,200,255,.04); text-align:center;">
-    <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:1px; color:#2a4a6e;">PANMOX&trade;, PANMOX Browser&trade;, LostEngine&trade;, NeuralXP&trade;, OverByte&trade;, and LinuxSimplify&trade; are trademarks of PANMOX. All other trademarks are property of their respective owners.</span>
+    <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:1px; color:#2a4a6e;">PANMOX&trade;, PANMOX Browser&trade;, AltNet&trade;, LostEngine&trade;, NeuralXP&trade;, OverByte&trade;, and LinuxSimplify&trade; are trademarks of PANMOX. All other trademarks are property of their respective owners.</span>
   </div>
   <div id="music-credits" style="display:none; margin-top:24px; padding:20px 24px; border-top:1px solid rgba(0,200,255,.04); text-align:left; max-width:600px; margin-left:auto; margin-right:auto;">
     <h4 style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:3px; color:#5a8ab5; text-transform:uppercase; margin-bottom:14px;">Music Credits</h4>
