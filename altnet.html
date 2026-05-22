@@ -238,6 +238,16 @@ nav {
   gap: 60px;
   align-items: center;
 }
+.hero-centered {
+  max-width: 920px;
+  margin: 0 auto;
+  text-align: center;
+}
+.hero-centered .stamp { justify-content: center; }
+.hero-centered .hero-headline { display: inline-block; }
+.hero-centered .hero-tagline { margin-left: auto; margin-right: auto; }
+.hero-centered .launch-stamp { align-items: center; }
+.hero-centered .hero-actions { justify-content: center; }
 
 /* The eyebrow stamp */
 .stamp {
@@ -1192,31 +1202,22 @@ footer .tm {
 <!-- ═══════════════════ HERO ═══════════════════ -->
 <section class="hero">
   <div class="wrap">
-    <div class="hero-grid">
-      <div>
-        <div class="stamp">Announcement &mdash; 2026.05</div>
-        <h1 class="hero-headline">
-          <span class="hero-announcing" data-text="Announcing."></span>
-          <span class="hero-name">AltNet<span class="dot">.</span></span>
-        </h1>
-        <p class="hero-tagline">A new <em>peer-to-peer internet.</em> Sites, files, identities &mdash; carried by the people who use it, owned by no one.</p>
+    <div class="hero-centered">
+      <div class="stamp">Announcement &mdash; 2026.05</div>
+      <h1 class="hero-headline">
+        <span class="hero-announcing" data-text="Announcing."></span>
+        <span class="hero-name">AltNet<span class="dot">.</span></span>
+      </h1>
+      <p class="hero-tagline">A new <em>peer-to-peer internet.</em><br>Sites, files, identities &mdash; and a family of apps to use them.</p>
 
-        <div class="launch-stamp">
-          <span class="k">Launch date</span>
-          <span class="v">&mdash; TO BE ANNOUNCED &mdash;</span>
-        </div>
-
-        <div class="hero-actions">
-          <a href="#notify" class="btn btn-cyan">Notify me at launch</a>
-          <a href="#manifesto" class="btn btn-ghost">Read the manifesto</a>
-        </div>
+      <div class="launch-stamp">
+        <span class="k">Launch date</span>
+        <span class="v">&mdash; TO BE ANNOUNCED &mdash;</span>
       </div>
 
-      <div class="hero-shot">
-        <span class="hero-shot-tag">Preview build</span>
-        <div class="hero-shot-inner">
-          <img src="assets/altnet-home.png" alt="AltNet main view — node, claim a name, registered sites">
-        </div>
+      <div class="hero-actions">
+        <a href="#notify" class="btn btn-cyan">Notify me at launch</a>
+        <a href="#manifesto" class="btn btn-ghost">Read the manifesto</a>
       </div>
     </div>
   </div>
@@ -1239,22 +1240,14 @@ footer .tm {
 
 <hr class="rule">
 
-<!-- ═══════════════════ WHAT IT IS — 2 COL ═══════════════════ -->
-<section class="editorial content-figs">
+<!-- ═══════════════════ WHAT IT IS ═══════════════════ -->
+<section class="editorial">
   <div class="wrap">
-    <div class="two-col">
-      <div>
-        <div class="kicker slide-tl"><span class="num">02</span>What it is</div>
-        <h2 class="headline-serif slide-l">Everyone <em>is the network.</em></h2>
-        <p class="slide-bl">Install the app. Your computer joins the network. The more people who join, <strong>the stronger it gets.</strong></p>
-        <p class="slide-bl">No companies. No servers. <strong>Nothing to take down.</strong></p>
-      </div>
-      <div class="slide-tr">
-        <div class="shot-frame tilt-r">
-          <img src="assets/altnet-node.png" alt="AltNet — Node Mode: You're a node">
-        </div>
-        <div class="shot-caption">A node, running</div>
-      </div>
+    <div>
+      <div class="kicker slide-tl"><span class="num">02</span>What it is</div>
+      <h2 class="headline-serif slide-l">Everyone <em>is the network.</em></h2>
+      <p class="slide-bl" style="font-size:22px; line-height:1.55; color:var(--paper-dim); max-width:680px; margin-top:28px;">Install an AltNet app. Your computer joins the network. The more people who join, <strong style="color:var(--paper); font-weight:500;">the stronger it gets.</strong></p>
+      <p class="slide-bl" style="font-size:22px; line-height:1.55; color:var(--paper-dim); max-width:680px; margin-top:18px;">No companies. No servers. <strong style="color:var(--paper); font-weight:500;">Nothing to take down.</strong></p>
     </div>
   </div>
 </section>
@@ -1311,46 +1304,35 @@ footer .tm {
 <hr class="rule">
 
 
-<!-- ═══════════════════ APP GALLERY ═══════════════════ -->
+<!-- ═══════════════════ THE FIRST APPS ═══════════════════ -->
 <section class="editorial">
   <div class="wrap">
     <div>
-      <div class="kicker slide-tl"><span class="num">05</span>The app, in preview</div>
-      <h2 class="headline-serif slide-l">It&rsquo;s just <em>three buttons.</em></h2>
-      <p class="slide-b" style="font-size:17px; line-height:1.6; color:var(--paper-dim); max-width:520px; margin-top:24px;">No terminal. No config. Install it and go.</p>
+      <div class="kicker slide-tl"><span class="num">05</span>The first apps</div>
+      <h2 class="headline-serif slide-l">A network <em>is just plumbing.</em></h2>
+      <p class="slide-b" style="font-size:17px; line-height:1.6; color:var(--paper-dim); max-width:580px; margin-top:24px;">AltNet is the connective tissue. On top of it, a family of apps &mdash; built by us, and (eventually) by anyone.</p>
     </div>
 
-    <div class="gallery">
-      <div class="g-item g1 slide-tl">
-        <div class="shot-frame tilt-flat">
-          <img src="assets/altnet-home.png" alt="AltNet — main view">
-        </div>
-        <h3>The <em>front page.</em></h3>
-        <p>One screen. Everything starts here.</p>
+    <div class="carries-grid stagger-corners" style="margin-top:64px;">
+      <div class="carry">
+        <span class="tag-soon" style="background:rgba(0,229,255,.08); color:var(--cyan); border-color:rgba(0,229,255,.3);">In development</span>
+        <h3>Studio<em>.</em></h3>
+        <p>The publishing app. Run a node, claim a <span class="codespan">.alt</span> name, drop in a folder &mdash; it&rsquo;s on the network.</p>
       </div>
-
-      <div class="g-item g2 slide-tr">
-        <div class="shot-frame tilt-l">
-          <img src="assets/altnet-claim.png" alt="AltNet — claim a .alt name">
-        </div>
-        <h3>Pick a <em>name.</em></h3>
-        <p>Type it. Submit. Done.</p>
+      <div class="carry coming">
+        <span class="tag-soon">Coming</span>
+        <h3>Messenger<em>.</em></h3>
+        <p>End-to-end encrypted, peer-to-peer. Your messages never touch a server.</p>
       </div>
-
-      <div class="g-item g3 slide-bl">
-        <div class="shot-frame tilt-r">
-          <img src="assets/altnet-node.png" alt="AltNet — node mode">
-        </div>
-        <h3>You&rsquo;re <em>in.</em></h3>
-        <p>Your computer is part of the network. Comes back every boot.</p>
+      <div class="carry coming">
+        <span class="tag-soon">Coming</span>
+        <h3>Drive<em>.</em></h3>
+        <p>Share folders. Sync across your own machines, or with the people you choose.</p>
       </div>
-
-      <div class="g-item g4 slide-br">
-        <div class="shot-frame tilt-flat">
-          <img src="assets/altnet-dashboard.png" alt="AltNet — registered sites dashboard">
-        </div>
-        <h3>Watch it <em>live.</em></h3>
-        <p>See your sites. Update them. Take them down.</p>
+      <div class="carry coming">
+        <span class="tag-soon">Coming</span>
+        <h3>ID<em>.</em></h3>
+        <p>Your identity wallet. One keypair, one name, every app you ever use on AltNet.</p>
       </div>
     </div>
   </div>
