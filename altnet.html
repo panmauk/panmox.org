@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
 <link rel="apple-touch-icon" href="assets/favicon.jpg">
-<meta name="description" content="Announcing AltNet — a new peer-to-peer internet. For sites, for files, for identity. Launch date to be announced.">
-<meta property="og:title" content="Announcing AltNet — A new peer-to-peer internet">
-<meta property="og:description" content="A fully decentralized internet. Sites, files, identities — all peer-to-peer. Launch date to be announced.">
+<meta name="description" content="AltNet — a peer-to-peer internet. The network is live; AltNet Studio is the first app. For sites, for files, for identity.">
+<meta property="og:title" content="AltNet — Live, with AltNet Studio v0.8">
+<meta property="og:description" content="A peer-to-peer internet. The network is live. AltNet Studio v0.8 is the desktop client — Windows and Linux.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://panmox.org/altnet.html">
-<title>Announcing AltNet &mdash; A new peer-to-peer internet</title>
+<title>AltNet &mdash; Live, with AltNet Studio v0.8</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1179,7 +1179,7 @@ footer .tm {
     <ul class="nav-links">
       <li><button id="productsBtn" onclick="toggleDropdown()">Products</button></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="#notify">Get notified</a></li>
+      <li><a href="legal/">Legal</a></li>
     </ul>
   </div>
 </nav>
@@ -1189,6 +1189,7 @@ footer .tm {
   <div class="nav-dropdown-inner">
     <h4>Explore Products</h4>
     <ul>
+      <li><a href="studio.html"><span style="color:#00ff88;">AltNet</span> Studio</a></li>
       <li><a href="index.html#altnet"><span class="accent-altnet">Alt</span>Net</a></li>
       <li><a href="index.html#neuralxp"><span class="accent-violet">Neural</span>XP</a></li>
       <li><a href="index.html#lostengine"><span class="accent-amber">Lost</span>Engine</a></li>
@@ -1203,20 +1204,20 @@ footer .tm {
 <section class="hero">
   <div class="wrap">
     <div class="hero-centered">
-      <div class="stamp">Announcement &mdash; 2026.05</div>
+      <div class="stamp">Live &mdash; Studio v0.8</div>
       <h1 class="hero-headline">
-        <span class="hero-announcing" data-text="Announcing."></span>
+        <span class="hero-announcing" data-text="It&rsquo;s live."></span>
         <span class="hero-name">AltNet<span class="dot">.</span></span>
       </h1>
-      <p class="hero-tagline">A new <em>peer-to-peer internet.</em><br>Sites, files, identities &mdash; and a family of apps to use them.</p>
+      <p class="hero-tagline">A peer-to-peer internet. Sites, files, identities &mdash; and a family of apps to use them.<br><em>The first app is shipping now.</em></p>
 
-      <div class="launch-stamp">
-        <span class="k">Launch date</span>
-        <span class="v">&mdash; TO BE ANNOUNCED &mdash;</span>
+      <div class="launch-stamp" style="border-color:rgba(0,255,136,.3); background:rgba(0,255,136,.04);">
+        <span class="k">Status</span>
+        <span class="v" style="color:#00ff88;">&mdash; STUDIO v0.8 AVAILABLE &mdash;</span>
       </div>
 
       <div class="hero-actions">
-        <a href="#notify" class="btn btn-cyan">Notify me at launch</a>
+        <a href="studio.html" class="btn btn-cyan">Get AltNet Studio</a>
         <a href="#manifesto" class="btn btn-ghost">Read the manifesto</a>
       </div>
     </div>
@@ -1231,7 +1232,7 @@ footer .tm {
     <div class="manifesto">
       <div class="kicker slide-tl"><span class="num">01</span>Why</div>
       <p class="manifesto-body slide-l">
-        The internet <em>was supposed to belong to everyone.</em> Somewhere along the way, three companies took it. We&rsquo;re giving it back.
+        The internet <em>was supposed to belong to everyone.</em> Somewhere along the way, three companies took it. We&rsquo;re giving it back &mdash; <em>and it&rsquo;s live now.</em>
       </p>
       <div class="manifesto-sig slide-br">PANMOX &mdash; May 2026</div>
     </div>
@@ -1314,11 +1315,11 @@ footer .tm {
     </div>
 
     <div class="carries-grid stagger-corners" style="margin-top:64px;">
-      <div class="carry">
-        <span class="tag-soon" style="background:rgba(0,229,255,.08); color:var(--cyan); border-color:rgba(0,229,255,.3);">In development</span>
+      <a href="studio.html" class="carry" style="text-decoration:none; color:inherit; display:block;">
+        <span class="tag-soon" style="background:rgba(0,255,136,.1); color:#00ff88; border-color:rgba(0,255,136,.4);">Available now &middot; v0.8</span>
         <h3>Studio<em>.</em></h3>
         <p>The publishing app. Run a node, claim a <span class="codespan">.alt</span> name, drop in a folder &mdash; it&rsquo;s on the network.</p>
-      </div>
+      </a>
       <div class="carry coming">
         <span class="tag-soon">Coming</span>
         <h3>Messenger<em>.</em></h3>
@@ -1383,17 +1384,16 @@ footer .tm {
   </div>
 </section>
 
-<!-- ═══════════════════ NOTIFY ═══════════════════ -->
+<!-- ═══════════════════ GET STUDIO ═══════════════════ -->
 <section class="editorial" id="notify">
   <div class="wrap">
     <div class="zoom-in notify">
-      <h3>Be there <em>when it opens.</em></h3>
-      <p>One email at launch. Nothing else.</p>
-      <form class="notify-form" onsubmit="subscribeNl(event)">
-        <input type="email" id="nlEmail" placeholder="your@email.com" required>
-        <button type="submit">Notify me</button>
-      </form>
-      <div class="notify-fine" id="nlFine">No spam &mdash; one announcement, then silence</div>
+      <h3>The first app <em>is here.</em></h3>
+      <p>AltNet Studio v0.8 ships for Windows and Linux. Run a node. Browse <code class="codespan">.alt</code>. Publish a site.</p>
+      <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:24px;">
+        <a href="studio.html" class="btn btn-cyan">Get AltNet Studio</a>
+        <a href="https://github.com/panmauk/AltNet-Studio" target="_blank" rel="noopener" class="btn btn-ghost">View source</a>
+      </div>
     </div>
   </div>
 </section>
@@ -1402,9 +1402,9 @@ footer .tm {
 <section class="oss">
   <div class="wrap">
     <h3 class="rotate-r">Free, <em>forever.</em></h3>
-    <p class="slide-b">AltNet will ship under the GNU General Public License v3. Every line auditable, every fork legitimate. No accounts, no subscriptions, no take-backs.</p>
+    <p class="slide-b">AltNet ships under the GNU General Public License v3. Every line auditable, every fork legitimate. No accounts, no subscriptions, no take-backs.</p>
     <div class="oss-row zoom-in">
-      <a href="#notify" class="btn btn-primary">Notify me at launch</a>
+      <a href="studio.html" class="btn btn-primary">Get AltNet Studio</a>
     </div>
     <div class="oss-badge slide-b">Licensed under GNU GPL v3</div>
   </div>
@@ -1413,7 +1413,7 @@ footer .tm {
 <!-- ═══════════════════ FOOTER ═══════════════════ -->
 <footer>
   <div class="ftxt">&copy; 2026 PANMOX. All rights reserved.</div>
-  <div class="tm">PANMOX&trade;, PANMOX Browser&trade;, AltNet&trade;, LostEngine&trade;, NeuralXP&trade;, OverByte&trade;, and LinuxSimplify&trade; are trademarks of PANMOX. All other trademarks are property of their respective owners.</div>
+  <div class="tm">PANMOX&trade;, PANMOX Browser&trade;, AltNet&trade;, AltNet Studio&trade;, LostEngine&trade;, NeuralXP&trade;, OverByte&trade;, and LinuxSimplify&trade; are trademarks of PANMOX. All other trademarks are property of their respective owners.</div>
 </footer>
 
 <script>
