@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/jpeg" href="../assets/favicon.jpg">
+<link rel="apple-touch-icon" href="../assets/favicon.jpg">
+<meta name="description" content="AltNet — Privacy Policy. GDPR compliance for the panmox.org account service.">
+<title>Privacy Policy &mdash; PANMOX</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">PANMOX</a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="index.html" class="active">Legal</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="title-block">
+    <div class="title-kicker"><a href="index.html" class="home-back">&larr; Legal</a> &nbsp;&middot;&nbsp; 01 / GDPR</div>
+    <h1 class="doc-title">AltNet &mdash; <em>Privacy Policy.</em></h1>
+    <div class="title-meta">
+      <span><strong>Effective:</strong> 31 May 2026</span>
+      <span><strong>Updated:</strong> 31 May 2026</span>
+    </div>
+  </div>
+
+  <div class="doc">
+
+    <blockquote>
+      This policy explains what personal data AltNet&rsquo;s account service collects, why, and your rights under the EU General Data Protection Regulation (GDPR). It covers the <strong>panmox.org account / registration service</strong> (the &ldquo;Service&rdquo;). The AltNet peer-to-peer network itself is account-less &mdash; see &ldquo;The peer-to-peer network&rdquo; below for how data behaves there.
+    </blockquote>
+
+    <h2>1. Who is responsible (Data Controller)</h2>
+    <p>The data controller for the Service is:</p>
+    <blockquote>
+      <strong>Gabriel Wenzel</strong> (operating as PANMOX)<br>
+      Prague, Czech Republic<br>
+      Full postal address available on request via the contact email.<br>
+      Contact: <a href="mailto:abuse.report@panmox.org">abuse.report@panmox.org</a> (also for privacy questions)
+    </blockquote>
+    <p>We are a small operator. We have not appointed a Data Protection Officer because our processing does not require one under GDPR Art. 37; you can reach a human at the address above.</p>
+
+    <h2>2. What we collect and why</h2>
+    <p>We only collect what the Service needs to work and to keep it safe from abuse.</p>
+    <table>
+      <thead>
+        <tr><th>Data</th><th>Why we hold it</th><th>Lawful basis (GDPR Art. 6)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Email address</td><td>Account identity, login, verification, password reset, abuse correspondence</td><td>Contract (Art. 6(1)(b))</td></tr>
+        <tr><td>Password (stored only as a <strong>bcrypt hash</strong>, never in plaintext)</td><td>Authentication</td><td>Contract</td></tr>
+        <tr><td>Email verification / password-reset codes (short-lived)</td><td>Confirm you control the email; anti-abuse</td><td>Legitimate interest (Art. 6(1)(f))</td></tr>
+        <tr><td>Login sessions (random token + timestamps)</td><td>Keep you signed in</td><td>Contract</td></tr>
+        <tr><td>Domain requests (the <code>.alt</code> name, your description, status, timestamps)</td><td>Review and approve <code>.alt</code> registrations</td><td>Contract; legal obligation (Art. 6(1)(c))</td></tr>
+        <tr><td>Abuse reports (the reported <code>.alt</code> name, the reason text, and the <strong>reporter&rsquo;s email</strong>)</td><td>Handle illegal-content notices; keep an audit trail</td><td>Legal obligation (EU DSA); legitimate interest</td></tr>
+        <tr><td>Account flags (verified, admin, suspended)</td><td>Operate and moderate the Service</td><td>Contract; legitimate interest</td></tr>
+      </tbody>
+    </table>
+    <p>We do <strong>not</strong> collect: real names, addresses, phone numbers, payment data (the Service is free), advertising or tracking identifiers, or any special-category data. We do not profile users or sell data. There are no third-party analytics or advertising cookies &mdash; the only cookie / token is the strictly-necessary login session.</p>
+
+    <h2>3. The peer-to-peer network (important)</h2>
+    <p>Running an AltNet node, and browsing <code>.alt</code> sites, happens on a decentralised peer-to-peer network &mdash; <strong>not</strong> on our servers and <strong>without an account</strong>:</p>
+    <ul>
+      <li><strong>IP addresses are visible to peers.</strong> Like BitTorrent or any P2P system, the nodes you connect to can see your IP address. This is inherent to how peer-to-peer networking works; we cannot prevent it. Our always-on bootstrap node may log connecting IP addresses transiently for connectivity and abuse-prevention.</li>
+      <li><strong>Content is content-addressed and chunked.</strong> Node operators store and serve encrypted / addressed pieces of other people&rsquo;s content and <strong>cannot read what files they are serving</strong>.</li>
+      <li><strong>We do not control what other nodes log or retain.</strong> Once content is published to the network it may be cached by independent nodes worldwide.</li>
+    </ul>
+    <p>If this matters to you, use a VPN and be mindful that publishing to a public P2P network is, by design, public.</p>
+
+    <h2>4. Who we share data with (Processors)</h2>
+    <p>We use a small number of service providers to run the Service. Each acts as a data processor under a data-processing agreement:</p>
+    <ul>
+      <li><strong>Email delivery</strong> &mdash; Zoho (verification and notification emails).</li>
+      <li><strong>Server hosting</strong> &mdash; Oracle Cloud (our backend and bootstrap node run in the EU region, Frankfurt, Germany).</li>
+      <li><strong>DNS</strong> &mdash; Cloudflare (resolves panmox.org / api.panmox.org).</li>
+    </ul>
+    <p>Some of these providers are global and may process data outside the European Economic Area. Where that happens, transfers rely on an adequacy decision or the European Commission&rsquo;s Standard Contractual Clauses. We do not otherwise disclose your data, except where legally required (e.g. a valid court order) or to act on an illegal-content notice.</p>
+
+    <h2>5. How long we keep it</h2>
+    <ul>
+      <li><strong>Account data:</strong> until you delete your account (see &sect;7), then removed.</li>
+      <li><strong>Sessions:</strong> until they expire, then deleted.</li>
+      <li><strong>Verification / reset codes:</strong> minutes to hours, then expire.</li>
+      <li><strong>Abuse reports:</strong> retained for an audit trail even after the reporting account is deleted (the reporter email is preserved for that purpose), because we may need to demonstrate how an illegal-content notice was handled. We keep these no longer than necessary for that legal purpose.</li>
+      <li><strong>Server logs:</strong> rotated regularly and kept only short-term.</li>
+    </ul>
+
+    <h2>6. Where data is processed</h2>
+    <p>Backend account data is processed on EU-based infrastructure (Oracle Cloud, Frankfurt). Email and DNS providers are listed in &sect;4.</p>
+
+    <h2>7. Your rights</h2>
+    <p>Under the GDPR you have the right to: <strong>access</strong> your data, <strong>rectify</strong> it, <strong>erase</strong> it (&ldquo;right to be forgotten&rdquo;), <strong>restrict</strong> or <strong>object</strong> to processing, and <strong>data portability</strong>.</p>
+    <ul>
+      <li><strong>Erasure / access:</strong> You can delete your account yourself at any time from the <strong>Delete account</strong> link in AltNet Studio. To request a copy of your data or any other right, email <a href="mailto:abuse.report@panmox.org">abuse.report@panmox.org</a>. We respond within one month.</li>
+      <li><strong>Deleting your account</strong> removes your account record and sessions. Note: (a) abuse-report audit entries may be retained as described in &sect;5; (b) content already published to the peer-to-peer network is not under our control and may persist on independent nodes until its name record expires (about 7 days) and caches clear.</li>
+    </ul>
+    <p>You also have the right to lodge a complaint with your supervisory authority. In the Czech Republic this is the <strong>Office for Personal Data Protection (&Uacute;řad pro ochranu osobn&iacute;ch &uacute;dajů, &Uacute;OO&Uacute;)</strong> &mdash; <a href="https://www.uoou.gov.cz" target="_blank" rel="noopener">www.uoou.gov.cz</a>.</p>
+
+    <h2>8. Security</h2>
+    <p>Passwords are stored only as bcrypt hashes. The account API is served over HTTPS. We apply reasonable technical measures, but no system is perfectly secure; please use a strong, unique password.</p>
+
+    <h2>9. Children</h2>
+    <p>The Service is not directed at children. You must be at least 18 to create an account. We do not knowingly collect data from children below this age.</p>
+
+    <h2>10. Changes</h2>
+    <p>We may update this policy. Material changes will be announced on panmox.org. The &ldquo;Last updated&rdquo; date above reflects the current version.</p>
+
+    <h2>11. Contact</h2>
+    <p>Questions or requests: <a href="mailto:abuse.report@panmox.org">abuse.report@panmox.org</a>, or by post at the address in &sect;1 (available on request).</p>
+
+    <div class="disclaimer">
+      This document is a good-faith draft, not legal advice. Have it reviewed by a qualified lawyer before relying on it for your specific situation.
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 PANMOX &middot; ALL RIGHTS RESERVED
+</footer>
+
+</body>
+</html>
