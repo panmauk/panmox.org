@@ -279,7 +279,7 @@ nav {
 .hero-headline {
   font-family: var(--serif);
   font-weight: 300;
-  line-height: .92;
+  line-height: 1;
   letter-spacing: -3px;
   color: var(--paper);
   font-variation-settings: 'opsz' 144, 'SOFT' 100;
@@ -287,12 +287,14 @@ nav {
 .hero-announcing {
   display: block;
   font-style: italic;
-  font-size: clamp(64px, 12vw, 168px);
+  font-size: clamp(40px, 7.5vw, 100px);
   font-weight: 300;
-  color: var(--paper);
+  color: var(--paper-dim);
   font-variation-settings: 'opsz' 144;
-  margin-bottom: -.05em;
+  margin-bottom: 14px;
+  letter-spacing: -1.5px;
   overflow: hidden;
+  line-height: 1;
 }
 .hero-announcing .ch {
   display: inline-block;
