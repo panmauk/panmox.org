@@ -632,6 +632,207 @@
       transform: none;
     }
   }
+
+  /* ═══════════════════ AltNet Studio jade accent ═══════════════════ */
+  #studio { border-bottom-color: rgba(0,255,136,.06); padding-top: 120px; padding-bottom: 100px; }
+  #studio .studio-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #00ff88;
+    margin-bottom: 28px;
+  }
+  #studio .studio-eyebrow::before {
+    content: '';
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #00ff88;
+    box-shadow: 0 0 10px #00ff88;
+    animation: alnDotPulse 1.6s ease-in-out infinite;
+  }
+  #studio .studio-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    color: #d6ffe6;
+    line-height: 1;
+    letter-spacing: -3px;
+    margin-bottom: 24px;
+    font-variation-settings: 'opsz' 144;
+    text-align: center;
+  }
+  #studio .studio-name .ann {
+    display: block;
+    font-style: italic;
+    font-size: clamp(40px, 7.5vw, 100px);
+    font-weight: 300;
+    color: rgba(214,255,230,.55);
+    margin-bottom: 14px;
+    letter-spacing: -1.5px;
+    line-height: 1;
+    font-variation-settings: 'opsz' 144;
+  }
+  #studio .studio-name .brand {
+    display: block;
+    font-style: normal;
+    font-weight: 600;
+    font-size: clamp(56px, 10vw, 140px);
+    color: #d6ffe6;
+    font-variation-settings: 'opsz' 144, 'wght' 600;
+    letter-spacing: -3px;
+  }
+  #studio .studio-name .brand .dot { color: #ec4899; }
+  #studio .studio-tagline {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(18px, 2.2vw, 26px);
+    line-height: 1.45;
+    color: #8edab2;
+    max-width: 700px;
+    margin: 0 auto 24px;
+    font-variation-settings: 'opsz' 24;
+    text-align: center;
+  }
+  #studio .studio-tagline em { font-style: normal; color: #d6ffe6; }
+  #studio .studio-version {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 22px;
+    border: 1px solid rgba(0,255,136,.3);
+    border-radius: 2px;
+    background: rgba(0,255,136,.04);
+    margin-bottom: 32px;
+  }
+  #studio .studio-version .k {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #5a7a6a;
+  }
+  #studio .studio-version .v {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #00ff88;
+    font-weight: 500;
+    text-shadow: 0 0 8px rgba(0,255,136,.4);
+  }
+  #studio .btn-primary {
+    background: #00ff88;
+    color: #060a18;
+  }
+  #studio .btn-primary:hover {
+    background: #44ff9d;
+    box-shadow: 0 0 30px rgba(0,255,136,.5);
+  }
+  .glow-studio {
+    width: 1100px; height: 1100px;
+    background: radial-gradient(circle, rgba(0,255,136,.10) 0%, rgba(0,229,255,.04) 35%, transparent 70%);
+    top: -160px; left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Studio screenshot showcase — 4 floating tilted shots */
+  .studio-showcase {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    width: 100%;
+    max-width: 1280px;
+    margin: 56px auto 0;
+    padding: 24px 16px 36px;
+    perspective: 1400px;
+    flex-wrap: nowrap;
+  }
+  .studio-shot {
+    position: relative;
+    flex: 1 1 0;
+    max-width: 280px;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow:
+      0 0 24px rgba(0,255,136,.18),
+      0 30px 60px rgba(0,0,0,.65),
+      0 0 0 1px rgba(0,255,136,.22);
+    transition: transform .55s cubic-bezier(.16,1,.3,1), box-shadow .4s, z-index 0s .3s;
+    background: #0e1a14;
+    cursor: pointer;
+  }
+  .studio-shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .studio-shot::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 65%, rgba(0,255,136,.08));
+    pointer-events: none;
+  }
+  .studio-shot .label {
+    position: absolute;
+    bottom: 8px; left: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    background: rgba(6,10,24,.85);
+    border: 1px solid rgba(0,255,136,.3);
+    color: #00ff88;
+    border-radius: 3px;
+    backdrop-filter: blur(8px);
+  }
+  /* Static tilts */
+  .studio-shot.s1 { transform: rotate(-3deg) translateY(8px); }
+  .studio-shot.s2 { transform: rotate(1.5deg) translateY(-12px); }
+  .studio-shot.s3 { transform: rotate(-1.5deg) translateY(4px); }
+  .studio-shot.s4 { transform: rotate(3deg) translateY(-16px); }
+  /* Float keyframe */
+  @keyframes studioBob {
+    0%, 100% { transform: rotate(var(--rot,0)) translateY(var(--ty,0)); }
+    50%      { transform: rotate(var(--rot,0)) translateY(calc(var(--ty,0px) - 8px)); }
+  }
+  .studio-shot.s1 { --rot: -3deg;  --ty: 8px;   animation: studioBob 6s ease-in-out 0s   infinite; }
+  .studio-shot.s2 { --rot: 1.5deg; --ty: -12px; animation: studioBob 6s ease-in-out 1.5s infinite; }
+  .studio-shot.s3 { --rot: -1.5deg;--ty: 4px;   animation: studioBob 6s ease-in-out 3s   infinite; }
+  .studio-shot.s4 { --rot: 3deg;   --ty: -16px; animation: studioBob 6s ease-in-out 4.5s infinite; }
+  .studio-shot:hover {
+    transform: rotate(0) translateY(-18px) scale(1.06) !important;
+    z-index: 10;
+    animation-play-state: paused;
+    box-shadow:
+      0 0 60px rgba(0,255,136,.4),
+      0 40px 80px rgba(0,0,0,.8),
+      0 0 0 1px rgba(0,255,136,.5);
+  }
+
+  /* Scroll reveal for Studio section */
+  .reveal-studio { opacity: 0; transform: translateY(60px); transition: opacity 1.2s cubic-bezier(.16,1,.3,1), transform 1.2s cubic-bezier(.16,1,.3,1); }
+  .reveal-studio.visible { opacity: 1; transform: translateY(0); }
+  .reveal-studio .studio-shot { opacity: 0; transform: translateY(80px) rotate(0); transition: opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1); }
+  .reveal-studio.visible .studio-shot.s1 { opacity: 1; transform: rotate(-3deg) translateY(8px); transition-delay: .2s; }
+  .reveal-studio.visible .studio-shot.s2 { opacity: 1; transform: rotate(1.5deg) translateY(-12px); transition-delay: .35s; }
+  .reveal-studio.visible .studio-shot.s3 { opacity: 1; transform: rotate(-1.5deg) translateY(4px); transition-delay: .5s; }
+  .reveal-studio.visible .studio-shot.s4 { opacity: 1; transform: rotate(3deg) translateY(-16px); transition-delay: .65s; }
+
+  @media (max-width: 880px) {
+    .studio-showcase { flex-wrap: wrap; gap: 14px; }
+    .studio-shot { flex: 1 1 45%; max-width: 48%; }
+    #studio .studio-name .brand { letter-spacing: -2px; }
+  }
+  @media (max-width: 520px) {
+    .studio-shot { flex: 1 1 100%; max-width: 100%; }
+  }
+
   .glow-altnet {
     width: 1000px; height: 1000px;
     background: radial-gradient(circle, rgba(34,211,238,.12) 0%, rgba(236,72,153,.04) 35%, transparent 70%);
@@ -1095,6 +1296,43 @@
   </div>
 </section>
 
+<!-- ═══ AltNet Studio ═══ -->
+<section class="product-section reveal-studio" id="studio">
+  <div class="section-glow glow-studio"></div>
+  <div class="studio-eyebrow">Available now &mdash; v0.8</div>
+  <h2 class="studio-name">
+    <span class="ann">Meet</span>
+    <span class="brand">AltNet Studio<span class="dot">.</span></span>
+  </h2>
+  <p class="studio-tagline">The desktop client. Run a <em>node</em>. Browse <em>.alt</em>. Publish your own.<br>Windows and Linux.</p>
+  <div class="studio-version">
+    <span class="k">Version</span>
+    <span class="v">v0.8 &mdash; EARLY RELEASE</span>
+  </div>
+  <div class="product-buttons">
+    <a href="studio.html" class="btn btn-primary">Get AltNet Studio</a>
+    <a href="https://github.com/panmauk/AltNet-Studio" target="_blank" rel="noopener" class="btn btn-outline" style="border-color:rgba(0,255,136,.4); color:#00ff88;">View source</a>
+  </div>
+  <div class="studio-showcase">
+    <div class="studio-shot s1">
+      <img src="assets/altnet-home.png" alt="AltNet Studio &mdash; Home" loading="lazy">
+      <span class="label">Home</span>
+    </div>
+    <div class="studio-shot s2">
+      <img src="assets/altnet-node.png" alt="AltNet Studio &mdash; Node mode" loading="lazy">
+      <span class="label">Node</span>
+    </div>
+    <div class="studio-shot s3">
+      <img src="assets/altnet-claim.png" alt="AltNet Studio &mdash; Claim a .alt name" loading="lazy">
+      <span class="label">Claim</span>
+    </div>
+    <div class="studio-shot s4">
+      <img src="assets/altnet-dashboard.png" alt="AltNet Studio &mdash; Dashboard" loading="lazy">
+      <span class="label">Dashboard</span>
+    </div>
+  </div>
+</section>
+
 <!-- ═══ NeuralXP ═══ -->
 <section class="product-section" id="neuralxp">
   <div class="section-glow glow-violet"></div>
@@ -1371,6 +1609,18 @@
     var mc = document.getElementById('music-credits');
     mc.style.display = mc.style.display === 'block' ? 'none' : 'block';
   });
+
+  // ═══════ Studio section scroll-reveal ═══════
+  (function(){
+    var studio = document.querySelector('.reveal-studio');
+    if (!studio) return;
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.18 });
+    io.observe(studio);
+  })();
 
   // ═══════ AltNet entrance choreography ═══════
   // Page loads with AltNet content pre-hidden (.altnet-armed in HTML).
