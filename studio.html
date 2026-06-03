@@ -279,7 +279,7 @@ section.editorial { padding: 140px 0; position: relative; z-index: 2; }
 .install-card h3 em { font-style: italic; font-weight: 300; color: var(--jade); }
 .install-card p { font-size: 14px; line-height: 1.7; color: var(--paper-dim); margin-bottom: 14px; }
 .install-card p strong { color: var(--paper); font-weight: 500; }
-.install-card .code-line { font-family: var(--mono); font-size: 12px; background: rgba(0,0,0,.4); border: 1px solid var(--rule); padding: 10px 14px; border-radius: 4px; color: var(--cyan); margin: 10px 0; overflow-x: auto; }
+.install-card .code-line { font-family: var(--mono); font-size: 12px; background: rgba(0,0,0,.4); border: 1px solid var(--rule); padding: 10px 14px; border-radius: 4px; color: var(--cyan); margin: 10px 0; overflow-x: auto; white-space: pre-wrap; line-height: 1.5; }
 .install-card .dl { margin-top: 22px; display: inline-flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 11px; letter-spacing: 3px; padding: 12px 22px; border-radius: 999px; background: var(--jade); color: var(--ink); text-decoration: none; font-weight: 600; text-transform: uppercase; transition: transform .25s, box-shadow .3s; }
 .install-card .dl:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(0,255,136,.35); }
 
@@ -302,6 +302,44 @@ section.editorial { padding: 140px 0; position: relative; z-index: 2; }
 .oss p { max-width: 540px; margin: 0 auto 32px; color: var(--paper-dim); font-size: 15px; line-height: 1.7; }
 .oss-row { display: inline-flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
 .oss-badge { margin-top: 32px; display: inline-block; font-family: var(--mono); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--paper-mute); padding: 7px 16px; border: 1px solid var(--rule); border-radius: 999px; }
+
+/* Update-notice popup */
+.upd-overlay { position: fixed; inset: 0; z-index: 3000; background: rgba(0,0,0,.7); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 24px; }
+.upd-overlay.show { display: flex; }
+.upd-box {
+  max-width: 460px; width: 100%;
+  background: linear-gradient(180deg, rgba(0,255,136,.06), rgba(10,12,20,.96));
+  border: 1px solid rgba(0,255,136,.35);
+  border-radius: 8px;
+  padding: 32px 30px 28px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.7), 0 0 60px rgba(0,255,136,.15), inset 0 0 24px rgba(0,255,136,.04);
+  animation: updIn .45s cubic-bezier(.16,1,.3,1);
+  position: relative;
+}
+@keyframes updIn { from { transform: scale(.88) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+.upd-icon {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #66ffae 0%, #00ff88 50%, #00b35e 100%);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 18px;
+  box-shadow: 0 0 18px rgba(0,255,136,.55);
+}
+.upd-icon svg { width: 22px; height: 22px; stroke: #061a0e; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.upd-title { font-family: var(--serif); font-weight: 500; font-size: 26px; color: var(--paper); margin-bottom: 12px; letter-spacing: -.5px; font-variation-settings: 'opsz' 144; }
+.upd-title em { font-style: italic; font-weight: 300; }
+.upd-body { font-size: 15px; line-height: 1.6; color: var(--paper-dim); margin-bottom: 24px; }
+.upd-body strong { color: var(--paper); font-weight: 500; }
+.upd-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.upd-actions .btn { padding: 12px 22px; }
+.upd-close {
+  position: absolute; top: 12px; right: 14px;
+  background: none; border: none;
+  color: var(--paper-mute); font-size: 22px;
+  cursor: pointer; transition: color .2s;
+  padding: 4px 8px; line-height: 1;
+}
+.upd-close:hover { color: var(--paper); }
 
 footer { border-top: 1px solid var(--rule); padding: 36px 32px; text-align: center; position: relative; z-index: 2; }
 footer .ftxt { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; color: var(--paper-mute); }
@@ -380,8 +418,8 @@ footer .tm { margin-top: 10px; font-family: var(--mono); font-size: 9px; letter-
       </div>
 
       <div class="hero-actions">
-        <a href="https://github.com/panmauk/AltNet-Studio/releases/download/v0.8/AltNetStudio-Setup.exe" class="btn btn-jade">Download for Windows</a>
-        <a href="https://github.com/panmauk/AltNet-Studio/releases/download/v0.8/altnet-studio_0.8.0_amd64.deb" class="btn btn-cyan">Download for Linux</a>
+        <a href="https://github.com/panmauk/AltNet-Studio/releases/download/v0.8/AltNetStudio-Setup.exe" class="btn btn-jade js-dl">Download for Windows</a>
+        <a href="https://github.com/panmauk/AltNet-Studio/releases/download/v0.8/altnet-studio_0.8.0_amd64.deb" class="btn btn-cyan js-dl">Download for Linux</a>
         <a href="https://github.com/panmauk/AltNet-Studio" target="_blank" rel="noopener" class="btn btn-ghost">View source</a>
       </div>
     </div>
@@ -487,18 +525,17 @@ footer .tm { margin-top: 10px; font-family: var(--mono); font-size: 9px; letter-
         <h3>Windows<em>.</em></h3>
         <p>Download the installer and run it. SmartScreen may warn about an unrecognized app &mdash; click <strong>More info</strong> &rarr; <strong>Run anyway</strong>.</p>
         <p>Open AltNet Studio and click <strong>Be a node</strong>. A UAC prompt asks to install the <code>.alt</code> NRPT rule &mdash; accept it. Closing the window hides the app; the node keeps running.</p>
-        <a href="https://github.com/panmauk/AltNet-Studio/releases/download/v0.8/AltNetStudio-Setup.exe" class="dl">↓ AltNetStudio-Setup.exe</a>
+        <a href="https://github.com/panmauk/AltNet-Studio/releases/download/v0.8/AltNetStudio-Setup.exe" class="dl js-dl">↓ AltNetStudio-Setup.exe</a>
       </div>
 
       <div class="install-card slide-r">
         <div class="platform">// Debian / Ubuntu &middot; x86-64</div>
         <h3>GNU/<em>Linux.</em></h3>
-        <p>Install the <code>.deb</code> with apt:</p>
-        <div class="code-line">sudo apt install ./altnet-studio_0.8.0_amd64.deb</div>
-        <p>Run it as root &mdash; it needs root to bind port 80, configure DNS resolution for <code>.alt</code>, and install its local certificate:</p>
-        <div class="code-line">sudo -E AltNetStudio</div>
-        <div class="warn-box">Run as root or node mode is disabled.</div>
-        <a href="https://github.com/panmauk/AltNet-Studio/releases/download/v0.8/altnet-studio_0.8.0_amd64.deb" class="dl">↓ altnet-studio_0.8.0_amd64.deb</a>
+        <p>Install it from your Downloads folder:</p>
+        <div class="code-line">cd ~/Downloads
+sudo apt install ./altnet-studio_0.8.0_amd64.deb</div>
+        <p>Then launch <strong>AltNet Studio</strong> from your apps menu &mdash; it&rsquo;ll ask for your password since it needs root for port 80, <code>.alt</code> DNS, and its certificate.</p>
+        <a href="https://github.com/panmauk/AltNet-Studio/releases/download/v0.8/altnet-studio_0.8.0_amd64.deb" class="dl js-dl">↓ altnet-studio_0.8.0_amd64.deb</a>
       </div>
     </div>
   </div>
@@ -570,6 +607,22 @@ footer .tm { margin-top: 10px; font-family: var(--mono); font-size: 9px; letter-
   <div class="ftxt">&copy; 2026 PANMOX. All rights reserved.</div>
   <div class="tm">PANMOX&trade;, PANMOX Browser&trade;, AltNet&trade;, AltNet Studio&trade;, LostEngine&trade;, NeuralXP&trade;, OverByte&trade;, and LinuxSimplify&trade; are trademarks of PANMOX. All other trademarks are property of their respective owners.</div>
 </footer>
+
+<!-- ─── Update-notice popup (shown before download) ─── -->
+<div class="upd-overlay" id="updOverlay" aria-hidden="true">
+  <div class="upd-box">
+    <button class="upd-close" id="updClose" aria-label="Close">&times;</button>
+    <div class="upd-icon">
+      <svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0114-5.3M20 4v4h-4M20 12a8 8 0 01-14 5.3M4 20v-4h4"/></svg>
+    </div>
+    <div class="upd-title">Heads up &mdash; <em>auto-updates are coming.</em></div>
+    <p class="upd-body">Auto-updates don&rsquo;t work yet in v0.8. <strong>Check back here for new versions</strong> so you don&rsquo;t miss them.</p>
+    <div class="upd-actions">
+      <a id="updContinue" class="btn btn-jade" href="#">Got it, continue download</a>
+      <button id="updCancel" class="btn btn-ghost">Cancel</button>
+    </div>
+  </div>
+</div>
 
 <script>
   // Stars
@@ -692,6 +745,37 @@ footer .tm { margin-top: 10px; font-family: var(--mono); font-size: 9px; letter-
     ov.addEventListener('click', function(){
       dd.classList.remove('show'); ov.classList.remove('show'); btn.classList.remove('open');
     });
+  })();
+
+  // ─── Update-notice popup before each download ───
+  (function(){
+    var ov = document.getElementById('updOverlay');
+    var cont = document.getElementById('updContinue');
+    var cancel = document.getElementById('updCancel');
+    var close = document.getElementById('updClose');
+    if (!ov || !cont) return;
+
+    function open(href){
+      cont.setAttribute('href', href);
+      ov.classList.add('show');
+      ov.setAttribute('aria-hidden', 'false');
+    }
+    function shut(){
+      ov.classList.remove('show');
+      ov.setAttribute('aria-hidden', 'true');
+    }
+
+    document.querySelectorAll('a.js-dl').forEach(function(a){
+      a.addEventListener('click', function(e){
+        e.preventDefault();
+        open(a.getAttribute('href'));
+      });
+    });
+    cont.addEventListener('click', function(){ setTimeout(shut, 200); });
+    cancel.addEventListener('click', shut);
+    close.addEventListener('click', shut);
+    ov.addEventListener('click', function(e){ if (e.target === ov) shut(); });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') shut(); });
   })();
 </script>
 </body>
