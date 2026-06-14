@@ -5,666 +5,222 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
 <link rel="apple-touch-icon" href="assets/favicon.jpg">
-<meta name="description" content="LostEngine — the search engine that finds everything except what you're looking for. Free and open source under GPL v3.">
-<meta property="og:title" content="LostEngine">
-<meta property="og:description" content="A joke search engine with 3 modes. Every result is wrong. Open source under GPL v3.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://panmox.org/lostengine.html">
-<title>LostEngine &mdash; The Wrong Search Engine</title>
+<meta name="description" content="LostEngine — the search engine that finds everything except what you're looking for. Three modes of lies. Free and open source.">
+<title>LostEngine &mdash; The wrong search engine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter+Tight:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+:root{--ink:#050811;--paper:#ebe2d0;--paper-dim:#b9b09e;--paper-mute:#6a6e7c;--rule:rgba(235,226,208,0.08);--cyan:#00e5ff;--magenta:#ff3d8b;--jade:#00ff88;--amber:#ff8c00;--violet:#b765ff;--serif:'Fraunces',serif;--sans:'Inter Tight',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth;cursor:none}::selection{background:var(--amber);color:var(--ink)}
+body{background:var(--ink);color:var(--paper);font-family:var(--sans);font-weight:300;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a,button{cursor:none}
+.grain{position:fixed;inset:0;z-index:200;pointer-events:none;opacity:.06;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.9'/></svg>")}
+.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(235,226,208,0.022) 1px,transparent 1px),linear-gradient(90deg,rgba(235,226,208,0.022) 1px,transparent 1px);background-size:88px 88px;mask:radial-gradient(ellipse 90% 80% at 50% 30%,#000 30%,transparent 90%);-webkit-mask:radial-gradient(ellipse 90% 80% at 50% 30%,#000 30%,transparent 90%)}
+.mesh{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.mesh-blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.55;mix-blend-mode:screen}
+.mesh-blob.a{width:800px;height:800px;background:radial-gradient(circle,rgba(255,140,0,.32),transparent 65%);top:-200px;left:-150px;animation:drift1 28s ease-in-out infinite alternate}
+.mesh-blob.m{width:700px;height:700px;background:radial-gradient(circle,rgba(255,61,139,.25),transparent 65%);top:40%;right:-180px;animation:drift2 32s ease-in-out infinite alternate}
+.mesh-blob.c{width:600px;height:600px;background:radial-gradient(circle,rgba(0,229,255,.2),transparent 65%);bottom:-100px;left:25%;animation:drift3 36s ease-in-out infinite alternate}
+@keyframes drift1{from{transform:translate(0,0) scale(1)}to{transform:translate(160px,100px) scale(1.2)}}
+@keyframes drift2{from{transform:translate(0,0) scale(1)}to{transform:translate(-130px,180px) scale(1.15)}}
+@keyframes drift3{from{transform:translate(0,0) scale(1)}to{transform:translate(100px,-140px) scale(1.25)}}
+.stars{position:fixed;inset:0;z-index:1;pointer-events:none}
+.star{position:absolute;border-radius:50%;background:var(--paper);opacity:0;animation:twinkle 4s ease-in-out infinite alternate}
+@keyframes twinkle{0%{opacity:.08}100%{opacity:.55}}
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;transition:transform .25s cubic-bezier(.16,1,.3,1),width .25s,height .25s,background .25s,opacity .25s}
+.cursor-dot{width:6px;height:6px;background:var(--amber);box-shadow:0 0 12px var(--amber),0 0 24px var(--amber);transform:translate(-50%,-50%)}
+.cursor-ring{width:36px;height:36px;border:1px solid rgba(255,140,0,.5);transform:translate(-50%,-50%);transition:transform .35s cubic-bezier(.16,1,.3,1) .03s,width .25s,height .25s,opacity .25s}
+.cursor-ring.hover{width:64px;height:64px;border-color:rgba(255,61,139,.5)}
+.cursor-dot.hover{background:var(--magenta);box-shadow:0 0 12px var(--magenta),0 0 24px var(--magenta)}
+@media (max-width:980px),(pointer:coarse){.cursor-dot,.cursor-ring{display:none}html{cursor:auto}a,button{cursor:pointer}}
+nav{position:fixed;top:0;left:0;right:0;z-index:150;backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);background:rgba(5,8,17,.6);border-bottom:1px solid var(--rule)}
+.nav-inner{max-width:1480px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:16px 32px}
+.nav-logo{font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:5px;color:var(--paper);text-decoration:none;transition:color .25s}
+.nav-logo:hover{color:var(--amber)}
+.nav-links{display:flex;gap:32px;list-style:none;align-items:center}
+.nav-links a,.nav-links button{font-family:var(--mono);color:var(--paper-mute);text-decoration:none;font-size:11px;letter-spacing:2px;text-transform:uppercase;background:none;border:none;padding:0;transition:color .25s}
+.nav-links a:hover,.nav-links button:hover,.nav-links button.open{color:var(--paper)}
+.nav-dropdown-overlay{position:fixed;inset:0;z-index:148;display:none}
+.nav-dropdown-overlay.show{display:block}
+.nav-dropdown{position:fixed;top:56px;left:0;right:0;z-index:149;backdrop-filter:blur(40px) saturate(180%);background:rgba(5,8,17,.95);border-bottom:1px solid var(--rule);max-height:0;overflow:hidden;opacity:0;transition:max-height .5s cubic-bezier(.16,1,.3,1),opacity .3s}
+.nav-dropdown.show{max-height:540px;opacity:1}
+.nav-dropdown-inner{max-width:1000px;margin:0 auto;padding:40px 32px 48px}
+.nav-dropdown h4{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--paper-mute);margin-bottom:20px;font-weight:500}
+.nav-dropdown ul{list-style:none}.nav-dropdown li{margin-bottom:4px}
+.nav-dropdown li a{font-family:var(--serif);font-weight:500;font-size:28px;letter-spacing:-.5px;color:var(--paper);text-decoration:none;display:inline-block;transition:color .25s,transform .25s}
+.nav-dropdown li a:hover{color:var(--amber);transform:translateX(10px)}
+.acc-studio{color:var(--jade)}.acc-altnet{color:var(--cyan)}.acc-violet{color:var(--violet)}.acc-amber{color:var(--amber)}.acc-cyan{color:#00c8ff}.acc-green{color:#28c878}.acc-blue{color:#4a9eff}
+.hero{position:relative;z-index:5;min-height:100vh;padding:120px 32px 80px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;overflow:hidden}
+.hero-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:6px;text-transform:uppercase;color:var(--amber);margin-bottom:36px;display:inline-flex;align-items:center;gap:18px;opacity:0;animation:heroFade 1s .15s cubic-bezier(.16,1,.3,1) forwards}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:50px;height:1px;background:linear-gradient(90deg,transparent,var(--amber));box-shadow:0 0 8px var(--amber)}
+.hero-eyebrow::after{background:linear-gradient(90deg,var(--amber),transparent)}
+.hero-mark{font-family:var(--serif);font-weight:600;font-size:clamp(70px,15vw,220px);letter-spacing:-5px;line-height:.85;color:var(--paper);font-variation-settings:'opsz' 144,'wght' 600;display:inline-block;margin:0 auto 28px;position:relative;perspective:1000px}
+.hero-mark .ch{display:inline-block;position:relative;transition:transform .6s cubic-bezier(.16,1,.3,1),color .4s,text-shadow .4s;will-change:transform;transform:translateY(110%);animation:chRise 1.2s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes chRise{to{transform:translateY(0)}}
+.hero-mark .ch:nth-child(1){animation-delay:.25s}.hero-mark .ch:nth-child(2){animation-delay:.31s}.hero-mark .ch:nth-child(3){animation-delay:.37s}.hero-mark .ch:nth-child(4){animation-delay:.43s}.hero-mark .ch:nth-child(5){animation-delay:.49s}.hero-mark .ch:nth-child(6){animation-delay:.55s}.hero-mark .ch:nth-child(7){animation-delay:.61s}.hero-mark .ch:nth-child(8){animation-delay:.67s}.hero-mark .ch:nth-child(9){animation-delay:.73s}.hero-mark .ch:nth-child(10){animation-delay:.79s}
+.hero-mark .ch:hover{color:var(--amber);text-shadow:0 0 30px rgba(255,140,0,.7),0 0 60px rgba(255,140,0,.4);transform:translateY(-12px) rotateX(-10deg) scale(1.08) rotate(8deg)}
+.hero-mark .ch:nth-child(odd):hover{color:var(--magenta);text-shadow:0 0 30px rgba(255,61,139,.7)}
+.hero-q{font-family:var(--serif);font-weight:700;font-size:clamp(120px,22vw,300px);line-height:1;color:var(--amber);text-shadow:0 0 40px rgba(255,140,0,.6),0 0 80px rgba(255,140,0,.3);margin:0 auto 24px;display:inline-block;animation:wobble 4s ease-in-out infinite;opacity:0;animation:heroFade 1.4s 1.1s cubic-bezier(.16,1,.3,1) forwards,wobble 4s 1.5s ease-in-out infinite}
+@keyframes wobble{0%,100%{transform:rotate(-6deg) scale(1)}25%{transform:rotate(5deg) scale(1.05)}50%{transform:rotate(-3deg) scale(.96)}75%{transform:rotate(8deg) scale(1.02)}}
+.hero-sub{font-family:var(--serif);font-weight:300;font-style:italic;font-size:clamp(22px,3vw,38px);color:var(--paper-dim);max-width:760px;margin:0 auto 36px;line-height:1.4;letter-spacing:-.5px;opacity:0;animation:heroFade 1.2s 1.4s cubic-bezier(.16,1,.3,1) forwards;font-variation-settings:'opsz' 144}
+.hero-sub em{font-style:normal;color:var(--paper);border-bottom:1px solid var(--amber)}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:56px;opacity:0;animation:heroFade 1.2s 1.7s cubic-bezier(.16,1,.3,1) forwards}
+.hero-btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;font-weight:600;padding:16px 32px;border-radius:999px;text-decoration:none;transition:transform .3s,box-shadow .3s,background .3s,border-color .3s;border:1px solid transparent}
+.hero-btn.primary{background:var(--amber);color:var(--ink)}
+.hero-btn.primary:hover{transform:translateY(-3px);box-shadow:0 18px 50px rgba(255,140,0,.4)}
+.hero-btn.ghost{background:transparent;color:var(--paper);border-color:rgba(235,226,208,.25)}
+.hero-btn.ghost:hover{transform:translateY(-3px);border-color:var(--amber);color:var(--amber);background:rgba(255,140,0,.05)}
+.hero-scroll{font-family:var(--mono);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--paper-mute);opacity:0;animation:heroFade 1s 1.9s cubic-bezier(.16,1,.3,1) forwards,scrollNudge 2s 1.9s ease-in-out infinite}
+@keyframes heroFade{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scrollNudge{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+.marquee{position:relative;z-index:5;padding:24px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);overflow:hidden;background:rgba(5,8,17,.4)}
+.marquee-track{display:flex;white-space:nowrap;gap:56px;font-family:var(--serif);font-weight:400;font-style:italic;font-size:clamp(28px,4.5vw,56px);letter-spacing:-1px;color:var(--paper-dim);animation:marqueeRun 36s linear infinite;font-variation-settings:'opsz' 144}
+.marquee.reverse .marquee-track{animation-direction:reverse;animation-duration:44s}
+.marquee-track span{display:inline-flex;align-items:center;gap:36px}
+.marquee-track span::after{content:'✦';color:var(--amber);font-size:.6em;opacity:.7}
+.marquee-track span.hot{color:var(--paper)}
+.marquee-track span.hot::after{color:var(--magenta)}
+@keyframes marqueeRun{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-  body {
-    background: #060a18;
-    color: #e8f0ff;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    overflow-x: hidden;
-  }
+section.editorial{position:relative;z-index:5;padding:120px 32px;max-width:1280px;margin:0 auto}
+.section-kicker{font-family:var(--mono);font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--amber);margin-bottom:28px;display:inline-flex;align-items:center;gap:14px}
+.section-kicker::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 10px var(--amber);animation:dotPulse 1.6s ease-in-out infinite}
+@keyframes dotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.6)}}
+.section-title{font-family:var(--serif);font-weight:400;font-size:clamp(48px,8vw,120px);line-height:1;letter-spacing:-2.5px;color:var(--paper);margin-bottom:24px;font-variation-settings:'opsz' 144}
+.section-title em{font-style:italic;font-weight:300}
+.section-sub{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(18px,2vw,24px);color:var(--paper-dim);max-width:720px;margin-bottom:56px;line-height:1.5}
 
-  .stars {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: 0;
-  }
-  .star {
-    position: absolute;
-    border-radius: 50%;
-    background: #1a3a6e;
-    animation: twinkle 3s ease-in-out infinite alternate;
-  }
-  @keyframes twinkle { 0%{opacity:.2} 100%{opacity:.8} }
+.modes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:56px}
+.mode{padding:40px 32px;border:1px solid var(--rule);border-radius:14px;background:linear-gradient(160deg,rgba(255,140,0,.04),rgba(255,140,0,.01));transition:transform .4s,border-color .4s,background .4s,box-shadow .4s}
+.mode:hover{transform:translateY(-6px);border-color:var(--amber);background:linear-gradient(160deg,rgba(255,140,0,.08),rgba(255,140,0,.02));box-shadow:0 20px 60px rgba(255,140,0,.12)}
+.mode .ico{font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--amber);margin-bottom:14px}
+.mode h3{font-family:var(--serif);font-weight:500;font-size:32px;letter-spacing:-1px;color:var(--paper);margin-bottom:14px;font-variation-settings:'opsz' 144}
+.mode h3 em{font-style:italic;font-weight:300}
+.mode p{font-size:14px;line-height:1.7;color:var(--paper-dim)}
 
-  /* ── NAV ── */
-  nav {
-    position: fixed;
-    top: 0; width: 100%;
-    z-index: 100;
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    background: rgba(6,10,24,.7);
-    border-bottom: 1px solid rgba(0,200,255,.05);
-  }
-  .nav-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 24px;
-    gap: 36px;
-  }
-  .nav-logo {
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
-    font-size: 14px;
-    letter-spacing: 4px;
-    color: #00c8ff;
-    text-decoration: none;
-  }
-  .nav-links { display: flex; gap: 28px; list-style: none; }
-  .nav-links > li { position: relative; }
-  .nav-links > li > a,
-  .nav-links > li > button {
-    color: #8aa8c7;
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 400;
-    transition: color .3s;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-family: inherit;
-    padding: 0;
-  }
-  .nav-links > li > a:hover,
-  .nav-links > li > button:hover,
-  .nav-links > li > button.open { color: #e8f0ff; }
+footer{position:relative;z-index:5;border-top:1px solid var(--rule);padding:56px 32px;text-align:center}
+footer .ftxt{font-family:var(--mono);font-size:11px;letter-spacing:3px;color:var(--paper-mute)}
+footer .ftxt a{color:var(--paper-mute);text-decoration:none;border-bottom:1px solid rgba(106,110,124,.3);transition:color .25s,border-color .25s}
+footer .ftxt a:hover{color:var(--amber);border-color:var(--amber)}
+.tm{margin-top:16px;font-family:var(--mono);font-size:9px;letter-spacing:1px;color:rgba(106,110,124,.5);max-width:980px;margin-left:auto;margin-right:auto;line-height:1.6}
 
-  .nav-dropdown-overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 98;
-    display: none;
-  }
-  .nav-dropdown-overlay.show { display: block; }
-  .nav-dropdown {
-    position: fixed;
-    top: 44px;
-    left: 0; right: 0;
-    z-index: 99;
-    backdrop-filter: blur(40px) saturate(200%);
-    -webkit-backdrop-filter: blur(40px) saturate(200%);
-    background: rgba(6,10,24,.92);
-    border-bottom: 1px solid rgba(0,200,255,.06);
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height .4s cubic-bezier(.4,0,.2,1), opacity .3s ease;
-    opacity: 0;
-  }
-  .nav-dropdown.show { max-height: 340px; opacity: 1; }
-  .nav-dropdown-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 36px 40px 44px;
-    display: flex;
-    gap: 80px;
-  }
-  .nav-dropdown-col h4 {
-    font-size: 11px;
-    font-weight: 400;
-    color: #5a8ab5;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 18px;
-  }
-  .nav-dropdown-col ul { list-style: none; }
-  .nav-dropdown-col li { margin-bottom: 6px; }
-  .nav-dropdown-col a {
-    color: #c8d8ea;
-    text-decoration: none;
-    font-size: 22px;
-    font-weight: 600;
-    transition: color .2s;
-    line-height: 1.6;
-  }
-  .nav-dropdown-col a:hover { color: #fff; }
-  .nav-dropdown-col a .accent-cyan { color: #00c8ff; }
-  .nav-dropdown-col a .accent-green { color: #28c878; }
-  .nav-dropdown-col a .accent-blue { color: #4a9eff; }
-  .nav-dropdown-col a .accent-amber { color: #ff8c00; }
-  .nav-dropdown-col a .accent-violet { color: #a855f7; }
-  .nav-dropdown-col a .accent-altnet { color: #22d3ee; }
-
-  /* ── HERO ── */
-  .hero {
-    position: relative;
-    z-index: 1;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 120px 24px 80px;
-    overflow: hidden;
-  }
-  .hero-glow {
-    position: absolute;
-    width: 900px; height: 900px;
-    background: radial-gradient(circle, rgba(255,140,0,.1) 0%, rgba(255,140,0,.02) 40%, transparent 70%);
-    top: -200px; left: 50%;
-    transform: translateX(-50%);
-    pointer-events: none;
-  }
-  .hero-screenshot {
-    max-width: min(900px, 90vw);
-    width: 100%;
-    border-radius: 16px;
-    border: 1px solid rgba(255,140,0,.12);
-    box-shadow:
-      0 0 80px rgba(255,140,0,.06),
-      0 30px 60px rgba(0,0,0,.5);
-    margin-top: 48px;
-  }
-  .hero h1 {
-    font-size: clamp(48px, 8vw, 80px);
-    font-weight: 900;
-    letter-spacing: -2px;
-    color: #ffe0b0;
-    margin-bottom: 16px;
-  }
-  .hero .tagline {
-    font-size: clamp(16px, 2.5vw, 22px);
-    font-weight: 300;
-    color: #b08850;
-    max-width: 600px;
-    margin-bottom: 36px;
-    line-height: 1.5;
-  }
-  .hero-btn {
-    display: inline-block;
-    padding: 14px 36px;
-    border-radius: 50px;
-    font-size: 16px;
-    font-weight: 600;
-    text-decoration: none;
-    background: #ff8c00;
-    color: #060a18;
-    transition: all .3s;
-  }
-  .hero-btn:hover {
-    background: #ffa030;
-    box-shadow: 0 0 30px rgba(255,140,0,.4);
-  }
-
-  /* ── CONTENT SECTIONS ── */
-  .content {
-    position: relative;
-    z-index: 1;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 24px 80px;
-  }
-
-  .fade-section {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
-    margin-bottom: 100px;
-  }
-  .fade-section.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .intro-text {
-    font-size: clamp(18px, 2.5vw, 22px);
-    font-weight: 300;
-    line-height: 1.8;
-    color: #8aa8c7;
-    text-align: center;
-    max-width: 720px;
-    margin: 0 auto;
-  }
-
-  /* ── MODE CARDS ── */
-  .mode-section {
-    margin-bottom: 120px;
-  }
-  .mode-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    color: #ff8c00;
-    margin-bottom: 20px;
-  }
-  .mode-card {
-    padding: 48px 40px;
-    border-radius: 20px;
-    border: 1px solid rgba(255,140,0,.1);
-    background: linear-gradient(135deg, rgba(255,140,0,.04) 0%, rgba(255,140,0,.01) 100%);
-    margin-bottom: 32px;
-  }
-  .mode-card h3 {
-    font-size: clamp(24px, 4vw, 36px);
-    font-weight: 700;
-    color: #ffe0b0;
-    margin-bottom: 16px;
-    letter-spacing: -0.5px;
-  }
-  .mode-card p {
-    font-size: 16px;
-    line-height: 1.8;
-    color: #8aa8c7;
-  }
-  .mode-card .mode-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    color: #ff8c00;
-    opacity: .5;
-    margin-bottom: 12px;
-    letter-spacing: 2px;
-  }
-
-  /* ── OPEN SOURCE SECTION ── */
-  .oss-section {
-    text-align: center;
-    padding: 80px 0;
-    border-top: 1px solid rgba(255,140,0,.06);
-  }
-  .oss-section h2 {
-    font-size: clamp(32px, 5vw, 48px);
-    font-weight: 800;
-    color: #ffe0b0;
-    margin-bottom: 16px;
-    letter-spacing: -1px;
-  }
-  .oss-section p {
-    font-size: 16px;
-    line-height: 1.8;
-    color: #8aa8c7;
-    max-width: 600px;
-    margin: 0 auto 32px;
-  }
-  .oss-links {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .oss-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 28px;
-    border-radius: 50px;
-    font-size: 14px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: all .3s;
-  }
-  .oss-link-primary {
-    background: #ff8c00;
-    color: #060a18;
-  }
-  .oss-link-primary:hover {
-    background: #ffa030;
-    box-shadow: 0 0 24px rgba(255,140,0,.3);
-  }
-  .oss-link-outline {
-    border: 1.5px solid rgba(255,140,0,.3);
-    color: #ff8c00;
-  }
-  .oss-link-outline:hover {
-    border-color: #ff8c00;
-    background: rgba(255,140,0,.06);
-  }
-  .oss-link svg {
-    width: 18px;
-    height: 18px;
-    fill: currentColor;
-  }
-
-  .license-badge {
-    display: inline-block;
-    margin-top: 24px;
-    padding: 8px 24px;
-    border-radius: 50px;
-    border: 1px solid rgba(255,140,0,.15);
-    background: rgba(255,140,0,.05);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: #b08850;
-    text-transform: uppercase;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    border-top: 1px solid rgba(0,200,255,.04);
-    padding: 32px 24px;
-    position: relative;
-    z-index: 1;
-    text-align: center;
-  }
-  .footer-text {
-    font-size: 11px;
-    color: #1e3050;
-    font-family: 'JetBrains Mono', monospace;
-    letter-spacing: 1px;
-  }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 768px) {
-    .hero { min-height: 80vh; padding: 100px 16px 60px; }
-    .hero-icon { width: 90px; }
-    .mode-card { padding: 32px 24px; }
-    .oss-links { flex-direction: column; align-items: center; }
-    .nav-links { gap: 16px; }
-    .nav-links > li > a, .nav-links > li > button { font-size: 12px; }
-    .nav-dropdown-inner { padding: 28px 24px 36px; gap: 40px; }
-    .nav-dropdown-col a { font-size: 18px; }
-  }
-  @media (max-width: 480px) {
-    .hero h1 { font-size: 36px; }
-    .mode-card { padding: 24px 18px; }
-    .mode-card h3 { font-size: 22px; }
-    .nav-links { gap: 12px; }
-    .nav-links > li > a, .nav-links > li > button { font-size: 11px; }
-    .nav-dropdown-col a { font-size: 16px; }
-  }
-
-  /* ── NEWSLETTER MODAL ── */
-  .nl-overlay {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    z-index: 2000;
-    background: rgba(0,0,0,.6);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-  }
-  .nl-overlay.show { display: flex; }
-  .nl-box {
-    background: rgba(10,16,36,.95);
-    border: 1px solid rgba(0,200,255,.1);
-    border-radius: 16px;
-    padding: 28px 32px;
-    max-width: 440px;
-    width: 100%;
-    backdrop-filter: blur(20px);
-    animation: nlSlideUp .35s cubic-bezier(.16,1,.3,1);
-    position: relative;
-  }
-  @keyframes nlSlideUp { from{transform:translateY(30px);opacity:0} to{transform:translateY(0);opacity:1} }
-  .nl-close {
-    position: absolute;
-    top: 12px; right: 14px;
-    background: none;
-    border: none;
-    color: #5a8ab5;
-    font-size: 18px;
-    cursor: pointer;
-    transition: color .2s;
-    padding: 4px;
-  }
-  .nl-close:hover { color: #e8f0ff; }
-  .nl-box h4 {
-    font-size: 16px;
-    font-weight: 600;
-    color: #e8f0ff;
-    margin-bottom: 6px;
-  }
-  .nl-box p {
-    font-size: 13px;
-    color: #5a8ab5;
-    margin-bottom: 16px;
-    line-height: 1.5;
-  }
-  .nl-form {
-    display: flex;
-    gap: 8px;
-  }
-  .nl-form input {
-    flex: 1;
-    padding: 10px 14px;
-    border-radius: 8px;
-    border: 1px solid rgba(0,200,255,.15);
-    background: rgba(0,200,255,.04);
-    color: #e8f0ff;
-    font-size: 13px;
-    font-family: inherit;
-    outline: none;
-    transition: border-color .3s;
-  }
-  .nl-form input::placeholder { color: #2a4a6e; }
-  .nl-form input:focus { border-color: rgba(0,200,255,.4); }
-  .nl-form button {
-    padding: 10px 20px;
-    border-radius: 8px;
-    border: none;
-    background: #00c8ff;
-    color: #060a18;
-    font-size: 13px;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
-    transition: background .2s;
-    white-space: nowrap;
-  }
-  .nl-form button:hover { background: #33d4ff; }
-  .nl-done {
-    text-align: center;
-    padding: 8px 0;
-    color: #00c8ff;
-    font-size: 14px;
-    font-weight: 500;
-  }
+@media (max-width:980px){.modes-grid{grid-template-columns:1fr}}
+@media (max-width:720px){.nav-inner{padding:14px 20px}.nav-links{gap:18px}section.editorial{padding:80px 20px}.hero{padding:100px 20px 60px}.hero-actions{flex-direction:column;width:100%;max-width:280px}.hero-btn{justify-content:center}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01s!important;transition-duration:.1s!important}.hero-mark .ch{transform:none!important}}
 </style>
 </head>
 <body>
 
+<div class="grain"></div><div class="grid-bg"></div>
+<div class="mesh"><div class="mesh-blob a"></div><div class="mesh-blob m"></div><div class="mesh-blob c"></div></div>
 <div class="stars" id="stars"></div>
+<div class="cursor-dot" id="cDot"></div><div class="cursor-ring" id="cRing"></div>
 
-<!-- Nav -->
 <nav>
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">PANMOX</a>
     <ul class="nav-links">
-      <li><button id="productsBtn" onclick="toggleDropdown()">Products</button></li>
+      <li><button id="productsBtn">Products</button></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="#" id="navNlBtn">Newsletter</a></li>
       <li><a href="legal/">Legal</a></li>
     </ul>
   </div>
 </nav>
 
-<div class="nav-dropdown-overlay" id="dropdownOverlay" onclick="closeDropdown()"></div>
+<div class="nav-dropdown-overlay" id="dropdownOverlay"></div>
 <div class="nav-dropdown" id="productsDropdown">
   <div class="nav-dropdown-inner">
-    <div class="nav-dropdown-col">
-      <h4>Explore Products</h4>
-      <ul>
-        <li><a href="index.html#lostengine"><span class="accent-amber">Lost</span>Engine</a></li>
-        <li><a href="studio.html"><span style="color:#00ff88;">AltNet</span> Studio</a></li>
-        <li><a href="index.html#altnet"><span class="accent-altnet">Alt</span>Net</a></li>
-        <li><a href="index.html#neuralxp"><span class="accent-violet">Neural</span>XP</a></li>
-        <li><a href="browser.html?intro=1"><span class="accent-cyan">PANMOX</span> Browser</a></li>
-        <li><a href="overbyte.html?intro=1"><span class="accent-green">Over</span>Byte</a></li>
-        <li><a href="linuxsimplify.html?intro=1"><span class="accent-blue">Linux</span>Simplify</a></li>
-      </ul>
-    </div>
+    <h4>// EXPLORE</h4>
+    <ul>
+      <li><a href="studio.html"><span class="acc-studio">AltNet</span> Studio</a></li>
+      <li><a href="altnet.html"><span class="acc-altnet">Alt</span>Net</a></li>
+      <li><a href="neuralxp.html"><span class="acc-violet">Neural</span>XP</a></li>
+      <li><a href="lostengine.html"><span class="acc-amber">Lost</span>Engine</a></li>
+      <li><a href="browser.html?intro=1"><span class="acc-cyan">PANMOX</span> Browser</a></li>
+      <li><a href="overbyte.html?intro=1"><span class="acc-green">Over</span>Byte</a></li>
+      <li><a href="linuxsimplify.html?intro=1"><span class="acc-blue">Linux</span>Simplify</a></li>
+    </ul>
   </div>
 </div>
 
-<!-- Hero -->
 <section class="hero">
-  <div class="hero-glow"></div>
-  <h1>LostEngine&trade;</h1>
-  <p class="tagline">The search engine that finds everything except what you&rsquo;re looking for.</p>
-  <a href="https://lost.panmox.org" target="_blank" class="hero-btn">Try LostEngine</a>
-  <img src="assets/lostengine-screenshot.png" alt="LostEngine" class="hero-screenshot">
+  <div class="hero-eyebrow">PANMOX &middot; WRONG SEARCH &middot; LIVE</div>
+  <h1 class="hero-mark">
+    <span class="ch">L</span><span class="ch">o</span><span class="ch">s</span><span class="ch">t</span><span class="ch">E</span><span class="ch">n</span><span class="ch">g</span><span class="ch">i</span><span class="ch">n</span><span class="ch">e</span>
+  </h1>
+  <div class="hero-q">?</div>
+  <p class="hero-sub">The search engine that finds <em>everything except</em> what you&rsquo;re looking for. Three modes of lies.</p>
+  <div class="hero-actions">
+    <a href="https://lost.panmox.org" target="_blank" rel="noopener" class="hero-btn primary">Try LostEngine</a>
+    <a href="https://github.com/panmauk/LostEngine" target="_blank" rel="noopener" class="hero-btn ghost">View source</a>
+  </div>
+  <div class="hero-scroll">↓ Modes</div>
 </section>
 
-<!-- Content -->
-<div class="content">
-
-  <!-- Intro -->
-  <div class="fade-section">
-    <p class="intro-text">LostEngine is a free, open-source search engine built around one idea: what if search results were always wrong? Three modes, each more unhinged than the last.</p>
-  </div>
-
-  <!-- Mode Cards -->
-  <div class="mode-section">
-    <div class="fade-section">
-      <div class="mode-label">Three Modes</div>
-    </div>
-
-    <div class="fade-section">
-      <div class="mode-card">
-        <div class="mode-num">MODE 01</div>
-        <h3>How It Really Was</h3>
-        <p>Type anything. Get a confident, encyclopedia-style summary that is completely, hilariously wrong. Pizza was invented by NASA in 1847. Twitter is industrial adhesive tape from Antarctica. Every fact is fake. Nothing is real. The AI writes it all deadpan.</p>
-      </div>
-    </div>
-
-    <div class="fade-section">
-      <div class="mode-card">
-        <div class="mode-num">MODE 02</div>
-        <h3>Searching What You Want</h3>
-        <p>Search for Steve Jobs. Get real results for Bill Gates &mdash; but every title, every description, every link says &ldquo;Steve Jobs&rdquo;. The images are Gates. The videos are Gates. But the text insists it&rsquo;s Jobs. Complete gaslighting.</p>
-      </div>
-    </div>
-
-    <div class="fade-section">
-      <div class="mode-card">
-        <div class="mode-num">MODE 03</div>
-        <h3>Searching Something</h3>
-        <p>Search for literally anything. LostEngine ignores you entirely and shows results for a random word instead. You searched &ldquo;quantum physics&rdquo;? Here&rsquo;s everything about waffles.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Open Source -->
-  <div class="fade-section">
-    <div class="oss-section">
-      <h2>Open Source</h2>
-      <p>LostEngine is free software under the GNU General Public License v3. Built with Groq AI, DuckDuckGo, and zero respect for your search query.</p>
-      <div class="oss-links">
-        <a href="https://lost.panmox.org" target="_blank" class="oss-link oss-link-primary">Try LostEngine</a>
-        <a href="https://github.com/panmauk/LostEngine" target="_blank" rel="noopener" class="oss-link oss-link-outline">
-          <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          Source Code
-        </a>
-      </div>
-      <div class="license-badge">Licensed under GNU GPL v3</div>
-    </div>
-  </div>
-
-</div>
-
-<!-- Newsletter Modal -->
-<div class="nl-overlay" id="nlOverlay">
-  <div class="nl-box">
-    <button class="nl-close" onclick="document.getElementById('nlOverlay').classList.remove('show')">&times;</button>
-    <div id="nlContent">
-      <h4>Stay in the loop</h4>
-      <p>Get notified when we release new projects or updates.</p>
-      <div class="nl-form">
-        <input type="email" id="nlEmail" placeholder="your@email.com">
-        <button onclick="subscribeNl()">Subscribe</button>
-      </div>
-    </div>
+<div class="marquee">
+  <div class="marquee-track">
+    <span class="hot">Every result is wrong</span><span>Three modes</span><span class="hot">Powered by Groq</span><span>GPL v3</span><span class="hot">Cloudflare Pages</span><span>panmox.org</span>
+    <span class="hot">Every result is wrong</span><span>Three modes</span><span class="hot">Powered by Groq</span><span>GPL v3</span><span class="hot">Cloudflare Pages</span><span>panmox.org</span>
   </div>
 </div>
 
-<!-- Footer -->
+<section class="editorial">
+  <div class="section-kicker">// THE IDEA</div>
+  <h2 class="section-title">A search engine <em>built around</em> being wrong.</h2>
+  <p class="section-sub">LostEngine is a free, open-source search engine built around one idea: what if search results were always wrong? Three modes, each more unhinged than the last.</p>
+</section>
+
+<section class="editorial">
+  <div class="section-kicker">// THREE MODES</div>
+  <h2 class="section-title">Pick your <em>lie.</em></h2>
+  <div class="modes-grid">
+    <div class="mode">
+      <div class="ico">// MODE 01</div>
+      <h3>How it <em>really was.</em></h3>
+      <p>Type anything. Get a confident, encyclopedia-style summary that is completely, hilariously wrong. Pizza was invented by NASA in 1847. Twitter is industrial adhesive tape from Antarctica. Every fact is fake. The A.I. writes it all deadpan.</p>
+    </div>
+    <div class="mode">
+      <div class="ico">// MODE 02</div>
+      <h3>Searching what you <em>want.</em></h3>
+      <p>Search for Steve Jobs. Get real results for Bill Gates &mdash; but every title, every description, every link says &ldquo;Steve Jobs.&rdquo; The images are Gates. The videos are Gates. But the text insists it&rsquo;s Jobs. Complete gaslighting.</p>
+    </div>
+    <div class="mode">
+      <div class="ico">// MODE 03</div>
+      <h3>Searching <em>something.</em></h3>
+      <p>Search for literally anything. LostEngine ignores you entirely and shows results for a random word instead. You searched &ldquo;quantum physics&rdquo;? Here&rsquo;s everything about waffles.</p>
+    </div>
+  </div>
+</section>
+
+<section class="editorial">
+  <div class="section-kicker">// OPEN SOURCE</div>
+  <h2 class="section-title">Free. <em>Wrong.</em> Forever.</h2>
+  <p class="section-sub">LostEngine is free software under the GNU General Public License v3. Built with Groq A.I., DuckDuckGo, and zero respect for your search query.</p>
+  <div class="hero-actions" style="justify-content:flex-start;margin-top:24px;">
+    <a href="https://lost.panmox.org" target="_blank" rel="noopener" class="hero-btn primary">Try LostEngine</a>
+    <a href="https://github.com/panmauk/LostEngine" target="_blank" rel="noopener" class="hero-btn ghost">View source</a>
+  </div>
+</section>
+
+<div class="marquee reverse">
+  <div class="marquee-track">
+    <span>Every result is wrong</span><span class="hot">By design</span><span>Free forever</span><span class="hot">GPL v3</span><span>lost.panmox.org</span><span class="hot">Three modes</span>
+    <span>Every result is wrong</span><span class="hot">By design</span><span>Free forever</span><span class="hot">GPL v3</span><span>lost.panmox.org</span><span class="hot">Three modes</span>
+  </div>
+</div>
+
 <footer>
-  <span class="footer-text">&copy; 2026 PANMOX. All rights reserved.</span>
-  <div style="margin-top:12px; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:1px; color:#2a4a6e;">PANMOX&trade;, PANMOX Browser&trade;, AltNet&trade;, AltNet Studio&trade;, LostEngine&trade;, NeuralXP&trade;, OverByte&trade;, and LinuxSimplify&trade; are trademarks of PANMOX. All other trademarks are property of their respective owners.</div>
+  <div class="ftxt">&copy; 2026 PANMOX &nbsp;&middot;&nbsp; <a href="about.html">About</a> &nbsp;&middot;&nbsp; <a href="legal/">Legal</a></div>
+  <div class="tm">PANMOX&trade;, PANMOX Browser&trade;, AltNet&trade;, AltNet Studio&trade;, LostEngine&trade;, NeuralXP&trade;, OverByte&trade;, and LinuxSimplify&trade; are trademarks of PANMOX. All other trademarks are property of their respective owners.</div>
 </footer>
 
 <script>
-  // Stars
-  !function(){
-    var c = document.getElementById('stars');
-    for (var i = 0; i < 50; i++) {
-      var s = document.createElement('div');
-      s.className = 'star';
-      s.style.left = Math.random()*100+'%';
-      s.style.top = Math.random()*100+'%';
-      s.style.width = s.style.height = (Math.random()*2+.5)+'px';
-      s.style.animationDelay = Math.random()*3+'s';
-      s.style.animationDuration = (Math.random()*2+2)+'s';
-      c.appendChild(s);
-    }
-  }();
-
-  // Dropdown
-  function toggleDropdown() {
-    var dd = document.getElementById('productsDropdown');
-    var ov = document.getElementById('dropdownOverlay');
-    var btn = document.getElementById('productsBtn');
-    dd.classList.toggle('show');
-    ov.classList.toggle('show');
-    btn.classList.toggle('open');
-  }
-  function closeDropdown() {
-    document.getElementById('productsDropdown').classList.remove('show');
-    document.getElementById('dropdownOverlay').classList.remove('show');
-    document.getElementById('productsBtn').classList.remove('open');
-  }
-
-  // Scroll reveal
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.15 });
-
-  document.querySelectorAll('.fade-section').forEach(function(el) {
-    observer.observe(el);
-  });
-
-  // Newsletter
-  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwpiLx3ns4NCbid78rKH4xSn4ST4BYJ4oK_xI44ogJXF6RIoFYr7nl1vR3rTajqngAf/exec';
-  var subscribed = false;
-
-  document.getElementById('navNlBtn').addEventListener('click', function(e) {
-    e.preventDefault();
-    if (subscribed) {
-      document.getElementById('nlContent').innerHTML = '<div class="nl-done">You\'re already subscribed. Thank you!</div>';
-    }
-    document.getElementById('nlOverlay').classList.add('show');
-  });
-
-  function subscribeNl() {
-    var email = document.getElementById('nlEmail').value.trim();
-    if (!email) return;
-    fetch(SCRIPT_URL + '?email=' + encodeURIComponent(email))
-      .then(function(r) { return r.text(); })
-      .then(function(t) {
-        subscribed = true;
-        if (t === 'exists') {
-          document.getElementById('nlContent').innerHTML = '<div class="nl-done">You\'re already subscribed!</div>';
-        } else {
-          document.getElementById('nlContent').innerHTML = '<div class="nl-done">Thanks for subscribing!</div>';
-        }
-      })
-      .catch(function() {
-        document.getElementById('nlContent').innerHTML = '<div class="nl-done">Something went wrong. Try again later.</div>';
-      });
-  }
+(function(){var c=document.getElementById('stars');for(var i=0;i<80;i++){var s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.width=s.style.height=(Math.random()*2+.4)+'px';s.style.animationDelay=Math.random()*4+'s';s.style.animationDuration=(Math.random()*3+2.5)+'s';c.appendChild(s);}})();
+(function(){var dot=document.getElementById('cDot'),ring=document.getElementById('cRing');if(!dot||!ring)return;var x=0,y=0,rx=0,ry=0;window.addEventListener('mousemove',function(e){x=e.clientX;y=e.clientY;dot.style.left=x+'px';dot.style.top=y+'px';});function tick(){rx+=(x-rx)*.18;ry+=(y-ry)*.18;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);}requestAnimationFrame(tick);document.querySelectorAll('a, button, .hero-mark .ch, .mode').forEach(function(el){el.addEventListener('mouseenter',function(){dot.classList.add('hover');ring.classList.add('hover');});el.addEventListener('mouseleave',function(){dot.classList.remove('hover');ring.classList.remove('hover');});});})();
+(function(){var mark=document.querySelector('.hero-mark');if(!mark)return;var chars=mark.querySelectorAll('.ch');window.addEventListener('mousemove',function(e){var r=mark.getBoundingClientRect();var cx=r.left+r.width/2,cy=r.top+r.height/2;var dx=(e.clientX-cx)/r.width,dy=(e.clientY-cy)/r.height;chars.forEach(function(ch,i){var f=(i%2===0?1:-1)*(8+i*2);ch.style.translate=(dx*f)+'px '+(dy*f)+'px';});});})();
+(function(){var btn=document.getElementById('productsBtn');var dd=document.getElementById('productsDropdown');var ov=document.getElementById('dropdownOverlay');btn.addEventListener('click',function(){dd.classList.toggle('show');ov.classList.toggle('show');btn.classList.toggle('open');});ov.addEventListener('click',function(){dd.classList.remove('show');ov.classList.remove('show');btn.classList.remove('open');});})();
 </script>
 </body>
 </html>

@@ -5,374 +5,222 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
 <link rel="apple-touch-icon" href="assets/favicon.jpg">
-<meta name="description" content="AltNet Studio — the desktop client for AltNet, the peer-to-peer .alt network. Run a node, browse .alt sites, publish your own. Free and open source.">
+<meta name="description" content="AltNet Studio v1.0 — the desktop client for AltNet, the peer-to-peer .alt network. Run a node, browse .alt sites, publish your own. Windows and Linux.">
 <meta property="og:title" content="AltNet Studio — Desktop client for the .alt network">
-<meta property="og:description" content="Run a node, browse .alt sites in any browser, publish your own. Windows and Linux.">
+<meta property="og:description" content="Run a node, browse .alt sites in any browser, publish your own. Windows and Linux. v1.0.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://panmox.org/studio.html">
 <title>AltNet Studio &mdash; Desktop client for the .alt network</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@200..800&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter+Tight:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
 
 <style>
 :root {
-  --ink:        #0a0c14;
-  --ink-soft:   #11141f;
-  --paper:      #ebe2d0;
-  --paper-dim:  #b9b09e;
-  --paper-mute: #6a6a72;
-  --rule:       rgba(235,226,208,0.10);
-  --cyan:       #00e5ff;
-  --magenta:    #ff3d8b;
-  --jade:       #00ff88;
-  --warn:       #f1c25a;
-
-  --serif:  'Fraunces', serif;
-  --sans:   'Manrope', sans-serif;
-  --mono:   'JetBrains Mono', ui-monospace, monospace;
+  --ink:#050811; --ink-soft:#0a0e1a; --paper:#ebe2d0; --paper-dim:#b9b09e; --paper-mute:#6a6e7c;
+  --rule:rgba(235,226,208,0.08); --cyan:#00e5ff; --magenta:#ff3d8b; --jade:#00ff88;
+  --amber:#ff8c00; --violet:#b765ff; --warn:#f1c25a;
+  --serif:'Fraunces',serif; --sans:'Inter Tight',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-::selection { background: var(--cyan); color: var(--ink); }
-body {
-  background: var(--ink);
-  color: var(--paper);
-  font-family: var(--sans);
-  font-weight: 300;
-  line-height: 1.6;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;cursor:none}
+::selection{background:var(--jade);color:var(--ink)}
+body{background:var(--ink);color:var(--paper);font-family:var(--sans);font-weight:300;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a,button{cursor:none}
 
 /* Atmosphere */
-.grain {
-  position: fixed; inset: 0; z-index: 100; pointer-events: none;
-  opacity: .07; mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.9'/></svg>");
-}
-.grid-bg {
-  position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  background-image:
-    linear-gradient(rgba(235,226,208,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(235,226,208,0.025) 1px, transparent 1px);
-  background-size: 80px 80px;
-  mask: radial-gradient(ellipse 80% 60% at 50% 30%, #000 30%, transparent 80%);
-  -webkit-mask: radial-gradient(ellipse 80% 60% at 50% 30%, #000 30%, transparent 80%);
-}
-.mesh { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-.mesh-blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: .55; mix-blend-mode: screen; }
-.mesh-blob.c { width: 700px; height: 700px; background: radial-gradient(circle, rgba(0,229,255,.4), transparent 65%); top: -200px; left: -150px; animation: blobDrift1 24s ease-in-out infinite alternate; }
-.mesh-blob.m { width: 600px; height: 600px; background: radial-gradient(circle, rgba(255,61,139,.35), transparent 65%); top: 30%; right: -150px; animation: blobDrift2 28s ease-in-out infinite alternate; }
-.mesh-blob.g { width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,255,136,.18), transparent 65%); bottom: -100px; left: 30%; animation: blobDrift3 32s ease-in-out infinite alternate; }
-@keyframes blobDrift1 { from { transform: translate(0,0) scale(1); } to { transform: translate(120px, 80px) scale(1.18); } }
-@keyframes blobDrift2 { from { transform: translate(0,0) scale(1); } to { transform: translate(-100px, 140px) scale(1.12); } }
-@keyframes blobDrift3 { from { transform: translate(0,0) scale(1); } to { transform: translate(80px, -100px) scale(1.2); } }
-.stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-.star { position: absolute; border-radius: 50%; background: var(--paper); opacity: 0; animation: starTwinkle 4s ease-in-out infinite alternate; }
-@keyframes starTwinkle { 0% { opacity: .1; } 100% { opacity: .7; } }
-.dust { position: fixed; pointer-events: none; width: 2px; height: 2px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 6px var(--cyan); z-index: 1; opacity: .35; }
+.grain{position:fixed;inset:0;z-index:200;pointer-events:none;opacity:.06;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.9'/></svg>")}
+.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(235,226,208,0.022) 1px,transparent 1px),linear-gradient(90deg,rgba(235,226,208,0.022) 1px,transparent 1px);background-size:88px 88px;mask:radial-gradient(ellipse 90% 80% at 50% 30%,#000 30%,transparent 90%);-webkit-mask:radial-gradient(ellipse 90% 80% at 50% 30%,#000 30%,transparent 90%)}
+.mesh{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.mesh-blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.55;mix-blend-mode:screen}
+.mesh-blob.j{width:800px;height:800px;background:radial-gradient(circle,rgba(0,255,136,.32),transparent 65%);top:-200px;left:-150px;animation:drift1 28s ease-in-out infinite alternate}
+.mesh-blob.c{width:700px;height:700px;background:radial-gradient(circle,rgba(0,229,255,.3),transparent 65%);top:30%;right:-180px;animation:drift2 32s ease-in-out infinite alternate}
+.mesh-blob.m{width:600px;height:600px;background:radial-gradient(circle,rgba(255,61,139,.22),transparent 65%);bottom:-100px;left:25%;animation:drift3 36s ease-in-out infinite alternate}
+@keyframes drift1{from{transform:translate(0,0) scale(1)}to{transform:translate(160px,100px) scale(1.2)}}
+@keyframes drift2{from{transform:translate(0,0) scale(1)}to{transform:translate(-130px,180px) scale(1.15)}}
+@keyframes drift3{from{transform:translate(0,0) scale(1)}to{transform:translate(100px,-140px) scale(1.25)}}
+.stars{position:fixed;inset:0;z-index:1;pointer-events:none}
+.star{position:absolute;border-radius:50%;background:var(--paper);opacity:0;animation:twinkle 4s ease-in-out infinite alternate}
+@keyframes twinkle{0%{opacity:.08}100%{opacity:.55}}
+
+/* Cursor */
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;transition:transform .25s cubic-bezier(.16,1,.3,1),width .25s,height .25s,background .25s,opacity .25s}
+.cursor-dot{width:6px;height:6px;background:var(--jade);box-shadow:0 0 12px var(--jade),0 0 24px var(--jade);transform:translate(-50%,-50%)}
+.cursor-ring{width:36px;height:36px;border:1px solid rgba(0,255,136,.5);transform:translate(-50%,-50%);transition:transform .35s cubic-bezier(.16,1,.3,1) .03s,width .25s,height .25s,opacity .25s}
+.cursor-ring.hover{width:64px;height:64px;border-color:rgba(255,61,139,.5)}
+.cursor-dot.hover{background:var(--magenta);box-shadow:0 0 12px var(--magenta),0 0 24px var(--magenta)}
+@media (max-width:980px),(pointer:coarse){.cursor-dot,.cursor-ring{display:none}html{cursor:auto}a,button{cursor:pointer}}
 
 /* Nav */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  background: rgba(10,12,20,.65);
-  border-bottom: 1px solid var(--rule);
-}
-.nav-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 14px 32px; }
-.nav-logo { font-family: var(--mono); font-weight: 700; font-size: 13px; letter-spacing: 5px; color: var(--paper); text-decoration: none; transition: color .3s; }
-.nav-logo:hover { color: var(--cyan); }
-.nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
-.nav-links a, .nav-links button { font-family: var(--mono); color: var(--paper-mute); text-decoration: none; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; background: none; border: none; cursor: pointer; padding: 0; transition: color .25s; }
-.nav-links a:hover, .nav-links button:hover, .nav-links button.open { color: var(--paper); }
-.nav-dropdown-overlay { position: fixed; inset: 0; z-index: 198; display: none; }
-.nav-dropdown-overlay.show { display: block; }
-.nav-dropdown { position: fixed; top: 52px; left: 0; right: 0; z-index: 199; backdrop-filter: blur(40px) saturate(180%); background: rgba(10,12,20,.95); border-bottom: 1px solid var(--rule); max-height: 0; overflow: hidden; transition: max-height .5s cubic-bezier(.16,1,.3,1), opacity .3s; opacity: 0; }
-.nav-dropdown.show { max-height: 500px; opacity: 1; }
-.nav-dropdown-inner { max-width: 1000px; margin: 0 auto; padding: 40px 32px 48px; }
-.nav-dropdown h4 { font-family: var(--mono); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--paper-mute); margin-bottom: 20px; font-weight: 500; }
-.nav-dropdown ul { list-style: none; }
-.nav-dropdown li { margin-bottom: 4px; }
-.nav-dropdown li a { font-family: var(--serif); font-weight: 500; font-size: 26px; letter-spacing: -.5px; color: var(--paper); text-decoration: none; transition: color .25s, transform .25s; display: inline-block; }
-.nav-dropdown li a:hover { color: var(--cyan); transform: translateX(8px); }
-.accent-cyan   { color: #00c8ff; }
-.accent-green  { color: #28c878; }
-.accent-blue   { color: #4a9eff; }
-.accent-amber  { color: #ff8c00; }
-.accent-violet { color: #a855f7; }
-.accent-altnet { color: var(--cyan); }
-.accent-studio { color: var(--jade); }
-
-/* Wrap */
-.wrap { max-width: 1280px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
-.rule { display: block; width: 100%; height: 1px; background: var(--rule); margin: 0; }
+nav{position:fixed;top:0;left:0;right:0;z-index:150;backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);background:rgba(5,8,17,.6);border-bottom:1px solid var(--rule)}
+.nav-inner{max-width:1480px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:16px 32px}
+.nav-logo{font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:5px;color:var(--paper);text-decoration:none;transition:color .25s}
+.nav-logo:hover{color:var(--jade)}
+.nav-links{display:flex;gap:32px;list-style:none;align-items:center}
+.nav-links a,.nav-links button{font-family:var(--mono);color:var(--paper-mute);text-decoration:none;font-size:11px;letter-spacing:2px;text-transform:uppercase;background:none;border:none;padding:0;transition:color .25s}
+.nav-links a:hover,.nav-links button:hover,.nav-links button.open{color:var(--paper)}
+.nav-dropdown-overlay{position:fixed;inset:0;z-index:148;display:none}
+.nav-dropdown-overlay.show{display:block}
+.nav-dropdown{position:fixed;top:56px;left:0;right:0;z-index:149;backdrop-filter:blur(40px) saturate(180%);background:rgba(5,8,17,.95);border-bottom:1px solid var(--rule);max-height:0;overflow:hidden;opacity:0;transition:max-height .5s cubic-bezier(.16,1,.3,1),opacity .3s}
+.nav-dropdown.show{max-height:540px;opacity:1}
+.nav-dropdown-inner{max-width:1000px;margin:0 auto;padding:40px 32px 48px}
+.nav-dropdown h4{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--paper-mute);margin-bottom:20px;font-weight:500}
+.nav-dropdown ul{list-style:none}
+.nav-dropdown li{margin-bottom:4px}
+.nav-dropdown li a{font-family:var(--serif);font-weight:500;font-size:28px;letter-spacing:-.5px;color:var(--paper);text-decoration:none;display:inline-block;transition:color .25s,transform .25s}
+.nav-dropdown li a:hover{color:var(--jade);transform:translateX(10px)}
+.acc-studio{color:var(--jade)} .acc-altnet{color:var(--cyan)} .acc-violet{color:var(--violet)} .acc-amber{color:var(--amber)} .acc-cyan{color:#00c8ff} .acc-green{color:#28c878} .acc-blue{color:#4a9eff}
 
 /* Hero */
-.hero { position: relative; min-height: 92vh; padding: 140px 0 80px; z-index: 2; }
-.hero-stack { display: flex; flex-direction: column; align-items: center; text-align: center; }
-.stamp { display: inline-flex; align-items: center; gap: 14px; font-family: var(--mono); font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--jade); margin-bottom: 32px; opacity: 0; animation: fadeUp 1s .1s cubic-bezier(.16,1,.3,1) forwards; }
-.stamp::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--jade); box-shadow: 0 0 10px var(--jade); animation: dotPulse 1.6s ease-in-out infinite; }
-@keyframes dotPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .35; transform: scale(.6); } }
-.hero-headline { font-family: var(--serif); font-weight: 300; line-height: .92; letter-spacing: -3px; color: var(--paper); font-variation-settings: 'opsz' 144; max-width: 1100px; }
-.hero-h-line1 { display: block; font-style: normal; font-weight: 600; font-size: clamp(64px, 12vw, 168px); font-variation-settings: 'opsz' 144, 'wght' 600; letter-spacing: -4px; overflow: hidden; }
-.hero-h-line1 .ch { display: inline-block; transform: translateY(110%); animation: chRise 1.1s cubic-bezier(.16,1,.3,1) forwards; }
-@keyframes chRise { to { transform: translateY(0); } }
-.hero-h-line2 { display: block; font-style: italic; font-weight: 300; font-size: clamp(40px, 7vw, 90px); color: var(--paper-dim); font-variation-settings: 'opsz' 144; margin-top: -.05em; opacity: 0; animation: fadeUp 1.2s 1s cubic-bezier(.16,1,.3,1) forwards; }
-.hero-tagline { font-family: var(--serif); font-weight: 300; font-style: italic; font-size: clamp(20px, 2.2vw, 28px); line-height: 1.45; color: var(--paper-dim); max-width: 720px; margin: 40px 0 36px; font-variation-settings: 'opsz' 24; text-align: center; opacity: 0; animation: fadeUp 1.2s 1.4s cubic-bezier(.16,1,.3,1) forwards; }
-.hero-tagline em { font-style: normal; color: var(--paper); }
-.version-stamp { display: inline-flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 20px; border: 1px solid rgba(0,255,136,.3); border-radius: 2px; background: rgba(0,255,136,.04); margin-bottom: 36px; opacity: 0; animation: fadeUp 1.2s 1.6s cubic-bezier(.16,1,.3,1) forwards; }
-.version-stamp .k { font-family: var(--mono); font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--paper-mute); }
-.version-stamp .v { font-family: var(--mono); font-size: 13px; letter-spacing: 2px; color: var(--jade); font-weight: 500; text-shadow: 0 0 8px rgba(0,255,136,.4); }
-.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: 0; animation: fadeUp 1.2s 1.8s cubic-bezier(.16,1,.3,1) forwards; }
-.btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 26px; border-radius: 999px; font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-weight: 500; text-decoration: none; cursor: pointer; border: none; transition: transform .3s, box-shadow .3s, background .3s; position: relative; }
-.btn-primary { background: var(--paper); color: var(--ink); }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(235,226,208,.18); }
-.btn-ghost { background: transparent; color: var(--paper); border: 1px solid var(--rule); }
-.btn-ghost:hover { border-color: var(--paper); transform: translateY(-2px); }
-.btn-jade { background: var(--jade); color: var(--ink); }
-.btn-jade:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,255,136,.3); }
-.btn-cyan { background: var(--cyan); color: var(--ink); }
-.btn-cyan:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,229,255,.3); }
-@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.hero{position:relative;z-index:5;min-height:100vh;padding:120px 32px 80px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;overflow:hidden}
+.hero-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:6px;text-transform:uppercase;color:var(--jade);margin-bottom:48px;display:inline-flex;align-items:center;gap:18px;opacity:0;animation:heroFade 1s .15s cubic-bezier(.16,1,.3,1) forwards}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:50px;height:1px;background:linear-gradient(90deg,transparent,var(--jade));box-shadow:0 0 8px var(--jade)}
+.hero-eyebrow::after{background:linear-gradient(90deg,var(--jade),transparent)}
+
+.hero-tinytext{font-family:var(--serif);font-weight:300;font-style:italic;font-size:clamp(28px,4vw,52px);color:var(--paper-dim);letter-spacing:-.5px;margin-bottom:8px;opacity:0;animation:heroFade 1s .3s cubic-bezier(.16,1,.3,1) forwards;font-variation-settings:'opsz' 144}
+.hero-mark{font-family:var(--serif);font-weight:600;font-size:clamp(64px,14vw,200px);letter-spacing:-5px;line-height:.9;color:var(--paper);font-variation-settings:'opsz' 144,'wght' 600;display:inline-block;margin:0 auto 32px;position:relative;perspective:1000px}
+.hero-mark .ch{display:inline-block;position:relative;transition:transform .6s cubic-bezier(.16,1,.3,1),color .4s,text-shadow .4s;will-change:transform;transform:translateY(110%);animation:chRise 1.2s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes chRise{to{transform:translateY(0)}}
+.hero-mark .ch:nth-child(1){animation-delay:.45s}.hero-mark .ch:nth-child(2){animation-delay:.51s}.hero-mark .ch:nth-child(3){animation-delay:.57s}.hero-mark .ch:nth-child(4){animation-delay:.63s}.hero-mark .ch:nth-child(5){animation-delay:.69s}.hero-mark .ch:nth-child(6){animation-delay:.75s}
+.hero-mark .ch:hover{color:var(--jade);text-shadow:0 0 30px rgba(0,255,136,.7),0 0 60px rgba(0,255,136,.4);transform:translateY(-12px) rotateX(-10deg) scale(1.08)}
+.hero-mark .ch:nth-child(2):hover{color:var(--cyan);text-shadow:0 0 30px rgba(0,229,255,.7)}
+.hero-mark .ch:nth-child(4):hover{color:var(--magenta);text-shadow:0 0 30px rgba(255,61,139,.7)}
+
+.hero-sub{font-size:17px;color:var(--paper-dim);max-width:640px;margin:0 auto 28px;line-height:1.6;letter-spacing:.3px;opacity:0;animation:heroFade 1.2s 1.1s cubic-bezier(.16,1,.3,1) forwards}
+.hero-sub em{font-style:normal;color:var(--paper);border-bottom:1px solid var(--jade)}
+
+.hero-status{font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:8px 18px;border-radius:999px;background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.35);color:var(--jade);display:inline-flex;align-items:center;gap:10px;margin-bottom:36px;opacity:0;animation:heroFade 1.2s 1.3s cubic-bezier(.16,1,.3,1) forwards}
+.hero-status::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--jade);box-shadow:0 0 8px var(--jade);animation:dotPulse 1.6s ease-in-out infinite}
+@keyframes dotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.6)}}
+
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:56px;opacity:0;animation:heroFade 1.2s 1.6s cubic-bezier(.16,1,.3,1) forwards}
+.hero-btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;font-weight:600;padding:16px 32px;border-radius:999px;text-decoration:none;transition:transform .3s,box-shadow .3s,background .3s,border-color .3s;border:1px solid transparent}
+.hero-btn.primary{background:var(--jade);color:var(--ink)}
+.hero-btn.primary:hover{transform:translateY(-3px);box-shadow:0 18px 50px rgba(0,255,136,.4)}
+.hero-btn.secondary{background:var(--cyan);color:var(--ink)}
+.hero-btn.secondary:hover{transform:translateY(-3px);box-shadow:0 18px 50px rgba(0,229,255,.4)}
+.hero-btn.ghost{background:transparent;color:var(--paper);border-color:rgba(235,226,208,.25)}
+.hero-btn.ghost:hover{transform:translateY(-3px);border-color:var(--jade);color:var(--jade);background:rgba(0,255,136,.05)}
+
+.hero-scroll{font-family:var(--mono);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--paper-mute);opacity:0;animation:heroFade 1s 1.8s cubic-bezier(.16,1,.3,1) forwards,scrollNudge 2s 1.8s ease-in-out infinite}
+@keyframes heroFade{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scrollNudge{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* Marquee */
+.marquee{position:relative;z-index:5;padding:24px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);overflow:hidden;background:rgba(5,8,17,.4)}
+.marquee-track{display:flex;white-space:nowrap;gap:56px;font-family:var(--serif);font-weight:400;font-style:italic;font-size:clamp(28px,4.5vw,56px);letter-spacing:-1px;color:var(--paper-dim);animation:marqueeRun 36s linear infinite;font-variation-settings:'opsz' 144}
+.marquee.reverse .marquee-track{animation-direction:reverse;animation-duration:44s}
+.marquee-track span{display:inline-flex;align-items:center;gap:36px}
+.marquee-track span::after{content:'✦';color:var(--jade);font-size:.6em;opacity:.7}
+.marquee-track span.hot{color:var(--paper)}
+.marquee-track span.hot::after{color:var(--magenta)}
+@keyframes marqueeRun{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* Sections */
-section.editorial { padding: 140px 0; position: relative; z-index: 2; }
-.kicker { font-family: var(--mono); font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--jade); margin-bottom: 24px; }
-.kicker .num { color: var(--paper-mute); margin-right: 14px; }
-.headline-serif { font-family: var(--serif); font-weight: 400; font-size: clamp(40px, 6vw, 86px); line-height: 1; letter-spacing: -2px; color: var(--paper); font-variation-settings: 'opsz' 144; }
-.headline-serif em { font-style: italic; font-weight: 300; color: var(--paper); }
-.headline-serif .pink { color: var(--magenta); }
-.headline-serif .cyan { color: var(--cyan); }
-.headline-serif .jade { color: var(--jade); }
+section.editorial{position:relative;z-index:5;padding:120px 32px;max-width:1280px;margin:0 auto}
+.section-kicker{font-family:var(--mono);font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--jade);margin-bottom:28px;display:inline-flex;align-items:center;gap:14px}
+.section-kicker::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--jade);box-shadow:0 0 10px var(--jade);animation:dotPulse 1.6s ease-in-out infinite}
+.section-title{font-family:var(--serif);font-weight:400;font-size:clamp(48px,8vw,120px);line-height:1;letter-spacing:-2.5px;color:var(--paper);margin-bottom:24px;font-variation-settings:'opsz' 144}
+.section-title em{font-style:italic;font-weight:300}
+.section-title .jade{color:var(--jade)} .section-title .cyan{color:var(--cyan)} .section-title .magenta{color:var(--magenta)}
+.section-sub{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(18px,2vw,24px);color:var(--paper-dim);max-width:720px;margin-bottom:56px;font-variation-settings:'opsz' 24;line-height:1.5}
 
-/* Scroll animations */
-[class*="anim-"], .fade-up, .slide-l, .slide-r, .slide-t, .slide-b, .slide-tl, .slide-tr, .slide-bl, .slide-br, .rotate-l, .rotate-r, .zoom-in, .zoom-out, .blur-in {
-  opacity: 0;
-  transition: opacity 1.1s cubic-bezier(.16,1,.3,1), transform 1.1s cubic-bezier(.16,1,.3,1), filter 1.1s cubic-bezier(.16,1,.3,1);
-  will-change: transform, opacity;
-}
-.fade-up { transform: translateY(60px); }
-.slide-l { transform: translateX(-120px); }
-.slide-r { transform: translateX(120px); }
-.slide-t { transform: translateY(-90px); }
-.slide-b { transform: translateY(110px); }
-.slide-tl { transform: translate(-100px, -90px); }
-.slide-tr { transform: translate(100px, -90px); }
-.slide-bl { transform: translate(-100px, 90px); }
-.slide-br { transform: translate(100px, 90px); }
-.rotate-l { transform: rotate(-10deg) translateY(40px) scale(.94); transform-origin: bottom left; }
-.rotate-r { transform: rotate(10deg) translateY(40px) scale(.94); transform-origin: bottom right; }
-.zoom-in { transform: scale(.7); }
-.blur-in { filter: blur(20px); transform: scale(1.05); }
-.fade-up.visible, .slide-l.visible, .slide-r.visible, .slide-t.visible, .slide-b.visible, .slide-tl.visible, .slide-tr.visible, .slide-bl.visible, .slide-br.visible, .rotate-l.visible, .rotate-r.visible, .zoom-in.visible, .blur-in.visible { opacity: 1; transform: none; filter: none; }
-.stagger > * { opacity: 0; transform: translateY(40px); transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); }
-.stagger.visible > * { opacity: 1; transform: translateY(0); }
-.stagger.visible > *:nth-child(1) { transition-delay: .05s; }
-.stagger.visible > *:nth-child(2) { transition-delay: .15s; }
-.stagger.visible > *:nth-child(3) { transition-delay: .25s; }
-.stagger.visible > *:nth-child(4) { transition-delay: .35s; }
-.stagger.visible > *:nth-child(5) { transition-delay: .45s; }
-.stagger.visible > *:nth-child(6) { transition-delay: .55s; }
-.stagger-corners > * { opacity: 0; transition: opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1); }
-.stagger-corners > *:nth-child(4n+1) { transform: translate(-90px, -80px); }
-.stagger-corners > *:nth-child(4n+2) { transform: translate(90px, -80px); }
-.stagger-corners > *:nth-child(4n+3) { transform: translate(-90px, 80px); }
-.stagger-corners > *:nth-child(4n+4) { transform: translate(90px, 80px); }
-.stagger-corners.visible > * { opacity: 1; transform: none; }
-.stagger-corners.visible > *:nth-child(1) { transition-delay: .05s; }
-.stagger-corners.visible > *:nth-child(2) { transition-delay: .20s; }
-.stagger-corners.visible > *:nth-child(3) { transition-delay: .35s; }
-.stagger-corners.visible > *:nth-child(4) { transition-delay: .50s; }
+/* SCREENSHOT SHOWCASE */
+.shot-stage{position:relative;width:100%;max-width:1280px;height:780px;margin:60px auto 0;perspective:1800px;transform-style:preserve-3d}
+.shot-stage::before{content:'';position:absolute;width:70%;height:55%;top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(ellipse,rgba(0,255,136,.22) 0%,rgba(0,229,255,.06) 40%,transparent 70%);filter:blur(50px);pointer-events:none}
+.shot-card{position:absolute;border-radius:8px;overflow:hidden;box-shadow:0 0 40px rgba(0,255,136,.18),0 30px 80px rgba(0,0,0,.7),0 0 0 1px rgba(0,255,136,.2);transition:transform 1.2s cubic-bezier(.16,1,.3,1),box-shadow .6s,opacity 1s;transform-style:preserve-3d;will-change:transform;background:#0e1a14}
+.shot-card img{display:block;width:100%;height:auto}
+.shot-card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 70%,rgba(0,255,136,.08));pointer-events:none}
+.shot-home{width:50%;top:14%;left:50%;margin-left:-25%;z-index:4;transform:translateZ(60px) rotateY(-3deg) rotateX(2deg)}
+.shot-home:hover{transform:translateZ(100px) rotateY(0) rotateX(0) scale(1.04);box-shadow:0 0 80px rgba(0,255,136,.4),0 40px 100px rgba(0,0,0,.8),0 0 0 1px rgba(0,255,136,.5)}
+.shot-node{width:32%;top:6%;left:2%;z-index:3;transform:translateZ(-40px) rotateY(18deg) rotateX(-4deg);opacity:.92}
+.shot-node:hover{transform:translateZ(40px) rotateY(6deg) rotateX(0);opacity:1}
+.shot-claim{width:30%;top:10%;right:2%;z-index:3;transform:translateZ(-30px) rotateY(-20deg) rotateX(-3deg);opacity:.92}
+.shot-claim:hover{transform:translateZ(40px) rotateY(-6deg) rotateX(0);opacity:1}
+.shot-dashboard{width:26%;bottom:8%;right:14%;z-index:5;transform:translateZ(80px) rotateY(-10deg) rotateX(4deg);animation:floatShot 6s ease-in-out infinite}
+@keyframes floatShot{0%,100%{transform:translateZ(80px) rotateY(-10deg) rotateX(4deg) translateY(0)}50%{transform:translateZ(100px) rotateY(-8deg) rotateX(2deg) translateY(-12px)}}
+.shot-dashboard:hover{animation-play-state:paused;transform:translateZ(140px) rotateY(0) rotateX(0) scale(1.08)}
+.shot-label{position:absolute;font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--jade);padding:4px 10px;border:1px solid rgba(0,255,136,.3);background:rgba(6,10,24,.85);backdrop-filter:blur(10px);border-radius:4px;pointer-events:none;z-index:10;white-space:nowrap}
+.label-home{bottom:4%;left:50%;transform:translateX(-50%)}
+.label-node{top:1%;left:4%}
+.label-claim{top:5%;right:4%}
+.label-dashboard{bottom:3%;right:16%}
 
-/* SCREENSHOT SHOWCASE — 3D parallax stage */
-.shot-stage {
-  position: relative;
-  width: 100%;
-  max-width: 1180px;
-  height: 760px;
-  margin: 60px auto 0;
-  perspective: 1800px;
-  transform-style: preserve-3d;
-}
-.shot-stage::before {
-  content: '';
-  position: absolute;
-  width: 70%; height: 55%;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(ellipse, rgba(0,255,136,.18) 0%, rgba(0,229,255,.05) 40%, transparent 70%);
-  filter: blur(50px);
-  pointer-events: none;
-}
-.shot-card {
-  position: absolute;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 0 40px rgba(0,255,136,.18), 0 30px 80px rgba(0,0,0,.7), 0 0 0 1px rgba(0,255,136,.2);
-  transition: transform 1.2s cubic-bezier(.16,1,.3,1), box-shadow .6s, opacity 1s;
-  transform-style: preserve-3d;
-  will-change: transform;
-  background: #0e1a14;
-}
-.shot-card img { display: block; width: 100%; height: auto; }
-.shot-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 70%, rgba(0,255,136,.08)); pointer-events: none; }
-.shot-home  { width: 50%; top: 14%; left: 50%; margin-left: -25%; z-index: 4; transform: translateZ(60px) rotateY(-3deg) rotateX(2deg); }
-.shot-home:hover { transform: translateZ(100px) rotateY(0) rotateX(0) scale(1.04); box-shadow: 0 0 80px rgba(0,255,136,.4), 0 40px 100px rgba(0,0,0,.8), 0 0 0 1px rgba(0,255,136,.5); }
-.shot-node  { width: 32%; top: 6%; left: 2%; z-index: 3; transform: translateZ(-40px) rotateY(18deg) rotateX(-4deg); opacity: .92; }
-.shot-node:hover { transform: translateZ(40px) rotateY(6deg) rotateX(0); opacity: 1; }
-.shot-claim { width: 30%; top: 10%; right: 2%; z-index: 3; transform: translateZ(-30px) rotateY(-20deg) rotateX(-3deg); opacity: .92; }
-.shot-claim:hover { transform: translateZ(40px) rotateY(-6deg) rotateX(0); opacity: 1; }
-.shot-dashboard { width: 26%; bottom: 8%; right: 14%; z-index: 5; transform: translateZ(80px) rotateY(-10deg) rotateX(4deg); animation: floatShot 6s ease-in-out infinite; }
-@keyframes floatShot { 0%, 100% { transform: translateZ(80px) rotateY(-10deg) rotateX(4deg) translateY(0); } 50% { transform: translateZ(100px) rotateY(-8deg) rotateX(2deg) translateY(-12px); } }
-.shot-dashboard:hover { animation-play-state: paused; transform: translateZ(140px) rotateY(0) rotateX(0) scale(1.08); }
-.shot-label { position: absolute; font-family: var(--mono); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--jade); padding: 4px 10px; border: 1px solid rgba(0,255,136,.3); background: rgba(6,10,24,.85); backdrop-filter: blur(10px); border-radius: 4px; pointer-events: none; z-index: 10; white-space: nowrap; }
-.label-home      { bottom: 4%; left: 50%; transform: translateX(-50%); }
-.label-node      { top: 1%; left: 4%; }
-.label-claim     { top: 5%; right: 4%; }
-.label-dashboard { bottom: 3%; right: 16%; }
+/* Feature bento */
+.feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:56px}
+.feat{padding:40px 32px;border:1px solid var(--rule);border-radius:14px;background:linear-gradient(160deg,rgba(0,255,136,.04),rgba(0,255,136,.01));transition:transform .4s,border-color .4s,background .4s,box-shadow .4s}
+.feat:hover{transform:translateY(-6px);border-color:var(--jade);background:linear-gradient(160deg,rgba(0,255,136,.08),rgba(0,255,136,.02));box-shadow:0 20px 60px rgba(0,255,136,.12)}
+.feat .ico{font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--jade);margin-bottom:14px}
+.feat h3{font-family:var(--serif);font-weight:500;font-size:36px;letter-spacing:-1px;color:var(--paper);margin-bottom:12px;font-variation-settings:'opsz' 144}
+.feat h3 em{font-style:italic;font-weight:300}
+.feat p{font-size:15px;line-height:1.6;color:var(--paper-dim)}
+.feat p code{font-family:var(--mono);color:var(--magenta);background:rgba(255,61,139,.08);padding:2px 6px;border-radius:2px;font-size:.9em}
 
-/* What it does — 4 feature cards */
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
-  margin-top: 64px;
-  perspective: 1200px;
-}
-.feat {
-  padding: 40px 32px;
-  border: 1px solid var(--rule);
-  border-radius: 4px;
-  background: rgba(235,226,208,.015);
-  position: relative;
-  transition: transform .4s cubic-bezier(.16,1,.3,1), border-color .4s, background .4s, box-shadow .4s;
-  transform-style: preserve-3d;
-}
-.feat:hover { transform: translateY(-6px) rotateX(3deg) rotateY(-3deg); border-color: var(--jade); background: rgba(0,255,136,.04); box-shadow: 0 20px 60px rgba(0,255,136,.12); }
-.feat .ico { font-family: var(--mono); font-size: 11px; letter-spacing: 4px; color: var(--jade); margin-bottom: 14px; }
-.feat h3 { font-family: var(--serif); font-weight: 500; font-size: 36px; letter-spacing: -1px; color: var(--paper); margin-bottom: 12px; font-variation-settings: 'opsz' 144; }
-.feat h3 em { font-style: italic; font-weight: 300; }
-.feat p { font-size: 15px; line-height: 1.6; color: var(--paper-dim); }
-.feat p code { font-family: var(--mono); color: var(--magenta); background: rgba(255,61,139,.08); padding: 2px 6px; border-radius: 2px; font-size: .9em; }
+/* Install cards */
+.install-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:56px}
+.install-card{padding:36px 32px 32px;border:1px solid var(--rule);border-radius:14px;background:linear-gradient(180deg,rgba(0,255,136,.04),rgba(0,255,136,.01));position:relative;transition:border-color .4s,box-shadow .4s,transform .4s}
+.install-card:hover{border-color:var(--jade);box-shadow:0 0 40px rgba(0,255,136,.15);transform:translateY(-4px)}
+.install-card .platform{font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--paper-mute);margin-bottom:14px;text-transform:uppercase}
+.install-card h3{font-family:var(--serif);font-weight:500;font-size:42px;letter-spacing:-1px;color:var(--paper);margin-bottom:18px;font-variation-settings:'opsz' 144}
+.install-card h3 em{font-style:italic;font-weight:300;color:var(--jade)}
+.install-card p{font-size:14px;line-height:1.7;color:var(--paper-dim);margin-bottom:14px}
+.install-card p strong{color:var(--paper);font-weight:500}
+.install-card .code-line{font-family:var(--mono);font-size:12px;background:rgba(0,0,0,.4);border:1px solid var(--rule);padding:10px 14px;border-radius:4px;color:var(--cyan);margin:10px 0;overflow-x:auto;white-space:pre-wrap;line-height:1.5}
+.install-card .dl{margin-top:22px;display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:3px;padding:12px 22px;border-radius:999px;background:var(--jade);color:var(--ink);text-decoration:none;font-weight:600;text-transform:uppercase;transition:transform .25s,box-shadow .3s}
+.install-card .dl:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(0,255,136,.35)}
+.install-card .dl code{font-family:var(--mono);color:var(--magenta);background:rgba(255,61,139,.08);padding:2px 6px;border-radius:2px;font-size:.9em}
 
-/* Install panel */
-.install-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-top: 56px;
-}
-.install-card {
-  padding: 36px 32px 32px;
-  border: 1px solid var(--rule);
-  border-radius: 4px;
-  background: linear-gradient(180deg, rgba(0,255,136,.04), rgba(0,255,136,.01));
-  position: relative;
-  transition: border-color .4s, box-shadow .4s, transform .4s;
-}
-.install-card:hover { border-color: var(--jade); box-shadow: 0 0 40px rgba(0,255,136,.15); transform: translateY(-4px); }
-.install-card .platform { font-family: var(--mono); font-size: 11px; letter-spacing: 4px; color: var(--paper-mute); margin-bottom: 14px; text-transform: uppercase; }
-.install-card h3 { font-family: var(--serif); font-weight: 500; font-size: 42px; letter-spacing: -1px; color: var(--paper); margin-bottom: 18px; font-variation-settings: 'opsz' 144; }
-.install-card h3 em { font-style: italic; font-weight: 300; color: var(--jade); }
-.install-card p { font-size: 14px; line-height: 1.7; color: var(--paper-dim); margin-bottom: 14px; }
-.install-card p strong { color: var(--paper); font-weight: 500; }
-.install-card .code-line { font-family: var(--mono); font-size: 12px; background: rgba(0,0,0,.4); border: 1px solid var(--rule); padding: 10px 14px; border-radius: 4px; color: var(--cyan); margin: 10px 0; overflow-x: auto; white-space: pre-wrap; line-height: 1.5; }
-.install-card .dl { margin-top: 22px; display: inline-flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 11px; letter-spacing: 3px; padding: 12px 22px; border-radius: 999px; background: var(--jade); color: var(--ink); text-decoration: none; font-weight: 600; text-transform: uppercase; transition: transform .25s, box-shadow .3s; }
-.install-card .dl:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(0,255,136,.35); }
+/* Notes */
+.notes-list{list-style:none;padding:0;margin-top:40px;max-width:760px}
+.notes-list li{padding:18px 0;border-bottom:1px solid var(--rule);display:flex;gap:18px;align-items:flex-start}
+.notes-list li:last-child{border-bottom:none}
+.notes-list .dot{width:6px;height:6px;border-radius:50%;background:var(--jade);box-shadow:0 0 8px var(--jade);margin-top:8px;flex-shrink:0}
+.notes-list .txt{font-size:16px;line-height:1.7;color:var(--paper-dim)}
+.notes-list .txt strong{color:var(--paper);font-weight:500}
+.notes-list .txt code{font-family:var(--mono);color:var(--magenta);background:rgba(255,61,139,.08);padding:1px 5px;border-radius:2px;font-size:.9em}
 
-.warn-box { margin-top: 18px; padding: 12px 16px; border-left: 3px solid var(--warn); background: rgba(241,194,90,.06); font-family: var(--mono); font-size: 12px; color: var(--warn); letter-spacing: .5px; }
-.warn-box::before { content: '⚠ '; margin-right: 6px; }
+/* Footer */
+footer{position:relative;z-index:5;border-top:1px solid var(--rule);padding:56px 32px;text-align:center}
+footer .ftxt{font-family:var(--mono);font-size:11px;letter-spacing:3px;color:var(--paper-mute)}
+footer .ftxt a{color:var(--paper-mute);text-decoration:none;border-bottom:1px solid rgba(106,110,124,.3);transition:color .25s,border-color .25s}
+footer .ftxt a:hover{color:var(--jade);border-color:var(--jade)}
+.tm{margin-top:16px;font-family:var(--mono);font-size:9px;letter-spacing:1px;color:rgba(106,110,124,.5);max-width:980px;margin-left:auto;margin-right:auto;line-height:1.6}
 
-/* Notes section */
-.notes-list { list-style: none; padding: 0; margin-top: 40px; max-width: 720px; }
-.notes-list li { padding: 18px 0; border-bottom: 1px solid var(--rule); display: flex; gap: 18px; align-items: flex-start; }
-.notes-list li:last-child { border-bottom: none; }
-.notes-list .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--jade); box-shadow: 0 0 8px var(--jade); margin-top: 8px; flex-shrink: 0; }
-.notes-list .txt { font-size: 16px; line-height: 1.7; color: var(--paper-dim); }
-.notes-list .txt strong { color: var(--paper); font-weight: 500; }
-.notes-list .txt code { font-family: var(--mono); color: var(--magenta); background: rgba(255,61,139,.08); padding: 1px 5px; border-radius: 2px; font-size: .9em; }
+/* Update popup */
+.upd-overlay{position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:24px}
+.upd-overlay.show{display:flex}
+.upd-box{max-width:460px;width:100%;background:linear-gradient(180deg,rgba(0,255,136,.06),rgba(10,12,20,.96));border:1px solid rgba(0,255,136,.35);border-radius:8px;padding:32px 30px 28px;box-shadow:0 30px 80px rgba(0,0,0,.7),0 0 60px rgba(0,255,136,.15),inset 0 0 24px rgba(0,255,136,.04);animation:updIn .45s cubic-bezier(.16,1,.3,1);position:relative}
+@keyframes updIn{from{transform:scale(.88) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+.upd-icon{width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#66ffae 0%,#00ff88 50%,#00b35e 100%);display:flex;align-items:center;justify-content:center;margin-bottom:18px;box-shadow:0 0 18px rgba(0,255,136,.55)}
+.upd-icon svg{width:22px;height:22px;stroke:#061a0e;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.upd-title{font-family:var(--serif);font-weight:500;font-size:26px;color:var(--paper);margin-bottom:12px;letter-spacing:-.5px;font-variation-settings:'opsz' 144}
+.upd-title em{font-style:italic;font-weight:300}
+.upd-body{font-size:15px;line-height:1.6;color:var(--paper-dim);margin-bottom:24px}
+.upd-body strong{color:var(--paper);font-weight:500}
+.upd-actions{display:flex;gap:12px;flex-wrap:wrap}
+.upd-actions .btn{display:inline-flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:600;padding:12px 22px;border-radius:999px;text-decoration:none;border:1px solid transparent;transition:transform .25s,background .25s,box-shadow .3s}
+.upd-actions .btn-jade{background:var(--jade);color:var(--ink)}
+.upd-actions .btn-jade:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(0,255,136,.4)}
+.upd-actions .btn-ghost{background:transparent;color:var(--paper);border-color:rgba(235,226,208,.25)}
+.upd-actions .btn-ghost:hover{border-color:var(--paper);color:var(--paper)}
+.upd-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--paper-mute);font-size:22px;cursor:pointer;transition:color .2s;padding:4px 8px;line-height:1}
+.upd-close:hover{color:var(--paper)}
 
-/* OSS footer stripe */
-.oss { margin-top: 120px; padding: 80px 0; border-top: 1px solid var(--rule); text-align: center; }
-.oss h3 { font-family: var(--serif); font-weight: 300; font-size: clamp(32px, 4vw, 48px); letter-spacing: -1px; color: var(--paper); margin-bottom: 16px; font-variation-settings: 'opsz' 144; }
-.oss h3 em { font-style: italic; }
-.oss p { max-width: 540px; margin: 0 auto 32px; color: var(--paper-dim); font-size: 15px; line-height: 1.7; }
-.oss-row { display: inline-flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
-.oss-badge { margin-top: 32px; display: inline-block; font-family: var(--mono); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--paper-mute); padding: 7px 16px; border: 1px solid var(--rule); border-radius: 999px; }
-
-/* Update-notice popup */
-.upd-overlay { position: fixed; inset: 0; z-index: 3000; background: rgba(0,0,0,.7); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 24px; }
-.upd-overlay.show { display: flex; }
-.upd-box {
-  max-width: 460px; width: 100%;
-  background: linear-gradient(180deg, rgba(0,255,136,.06), rgba(10,12,20,.96));
-  border: 1px solid rgba(0,255,136,.35);
-  border-radius: 8px;
-  padding: 32px 30px 28px;
-  box-shadow: 0 30px 80px rgba(0,0,0,.7), 0 0 60px rgba(0,255,136,.15), inset 0 0 24px rgba(0,255,136,.04);
-  animation: updIn .45s cubic-bezier(.16,1,.3,1);
-  position: relative;
-}
-@keyframes updIn { from { transform: scale(.88) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
-.upd-icon {
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #66ffae 0%, #00ff88 50%, #00b35e 100%);
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 18px;
-  box-shadow: 0 0 18px rgba(0,255,136,.55);
-}
-.upd-icon svg { width: 22px; height: 22px; stroke: #061a0e; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.upd-title { font-family: var(--serif); font-weight: 500; font-size: 26px; color: var(--paper); margin-bottom: 12px; letter-spacing: -.5px; font-variation-settings: 'opsz' 144; }
-.upd-title em { font-style: italic; font-weight: 300; }
-.upd-body { font-size: 15px; line-height: 1.6; color: var(--paper-dim); margin-bottom: 24px; }
-.upd-body strong { color: var(--paper); font-weight: 500; }
-.upd-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-.upd-actions .btn { padding: 12px 22px; }
-.upd-close {
-  position: absolute; top: 12px; right: 14px;
-  background: none; border: none;
-  color: var(--paper-mute); font-size: 22px;
-  cursor: pointer; transition: color .2s;
-  padding: 4px 8px; line-height: 1;
-}
-.upd-close:hover { color: var(--paper); }
-
-footer { border-top: 1px solid var(--rule); padding: 36px 32px; text-align: center; position: relative; z-index: 2; }
-footer .ftxt { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; color: var(--paper-mute); }
-footer .tm { margin-top: 10px; font-family: var(--mono); font-size: 9px; letter-spacing: 1px; color: rgba(106,106,114,.6); max-width: 920px; margin-left: auto; margin-right: auto; line-height: 1.5; }
-
-@media (max-width: 980px) {
-  .features-grid, .install-grid { grid-template-columns: 1fr; }
-  .shot-stage { height: auto; padding: 0 0 40px; perspective: none; }
-  .shot-card { position: relative !important; width: 100% !important; top: auto !important; left: auto !important; right: auto !important; bottom: auto !important; transform: none !important; margin-bottom: 24px; margin-left: 0 !important; opacity: 1 !important; animation: none !important; }
-  .shot-card:hover { transform: none !important; }
-  .shot-label { display: none; }
-}
-@media (max-width: 640px) {
-  .nav-inner { padding: 14px 20px; }
-  .wrap { padding: 0 20px; }
-  .hero { padding: 110px 0 60px; }
-  .nav-links { gap: 18px; }
-  .hero-actions { flex-direction: column; align-items: stretch; }
-  .btn { justify-content: center; padding: 16px 24px; }
-  section.editorial { padding: 90px 0; }
-}
+@media (max-width:980px){.shot-stage{height:auto;padding:0 0 40px;perspective:none}.shot-card{position:relative!important;width:100%!important;top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;transform:none!important;margin-bottom:24px;margin-left:0!important;opacity:1!important;animation:none!important}.shot-card:hover{transform:none!important}.shot-label{display:none}}
+@media (max-width:720px){.nav-inner{padding:14px 20px}.nav-links{gap:18px}section.editorial{padding:80px 20px}.hero{padding:100px 20px 60px}.feat-grid,.install-grid{grid-template-columns:1fr}.hero-actions{flex-direction:column;width:100%;max-width:280px}.hero-btn{justify-content:center}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01s!important;transition-duration:.1s!important}.hero-mark .ch{transform:none!important}}
 </style>
 </head>
 <body>
 
 <div class="grain"></div>
 <div class="grid-bg"></div>
-<div class="mesh">
-  <div class="mesh-blob c"></div>
-  <div class="mesh-blob m"></div>
-  <div class="mesh-blob g"></div>
-</div>
+<div class="mesh"><div class="mesh-blob j"></div><div class="mesh-blob c"></div><div class="mesh-blob m"></div></div>
 <div class="stars" id="stars"></div>
+
+<div class="cursor-dot" id="cDot"></div>
+<div class="cursor-ring" id="cRing"></div>
 
 <nav>
   <div class="nav-inner">
@@ -388,227 +236,165 @@ footer .tm { margin-top: 10px; font-family: var(--mono); font-size: 9px; letter-
 <div class="nav-dropdown-overlay" id="dropdownOverlay"></div>
 <div class="nav-dropdown" id="productsDropdown">
   <div class="nav-dropdown-inner">
-    <h4>Explore Products</h4>
+    <h4>// EXPLORE</h4>
     <ul>
-      <li><a href="studio.html"><span class="accent-studio">AltNet</span> Studio</a></li>
-      <li><a href="altnet.html"><span class="accent-altnet">Alt</span>Net</a></li>
-      <li><a href="neuralxp.html"><span class="accent-violet">Neural</span>XP</a></li>
-      <li><a href="lostengine.html"><span class="accent-amber">Lost</span>Engine</a></li>
-      <li><a href="browser.html?intro=1"><span class="accent-cyan">PANMOX</span> Browser</a></li>
-      <li><a href="overbyte.html?intro=1"><span class="accent-green">Over</span>Byte</a></li>
-      <li><a href="linuxsimplify.html?intro=1"><span class="accent-blue">Linux</span>Simplify</a></li>
+      <li><a href="studio.html"><span class="acc-studio">AltNet</span> Studio</a></li>
+      <li><a href="altnet.html"><span class="acc-altnet">Alt</span>Net</a></li>
+      <li><a href="neuralxp.html"><span class="acc-violet">Neural</span>XP</a></li>
+      <li><a href="lostengine.html"><span class="acc-amber">Lost</span>Engine</a></li>
+      <li><a href="browser.html?intro=1"><span class="acc-cyan">PANMOX</span> Browser</a></li>
+      <li><a href="overbyte.html?intro=1"><span class="acc-green">Over</span>Byte</a></li>
+      <li><a href="linuxsimplify.html?intro=1"><span class="acc-blue">Linux</span>Simplify</a></li>
     </ul>
   </div>
 </div>
 
-<!-- ═══════════════════ HERO ═══════════════════ -->
+<!-- HERO -->
 <section class="hero">
-  <div class="wrap">
-    <div class="hero-stack">
-      <div class="stamp">Available now &mdash; v1.0</div>
-      <h1 class="hero-headline">
-        <span class="hero-h-line1" data-text="AltNet Studio."></span>
-        <span class="hero-h-line2">The desktop client.</span>
-      </h1>
-      <p class="hero-tagline">Run a <em>node.</em> Browse <em>.alt</em> sites in any browser. Publish your own.<br>Windows and Linux.</p>
+  <div class="hero-eyebrow">PANMOX &middot; ALTNET &middot; v1.0</div>
+  <div class="hero-tinytext">AltNet</div>
+  <h1 class="hero-mark">
+    <span class="ch">S</span><span class="ch">t</span><span class="ch">u</span><span class="ch">d</span><span class="ch">i</span><span class="ch">o</span>
+  </h1>
+  <p class="hero-sub">The desktop client for AltNet. Run a node. Browse <em>.alt</em> in any browser. Publish your own.</p>
+  <div class="hero-status">v1.0 &mdash; Available now</div>
+  <div class="hero-actions">
+    <a href="https://github.com/panmauk/AltNet-Studio/releases/download/v1.0/AltNetStudio-Setup-1.0.exe" class="hero-btn primary js-dl">Download for Windows</a>
+    <a href="https://github.com/panmauk/AltNet-Studio/releases/download/v1.0/altnet-studio_1.0.0_amd64.deb" class="hero-btn secondary js-dl">Download for Linux</a>
+    <a href="https://github.com/panmauk/AltNet-Studio" target="_blank" rel="noopener" class="hero-btn ghost">View source</a>
+  </div>
+  <div class="hero-scroll">↓ Screens</div>
+</section>
 
-      <div class="version-stamp">
-        <span class="k">Version</span>
-        <span class="v">v1.0 &mdash; EARLY RELEASE</span>
-      </div>
+<!-- MARQUEE 1 -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span class="hot">v1.0 available</span>
+    <span>Windows &amp; Linux</span>
+    <span class="hot">Run a node</span>
+    <span>Browse .alt</span>
+    <span class="hot">Publish your folder</span>
+    <span>GPL v3</span>
+    <span class="hot">v1.0 available</span>
+    <span>Windows &amp; Linux</span>
+    <span class="hot">Run a node</span>
+    <span>Browse .alt</span>
+    <span class="hot">Publish your folder</span>
+    <span>GPL v3</span>
+  </div>
+</div>
 
-      <div class="hero-actions">
-        <a href="https://github.com/panmauk/AltNet-Studio/releases/download/v1.0/AltNetStudio-Setup-1.0.exe" class="btn btn-jade js-dl">Download for Windows</a>
-        <a href="https://github.com/panmauk/AltNet-Studio/releases/download/v1.0/altnet-studio_1.0.0_amd64.deb" class="btn btn-cyan js-dl">Download for Linux</a>
-        <a href="https://github.com/panmauk/AltNet-Studio" target="_blank" rel="noopener" class="btn btn-ghost">View source</a>
-      </div>
+<!-- WHAT IT IS -->
+<section class="editorial">
+  <div class="section-kicker">// WHAT IT IS</div>
+  <h2 class="section-title">The window <em>into AltNet.</em></h2>
+  <p class="section-sub">Studio is the desktop application that connects your computer to the AltNet peer-to-peer network. Runs a background node, routes <code style="font-family:var(--mono);color:var(--magenta);background:rgba(255,61,139,.08);padding:1px 6px;border-radius:2px;font-size:.92em;">.alt</code> names through any browser, lets you publish your own.</p>
+</section>
+
+<!-- SCREENSHOTS -->
+<section class="editorial">
+  <div class="section-kicker">// IN ACTION</div>
+  <h2 class="section-title">Four screens. <em>That&rsquo;s the whole app.</em></h2>
+
+  <div class="shot-stage" id="shotStage">
+    <div class="shot-card shot-node"><img src="assets/altnet-node.png" alt="Node mode"></div>
+    <span class="shot-label label-node">Node mode</span>
+    <div class="shot-card shot-claim"><img src="assets/altnet-claim.png" alt="Claim a name"></div>
+    <span class="shot-label label-claim">Claim a name</span>
+    <div class="shot-card shot-home"><img src="assets/altnet-home.png" alt="Home"></div>
+    <span class="shot-label label-home">Home</span>
+    <div class="shot-card shot-dashboard"><img src="assets/altnet-dashboard.png" alt="Sites dashboard"></div>
+    <span class="shot-label label-dashboard">Sites dashboard</span>
+  </div>
+</section>
+
+<!-- WHAT IT DOES -->
+<section class="editorial">
+  <div class="section-kicker">// WHAT IT DOES</div>
+  <h2 class="section-title">Four jobs. <em>One window.</em></h2>
+
+  <div class="feat-grid">
+    <div class="feat">
+      <div class="ico">// 01</div>
+      <h3>Be a <em>node.</em></h3>
+      <p>One click starts a background daemon that joins the network and comes back on every login.</p>
+    </div>
+    <div class="feat">
+      <div class="ico">// 02</div>
+      <h3>Browse <em>.alt</em></h3>
+      <p>Routes <code>name.alt</code> through your local node so any browser can reach it. Windows: NRPT rule. Linux: systemd-resolved drop-in.</p>
+    </div>
+    <div class="feat">
+      <div class="ico">// 03</div>
+      <h3>Claim &amp; <em>publish.</em></h3>
+      <p>Request a <code>.alt</code> name (admin-approved) and publish a site folder. The name is yours after approval.</p>
+    </div>
+    <div class="feat">
+      <div class="ico">// 04</div>
+      <h3>Admin <em>tools.</em></h3>
+      <p>Approve or decline incoming name requests and take sites down &mdash; all from inside the app.</p>
     </div>
   </div>
 </section>
 
-<hr class="rule">
-
-<!-- ═══════════════════ WHAT IT IS ═══════════════════ -->
-<section class="editorial">
-  <div class="wrap">
-    <div class="slide-l">
-      <div class="kicker"><span class="num">01</span>What it is</div>
-      <h2 class="headline-serif">The window into <em class="jade">AltNet.</em></h2>
-    </div>
-    <p class="slide-b" style="font-size:18px; line-height:1.65; color:var(--paper-dim); max-width:720px; margin-top:32px;">
-      AltNet Studio is the desktop application that connects your computer to the AltNet peer-to-peer network. It runs a background node, routes <code style="font-family:var(--mono);color:var(--magenta);background:rgba(255,61,139,.08);padding:2px 6px;border-radius:2px;font-size:.92em;">.alt</code> names through your browser, lets you request a <code style="font-family:var(--mono);color:var(--magenta);background:rgba(255,61,139,.08);padding:2px 6px;border-radius:2px;font-size:.92em;">.alt</code> name, and publishes the folder you point it at.
-    </p>
-    <p class="slide-b" style="font-size:18px; line-height:1.65; color:var(--paper-dim); max-width:720px; margin-top:18px;">
-      One cross-platform codebase. Built with <strong style="color:var(--paper);font-weight:500;">Wails v2</strong> (Go + a vanilla-JS frontend). The protocol/daemon lives in the separate <strong style="color:var(--paper);font-weight:500;">AltNet</strong> repo.
-    </p>
+<!-- MARQUEE 2 -->
+<div class="marquee reverse">
+  <div class="marquee-track">
+    <span>Built with Wails v2</span>
+    <span class="hot">Go + vanilla JS</span>
+    <span>One codebase</span>
+    <span class="hot">Two platforms</span>
+    <span>Tiny binary</span>
+    <span class="hot">Free forever</span>
+    <span>Built with Wails v2</span>
+    <span class="hot">Go + vanilla JS</span>
+    <span>One codebase</span>
+    <span class="hot">Two platforms</span>
+    <span>Tiny binary</span>
+    <span class="hot">Free forever</span>
   </div>
-</section>
+</div>
 
-<!-- ═══════════════════ SCREENSHOTS ═══════════════════ -->
+<!-- INSTALL -->
 <section class="editorial">
-  <div class="wrap">
-    <div>
-      <div class="kicker slide-tl"><span class="num">02</span>In action</div>
-      <h2 class="headline-serif slide-l">Four screens. <em>That&rsquo;s the whole app.</em></h2>
+  <div class="section-kicker">// INSTALL</div>
+  <h2 class="section-title">Pick your <em class="jade">platform.</em></h2>
+
+  <div class="install-grid">
+    <div class="install-card">
+      <div class="platform">// Windows &middot; x86-64</div>
+      <h3>Windows<em>.</em></h3>
+      <p>Download the installer and run it. SmartScreen may warn about an unrecognized app &mdash; click <strong>More info</strong> &rarr; <strong>Run anyway</strong>.</p>
+      <p>Open AltNet Studio and click <strong>Be a node</strong>. A UAC prompt asks to install the <code>.alt</code> NRPT rule &mdash; accept it. Closing the window hides the app; the node keeps running.</p>
+      <a href="https://github.com/panmauk/AltNet-Studio/releases/download/v1.0/AltNetStudio-Setup-1.0.exe" class="dl js-dl">↓ AltNetStudio-Setup-1.0.exe</a>
     </div>
 
-    <div class="shot-stage" id="shotStage">
-      <div class="shot-card shot-node">
-        <img src="assets/altnet-node.png" alt="AltNet Studio — Node mode">
-      </div>
-      <span class="shot-label label-node">Node mode</span>
-
-      <div class="shot-card shot-claim">
-        <img src="assets/altnet-claim.png" alt="AltNet Studio — Claim a .alt name">
-      </div>
-      <span class="shot-label label-claim">Claim a name</span>
-
-      <div class="shot-card shot-home">
-        <img src="assets/altnet-home.png" alt="AltNet Studio — Home">
-      </div>
-      <span class="shot-label label-home">Home</span>
-
-      <div class="shot-card shot-dashboard">
-        <img src="assets/altnet-dashboard.png" alt="AltNet Studio — Registered sites dashboard">
-      </div>
-      <span class="shot-label label-dashboard">Sites dashboard</span>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════ WHAT IT DOES ═══════════════════ -->
-<section class="editorial">
-  <div class="wrap">
-    <div>
-      <div class="kicker slide-tr"><span class="num">03</span>What it does</div>
-      <h2 class="headline-serif rotate-r">Four jobs. <em>One window.</em></h2>
-    </div>
-
-    <div class="features-grid stagger-corners">
-      <div class="feat">
-        <div class="ico">// 01</div>
-        <h3>Be a <em>node.</em></h3>
-        <p>One click starts a background daemon that joins the network, helps route and serve content, and comes back automatically on every login.</p>
-      </div>
-      <div class="feat">
-        <div class="ico">// 02</div>
-        <h3>Browse <em>.alt</em></h3>
-        <p>Routes <code>name.alt</code> through your local node so any browser can reach it. Windows: NRPT rule. Linux: a systemd-resolved drop-in.</p>
-      </div>
-      <div class="feat">
-        <div class="ico">// 03</div>
-        <h3>Accounts &amp; <em>domains.</em></h3>
-        <p>Request a <code>.alt</code> name (admin-approved) and publish a site folder. The .alt is yours after approval.</p>
-      </div>
-      <div class="feat">
-        <div class="ico">// 04</div>
-        <h3>Admin <em>tools.</em></h3>
-        <p>Approve or decline incoming name requests and take sites down &mdash; all from inside the app.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="rule">
-
-<!-- ═══════════════════ INSTALL ═══════════════════ -->
-<section class="editorial">
-  <div class="wrap">
-    <div>
-      <div class="kicker slide-tl"><span class="num">04</span>Install</div>
-      <h2 class="headline-serif slide-l">Pick your <em class="jade">platform.</em></h2>
-    </div>
-
-    <div class="install-grid">
-      <div class="install-card slide-l">
-        <div class="platform">// Windows &middot; x86-64</div>
-        <h3>Windows<em>.</em></h3>
-        <p>Download the installer and run it. SmartScreen may warn about an unrecognized app &mdash; click <strong>More info</strong> &rarr; <strong>Run anyway</strong>.</p>
-        <p>Open AltNet Studio and click <strong>Be a node</strong>. A UAC prompt asks to install the <code>.alt</code> NRPT rule &mdash; accept it. Closing the window hides the app; the node keeps running.</p>
-        <a href="https://github.com/panmauk/AltNet-Studio/releases/download/v1.0/AltNetStudio-Setup-1.0.exe" class="dl js-dl">↓ AltNetStudio-Setup-1.0.exe</a>
-      </div>
-
-      <div class="install-card slide-r">
-        <div class="platform">// Debian / Ubuntu &middot; x86-64</div>
-        <h3>GNU/<em>Linux.</em></h3>
-        <p>Install it from your Downloads folder:</p>
-        <div class="code-line">cd ~/Downloads
+    <div class="install-card">
+      <div class="platform">// Debian / Ubuntu &middot; x86-64</div>
+      <h3>GNU/<em>Linux.</em></h3>
+      <p>Install it from your Downloads folder:</p>
+      <div class="code-line">cd ~/Downloads
 sudo apt install ./altnet-studio_1.0.0_amd64.deb</div>
-        <p>Then launch <strong>AltNet Studio</strong> from your apps menu &mdash; it&rsquo;ll ask for your password since it needs root for port 80, <code>.alt</code> DNS, and its certificate.</p>
-        <a href="https://github.com/panmauk/AltNet-Studio/releases/download/v1.0/altnet-studio_1.0.0_amd64.deb" class="dl js-dl">↓ altnet-studio_1.0.0_amd64.deb</a>
-      </div>
+      <p>Then launch <strong>AltNet Studio</strong> from your apps menu &mdash; it&rsquo;ll ask for your password since it needs root for port 80, <code>.alt</code> DNS, and its certificate.</p>
+      <a href="https://github.com/panmauk/AltNet-Studio/releases/download/v1.0/altnet-studio_1.0.0_amd64.deb" class="dl js-dl">↓ altnet-studio_1.0.0_amd64.deb</a>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════ BUILD ═══════════════════ -->
+<!-- NOTES -->
 <section class="editorial">
-  <div class="wrap">
-    <div class="slide-r">
-      <div class="kicker"><span class="num">05</span>Build from source</div>
-      <h2 class="headline-serif">For the <em>fork-curious.</em></h2>
-    </div>
-    <p class="slide-b" style="font-size:17px; line-height:1.7; color:var(--paper-dim); max-width:680px; margin-top:28px;">
-      Requires <strong style="color:var(--paper);font-weight:500;">Go 1.23+</strong>, <strong style="color:var(--paper);font-weight:500;">Node.js</strong>, and the <strong style="color:var(--paper);font-weight:500;">Wails CLI</strong>.
-    </p>
-    <div class="install-grid fade-up" style="margin-top:36px;">
-      <div class="install-card">
-        <div class="platform">// Wails CLI</div>
-        <div class="code-line">go install github.com/wailsapp/wails/v2/cmd/wails@v2.12.0</div>
-        <div class="platform" style="margin-top:18px;">// Windows build</div>
-        <div class="code-line">wails build &nbsp;&nbsp;# &rarr; build/bin/AltNetStudio.exe</div>
-      </div>
-      <div class="install-card">
-        <div class="platform">// Linux deps</div>
-        <div class="code-line">sudo apt install build-essential pkg-config \
-  libgtk-3-dev libwebkit2gtk-4.1-dev nodejs npm</div>
-        <div class="platform" style="margin-top:18px;">// Linux build</div>
-        <div class="code-line">wails build -tags webkit2_41
-&nbsp;&nbsp;# &rarr; build/bin/AltNetStudio</div>
-      </div>
-    </div>
-    <p class="slide-b" style="font-size:15px; line-height:1.7; color:var(--paper-mute); max-width:680px; margin-top:36px; font-style:italic;">
-      The same source builds both &mdash; platform-specific behavior is isolated in build-tagged files (<code style="font-family:var(--mono);color:var(--magenta);background:rgba(255,61,139,.08);padding:2px 6px;border-radius:2px;font-size:.9em;">nrpt_windows.go</code> vs <code style="font-family:var(--mono);color:var(--magenta);background:rgba(255,61,139,.08);padding:2px 6px;border-radius:2px;font-size:.9em;">nrpt_linux.go</code>, etc.); Go compiles only the ones matching the target OS.
-    </p>
-  </div>
+  <div class="section-kicker">// NOTES</div>
+  <h2 class="section-title">Things to <em>know.</em></h2>
+
+  <ul class="notes-list">
+    <li><span class="dot"></span><span class="txt"><strong>Early release</strong> &mdash; v1.0 is the first public build. Feedback welcome on the source repo.</span></li>
+    <li><span class="dot"></span><span class="txt"><strong>No account needed to browse</strong> <code>.alt</code> sites. An admin-approved account is required to publish.</span></li>
+    <li><span class="dot"></span><span class="txt">Auto-updates aren&rsquo;t in v1.0 yet &mdash; <strong>check back here for new versions</strong>.</span></li>
+    <li><span class="dot"></span><span class="txt">Protocol &amp; daemon live in the separate <strong>AltNet</strong> protocol repo. Studio is the desktop client.</span></li>
+  </ul>
 </section>
 
-<!-- ═══════════════════ NOTES ═══════════════════ -->
-<section class="editorial">
-  <div class="wrap">
-    <div class="slide-l">
-      <div class="kicker"><span class="num">06</span>Notes</div>
-      <h2 class="headline-serif">Things to <em>know.</em></h2>
-    </div>
-
-    <ul class="notes-list fade-up">
-      <li><span class="dot"></span><span class="txt"><strong>Early release</strong> &mdash; v1.0 is the latest public build. Feedback welcome on the source repo.</span></li>
-      <li><span class="dot"></span><span class="txt"><strong>No account needed to browse</strong> <code>.alt</code> sites. An admin-approved account is required to publish.</span></li>
-      <li><span class="dot"></span><span class="txt">AltNet Studio launches the <code>altnet</code> daemon as a child process and expects the binary next to it (<code>altnet.exe</code> on Windows, <code>altnet</code> on Linux).</span></li>
-      <li><span class="dot"></span><span class="txt">Protocol &amp; daemon live in the separate <strong>AltNet</strong> protocol repo. Studio is the desktop client.</span></li>
-    </ul>
-  </div>
-</section>
-
-<!-- ═══════════════════ OSS / FOOTER STRIPE ═══════════════════ -->
-<section class="oss">
-  <div class="wrap">
-    <h3 class="rotate-r">Free &mdash; <em>and yours.</em></h3>
-    <p>AltNet Studio is licensed under the GNU General Public License v3. Audit, fork, ship your own &mdash; we&rsquo;d be honored.</p>
-    <div class="oss-row">
-      <a href="https://github.com/panmauk/AltNet-Studio" target="_blank" rel="noopener" class="btn btn-primary">View source</a>
-      <a href="altnet.html" class="btn btn-ghost">Learn about AltNet</a>
-    </div>
-    <div class="oss-badge">Licensed under GNU GPL v3</div>
-  </div>
-</section>
-
-<footer>
-  <div class="ftxt">&copy; 2026 PANMOX. All rights reserved.</div>
-  <div class="tm">PANMOX&trade;, PANMOX Browser&trade;, AltNet&trade;, AltNet Studio&trade;, LostEngine&trade;, NeuralXP&trade;, OverByte&trade;, and LinuxSimplify&trade; are trademarks of PANMOX. All other trademarks are property of their respective owners.</div>
-</footer>
-
-<!-- ─── Update-notice popup (shown before download) ─── -->
+<!-- Update popup -->
 <div class="upd-overlay" id="updOverlay" aria-hidden="true">
   <div class="upd-box">
     <button class="upd-close" id="updClose" aria-label="Close">&times;</button>
@@ -624,97 +410,60 @@ sudo apt install ./altnet-studio_1.0.0_amd64.deb</div>
   </div>
 </div>
 
+<footer>
+  <div class="ftxt">&copy; 2026 PANMOX &nbsp;&middot;&nbsp; <a href="about.html">About</a> &nbsp;&middot;&nbsp; <a href="legal/">Legal</a></div>
+  <div class="tm">PANMOX&trade;, PANMOX Browser&trade;, AltNet&trade;, AltNet Studio&trade;, LostEngine&trade;, NeuralXP&trade;, OverByte&trade;, and LinuxSimplify&trade; are trademarks of PANMOX. All other trademarks are property of their respective owners.</div>
+</footer>
+
 <script>
-  // Stars
   (function(){
     var c = document.getElementById('stars');
-    for (var i = 0; i < 60; i++) {
-      var s = document.createElement('div');
-      s.className = 'star';
-      s.style.left = Math.random()*100+'%';
-      s.style.top = Math.random()*100+'%';
+    for (var i = 0; i < 80; i++) {
+      var s = document.createElement('div'); s.className = 'star';
+      s.style.left = Math.random()*100+'%'; s.style.top = Math.random()*100+'%';
       s.style.width = s.style.height = (Math.random()*2+.4)+'px';
-      s.style.animationDelay = Math.random()*4+'s';
-      s.style.animationDuration = (Math.random()*3+2.5)+'s';
+      s.style.animationDelay = Math.random()*4+'s'; s.style.animationDuration = (Math.random()*3+2.5)+'s';
       c.appendChild(s);
     }
   })();
-
-  // Dust
   (function(){
-    for (var i = 0; i < 16; i++) {
-      var d = document.createElement('div');
-      d.className = 'dust';
-      d.style.left = Math.random()*100+'vw';
-      d.style.top = Math.random()*100+'vh';
-      var size = Math.random()*2.5 + 0.8;
-      d.style.width = d.style.height = size+'px';
-      d.style.opacity = Math.random()*0.35 + 0.12;
-      if (i % 4 === 0) { d.style.background = '#00ff88'; d.style.boxShadow = '0 0 6px #00ff88'; }
-      var dur = Math.random()*30 + 25;
-      var delay = -Math.random()*dur;
-      d.animate([
-        { transform: 'translate(0,0)' },
-        { transform: 'translate(' + (Math.random()*200-100)+'px,' + (Math.random()*-300-100)+'px)' }
-      ], { duration: dur*1000, delay: delay*1000, iterations: Infinity, easing: 'linear' });
-      document.body.appendChild(d);
-    }
-  })();
-
-  // "AltNet Studio." letter cascade
-  (function(){
-    var el = document.querySelector('.hero-h-line1');
-    if (!el) return;
-    var text = el.getAttribute('data-text') || el.textContent;
-    el.innerHTML = '';
-    for (var i = 0; i < text.length; i++) {
-      var sp = document.createElement('span');
-      sp.className = 'ch';
-      sp.textContent = text[i] === ' ' ? ' ' : text[i];
-      sp.style.animationDelay = (.35 + i*0.05) + 's';
-      el.appendChild(sp);
-    }
-  })();
-
-  // Scroll reveal
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    var dot = document.getElementById('cDot'), ring = document.getElementById('cRing');
+    if (!dot || !ring) return;
+    var x=0,y=0,rx=0,ry=0;
+    window.addEventListener('mousemove', function(e){ x=e.clientX; y=e.clientY; dot.style.left=x+'px'; dot.style.top=y+'px'; });
+    function tick(){ rx+=(x-rx)*.18; ry+=(y-ry)*.18; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(tick); }
+    requestAnimationFrame(tick);
+    document.querySelectorAll('a, button, .hero-mark .ch, .feat, .install-card, .shot-card').forEach(function(el){
+      el.addEventListener('mouseenter', function(){ dot.classList.add('hover'); ring.classList.add('hover'); });
+      el.addEventListener('mouseleave', function(){ dot.classList.remove('hover'); ring.classList.remove('hover'); });
     });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.fade-up, .slide-l, .slide-r, .slide-t, .slide-b, .slide-tl, .slide-tr, .slide-bl, .slide-br, .rotate-l, .rotate-r, .zoom-in, .blur-in, .stagger, .stagger-corners').forEach(function(el){ io.observe(el); });
-
-  // Feature card 3D tilt
-  document.querySelectorAll('.feat').forEach(function(card){
-    card.addEventListener('mousemove', function(e){
-      var r = card.getBoundingClientRect();
-      var x = (e.clientX - r.left) / r.width - 0.5;
-      var y = (e.clientY - r.top) / r.height - 0.5;
-      card.style.transform = 'translateY(-6px) rotateX(' + (-y*5) + 'deg) rotateY(' + (x*5) + 'deg)';
-    });
-    card.addEventListener('mouseleave', function(){ card.style.transform = ''; });
-  });
-
-  // Screenshot stage 3D parallax
+  })();
   (function(){
-    var stage = document.getElementById('shotStage');
-    if (!stage) return;
+    var mark = document.querySelector('.hero-mark'); if (!mark) return;
+    var chars = mark.querySelectorAll('.ch');
+    window.addEventListener('mousemove', function(e){
+      var r = mark.getBoundingClientRect();
+      var cx = r.left + r.width/2, cy = r.top + r.height/2;
+      var dx = (e.clientX - cx) / r.width, dy = (e.clientY - cy) / r.height;
+      chars.forEach(function(ch, i){ var f = (i % 2 === 0 ? 1 : -1) * (8 + i*2); ch.style.translate = (dx*f) + 'px ' + (dy*f) + 'px'; });
+    });
+  })();
+  (function(){
+    var stage = document.getElementById('shotStage'); if (!stage) return;
     var BASE = {
-      'shot-home':      'translateZ(60px) rotateY(-3deg) rotateX(2deg)',
-      'shot-node':      'translateZ(-40px) rotateY(18deg) rotateX(-4deg)',
-      'shot-claim':     'translateZ(-30px) rotateY(-20deg) rotateX(-3deg)',
-      'shot-dashboard': 'translateZ(80px) rotateY(-10deg) rotateX(4deg)'
+      'shot-home':'translateZ(60px) rotateY(-3deg) rotateX(2deg)',
+      'shot-node':'translateZ(-40px) rotateY(18deg) rotateX(-4deg)',
+      'shot-claim':'translateZ(-30px) rotateY(-20deg) rotateX(-3deg)',
+      'shot-dashboard':'translateZ(80px) rotateY(-10deg) rotateX(4deg)'
     };
     var cards = stage.querySelectorAll('.shot-card');
-    function getBase(c){ for (var k in BASE) { if (c.classList.contains(k)) return BASE[k]; } return ''; }
+    function getBase(c){ for (var k in BASE){ if (c.classList.contains(k)) return BASE[k]; } return ''; }
     stage.addEventListener('mousemove', function(e){
       var r = stage.getBoundingClientRect();
-      var x = (e.clientX - r.left) / r.width - 0.5;
-      var y = (e.clientY - r.top) / r.height - 0.5;
+      var x = (e.clientX - r.left)/r.width - .5, y = (e.clientY - r.top)/r.height - .5;
       cards.forEach(function(c){
         if (c.classList.contains('shot-dashboard')) return;
-        var base = getBase(c);
-        var depth = c.classList.contains('shot-home') ? 18 : 10;
+        var base = getBase(c); var depth = c.classList.contains('shot-home') ? 18 : 10;
         c.style.transform = base + ' translate(' + (x*depth) + 'px,' + (y*depth) + 'px) rotateY(' + (x*5) + 'deg) rotateX(' + (-y*5) + 'deg)';
       });
     });
@@ -722,54 +471,24 @@ sudo apt install ./altnet-studio_1.0.0_amd64.deb</div>
       cards.forEach(function(c){ if (c.classList.contains('shot-dashboard')) return; c.style.transform = ''; });
     });
   })();
-
-  // Magnetic buttons
-  document.querySelectorAll('.btn').forEach(function(b){
-    b.addEventListener('mousemove', function(e){
-      var r = b.getBoundingClientRect();
-      var x = e.clientX - r.left - r.width/2;
-      var y = e.clientY - r.top - r.height/2;
-      b.style.transform = 'translate(' + (x*0.18) + 'px,' + (y*0.18 - 2) + 'px)';
-    });
-    b.addEventListener('mouseleave', function(){ b.style.transform = ''; });
-  });
-
-  // Dropdown
   (function(){
     var btn = document.getElementById('productsBtn');
     var dd = document.getElementById('productsDropdown');
     var ov = document.getElementById('dropdownOverlay');
-    btn.addEventListener('click', function(){
-      dd.classList.toggle('show'); ov.classList.toggle('show'); btn.classList.toggle('open');
-    });
-    ov.addEventListener('click', function(){
-      dd.classList.remove('show'); ov.classList.remove('show'); btn.classList.remove('open');
-    });
+    btn.addEventListener('click', function(){ dd.classList.toggle('show'); ov.classList.toggle('show'); btn.classList.toggle('open'); });
+    ov.addEventListener('click', function(){ dd.classList.remove('show'); ov.classList.remove('show'); btn.classList.remove('open'); });
   })();
-
-  // ─── Update-notice popup before each download ───
+  // Update popup
   (function(){
     var ov = document.getElementById('updOverlay');
     var cont = document.getElementById('updContinue');
     var cancel = document.getElementById('updCancel');
     var close = document.getElementById('updClose');
     if (!ov || !cont) return;
-
-    function open(href){
-      cont.setAttribute('href', href);
-      ov.classList.add('show');
-      ov.setAttribute('aria-hidden', 'false');
-    }
-    function shut(){
-      ov.classList.remove('show');
-      ov.setAttribute('aria-hidden', 'true');
-    }
-
+    function open(href){ cont.setAttribute('href', href); ov.classList.add('show'); ov.setAttribute('aria-hidden','false'); }
+    function shut(){ ov.classList.remove('show'); ov.setAttribute('aria-hidden','true'); }
     document.querySelectorAll('a.js-dl').forEach(function(a){
-      a.addEventListener('click', function(e){
-        e.preventDefault();
-        open(a.getAttribute('href'));
-      });
+      a.addEventListener('click', function(e){ e.preventDefault(); open(a.getAttribute('href')); });
     });
     cont.addEventListener('click', function(){ setTimeout(shut, 200); });
     cancel.addEventListener('click', shut);
