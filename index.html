@@ -340,6 +340,297 @@ nav {
 @keyframes heroFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes scrollNudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
 
+/* ═══════════════════ SPLIT FLAGSHIP HERO ═══════════════════ */
+.hero-split {
+  position: relative;
+  z-index: 5;
+  min-height: 100vh;
+  padding: 120px 0 60px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  align-items: center;
+}
+.hero-split::before {
+  /* center vertical hairline + pulsing dot */
+  content: '';
+  position: absolute;
+  top: 18%; bottom: 18%;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--rule) 20%, var(--rule) 80%, transparent);
+  pointer-events: none;
+  z-index: 2;
+}
+.hero-split::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 12px; height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: var(--magenta);
+  box-shadow: 0 0 14px var(--magenta), 0 0 30px rgba(255,61,139,.5);
+  animation: dotPulse 2s ease-in-out infinite;
+  z-index: 3;
+}
+@keyframes dotPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(.65); } }
+
+.split-pane {
+  position: relative;
+  padding: 40px 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  min-height: 70vh;
+  justify-content: center;
+}
+.split-pane.right { padding: 40px 56px 40px 64px; }
+.split-pane.left { padding: 40px 64px 40px 56px; }
+
+/* Pane-scoped eyebrow */
+.split-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  animation: heroFade 1s .15s cubic-bezier(.16,1,.3,1) forwards;
+}
+.split-pane.left .split-eyebrow { color: var(--cyan); }
+.split-pane.right .split-eyebrow { color: var(--magenta); }
+.split-eyebrow::after {
+  content: ''; width: 40px; height: 1px;
+  background: linear-gradient(90deg, currentColor, transparent);
+  box-shadow: 0 0 6px currentColor;
+}
+
+/* Pane-scoped kinetic wordmark — smaller than full hero */
+.split-mark {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(56px, 10vw, 156px);
+  letter-spacing: -5px;
+  line-height: .88;
+  color: var(--paper);
+  font-variation-settings: 'opsz' 144, 'wght' 600;
+  margin-bottom: 24px;
+  position: relative;
+  perspective: 1000px;
+}
+.split-mark .ch {
+  display: inline-block;
+  position: relative;
+  transition: transform .6s cubic-bezier(.16,1,.3,1), color .4s, text-shadow .4s;
+  will-change: transform;
+  transform: translateY(110%);
+  animation: chRise 1.2s cubic-bezier(.16,1,.3,1) forwards;
+}
+.split-mark .dot {
+  color: var(--magenta);
+  text-shadow: 0 0 14px rgba(255,61,139,.6), 0 0 30px rgba(255,61,139,.35);
+}
+.split-pane.left .split-mark .ch:hover {
+  color: var(--cyan);
+  text-shadow: 0 0 24px rgba(0,229,255,.7), 0 0 50px rgba(0,229,255,.4);
+  transform: translateY(-10px) rotateX(-10deg) scale(1.08);
+}
+.split-pane.right .split-mark .ch:hover {
+  color: var(--magenta);
+  text-shadow: 0 0 24px rgba(255,61,139,.7), 0 0 50px rgba(255,61,139,.4);
+  transform: translateY(-10px) rotateX(-10deg) scale(1.08);
+}
+/* Stagger letters across both panes */
+.split-mark .ch:nth-child(1) { animation-delay: .25s; }
+.split-mark .ch:nth-child(2) { animation-delay: .31s; }
+.split-mark .ch:nth-child(3) { animation-delay: .37s; }
+.split-mark .ch:nth-child(4) { animation-delay: .43s; }
+.split-mark .ch:nth-child(5) { animation-delay: .49s; }
+.split-mark .ch:nth-child(6) { animation-delay: .55s; }
+.split-mark .ch:nth-child(7) { animation-delay: .61s; }
+
+.split-tagline {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(18px, 2vw, 26px);
+  line-height: 1.4;
+  color: var(--paper-dim);
+  margin-bottom: 24px;
+  max-width: 420px;
+  font-variation-settings: 'opsz' 24;
+  opacity: 0;
+  animation: heroFade 1.2s 1s cubic-bezier(.16,1,.3,1) forwards;
+}
+.split-tagline em { font-style: normal; color: var(--paper); }
+
+.split-stamp {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 7px 14px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: heroFade 1.2s 1.3s cubic-bezier(.16,1,.3,1) forwards;
+}
+.split-stamp::before {
+  content: ''; width: 7px; height: 7px; border-radius: 50%;
+  background: currentColor; box-shadow: 0 0 8px currentColor;
+  animation: dotPulse 1.6s ease-in-out infinite;
+}
+.split-pane.left .split-stamp {
+  background: rgba(0,255,136,.08);
+  border: 1px solid rgba(0,255,136,.35);
+  color: var(--jade);
+}
+.split-pane.right .split-stamp {
+  background: rgba(241,194,90,.08);
+  border: 1px solid rgba(241,194,90,.35);
+  color: var(--warn);
+}
+
+.split-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+  opacity: 0;
+  animation: heroFade 1.2s 1.6s cubic-bezier(.16,1,.3,1) forwards;
+}
+.split-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 13px 24px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: transform .3s, box-shadow .3s, background .3s, border-color .3s, color .3s;
+  border: 1px solid transparent;
+}
+.split-pane.left .split-btn.primary { background: var(--jade); color: var(--ink); }
+.split-pane.left .split-btn.primary:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(0,255,136,.45); }
+.split-pane.left .split-btn.ghost { background: transparent; color: var(--paper); border-color: rgba(235,226,208,.25); }
+.split-pane.left .split-btn.ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+.split-pane.right .split-btn.primary { background: var(--magenta); color: var(--ink); }
+.split-pane.right .split-btn.primary:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(255,61,139,.5); }
+.split-pane.right .split-btn.ghost { background: transparent; color: var(--paper); border-color: rgba(235,226,208,.25); }
+.split-pane.right .split-btn.ghost:hover { border-color: var(--magenta); color: var(--magenta); }
+
+/* OS preview window in right pane — a tilted mini-screenshot */
+.os-preview {
+  position: absolute;
+  bottom: 32px; right: 56px;
+  width: 320px;
+  border-radius: 8px;
+  overflow: hidden;
+  transform: perspective(1200px) rotateX(8deg) rotateY(-12deg);
+  transform-origin: bottom right;
+  box-shadow:
+    0 0 50px rgba(0,229,255,.15),
+    0 30px 70px rgba(0,0,0,.6),
+    inset 0 0 0 1px rgba(0,229,255,.2);
+  opacity: 0;
+  animation: heroFade 1.6s 1.4s cubic-bezier(.16,1,.3,1) forwards, osFloat 7s 1.4s ease-in-out infinite;
+}
+@keyframes osFloat {
+  0%, 100% { transform: perspective(1200px) rotateX(8deg) rotateY(-12deg) translateY(0); }
+  50%      { transform: perspective(1200px) rotateX(6deg) rotateY(-10deg) translateY(-10px); }
+}
+.os-preview img { display: block; width: 100%; }
+.os-preview::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 70%, rgba(0,229,255,.08));
+  pointer-events: none;
+}
+.os-preview-tag {
+  position: absolute;
+  top: -14px; left: -14px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 5px 11px;
+  background: var(--magenta);
+  color: var(--ink);
+  border-radius: 3px;
+  font-weight: 700;
+  z-index: 5;
+  box-shadow: 0 8px 24px rgba(255,61,139,.35);
+}
+
+/* Phosphor toggle — flips the OS pane to green */
+.phos-toggle {
+  position: absolute;
+  top: 32px; right: 56px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  background: rgba(235,226,208,.04);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  color: var(--paper-mute);
+  cursor: none;
+  transition: color .3s, background .3s, border-color .3s, box-shadow .3s;
+  z-index: 4;
+}
+.phos-toggle:hover { color: var(--jade); border-color: var(--jade); background: rgba(0,255,136,.06); }
+.phos-toggle.on { color: var(--jade); border-color: var(--jade); background: rgba(0,255,136,.12); box-shadow: 0 0 16px rgba(0,255,136,.3); }
+.phos-toggle::before { content: '◉ '; }
+
+/* When phosphor on, repaint the right pane in green tones */
+.split-pane.right.phosphor .split-mark { color: #c8ffd8; text-shadow: 0 0 20px rgba(0,255,136,.3); }
+.split-pane.right.phosphor .split-mark .dot { color: #00ff88; text-shadow: 0 0 18px rgba(0,255,136,.8); }
+.split-pane.right.phosphor .split-eyebrow { color: var(--jade); }
+.split-pane.right.phosphor .split-tagline em { color: #c8ffd8; }
+.split-pane.right.phosphor .split-stamp { background: rgba(0,255,136,.08); border-color: rgba(0,255,136,.35); color: var(--jade); }
+.split-pane.right.phosphor .split-btn.primary { background: var(--jade); }
+.split-pane.right.phosphor .split-btn.primary:hover { box-shadow: 0 14px 40px rgba(0,255,136,.5); }
+.split-pane.right.phosphor .os-preview { box-shadow: 0 0 50px rgba(0,255,136,.2), 0 30px 70px rgba(0,0,0,.6), inset 0 0 0 1px rgba(0,255,136,.25); }
+.split-pane.right.phosphor .os-preview::after { background: linear-gradient(180deg, transparent 70%, rgba(0,255,136,.1)); }
+.split-pane.right.phosphor .os-preview img { filter: hue-rotate(110deg) saturate(.85); }
+.split-pane.right.phosphor .os-preview-tag { background: var(--jade); }
+
+/* Subtle radial wallpaper glow behind the right pane to evoke the OS desktop */
+.split-pane.right::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 30% 70%, rgba(0,229,255,.08), transparent 70%);
+  pointer-events: none;
+  transition: background .4s;
+  z-index: 0;
+}
+.split-pane.right.phosphor::before {
+  background: radial-gradient(ellipse 60% 50% at 30% 70%, rgba(0,255,136,.1), transparent 70%);
+}
+.split-pane > * { position: relative; z-index: 1; }
+
+@media (max-width: 1100px) {
+  .hero-split { grid-template-columns: 1fr; padding: 100px 0 40px; }
+  .hero-split::before, .hero-split::after { display: none; }
+  .split-pane { padding: 60px 32px !important; min-height: auto; border-bottom: 1px solid var(--rule); }
+  .split-pane.right { border-bottom: none; }
+  .os-preview { position: relative; bottom: auto; right: auto; margin-top: 40px; width: 100%; max-width: 480px; }
+  .phos-toggle { top: 20px; right: 24px; }
+}
+
 /* ═══════════════════ MARQUEE BANDS ═══════════════════ */
 .marquee {
   position: relative;
@@ -1050,6 +1341,7 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
   <div class="nav-dropdown-inner">
     <h4>// EXPLORE</h4>
     <ul>
+      <li><a href="pmxos.html"><span style="color:#ff3d8b;">PMX</span> OS <span style="font-family:var(--mono); font-size:.5em; letter-spacing:3px; color:var(--warn); vertical-align:middle; margin-left:8px;">SOON</span></a></li>
       <li><a href="studio.html"><span class="acc-studio">AltNet</span> Studio</a></li>
       <li><a href="altnet.html"><span class="acc-altnet">Alt</span>Net</a></li>
       <li><a href="neuralxp.html"><span class="acc-violet">Neural</span>XP</a></li>
@@ -1062,31 +1354,42 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
 </div>
 
 <!-- ═══════════════════ HERO ═══════════════════ -->
-<section class="hero">
-  <div class="hero-eyebrow">PANMOX &middot; FLAGSHIP &middot; MMXXVI</div>
-  <h1 class="hero-mark">
-    <span class="ch">A</span><span class="ch">l</span><span class="ch">t</span><span class="ch">N</span><span class="ch">e</span><span class="ch">t</span>
-  </h1>
-  <div class="hero-rotator">
-    The
-    <span class="rotator">
-      <span>peer-to-peer.</span>
-      <span>resilient.</span>
-      <span>open-source.</span>
-      <span>uncensorable.</span>
-      <span>forever-yours.</span>
-      <span>real.</span>
-    </span>
-    internet.
-  </div>
-  <p class="hero-sub">Sites, files, identity &mdash; carried by the people who use it. <em>Studio v1.0 is live.</em></p>
+<section class="hero-split">
 
-  <div class="hero-actions">
-    <a href="studio.html" class="hero-btn primary">Get AltNet Studio</a>
-    <a href="altnet.html" class="hero-btn ghost">About AltNet</a>
+  <!-- LEFT: AltNet — the network -->
+  <div class="split-pane left">
+    <div class="split-eyebrow">// THE NETWORK &middot; LIVE</div>
+    <h1 class="split-mark">
+      <span class="ch">A</span><span class="ch">l</span><span class="ch">t</span><span class="ch">N</span><span class="ch">e</span><span class="ch">t</span><span class="ch dot">.</span>
+    </h1>
+    <p class="split-tagline">A peer-to-peer internet. Sites, files, identity &mdash; <em>yours forever.</em></p>
+    <div class="split-stamp">Studio v1.0 &mdash; Available now</div>
+    <div class="split-actions">
+      <a href="studio.html" class="split-btn primary">Get AltNet Studio</a>
+      <a href="altnet.html" class="split-btn ghost">About AltNet</a>
+    </div>
   </div>
 
-  <div class="hero-scroll">↓ Explore</div>
+  <!-- RIGHT: PMX OS — the OS -->
+  <div class="split-pane right" id="osPane">
+    <button class="phos-toggle" id="phosToggle" type="button">Phosphor mode</button>
+    <div class="split-eyebrow">// THE OS &middot; ANNOUNCING</div>
+    <h1 class="split-mark">
+      <span class="ch">P</span><span class="ch">M</span><span class="ch">X</span> <span class="ch">O</span><span class="ch">S</span><span class="ch dot">.</span>
+    </h1>
+    <p class="split-tagline">A peer-to-peer internet, <em>in an operating system.</em> Debian underneath. No cloud. No telemetry. No boss.</p>
+    <div class="split-stamp">Release date &mdash; To be announced</div>
+    <div class="split-actions">
+      <a href="pmxos.html" class="split-btn primary">Read the announcement</a>
+      <a href="pmxos.html#shots" class="split-btn ghost">First look</a>
+    </div>
+
+    <div class="os-preview">
+      <span class="os-preview-tag">Preview</span>
+      <img src="assets/pmxos-hub.png" alt="PMX Hub — the welcome app on PMX OS" loading="lazy">
+    </div>
+  </div>
+
 </section>
 
 <!-- ═══════════════════ MARQUEE BAND ═══════════════════ -->
@@ -1317,7 +1620,7 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
       <li><a href="https://pmmusic.pro/downloads/" target="_blank" rel="noopener">Also Sprach Zarathustra — PM Music</a></li>
     </ul>
   </div>
-  <div class="tm">PANMOX™, PANMOX Browser™, AltNet™, AltNet Studio™, LostEngine™, NeuralXP™, OverByte™, and LinuxSimplify™ are trademarks of PANMOX. All other trademarks are property of their respective owners.</div>
+  <div class="tm">PANMOX™, PMX OS™, PANMOX Browser™, AltNet™, AltNet Studio™, LostEngine™, NeuralXP™, OverByte™, and LinuxSimplify™ are trademarks of PANMOX. All other trademarks are property of their respective owners.</div>
 </footer>
 
 <script>
@@ -1352,27 +1655,43 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
     }
     requestAnimationFrame(tick);
     // hover state on interactive elements
-    document.querySelectorAll('a, button, .bento-card, .hero-mark .ch').forEach(function(el){
+    document.querySelectorAll('a, button, .bento-card, .hero-mark .ch, .split-mark .ch').forEach(function(el){
       el.addEventListener('mouseenter', function(){ dot.classList.add('hover'); ring.classList.add('hover'); });
       el.addEventListener('mouseleave', function(){ dot.classList.remove('hover'); ring.classList.remove('hover'); });
     });
   })();
 
-  // ═══════ Hero mark parallax (each letter follows mouse subtly) ═══════
+  // ═══════ Hero / Split mark parallax (each letter follows mouse subtly) ═══════
   (function(){
-    var mark = document.querySelector('.hero-mark');
-    if (!mark) return;
-    var chars = mark.querySelectorAll('.ch');
-    window.addEventListener('mousemove', function(e){
-      var r = mark.getBoundingClientRect();
-      var cx = r.left + r.width/2;
-      var cy = r.top + r.height/2;
-      var dx = (e.clientX - cx) / r.width;
-      var dy = (e.clientY - cy) / r.height;
-      chars.forEach(function(ch, i){
-        var f = (i % 2 === 0 ? 1 : -1) * (8 + i*2);
-        ch.style.translate = (dx*f) + 'px ' + (dy*f) + 'px';
+    var marks = document.querySelectorAll('.hero-mark, .split-mark');
+    if (!marks.length) return;
+    marks.forEach(function(mark){
+      var chars = mark.querySelectorAll('.ch');
+      mark.addEventListener('mousemove', function(e){
+        var r = mark.getBoundingClientRect();
+        var cx = r.left + r.width/2;
+        var cy = r.top + r.height/2;
+        var dx = (e.clientX - cx) / r.width;
+        var dy = (e.clientY - cy) / r.height;
+        chars.forEach(function(ch, i){
+          var f = (i % 2 === 0 ? 1 : -1) * (6 + i*1.6);
+          ch.style.translate = (dx*f) + 'px ' + (dy*f) + 'px';
+        });
       });
+      mark.addEventListener('mouseleave', function(){
+        chars.forEach(function(ch){ ch.style.translate = ''; });
+      });
+    });
+  })();
+
+  // ═══════ Phosphor toggle on PMX OS split pane ═══════
+  (function(){
+    var btn = document.getElementById('phosToggle');
+    var pane = document.getElementById('osPane');
+    if (!btn || !pane) return;
+    btn.addEventListener('click', function(){
+      pane.classList.toggle('phosphor');
+      btn.classList.toggle('on');
     });
   })();
 
