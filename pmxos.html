@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
+<link rel="apple-touch-icon" href="assets/favicon.jpg">
+<meta name="description" content="Announcing PMX OS — a peer-to-peer internet, in an operating system. Debian underneath. No cloud. No telemetry. Release date to be announced.">
+<meta property="og:title" content="Announcing PMX OS — A peer-to-peer internet, in an OS">
+<meta property="og:description" content="A complete desktop OS built around AltNet. Debian + KDE + Phosphor mode. Release date to be announced.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://panmox.org/pmxos.html">
+<title>Announcing PMX OS &mdash; A peer-to-peer internet, in an OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter+Tight:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+:root{
+  --ink:#050811; --ink-soft:#0a0e1a;
+  --paper:#ebe2d0; --paper-dim:#b9b09e; --paper-mute:#6a6e7c;
+  --rule:rgba(235,226,208,0.08);
+  --cyan:#00e5ff; --magenta:#ff3d8b; --jade:#00ff88;
+  --amber:#ff8c00; --violet:#b765ff; --warn:#f1c25a;
+  --primary:var(--magenta);
+  --primary-rgb:255,61,139;
+  --serif:'Fraunces',serif; --sans:'Inter Tight',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;cursor:none}
+::selection{background:var(--magenta);color:var(--ink)}
+body{background:var(--ink);color:var(--paper);font-family:var(--sans);font-weight:300;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:background .8s,color .8s}
+a,button{cursor:none}
+
+/* PHOSPHOR MODE — flips the entire page palette to retro green */
+body.phosphor{--paper:#c8ffd8;--paper-dim:#90c8a8;--paper-mute:#5a8a78;--magenta:#00ff88;--cyan:#7affb8;--primary:#00ff88;--primary-rgb:0,255,136;--ink:#020907;--ink-soft:#051a10}
+body.phosphor::before{content:'';position:fixed;inset:0;z-index:201;pointer-events:none;background:linear-gradient(180deg,rgba(0,255,136,.025) 0%,transparent 50%,rgba(0,255,136,.04) 100%),repeating-linear-gradient(0deg,rgba(0,255,136,.025),rgba(0,255,136,.025) 1px,transparent 1px,transparent 3px)}
+
+/* Atmosphere */
+.grain{position:fixed;inset:0;z-index:200;pointer-events:none;opacity:.06;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.9'/></svg>")}
+.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(235,226,208,0.022) 1px,transparent 1px),linear-gradient(90deg,rgba(235,226,208,0.022) 1px,transparent 1px);background-size:88px 88px;mask:radial-gradient(ellipse 90% 80% at 50% 30%,#000 30%,transparent 90%);-webkit-mask:radial-gradient(ellipse 90% 80% at 50% 30%,#000 30%,transparent 90%)}
+.mesh{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.mesh-blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.55;mix-blend-mode:screen;transition:background .8s}
+.mesh-blob.c{width:800px;height:800px;background:radial-gradient(circle,rgba(0,229,255,.35),transparent 65%);top:-200px;left:-150px;animation:drift1 28s ease-in-out infinite alternate}
+.mesh-blob.m{width:700px;height:700px;background:radial-gradient(circle,rgba(255,61,139,.30),transparent 65%);top:30%;right:-180px;animation:drift2 32s ease-in-out infinite alternate}
+.mesh-blob.j{width:600px;height:600px;background:radial-gradient(circle,rgba(255,140,0,.22),transparent 65%);bottom:-100px;left:25%;animation:drift3 36s ease-in-out infinite alternate}
+body.phosphor .mesh-blob.c{background:radial-gradient(circle,rgba(0,255,136,.4),transparent 65%)}
+body.phosphor .mesh-blob.m{background:radial-gradient(circle,rgba(0,255,136,.3),transparent 65%)}
+body.phosphor .mesh-blob.j{background:radial-gradient(circle,rgba(0,255,136,.2),transparent 65%)}
+@keyframes drift1{from{transform:translate(0,0) scale(1)}to{transform:translate(160px,100px) scale(1.2)}}
+@keyframes drift2{from{transform:translate(0,0) scale(1)}to{transform:translate(-130px,180px) scale(1.15)}}
+@keyframes drift3{from{transform:translate(0,0) scale(1)}to{transform:translate(100px,-140px) scale(1.25)}}
+.stars{position:fixed;inset:0;z-index:1;pointer-events:none}
+.star{position:absolute;border-radius:50%;background:var(--paper);opacity:0;animation:twinkle 4s ease-in-out infinite alternate}
+@keyframes twinkle{0%{opacity:.08}100%{opacity:.55}}
+
+/* Cursor */
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;transition:transform .25s cubic-bezier(.16,1,.3,1),width .25s,height .25s,background .25s,opacity .25s}
+.cursor-dot{width:6px;height:6px;background:var(--magenta);box-shadow:0 0 12px var(--magenta),0 0 24px var(--magenta);transform:translate(-50%,-50%)}
+.cursor-ring{width:36px;height:36px;border:1px solid rgba(var(--primary-rgb),.5);transform:translate(-50%,-50%);transition:transform .35s cubic-bezier(.16,1,.3,1) .03s,width .25s,height .25s,opacity .25s}
+.cursor-ring.hover{width:64px;height:64px;border-color:rgba(var(--primary-rgb),.7)}
+.cursor-dot.hover{background:var(--cyan);box-shadow:0 0 12px var(--cyan),0 0 24px var(--cyan)}
+@media (max-width:980px),(pointer:coarse){.cursor-dot,.cursor-ring{display:none}html{cursor:auto}a,button{cursor:pointer}}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:150;backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);background:rgba(5,8,17,.6);border-bottom:1px solid var(--rule);transition:background .8s,border-color .8s}
+body.phosphor nav{background:rgba(2,9,7,.7)}
+.nav-inner{max-width:1480px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:16px 32px}
+.nav-logo{font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:5px;color:var(--paper);text-decoration:none;transition:color .25s}
+.nav-logo:hover{color:var(--magenta)}
+.nav-links{display:flex;gap:32px;list-style:none;align-items:center}
+.nav-links a,.nav-links button{font-family:var(--mono);color:var(--paper-mute);text-decoration:none;font-size:11px;letter-spacing:2px;text-transform:uppercase;background:none;border:none;padding:0;transition:color .25s}
+.nav-links a:hover,.nav-links button:hover,.nav-links button.open{color:var(--paper)}
+.nav-dropdown-overlay{position:fixed;inset:0;z-index:148;display:none}
+.nav-dropdown-overlay.show{display:block}
+.nav-dropdown{position:fixed;top:56px;left:0;right:0;z-index:149;backdrop-filter:blur(40px) saturate(180%);background:rgba(5,8,17,.95);border-bottom:1px solid var(--rule);max-height:0;overflow:hidden;opacity:0;transition:max-height .5s cubic-bezier(.16,1,.3,1),opacity .3s,background .8s}
+.nav-dropdown.show{max-height:560px;opacity:1}
+body.phosphor .nav-dropdown{background:rgba(2,9,7,.96)}
+.nav-dropdown-inner{max-width:1000px;margin:0 auto;padding:40px 32px 48px}
+.nav-dropdown h4{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--paper-mute);margin-bottom:20px;font-weight:500}
+.nav-dropdown ul{list-style:none}.nav-dropdown li{margin-bottom:4px}
+.nav-dropdown li a{font-family:var(--serif);font-weight:500;font-size:28px;letter-spacing:-.5px;color:var(--paper);text-decoration:none;display:inline-block;transition:color .25s,transform .25s}
+.nav-dropdown li a:hover{color:var(--magenta);transform:translateX(10px)}
+.acc-studio{color:var(--jade)}.acc-altnet{color:var(--cyan)}.acc-violet{color:var(--violet)}.acc-amber{color:var(--amber)}.acc-cyan{color:#00c8ff}.acc-green{color:#28c878}.acc-blue{color:#4a9eff}
+.acc-pmxos{color:var(--magenta)}
+
+/* Floating phosphor toggle (top-right of viewport) */
+.phos-fab{position:fixed;top:84px;right:32px;z-index:140;font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:10px 18px;background:rgba(5,8,17,.7);backdrop-filter:blur(12px);border:1px solid var(--rule);border-radius:999px;color:var(--paper-mute);cursor:none;transition:color .3s,background .3s,border-color .3s,box-shadow .3s}
+.phos-fab:hover{color:var(--jade);border-color:var(--jade);background:rgba(0,255,136,.06)}
+.phos-fab::before{content:'◉ '}
+body.phosphor .phos-fab{color:var(--jade);border-color:var(--jade);background:rgba(0,255,136,.12);box-shadow:0 0 20px rgba(0,255,136,.3)}
+
+/* Hero */
+.hero{position:relative;z-index:5;min-height:100vh;padding:140px 32px 80px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;overflow:hidden}
+.hero-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:6px;text-transform:uppercase;color:var(--magenta);margin-bottom:36px;display:inline-flex;align-items:center;gap:18px;opacity:0;animation:heroFade 1s .15s cubic-bezier(.16,1,.3,1) forwards}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:50px;height:1px;background:linear-gradient(90deg,transparent,var(--magenta));box-shadow:0 0 8px var(--magenta)}
+.hero-eyebrow::after{background:linear-gradient(90deg,var(--magenta),transparent)}
+.hero-mini{font-family:var(--serif);font-weight:300;font-style:italic;font-size:clamp(24px,3.5vw,46px);color:var(--paper-dim);letter-spacing:-.5px;margin-bottom:8px;opacity:0;animation:heroFade 1s .3s cubic-bezier(.16,1,.3,1) forwards;font-variation-settings:'opsz' 144}
+
+.hero-mark{font-family:var(--serif);font-weight:600;font-size:clamp(80px,16vw,240px);letter-spacing:-7px;line-height:.86;color:var(--paper);font-variation-settings:'opsz' 144,'wght' 600;display:inline-block;margin:0 auto 32px;position:relative;perspective:1000px}
+.hero-mark .ch{display:inline-block;position:relative;transition:transform .6s cubic-bezier(.16,1,.3,1),color .4s,text-shadow .4s;will-change:transform;transform:translateY(110%);animation:chRise 1.2s cubic-bezier(.16,1,.3,1) forwards}
+.hero-mark .ch.dot{color:var(--magenta);text-shadow:0 0 20px rgba(255,61,139,.7),0 0 40px rgba(255,61,139,.4)}
+@keyframes chRise{to{transform:translateY(0)}}
+.hero-mark .ch:nth-child(1){animation-delay:.45s}.hero-mark .ch:nth-child(2){animation-delay:.52s}.hero-mark .ch:nth-child(3){animation-delay:.59s}.hero-mark .ch:nth-child(4){animation-delay:.66s}.hero-mark .ch:nth-child(5){animation-delay:.73s}.hero-mark .ch:nth-child(6){animation-delay:.80s}.hero-mark .ch:nth-child(7){animation-delay:.87s}.hero-mark .ch:nth-child(8){animation-delay:.94s}
+.hero-mark .ch:hover{color:var(--magenta);text-shadow:0 0 30px rgba(255,61,139,.7),0 0 60px rgba(255,61,139,.4);transform:translateY(-12px) rotateX(-10deg) scale(1.08)}
+.hero-mark .ch:nth-child(2):hover{color:var(--cyan)}
+.hero-mark .ch:nth-child(5):hover{color:var(--jade)}
+
+.hero-sub{font-family:var(--serif);font-weight:300;font-style:italic;font-size:clamp(20px,2.6vw,32px);color:var(--paper-dim);max-width:760px;margin:0 auto 28px;line-height:1.4;letter-spacing:-.3px;opacity:0;animation:heroFade 1.2s 1.2s cubic-bezier(.16,1,.3,1) forwards;font-variation-settings:'opsz' 144}
+.hero-sub em{font-style:normal;color:var(--paper);border-bottom:1px solid var(--magenta)}
+
+.hero-stamp{font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:9px 18px;border-radius:999px;background:rgba(241,194,90,.08);border:1px solid rgba(241,194,90,.35);color:var(--warn);display:inline-flex;align-items:center;gap:10px;margin-bottom:36px;opacity:0;animation:heroFade 1.2s 1.4s cubic-bezier(.16,1,.3,1) forwards}
+.hero-stamp::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--warn);box-shadow:0 0 8px var(--warn);animation:dotPulse 1.6s ease-in-out infinite}
+@keyframes dotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.6)}}
+
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:56px;opacity:0;animation:heroFade 1.2s 1.7s cubic-bezier(.16,1,.3,1) forwards}
+.hero-btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;font-weight:600;padding:16px 32px;border-radius:999px;text-decoration:none;transition:transform .3s,box-shadow .3s,background .3s,border-color .3s,color .3s;border:1px solid transparent}
+.hero-btn.primary{background:var(--magenta);color:var(--ink)}
+.hero-btn.primary:hover{transform:translateY(-3px);box-shadow:0 18px 50px rgba(255,61,139,.4)}
+.hero-btn.ghost{background:transparent;color:var(--paper);border-color:rgba(235,226,208,.25)}
+.hero-btn.ghost:hover{transform:translateY(-3px);border-color:var(--magenta);color:var(--magenta);background:rgba(255,61,139,.05)}
+.hero-scroll{font-family:var(--mono);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--paper-mute);opacity:0;animation:heroFade 1s 1.9s cubic-bezier(.16,1,.3,1) forwards,scrollNudge 2s 1.9s ease-in-out infinite}
+@keyframes heroFade{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scrollNudge{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* Marquee */
+.marquee{position:relative;z-index:5;padding:24px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);overflow:hidden;background:rgba(5,8,17,.4);transition:background .8s}
+body.phosphor .marquee{background:rgba(2,9,7,.4)}
+.marquee-track{display:flex;white-space:nowrap;gap:56px;font-family:var(--serif);font-weight:400;font-style:italic;font-size:clamp(28px,4.5vw,56px);letter-spacing:-1px;color:var(--paper-dim);animation:marqueeRun 36s linear infinite;font-variation-settings:'opsz' 144}
+.marquee.reverse .marquee-track{animation-direction:reverse;animation-duration:44s}
+.marquee-track span{display:inline-flex;align-items:center;gap:36px}
+.marquee-track span::after{content:'✦';color:var(--magenta);font-size:.6em;opacity:.7}
+.marquee-track span.hot{color:var(--paper)}
+.marquee-track span.hot::after{color:var(--cyan)}
+@keyframes marqueeRun{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* Sections */
+section.editorial{position:relative;z-index:5;padding:120px 32px;max-width:1280px;margin:0 auto}
+.section-kicker{font-family:var(--mono);font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--magenta);margin-bottom:28px;display:inline-flex;align-items:center;gap:14px}
+.section-kicker::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--magenta);box-shadow:0 0 10px var(--magenta);animation:dotPulse 1.6s ease-in-out infinite}
+.section-title{font-family:var(--serif);font-weight:400;font-size:clamp(48px,8vw,120px);line-height:1;letter-spacing:-2.5px;color:var(--paper);margin-bottom:24px;font-variation-settings:'opsz' 144}
+.section-title em{font-style:italic;font-weight:300;color:var(--paper-dim)}
+.section-title .magenta{color:var(--magenta)}
+.section-title .cyan{color:var(--cyan)}
+.section-sub{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(18px,2vw,24px);color:var(--paper-dim);max-width:760px;margin-bottom:56px;line-height:1.5}
+.lede{font-family:var(--serif);font-weight:300;font-size:clamp(28px,4vw,52px);line-height:1.18;letter-spacing:-1px;color:var(--paper);max-width:1100px;font-variation-settings:'opsz' 144}
+.lede em{font-style:italic;color:var(--paper-dim)}
+.lede strong{font-weight:500;color:var(--magenta)}
+.lede::first-letter{font-family:var(--serif);font-size:1.7em;font-weight:600;float:left;line-height:.85;padding-right:14px;padding-top:8px;color:var(--magenta);font-variation-settings:'opsz' 144,'wght' 700}
+
+/* Sticky scroll */
+.sticky-section{position:relative;background:linear-gradient(180deg,transparent,rgba(255,61,139,.04) 50%,transparent)}
+.sticky-spacer{height:380vh}
+.sticky-stage{position:sticky;top:0;height:100vh;width:100%;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.os-cube{width:340px;height:340px;position:relative;perspective:1200px;opacity:.4;animation:cubeSpin 24s linear infinite}
+@keyframes cubeSpin{from{transform:rotateY(0) rotateX(15deg)}to{transform:rotateY(360deg) rotateX(15deg)}}
+.os-cube::before,.os-cube::after{content:'';position:absolute;inset:0;border-radius:50%;border:1px solid rgba(255,61,139,.3)}
+.os-cube::before{animation:cubeRing 4s ease-in-out infinite}
+.os-cube::after{transform:scale(.7);border-color:rgba(0,229,255,.25);animation:cubeRing 5s ease-in-out infinite 1s}
+@keyframes cubeRing{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.1);opacity:1}}
+.os-cube .core{position:absolute;top:50%;left:50%;width:140px;height:140px;transform:translate(-50%,-50%);border-radius:14px;background:linear-gradient(160deg,#00e5ff 0%,#ff3d8b 100%);box-shadow:0 0 60px rgba(255,61,139,.5);animation:corePulse 3s ease-in-out infinite}
+@keyframes corePulse{0%,100%{transform:translate(-50%,-50%) rotate(0deg) scale(1)}50%{transform:translate(-50%,-50%) rotate(8deg) scale(1.06)}}
+
+.stage-content{position:relative;z-index:5;text-align:center;max-width:920px;padding:0 32px;opacity:0;transform:translateY(40px);transition:opacity .6s,transform .6s}
+.stage-content.active{opacity:1;transform:translateY(0)}
+.stage-content .stage-kicker{font-family:var(--mono);font-size:11px;letter-spacing:5px;color:var(--magenta);margin-bottom:24px;text-transform:uppercase}
+.stage-content h2{font-family:var(--serif);font-weight:400;font-size:clamp(48px,8vw,120px);line-height:1;letter-spacing:-2.5px;color:var(--paper);margin-bottom:28px;font-variation-settings:'opsz' 144}
+.stage-content h2 em{font-style:italic;font-weight:300;color:var(--paper-dim)}
+.stage-content h2 .magenta{color:var(--magenta)}.stage-content h2 .cyan{color:var(--cyan)}.stage-content h2 .jade{color:var(--jade)}
+.stage-content p{font-size:19px;color:var(--paper-dim);line-height:1.6;max-width:680px;margin:0 auto 28px}
+.stage-content p code{font-family:var(--mono);color:var(--magenta);background:rgba(255,61,139,.08);padding:1px 6px;border-radius:2px}
+.stage-progress{position:absolute;top:50%;right:32px;transform:translateY(-50%);display:flex;flex-direction:column;gap:14px;z-index:6}
+.stage-progress span{width:4px;height:28px;background:rgba(235,226,208,.15);border-radius:2px;transition:background .3s,height .3s}
+.stage-progress span.on{background:var(--magenta);box-shadow:0 0 12px var(--magenta);height:44px}
+
+/* SCREENSHOT SHOWCASE — torn-up scattered collage, each frame flies in from a different edge */
+.collage{position:relative;margin-top:80px;display:grid;grid-template-columns:repeat(12,1fr);gap:0;align-items:start;perspective:1800px}
+.shot{
+  position:relative;
+  border-radius:12px;
+  overflow:hidden;
+  background:radial-gradient(ellipse at center,#0d1626,#060b14);
+  box-shadow:0 0 30px rgba(255,61,139,.10),0 24px 70px rgba(0,0,0,.65),0 0 0 1px rgba(255,61,139,.16);
+  transition:transform .6s cubic-bezier(.16,1,.3,1),box-shadow .4s,opacity .9s cubic-bezier(.16,1,.3,1);
+  transform-style:preserve-3d;
+  will-change:transform,opacity;
+  cursor:none;
+  opacity:0;
+  z-index:1;
+}
+.shot img{display:block;width:100%;height:auto;object-fit:contain;transition:opacity .8s,transform .5s cubic-bezier(.16,1,.3,1)}
+.shot:hover{z-index:9;box-shadow:0 0 80px rgba(255,61,139,.4),0 40px 110px rgba(0,0,0,.85),0 0 0 1px rgba(255,61,139,.5)}
+.shot:hover img{transform:scale(1.05)}
+.shot::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 58%,rgba(0,0,0,.78));pointer-events:none;z-index:1}
+/* scanline sweep on hover */
+.shot .sweep{content:'';position:absolute;left:0;right:0;top:-35%;height:35%;z-index:3;background:linear-gradient(180deg,transparent,rgba(255,61,139,.22),transparent);opacity:0;pointer-events:none}
+.shot:hover .sweep{animation:sweep 1.1s cubic-bezier(.4,0,.2,1)}
+@keyframes sweep{0%{top:-35%;opacity:1}100%{top:120%;opacity:0}}
+
+/* ── Collage placement: overlapping spans + vertical offsets + resting tilt ── */
+.shot.f1{grid-column:1/8;  grid-row:1; margin:0 -2% 0 0;     --rot:-3deg;  z-index:2}
+.shot.f2{grid-column:8/13; grid-row:1; margin:64px 0 0 -4%;  --rot:3.2deg; z-index:3}
+.shot.f3{grid-column:1/6;  grid-row:2; margin:-40px 0 0 2%;  --rot:2.4deg; z-index:4}
+.shot.f4{grid-column:6/13; grid-row:2; margin:36px 0 0 -3%;  --rot:-2.2deg;z-index:2}
+.shot.f5{grid-column:2/8;  grid-row:3; margin:-30px 0 60px 0;--rot:-2.6deg;z-index:3}
+.shot.f6{grid-column:7/13; grid-row:3; margin:24px 0 60px -2%;--rot:2.8deg; z-index:2}
+
+/* ── Directional fly-in initial states ── */
+.shot.from-left  {transform:translateX(-140px) rotate(calc(var(--rot) - 8deg))}
+.shot.from-right {transform:translateX(140px)  rotate(calc(var(--rot) + 8deg))}
+.shot.from-top   {transform:translateY(-120px) rotate(calc(var(--rot) + 7deg))}
+.shot.from-bottom{transform:translateY(130px)  rotate(calc(var(--rot) - 7deg))}
+.shot.from-zoom  {transform:scale(.62) rotate(calc(var(--rot) + 10deg))}
+/* settle to resting tilt */
+.shot.in{opacity:1;transform:rotate(var(--rot))}
+.shot.f1.in{transition-delay:.05s}.shot.f2.in{transition-delay:.18s}.shot.f3.in{transition-delay:.10s}.shot.f4.in{transition-delay:.24s}.shot.f5.in{transition-delay:.16s}.shot.f6.in{transition-delay:.30s}
+.shot .cap{position:absolute;bottom:16px;left:18px;right:18px;z-index:4}
+.shot .cap .lbl{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--magenta);text-transform:uppercase;margin-bottom:6px}
+.shot .cap .ttl{font-family:var(--serif);font-weight:500;font-size:22px;color:var(--paper);letter-spacing:-.3px;font-variation-settings:'opsz' 144}
+.shot .cap .ttl em{font-style:italic;font-weight:300}
+
+/* Phosphor mode swaps the wallpaper/desktop shot to the phosphor version */
+.shot[data-phosphor-src]{position:relative}
+.shot[data-phosphor-src] .phos-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;z-index:0}
+body.phosphor .shot[data-phosphor-src] .phos-img{opacity:1}
+body.phosphor .shot[data-phosphor-src] > img:first-of-type{opacity:0}
+.shot > img{transition:opacity .8s}
+
+/* Install flow — LinuxSimplify, three steps, each slides in from its own edge */
+.install-flow{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:60px}
+.step{position:relative;padding:42px 32px 36px;border:1px solid var(--rule);border-radius:16px;background:linear-gradient(160deg,rgba(0,229,255,.04),rgba(0,229,255,.01));opacity:0;transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1),border-color .4s,background .4s,box-shadow .4s}
+.step.s-l{transform:translateX(-90px) rotate(-2deg)}
+.step.s-b{transform:translateY(90px) rotate(1.5deg)}
+.step.s-r{transform:translateX(90px) rotate(2deg)}
+.step.in{opacity:1;transform:none}
+.step.in.s-b{transition-delay:.12s}.step.in.s-r{transition-delay:.24s}
+.step:hover{border-color:var(--cyan);background:linear-gradient(160deg,rgba(0,229,255,.08),rgba(0,229,255,.02));box-shadow:0 20px 60px rgba(0,229,255,.14);transform:translateY(-6px)}
+.step .n{font-family:var(--serif);font-weight:500;font-size:clamp(48px,5vw,72px);line-height:1;color:var(--cyan);font-variation-settings:'opsz' 144;margin-bottom:16px;display:block;letter-spacing:-2px}
+.step h3{font-family:var(--serif);font-weight:500;font-size:26px;letter-spacing:-.6px;color:var(--paper);margin-bottom:10px;font-variation-settings:'opsz' 144}
+.step h3 em{font-style:italic;font-weight:300}
+.step p{font-size:15px;line-height:1.65;color:var(--paper-dim)}
+.step p code{font-family:var(--mono);color:var(--cyan);background:rgba(0,229,255,.08);padding:1px 6px;border-radius:2px;font-size:.9em}
+.install-note{margin-top:40px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:24px 28px;border:1px solid rgba(0,229,255,.18);border-radius:14px;background:rgba(0,229,255,.03)}
+.install-note .tag{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);padding:5px 12px;border:1px solid rgba(0,229,255,.35);border-radius:999px;white-space:nowrap}
+.install-note p{font-size:15px;line-height:1.6;color:var(--paper-dim);margin:0;flex:1;min-width:240px}
+.install-note a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,229,255,.4);transition:border-color .25s}
+.install-note a:hover{border-color:var(--cyan)}
+
+/* What's inside grid */
+.feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:56px}
+.feat{padding:40px 32px;border:1px solid var(--rule);border-radius:14px;background:linear-gradient(160deg,rgba(255,61,139,.04),rgba(255,61,139,.01));transition:transform .4s,border-color .4s,background .4s,box-shadow .4s}
+.feat:hover{transform:translateY(-6px);border-color:var(--magenta);background:linear-gradient(160deg,rgba(255,61,139,.08),rgba(255,61,139,.02));box-shadow:0 20px 60px rgba(255,61,139,.12)}
+.feat .ico{font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--magenta);margin-bottom:14px}
+.feat h3{font-family:var(--serif);font-weight:500;font-size:36px;letter-spacing:-1px;color:var(--paper);margin-bottom:12px;font-variation-settings:'opsz' 144}
+.feat h3 em{font-style:italic;font-weight:300}
+.feat p{font-size:15px;line-height:1.65;color:var(--paper-dim)}
+
+.feat-grid-3{grid-template-columns:repeat(3,1fr)}
+/* Catalog row */
+.cat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:56px}
+.cat-card{position:relative;display:block;padding:42px 28px 36px;border:1px solid var(--rule);border-radius:14px;background:rgba(235,226,208,.02);text-decoration:none;transition:transform .4s,border-color .4s,background .4s,box-shadow .4s;text-align:center}
+.cat-card:hover{transform:translateY(-6px);border-color:var(--warn);background:rgba(241,194,90,.04);box-shadow:0 20px 60px rgba(241,194,90,.12)}
+.cat-card .cat-flag{position:absolute;top:16px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--warn);padding:4px 12px;border:1px solid rgba(241,194,90,.35);background:rgba(241,194,90,.08);border-radius:999px}
+.cat-card .name{font-family:var(--serif);font-weight:500;font-size:32px;color:var(--paper);letter-spacing:-.8px;margin-bottom:8px;font-variation-settings:'opsz' 144;display:block}
+.cat-card .name em{font-style:italic;font-weight:300}
+.cat-card .tag{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--paper-mute);text-transform:uppercase}
+
+footer{position:relative;z-index:5;border-top:1px solid var(--rule);padding:56px 32px;text-align:center;transition:border-color .8s}
+footer .ftxt{font-family:var(--mono);font-size:11px;letter-spacing:3px;color:var(--paper-mute)}
+footer .ftxt a{color:var(--paper-mute);text-decoration:none;border-bottom:1px solid rgba(106,110,124,.3);transition:color .25s,border-color .25s}
+footer .ftxt a:hover{color:var(--magenta);border-color:var(--magenta)}
+.tm{margin-top:16px;font-family:var(--mono);font-size:9px;letter-spacing:1px;color:rgba(106,110,124,.5);max-width:980px;margin-left:auto;margin-right:auto;line-height:1.6}
+
+@media (max-width:1100px){
+  .collage{display:flex;flex-direction:column;gap:36px;perspective:none}
+  .shot{margin:0!important;--rot:0deg!important}
+  .feat-grid,.feat-grid-3{grid-template-columns:1fr}.cat-row{grid-template-columns:1fr}
+}
+@media (max-width:720px){.nav-inner{padding:14px 20px}.nav-links{gap:18px}.phos-fab{top:auto;bottom:24px;right:24px}section.editorial{padding:80px 20px}.hero{padding:120px 20px 60px}.hero-actions{flex-direction:column;width:100%;max-width:280px}.hero-btn{justify-content:center}.stage-progress{right:16px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01s!important;transition-duration:.1s!important}.hero-mark .ch{transform:none!important}}
+</style>
+</head>
+<body>
+
+<div class="grain"></div><div class="grid-bg"></div>
+<div class="mesh"><div class="mesh-blob c"></div><div class="mesh-blob m"></div><div class="mesh-blob j"></div></div>
+<div class="stars" id="stars"></div>
+<div class="cursor-dot" id="cDot"></div><div class="cursor-ring" id="cRing"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">PANMOX</a>
+    <ul class="nav-links">
+      <li><button id="productsBtn">Products</button></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="legal/">Legal</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="nav-dropdown-overlay" id="dropdownOverlay"></div>
+<div class="nav-dropdown" id="productsDropdown">
+  <div class="nav-dropdown-inner">
+    <h4>// EXPLORE</h4>
+    <ul>
+      <li><a href="pmxos.html"><span class="acc-pmxos">PMX</span> OS <span style="font-family:var(--mono);font-size:.5em;letter-spacing:3px;color:var(--warn);vertical-align:middle;margin-left:8px;">SOON</span></a></li>
+      <li><a href="studio.html"><span class="acc-studio">AltNet</span> Studio</a></li>
+      <li><a href="altnet.html"><span class="acc-altnet">Alt</span>Net</a></li>
+      <li><a href="neuralxp.html"><span class="acc-violet">Neural</span>XP</a></li>
+      <li><a href="lostengine.html"><span class="acc-amber">Lost</span>Engine</a></li>
+      <li><a href="browser.html?intro=1"><span class="acc-cyan">PANMOX</span> Browser</a></li>
+      <li><a href="overbyte.html?intro=1"><span class="acc-green">Over</span>Byte</a></li>
+      <li><a href="linuxsimplify.html?intro=1"><span class="acc-blue">Linux</span>Simplify</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- Phosphor toggle (top-right fab) -->
+<button class="phos-fab" id="phosFab">Phosphor mode</button>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">PANMOX &middot; ANNOUNCING &middot; MMXXVI</div>
+  <div class="hero-mini">Announcing</div>
+  <h1 class="hero-mark">
+    <span class="ch">P</span><span class="ch">M</span><span class="ch">X</span> <span class="ch">O</span><span class="ch">S</span><span class="ch dot">.</span>
+  </h1>
+  <p class="hero-sub">A peer-to-peer internet, <em>in an operating system.</em><br>Debian underneath. No cloud. No telemetry. No boss.</p>
+  <div class="hero-stamp">Release date &mdash; To be announced</div>
+  <div class="hero-actions">
+    <a href="#shots" class="hero-btn primary">First look</a>
+    <a href="#manifesto" class="hero-btn ghost">Read the manifesto</a>
+  </div>
+  <div class="hero-scroll">↓ Manifesto</div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span class="hot">A peer-to-peer internet</span><span>In an OS</span><span class="hot">Debian underneath</span><span>KDE Plasma</span><span class="hot">No cloud</span><span>No telemetry</span><span class="hot">No boss</span><span>Phosphor mode</span>
+    <span class="hot">A peer-to-peer internet</span><span>In an OS</span><span class="hot">Debian underneath</span><span>KDE Plasma</span><span class="hot">No cloud</span><span>No telemetry</span><span class="hot">No boss</span><span>Phosphor mode</span>
+  </div>
+</div>
+
+<!-- MANIFESTO -->
+<section class="editorial" id="manifesto">
+  <div class="section-kicker">// MANIFESTO</div>
+  <p class="lede">PMX OS is a complete desktop operating system built around one idea: <em>the internet should belong to the people on it.</em> No cloud. No telemetry. No boss. It&rsquo;s the native home for everything PANMOX &mdash; and it&rsquo;s <strong>unmistakably ours from the moment it boots.</strong></p>
+</section>
+
+<!-- STICKY SCROLL STORYTELLING -->
+<section class="sticky-section">
+  <div class="sticky-spacer">
+    <div class="sticky-stage">
+      <div class="stage-bg">
+        <div class="os-cube"><div class="core"></div></div>
+      </div>
+
+      <div class="stage-progress">
+        <span data-stage="1" class="on"></span>
+        <span data-stage="2"></span>
+        <span data-stage="3"></span>
+        <span data-stage="4"></span>
+      </div>
+
+      <div class="stage-content active" data-stage="1">
+        <div class="stage-kicker">// 01 &middot; WHAT IT IS</div>
+        <h2>An OS that&rsquo;s <em>unmistakably ours.</em></h2>
+        <p>A complete desktop. Not a fork. Not a theme. <strong>An operating system</strong> with its own face, its own front door, and PANMOX in its bones from the moment it boots.</p>
+      </div>
+
+      <div class="stage-content" data-stage="2">
+        <div class="stage-kicker">// 02 &middot; BUILT ON</div>
+        <h2>The hard parts, <em>done right.</em></h2>
+        <p><strong>Debian</strong> — the most trusted, security-maintained Linux base there is — with a <strong>KDE Plasma</strong> desktop rebuilt into something purely PMX. UEFI and BIOS. Live from USB. Installs to disk when you&rsquo;re ready.</p>
+      </div>
+
+      <div class="stage-content" data-stage="3">
+        <div class="stage-kicker">// 03 &middot; THE ONE APP THAT SHIPS WITH IT</div>
+        <h2>AltNet Studio, <span class="cyan">in the box.</span></h2>
+        <p>The first PANMOX app to come pre-installed. Run a node, or claim a <code>.alt</code> name, the moment you boot. <strong>More of the catalog joins in future versions.</strong></p>
+      </div>
+
+      <div class="stage-content" data-stage="4">
+        <div class="stage-kicker">// 04 &middot; TWO FACES, ONE OS</div>
+        <h2>Flip to <span class="jade">phosphor.</span></h2>
+        <p>One click swaps the whole desktop from deep-cyan to retro phosphor-green. Wallpaper, dock, accents — the lot. <strong>Try the toggle in the corner of this page.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCREENSHOT GALLERY -->
+<section class="editorial" id="shots">
+  <div class="section-kicker">// FIRST LOOK</div>
+  <h2 class="section-title">Six <em>screens,</em><br>torn across the page.</h2>
+  <p class="section-sub">Hit the phosphor toggle (top-right) to flip the wallpaper and terminal shots into retro green &mdash; live.</p>
+
+  <div class="collage">
+    <div class="shot f1 from-left" data-phosphor-src="assets/pmxos-phosphor.png">
+      <img src="assets/pmxos-desktop.png" alt="PMX OS desktop">
+      <img class="phos-img" src="assets/pmxos-phosphor.png" alt="PMX OS phosphor desktop">
+      <span class="sweep"></span>
+      <div class="cap"><div class="lbl">// 01</div><div class="ttl">The <em>desktop.</em></div></div>
+    </div>
+    <div class="shot f2 from-top">
+      <img src="assets/pmxos-hub.png" alt="PMX Hub">
+      <span class="sweep"></span>
+      <div class="cap"><div class="lbl">// 02</div><div class="ttl">PMX <em>Hub.</em></div></div>
+    </div>
+    <div class="shot f3 from-left">
+      <img src="assets/pmxos-altnet.png" alt="AltNet Studio on PMX OS">
+      <span class="sweep"></span>
+      <div class="cap"><div class="lbl">// 03</div><div class="ttl">AltNet <em>Studio.</em></div></div>
+    </div>
+    <div class="shot f4 from-right" data-phosphor-src="assets/pmxos-phosphor-terminal.png">
+      <img src="assets/pmxos-terminal.png" alt="PMX OS terminal with fastfetch">
+      <img class="phos-img" src="assets/pmxos-phosphor-terminal.png" alt="PMX OS phosphor terminal">
+      <span class="sweep"></span>
+      <div class="cap"><div class="lbl">// 04</div><div class="ttl">In the <em>terminal.</em></div></div>
+    </div>
+    <div class="shot f5 from-bottom">
+      <img src="assets/pmxos-phosphor.png" alt="Phosphor mode desktop">
+      <span class="sweep"></span>
+      <div class="cap"><div class="lbl">// 05</div><div class="ttl">Phosphor <em>desktop.</em></div></div>
+    </div>
+    <div class="shot f6 from-right">
+      <img src="assets/pmxos-phosphor-terminal.png" alt="Phosphor mode terminal">
+      <span class="sweep"></span>
+      <div class="cap"><div class="lbl">// 06</div><div class="ttl">Phosphor <em>terminal.</em></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTALL — via LinuxSimplify -->
+<section class="editorial">
+  <div class="section-kicker">// GETTING IT</div>
+  <h2 class="section-title">Switching will be <em class="cyan">painless.</em></h2>
+  <p class="section-sub">When PMX OS ships, you won&rsquo;t need to be a Linux wizard to run it. <strong style="color:var(--paper);font-weight:500;">LinuxSimplify</strong> &mdash; our Windows&rarr;Linux guide &mdash; will walk you onto it, step by step, in plain English.</p>
+
+  <div class="install-flow">
+    <div class="step s-l">
+      <span class="n">1</span>
+      <h3>Run it on <em>Windows.</em></h3>
+      <p>Open LinuxSimplify on your current PC. It reads your hardware and tells you exactly what to expect &mdash; no terminal, no guesswork.</p>
+    </div>
+    <div class="step s-b">
+      <span class="n">2</span>
+      <h3>It builds your <em>USB.</em></h3>
+      <p>One click writes a bootable PMX OS stick. LinuxSimplify even tells you which key to press to boot from it.</p>
+    </div>
+    <div class="step s-r">
+      <span class="n">3</span>
+      <h3>Boot &amp; <em>keep going.</em></h3>
+      <p>Try PMX OS live first. Install to disk when you&rsquo;re ready &mdash; full disk, or right alongside Windows. Your call.</p>
+    </div>
+  </div>
+
+  <div class="install-note">
+    <span class="tag">Planned at launch</span>
+    <p>LinuxSimplify ships today as a standalone Windows app. When PMX OS arrives, the same guide will hand you straight onto it. <a href="linuxsimplify.html">See LinuxSimplify &rarr;</a></p>
+  </div>
+</section>
+
+<!-- WHAT'S INSIDE -->
+<section class="editorial">
+  <div class="section-kicker">// WHAT&rsquo;S INSIDE</div>
+  <h2 class="section-title">Three <em>doors.</em></h2>
+  <div class="feat-grid feat-grid-3">
+    <div class="feat">
+      <div class="ico">// 01</div>
+      <h3>PMX <em>Hub.</em></h3>
+      <p>Your front door. Install, explore, and reach the whole PANMOX catalog from one place.</p>
+    </div>
+    <div class="feat">
+      <div class="ico">// 02 &middot; PRE-INSTALLED</div>
+      <h3>AltNet <em>Studio.</em></h3>
+      <p>The one PANMOX app that ships in the box. Be a node, or register a <code style="font-family:var(--mono);color:var(--cyan);background:rgba(0,229,255,.08);padding:1px 6px;border-radius:2px;">.alt</code> domain, in a click.</p>
+    </div>
+    <div class="feat">
+      <div class="ico">// 03</div>
+      <h3>Phosphor <em>mode.</em></h3>
+      <p>Flip the entire desktop from deep-cyan to retro phosphor-green. Two faces, one OS.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP — the rest of the catalog, coming -->
+<section class="editorial">
+  <div class="section-kicker">// ON THE ROADMAP</div>
+  <h2 class="section-title">The rest of PANMOX, <em>coming home.</em></h2>
+  <p class="section-sub">Today, AltNet Studio is the only PANMOX app baked in. In future versions, we want the whole catalog pre-installed and ready the moment you boot.</p>
+  <div class="cat-row">
+    <a href="neuralxp.html" class="cat-card"><span class="cat-flag">Planned</span><span class="name">Neural<em>XP.</em></span><span class="tag">Offline A.I.</span></a>
+    <a href="browser.html?intro=1" class="cat-card"><span class="cat-flag">Planned</span><span class="name">PANMOX <em>Browser.</em></span><span class="tag">Private &middot; v1.2</span></a>
+    <a href="lostengine.html" class="cat-card"><span class="cat-flag">Planned</span><span class="name">Lost<em>Engine.</em></span><span class="tag">Wrong search</span></a>
+  </div>
+</section>
+
+<!-- MARQUEE 2 -->
+<div class="marquee reverse">
+  <div class="marquee-track">
+    <span>PMX OS 1</span><span class="hot">Debian underneath</span><span>KDE Plasma</span><span class="hot">Live USB &middot; Installs to disk</span><span>UEFI + BIOS</span><span class="hot">Release date — TBA</span>
+    <span>PMX OS 1</span><span class="hot">Debian underneath</span><span>KDE Plasma</span><span class="hot">Live USB &middot; Installs to disk</span><span>UEFI + BIOS</span><span class="hot">Release date — TBA</span>
+  </div>
+</div>
+
+<!-- MISSION -->
+<section class="editorial" style="text-align:center;max-width:1100px;">
+  <div class="section-kicker" style="margin-left:auto;margin-right:auto;">// WHAT WE BELIEVE</div>
+  <h2 class="section-title" style="text-align:center;margin-left:auto;margin-right:auto;">An OS where the internet <em>still belongs to you.</em></h2>
+  <p style="font-family:var(--mono);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--paper-mute);margin-top:24px;">PMX OS 1 &middot; Debian underneath &middot; panmox.org</p>
+</section>
+
+<footer>
+  <div class="ftxt">&copy; 2026 PANMOX &nbsp;&middot;&nbsp; <a href="about.html">About</a> &nbsp;&middot;&nbsp; <a href="legal/">Legal</a></div>
+  <div class="tm">PANMOX&trade;, PMX OS&trade;, PANMOX Browser&trade;, AltNet&trade;, AltNet Studio&trade;, LostEngine&trade;, NeuralXP&trade;, OverByte&trade;, and LinuxSimplify&trade; are trademarks of PANMOX. All other trademarks are property of their respective owners.</div>
+</footer>
+
+<script>
+(function(){var c=document.getElementById('stars');for(var i=0;i<80;i++){var s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.width=s.style.height=(Math.random()*2+.4)+'px';s.style.animationDelay=Math.random()*4+'s';s.style.animationDuration=(Math.random()*3+2.5)+'s';c.appendChild(s);}})();
+(function(){var dot=document.getElementById('cDot'),ring=document.getElementById('cRing');if(!dot||!ring)return;var x=0,y=0,rx=0,ry=0;window.addEventListener('mousemove',function(e){x=e.clientX;y=e.clientY;dot.style.left=x+'px';dot.style.top=y+'px';});function tick(){rx+=(x-rx)*.18;ry+=(y-ry)*.18;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);}requestAnimationFrame(tick);document.querySelectorAll('a, button, .hero-mark .ch, .feat, .shot, .cat-card, .step').forEach(function(el){el.addEventListener('mouseenter',function(){dot.classList.add('hover');ring.classList.add('hover');});el.addEventListener('mouseleave',function(){dot.classList.remove('hover');ring.classList.remove('hover');});});})();
+(function(){var mark=document.querySelector('.hero-mark');if(!mark)return;var chars=mark.querySelectorAll('.ch');mark.addEventListener('mousemove',function(e){var r=mark.getBoundingClientRect();var cx=r.left+r.width/2,cy=r.top+r.height/2;var dx=(e.clientX-cx)/r.width,dy=(e.clientY-cy)/r.height;chars.forEach(function(ch,i){var f=(i%2===0?1:-1)*(8+i*2);ch.style.translate=(dx*f)+'px '+(dy*f)+'px';});});mark.addEventListener('mouseleave',function(){chars.forEach(function(ch){ch.style.translate='';});});})();
+(function(){var section=document.querySelector('.sticky-section');if(!section)return;var contents=section.querySelectorAll('.stage-content');var dots=section.querySelectorAll('.stage-progress span');var stages=contents.length;function tick(){var rect=section.getBoundingClientRect();var total=rect.height-window.innerHeight;var scrolled=-rect.top;var p=Math.max(0,Math.min(1,scrolled/total));var stage=Math.min(stages,Math.floor(p*stages)+1);contents.forEach(function(c){var s=parseInt(c.getAttribute('data-stage'),10);c.classList.toggle('active',s===stage);});dots.forEach(function(d){var s=parseInt(d.getAttribute('data-stage'),10);d.classList.toggle('on',s<=stage);});}window.addEventListener('scroll',tick,{passive:true});tick();})();
+(function(){var btn=document.getElementById('productsBtn');var dd=document.getElementById('productsDropdown');var ov=document.getElementById('dropdownOverlay');btn.addEventListener('click',function(){dd.classList.toggle('show');ov.classList.toggle('show');btn.classList.toggle('open');});ov.addEventListener('click',function(){dd.classList.remove('show');ov.classList.remove('show');btn.classList.remove('open');});})();
+(function(){var fab=document.getElementById('phosFab');if(!fab)return;fab.addEventListener('click',function(){document.body.classList.toggle('phosphor');});})();
+/* Scroll-reveal for collage frames + install steps (staggered, directional) */
+(function(){var els=document.querySelectorAll('.shot, .step');if(!els.length)return;var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.15});els.forEach(function(s){io.observe(s);});})();
+/* Screenshot 3D cursor tilt */
+(function(){var touch=window.matchMedia('(pointer:coarse)').matches;if(touch)return;document.querySelectorAll('.shot').forEach(function(shot){shot.addEventListener('mousemove',function(e){var r=shot.getBoundingClientRect();var x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;shot.style.transform='perspective(900px) rotateY('+(x*9)+'deg) rotateX('+(-y*9)+'deg) translateZ(20px) scale(1.02)';});shot.addEventListener('mouseleave',function(){shot.style.transform='';});});})();
+</script>
+</body>
+</html>
