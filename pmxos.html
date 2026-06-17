@@ -197,13 +197,11 @@ section.editorial{position:relative;z-index:5;padding:120px 32px;max-width:1280p
 .shot:hover .sweep{animation:sweep 1.1s cubic-bezier(.4,0,.2,1)}
 @keyframes sweep{0%{top:-35%;opacity:1}100%{top:120%;opacity:0}}
 
-/* ── Collage placement: overlapping spans + vertical offsets + resting tilt ── */
-.shot.f1{grid-column:1/8;  grid-row:1; margin:0 -2% 0 0;     --rot:-3deg;  z-index:2}
-.shot.f2{grid-column:8/13; grid-row:1; margin:64px 0 0 -4%;  --rot:3.2deg; z-index:3}
-.shot.f3{grid-column:1/6;  grid-row:2; margin:-40px 0 0 2%;  --rot:2.4deg; z-index:4}
-.shot.f4{grid-column:6/13; grid-row:2; margin:36px 0 0 -3%;  --rot:-2.2deg;z-index:2}
-.shot.f5{grid-column:2/8;  grid-row:3; margin:-30px 0 60px 0;--rot:-2.6deg;z-index:3}
-.shot.f6{grid-column:7/13; grid-row:3; margin:24px 0 60px -2%;--rot:2.8deg; z-index:2}
+/* ── Collage placement: 4 frames, overlapping spans + vertical offsets + resting tilt ── */
+.shot.f1{grid-column:1/8;  grid-row:1; margin:0 -3% 0 0;       --rot:-3deg;  z-index:2}
+.shot.f2{grid-column:8/13; grid-row:1; margin:70px 0 0 -5%;    --rot:3.2deg; z-index:3}
+.shot.f3{grid-column:2/8;  grid-row:2; margin:-20px 0 70px 0;  --rot:2.5deg; z-index:4}
+.shot.f4{grid-column:8/13; grid-row:2; margin:48px 0 70px -4%; --rot:-2.6deg;z-index:2}
 
 /* ── Directional fly-in initial states ── */
 .shot.from-left  {transform:translateX(-140px) rotate(calc(var(--rot) - 8deg))}
@@ -213,7 +211,7 @@ section.editorial{position:relative;z-index:5;padding:120px 32px;max-width:1280p
 .shot.from-zoom  {transform:scale(.62) rotate(calc(var(--rot) + 10deg))}
 /* settle to resting tilt */
 .shot.in{opacity:1;transform:rotate(var(--rot))}
-.shot.f1.in{transition-delay:.05s}.shot.f2.in{transition-delay:.18s}.shot.f3.in{transition-delay:.10s}.shot.f4.in{transition-delay:.24s}.shot.f5.in{transition-delay:.16s}.shot.f6.in{transition-delay:.30s}
+.shot.f1.in{transition-delay:.05s}.shot.f2.in{transition-delay:.18s}.shot.f3.in{transition-delay:.12s}.shot.f4.in{transition-delay:.26s}
 .shot .cap{position:absolute;bottom:16px;left:18px;right:18px;z-index:4}
 .shot .cap .lbl{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--magenta);text-transform:uppercase;margin-bottom:6px}
 .shot .cap .ttl{font-family:var(--serif);font-weight:500;font-size:22px;color:var(--paper);letter-spacing:-.3px;font-variation-settings:'opsz' 144}
@@ -393,8 +391,8 @@ footer .ftxt a:hover{color:var(--magenta);border-color:var(--magenta)}
 <!-- SCREENSHOT GALLERY -->
 <section class="editorial" id="shots">
   <div class="section-kicker">// FIRST LOOK</div>
-  <h2 class="section-title">Six <em>screens,</em><br>torn across the page.</h2>
-  <p class="section-sub">Hit the phosphor toggle (top-right) to flip the wallpaper and terminal shots into retro green &mdash; live.</p>
+  <h2 class="section-title">Four <em>screens,</em><br>torn across the page.</h2>
+  <p class="section-sub">Hit the phosphor toggle (top-right) to flip the wallpaper into retro green &mdash; live.</p>
 
   <div class="collage">
     <div class="shot f1 from-left" data-phosphor-src="assets/pmxos-phosphor.png">
@@ -408,26 +406,15 @@ footer .ftxt a:hover{color:var(--magenta);border-color:var(--magenta)}
       <span class="sweep"></span>
       <div class="cap"><div class="lbl">// 02</div><div class="ttl">PMX <em>Hub.</em></div></div>
     </div>
-    <div class="shot f3 from-left">
+    <div class="shot f3 from-bottom">
       <img src="assets/pmxos-altnet.png" alt="AltNet Studio on PMX OS">
       <span class="sweep"></span>
       <div class="cap"><div class="lbl">// 03</div><div class="ttl">AltNet <em>Studio.</em></div></div>
     </div>
-    <div class="shot f4 from-right" data-phosphor-src="assets/pmxos-phosphor-terminal.png">
-      <img src="assets/pmxos-terminal.png" alt="PMX OS terminal with fastfetch">
-      <img class="phos-img" src="assets/pmxos-phosphor-terminal.png" alt="PMX OS phosphor terminal">
+    <div class="shot f4 from-right">
+      <img src="assets/pmxos-phosphor.png" alt="PMX OS phosphor desktop">
       <span class="sweep"></span>
-      <div class="cap"><div class="lbl">// 04</div><div class="ttl">In the <em>terminal.</em></div></div>
-    </div>
-    <div class="shot f5 from-bottom">
-      <img src="assets/pmxos-phosphor.png" alt="Phosphor mode desktop">
-      <span class="sweep"></span>
-      <div class="cap"><div class="lbl">// 05</div><div class="ttl">Phosphor <em>desktop.</em></div></div>
-    </div>
-    <div class="shot f6 from-right">
-      <img src="assets/pmxos-phosphor-terminal.png" alt="Phosphor mode terminal">
-      <span class="sweep"></span>
-      <div class="cap"><div class="lbl">// 06</div><div class="ttl">Phosphor <em>terminal.</em></div></div>
+      <div class="cap"><div class="lbl">// 04</div><div class="ttl">Phosphor <em>desktop.</em></div></div>
     </div>
   </div>
 </section>
@@ -465,8 +452,8 @@ footer .ftxt a:hover{color:var(--magenta);border-color:var(--magenta)}
 <!-- WHAT'S INSIDE -->
 <section class="editorial">
   <div class="section-kicker">// WHAT&rsquo;S INSIDE</div>
-  <h2 class="section-title">Three <em>doors.</em></h2>
-  <div class="feat-grid feat-grid-3">
+  <h2 class="section-title">Four <em>doors.</em></h2>
+  <div class="feat-grid">
     <div class="feat">
       <div class="ico">// 01</div>
       <h3>PMX <em>Hub.</em></h3>
@@ -478,7 +465,12 @@ footer .ftxt a:hover{color:var(--magenta);border-color:var(--magenta)}
       <p>The one PANMOX app that ships in the box. Be a node, or register a <code style="font-family:var(--mono);color:var(--cyan);background:rgba(0,229,255,.08);padding:1px 6px;border-radius:2px;">.alt</code> domain, in a click.</p>
     </div>
     <div class="feat">
-      <div class="ico">// 03</div>
+      <div class="ico">// 03 &middot; IN DEVELOPMENT</div>
+      <h3>Mox<em>Terminal.</em></h3>
+      <p>Our own terminal, built from scratch for PMX OS &mdash; not a re-skin of someone else&rsquo;s. The command line, the PANMOX way. <em style="color:var(--warn);font-style:italic;">Still cooking.</em></p>
+    </div>
+    <div class="feat">
+      <div class="ico">// 04</div>
       <h3>Phosphor <em>mode.</em></h3>
       <p>Flip the entire desktop from deep-cyan to retro phosphor-green. Two faces, one OS.</p>
     </div>
