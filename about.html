@@ -183,5 +183,6 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
 (function(){var dot=document.getElementById('cDot'),ring=document.getElementById('cRing');if(!dot||!ring)return;var x=0,y=0,rx=0,ry=0;window.addEventListener('mousemove',function(e){x=e.clientX;y=e.clientY;dot.style.left=x+'px';dot.style.top=y+'px';});function tick(){rx+=(x-rx)*.18;ry+=(y-ry)*.18;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);}requestAnimationFrame(tick);document.querySelectorAll('a, button, .contact-card').forEach(function(el){el.addEventListener('mouseenter',function(){dot.classList.add('hover');ring.classList.add('hover');});el.addEventListener('mouseleave',function(){dot.classList.remove('hover');ring.classList.remove('hover');});});})();
 (function(){var btn=document.getElementById('productsBtn');var dd=document.getElementById('productsDropdown');var ov=document.getElementById('dropdownOverlay');btn.addEventListener('click',function(){dd.classList.toggle('show');ov.classList.toggle('show');btn.classList.toggle('open');});ov.addEventListener('click',function(){dd.classList.remove('show');ov.classList.remove('show');btn.classList.remove('open');});})();
 </script>
+<script src="waterline.js"></script>
 </body>
 </html>

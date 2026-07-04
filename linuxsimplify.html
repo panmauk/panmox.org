@@ -216,5 +216,6 @@ footer .ftxt a:hover{color:var(--blue);border-color:var(--blue)}
 (function(){var mark=document.querySelector('.hero-mark');if(!mark)return;var chars=mark.querySelectorAll('.ch');window.addEventListener('mousemove',function(e){var r=mark.getBoundingClientRect();var cx=r.left+r.width/2,cy=r.top+r.height/2;var dx=(e.clientX-cx)/r.width,dy=(e.clientY-cy)/r.height;chars.forEach(function(ch,i){var f=(i%2===0?1:-1)*(8+i*2);ch.style.translate=(dx*f)+'px '+(dy*f)+'px';});});})();
 (function(){var btn=document.getElementById('productsBtn');var dd=document.getElementById('productsDropdown');var ov=document.getElementById('dropdownOverlay');btn.addEventListener('click',function(){dd.classList.toggle('show');ov.classList.toggle('show');btn.classList.toggle('open');});ov.addEventListener('click',function(){dd.classList.remove('show');ov.classList.remove('show');btn.classList.remove('open');});})();
 </script>
+<script src="waterline.js"></script>
 </body>
 </html>
