@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <rect width="200" height="200" rx="40" fill="#1a1a1a"/>
+  <g transform="translate(55, 45)">
+    <!-- Magnifying glass circle -->
+    <circle cx="45" cy="45" r="32" stroke="#e0e0e0" stroke-width="8" fill="none"/>
+    <!-- Handle -->
+    <line x1="68" y1="68" x2="98" y2="98" stroke="#e0e0e0" stroke-width="8" stroke-linecap="round"/>
+    <!-- X inside -->
+    <line x1="30" y1="30" x2="60" y2="60" stroke="#999" stroke-width="7" stroke-linecap="round"/>
+    <line x1="60" y1="30" x2="30" y2="60" stroke="#999" stroke-width="7" stroke-linecap="round"/>
+  </g>
+</svg>
