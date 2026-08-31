@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
 <link rel="apple-touch-icon" href="assets/favicon.jpg">
-<meta name="description" content="PANMOX — free, open-source software. Browsers, peer networks, offline AI, system tools. No telemetry. Yours forever.">
+<meta name="description" content="PANMOX — free, open-source software. Peer networks, offline AI, system tools. No telemetry. Yours forever.">
 <meta property="og:title" content="PANMOX — Free, open-source software">
-<meta property="og:description" content="Browsers, peer networks, offline AI, system tools. No telemetry. No accounts. Yours forever.">
+<meta property="og:description" content="Peer networks, offline AI, system tools. No telemetry. No accounts. Yours forever.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://panmox.org">
 <title>PANMOX — Free, open-source software</title>
@@ -826,10 +826,9 @@ section.bento-section, section.sticky-section, section.mission-section {
 /* Card grid placement (6-col) — Studio is flagship since AltNet headlines the hero */
 .bento-studio  { grid-column: span 4; grid-row: span 2; --accent-rgb: 0,255,136; padding: 36px; }
 .bento-neural  { grid-column: span 2; grid-row: span 2; --accent-rgb: 183,101,255; }
-.bento-lost    { grid-column: span 3; --accent-rgb: 255,140,0; }
-.bento-browser { grid-column: span 3; --accent-rgb: 0,200,255; }
-.bento-over    { grid-column: span 3; --accent-rgb: 40,200,120; }
-.bento-linux   { grid-column: span 3; --accent-rgb: 74,158,255; }
+.bento-lost    { grid-column: span 2; --accent-rgb: 255,140,0; }
+.bento-over    { grid-column: span 2; --accent-rgb: 40,200,120; }
+.bento-linux   { grid-column: span 2; --accent-rgb: 74,158,255; }
 
 /* ═══ Card visuals — each its own little scene ═══ */
 /* AltNet: network constellation */
@@ -925,29 +924,6 @@ section.bento-section, section.sticky-section, section.mission-section {
   font-variation-settings: 'opsz' 144;
 }
 @keyframes lostWobble { 0%, 100% { transform: rotate(-6deg) scale(1); } 25% { transform: rotate(4deg) scale(1.05); } 50% { transform: rotate(-3deg) scale(.95); } 75% { transform: rotate(8deg) scale(1.02); } }
-
-/* Browser: shield */
-.brw-vis { width: 160px; height: 200px; position: relative; }
-.brw-vis::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(0,200,255,.18), rgba(0,200,255,.05));
-  border: 2px solid var(--cyan);
-  clip-path: polygon(50% 0%, 100% 22%, 100% 60%, 50% 100%, 0% 60%, 0% 22%);
-  box-shadow: 0 0 30px rgba(0,200,255,.4);
-  animation: brwGlow 3s ease-in-out infinite;
-}
-@keyframes brwGlow { 0%, 100% { filter: drop-shadow(0 0 12px rgba(0,200,255,.5)); } 50% { filter: drop-shadow(0 0 24px rgba(0,200,255,.8)); } }
-.brw-vis::after {
-  content: '✓';
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: var(--mono);
-  font-size: 56px;
-  color: var(--cyan);
-  text-shadow: 0 0 16px var(--cyan);
-}
 
 /* OverByte: growing balloon */
 .ovb-vis { width: 200px; height: 200px; position: relative; display: flex; align-items: center; justify-content: center; }
@@ -1280,9 +1256,8 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
   .bento-studio { grid-column: span 4; grid-row: span 2; }
   .bento-neural { grid-column: span 4; grid-row: span 2; }
   .bento-lost { grid-column: span 2; }
-  .bento-browser { grid-column: span 2; }
   .bento-over { grid-column: span 2; }
-  .bento-linux { grid-column: span 2; }
+  .bento-linux { grid-column: span 4; }
   .stats { grid-template-columns: 1fr; }
 }
 @media (max-width: 720px) {
@@ -1290,8 +1265,8 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
   .nav-links { gap: 18px; }
   section.bento-section, section.sticky-section, section.mission-section { padding: 80px 20px; }
   .bento-grid { grid-template-columns: 1fr; grid-auto-rows: minmax(280px, auto); }
-  .bento-studio, .bento-neural, .bento-lost, .bento-browser, .bento-over, .bento-linux { grid-column: span 1; grid-row: span 1; }
-  .studio-vis, .neural-vis, .lost-vis, .brw-vis, .ovb-vis, .lnx-vis { transform: scale(.7); }
+  .bento-studio, .bento-neural, .bento-lost, .bento-over, .bento-linux { grid-column: span 1; grid-row: span 1; }
+  .studio-vis, .neural-vis, .lost-vis, .ovb-vis, .lnx-vis { transform: scale(.7); }
   .hero { padding: 100px 20px 60px; }
   .hero-actions { flex-direction: column; width: 100%; max-width: 280px; }
   .hero-btn { justify-content: center; }
@@ -1346,7 +1321,6 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
       <li><a href="altnet.html"><span class="acc-altnet">Alt</span>Net</a></li>
       <li><a href="neuralxp.html"><span class="acc-violet">Neural</span>XP</a></li>
       <li><a href="lostengine.html"><span class="acc-amber">Lost</span>Engine</a></li>
-      <li><a href="browser.html?intro=1"><span class="acc-cyan">PANMOX</span> Browser</a></li>
       <li><a href="overbyte.html?intro=1"><span class="acc-green">Over</span>Byte</a></li>
       <li><a href="linuxsimplify.html?intro=1"><span class="acc-blue">Linux</span>Simplify</a></li>
     </ul>
@@ -1463,18 +1437,6 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
       <span class="card-cta">Try it</span>
     </a>
 
-    <!-- Browser -->
-    <a href="browser.html?intro=1" class="bento-card bento-browser">
-      <span class="card-tag">Browser</span>
-      <span class="card-status">v1.2</span>
-      <div class="card-visual">
-        <div class="brw-vis"></div>
-      </div>
-      <div class="card-name">Browser<em>.</em></div>
-      <p class="card-tagline">Private, fast, yours.</p>
-      <span class="card-cta">Download</span>
-    </a>
-
     <!-- OverByte -->
     <a href="overbyte.html?intro=1" class="bento-card bento-over">
       <span class="card-tag">File tool</span>
@@ -1577,15 +1539,13 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
     <span>AltNet Studio</span>
     <span class="hot">NeuralXP</span>
     <span>LostEngine</span>
-    <span class="hot">PANMOX Browser</span>
-    <span>OverByte</span>
-    <span class="hot">LinuxSimplify</span>
+    <span class="hot">OverByte</span>
+    <span>LinuxSimplify</span>
     <span>AltNet Studio</span>
     <span class="hot">NeuralXP</span>
     <span>LostEngine</span>
-    <span class="hot">PANMOX Browser</span>
-    <span>OverByte</span>
-    <span class="hot">LinuxSimplify</span>
+    <span class="hot">OverByte</span>
+    <span>LinuxSimplify</span>
   </div>
 </div>
 
@@ -1620,7 +1580,7 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
       <li><a href="https://pmmusic.pro/downloads/" target="_blank" rel="noopener">Also Sprach Zarathustra — PM Music</a></li>
     </ul>
   </div>
-  <div class="tm">PANMOX™, PMX OS™, PANMOX Browser™, AltNet™, AltNet Studio™, LostEngine™, NeuralXP™, OverByte™, and LinuxSimplify™ are trademarks of PANMOX. All other trademarks are property of their respective owners.</div>
+  <div class="tm">PANMOX™, PMX OS™, AltNet™, AltNet Studio™, LostEngine™, NeuralXP™, OverByte™, and LinuxSimplify™ are trademarks of PANMOX. All other trademarks are property of their respective owners.</div>
 </footer>
 
 <script>
