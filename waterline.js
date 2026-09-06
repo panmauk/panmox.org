@@ -79,11 +79,107 @@
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var isCoarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
 
-  import('https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js')
-    .then(init)
-    .catch(function () { /* offline or blocked — the site lives without it */ });
+  // Both checks run before we even fetch three.js — an opted-out visitor,
+  // or one whose machine already proved it cannot cope, should pay nothing
+  // at all: no library download, no context, no compile.
+  try { if (localStorage.getItem('pmx-fx') === 'off') return; } catch (e) {}
+  try {
+    // set by the watchdog's shutdown() when even the floor tier failed;
+    // scoped to the browsing session, so it re-evaluates on a fresh visit
+    if (sessionStorage.getItem('pmx-fx-bail') === '1') {
+      document.documentElement.classList.add('pmx-fx-disabled');
+      return;
+    }
+  } catch (e) {}
+
+  // ── Deferred boot ────────────────────────────────────────────────
+  // Nothing here is above-the-fold content, so it must never compete
+  // with first paint, layout, or the page's own scripts. Wait for load,
+  // then for the main thread to actually go idle, and only then pull
+  // the library down and start. On a slow machine this is the
+  // difference between "the site froze while opening" and "the site
+  // opened, then some ambience faded in".
+  function boot() {
+    import('https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js')
+      .then(init)
+      .catch(function () { /* offline or blocked — the site lives without it */ });
+  }
+  function whenIdle() {
+    if (window.requestIdleCallback) requestIdleCallback(boot, { timeout: 2500 });
+    else setTimeout(boot, 600);
+  }
+  if (document.readyState === 'complete') whenIdle();
+  else window.addEventListener('load', whenIdle, { once: true });
 
   function init(THREE) {
+
+    // ══════════════════════════════════════════════════════════════
+    // ADAPTIVE QUALITY
+    //
+    // This effect must never be the reason a machine stutters. Its cost
+    // is almost entirely FRAGMENT work: the raymarch runs per-pixel and
+    // scales with DPR² × march steps × noise octaves, and each frame also
+    // pays a refraction pass, a bright pass and a blur pyramid.
+    //
+    // Every one of those is tier-scaled below, and a runtime watchdog
+    // drops the tier when measured frame times say the machine can't
+    // hold its target. What does NOT change between tiers: the geometry,
+    // the silhouette, the motion, the colour, the bifurcation, the neon.
+    // Only SAMPLING DENSITY changes — fewer, larger march steps (with a
+    // compensating step multiplier and hit epsilon so convergence stays
+    // equivalent) over fewer pixels. The design is identical; the machine
+    // just isn't asked to brute-force it.
+    // ══════════════════════════════════════════════════════════════
+    // refraction stays ON at every tier — that pass renders only the cheap
+    // glow plane + neon (never the raymarch), so killing it would cost the
+    // signature look while saving almost nothing. It gets scaled instead.
+    // stepMul and eps stay very nearly CONSTANT across tiers on purpose.
+    // They control how the sphere-trace converges, so scaling them changes
+    // the silhouette — measured: a 3x wider eps inflated the column to
+    // ~2x its width and shifted it. The savings come instead from pixel
+    // count (dpr), iteration count, post-hit shading extras and frame rate,
+    // none of which move the shape.
+    var TIERS = [
+      // dpr    march stepMul  eps      bloom refrDiv disp  drops micro fps
+      // micro + dispersion stay ON even at the floor tier: both are
+      // per-HIT-pixel costs and the column covers ~3% of the screen, so
+      // gating them saved almost nothing while measurably dimming the
+      // water (peak 164 -> 94). The march and DPR are the real levers.
+      { dpr: 0.70, march: 24, stepMul: 0.78, eps: 0.0030, bloom: 2, refrDiv: 4, disp: true,  drops: 20,  micro: true,  fps: 30 },
+      { dpr: 0.90, march: 30, stepMul: 0.76, eps: 0.0028, bloom: 3, refrDiv: 3, disp: true,  drops: 45,  micro: true,  fps: 60 },
+      { dpr: 1.15, march: 36, stepMul: 0.74, eps: 0.0026, bloom: 3, refrDiv: 2, disp: true,  drops: 110, micro: true,  fps: 60 },
+      { dpr: 1.50, march: 44, stepMul: 0.72, eps: 0.0025, bloom: 3, refrDiv: 2, disp: true,  drops: 200, micro: true,  fps: 60 }
+    ];
+    var MARCH_MAX = 44;                     // compile-time loop bound; tiers break early
+
+    // ── static first guess, so weak hardware never eats a stutter burst
+    //    before the watchdog reacts ─────────────────────────────────
+    function guessTier(gl) {
+      if (isCoarse) return 1;                             // phones/tablets
+      var t = 3;
+      var mem = navigator.deviceMemory || 8;
+      var cpu = navigator.hardwareConcurrency || 8;
+      if (mem <= 4 || cpu <= 4) t = 1;
+      else if (mem <= 8 || cpu <= 8) t = 2;
+      try {
+        var dbg = gl && gl.getExtension('WEBGL_debug_renderer_info');
+        var r = dbg ? String(gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL)) : '';
+        // software rasterisers and low-power integrated parts
+        if (/SwiftShader|llvmpipe|Software|Microsoft Basic/i.test(r)) t = 0;
+        else if (/Intel.*(HD|UHD) Graphics (2|3|4|5|6)\d\d/i.test(r)) t = 0;
+        else if (/Intel/i.test(r) && !/Arc/i.test(r)) t = Math.min(t, 1);
+        else if (/Mali|Adreno|PowerVR|Apple GPU/i.test(r)) t = Math.min(t, 1);
+      } catch (e) {}
+      // a high-DPR panel multiplies fragment cost — start one notch lower
+      if ((window.devicePixelRatio || 1) >= 2 && t > 1) t--;
+      return t;
+    }
+
+    // ── user override: 'off' disables entirely, persisted ─────────
+    var FX_KEY = 'pmx-fx';
+    var fxPref = null;
+    try { fxPref = localStorage.getItem(FX_KEY); } catch (e) {}
+    if (fxPref === 'off') return;
 
     // ── Renderer / scene / camera ─────────────────────────────────
     var canvas = document.createElement('canvas');
@@ -93,12 +189,17 @@
       'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:3;mix-blend-mode:screen;';
     var renderer;
     try {
-      renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
+      // antialias OFF: this is a soft additive glow overlay whose silhouette
+      // is already analytically anti-aliased in the shader (min-distance
+      // coverage). MSAA here bought nothing and cost real bandwidth.
+      renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false, powerPreference: 'high-performance' });
     } catch (e) { return; }
     document.body.appendChild(canvas);
 
-    // raymarch cost scales with DPR² — 1.75 is indistinguishable on a glow overlay
-    var DPR = Math.min(window.devicePixelRatio || 1, isCoarse ? 1.5 : 1.75);
+    var tier = guessTier(renderer.getContext());
+    var Q = TIERS[tier];
+    // raymarch cost scales with DPR² — this is the single biggest lever
+    var DPR = Math.min(window.devicePixelRatio || 1, Q.dpr);
     renderer.setPixelRatio(DPR);
     renderer.setClearColor(0x000000, 0);
     renderer.autoClear = true;
@@ -376,10 +477,10 @@
       // two trailing inner edges shed small short-lived fluid beads into
       // the low-pressure pocket before the branches merge downstream
       beadTimer -= dt;
-      if (obS > 0.45 && beadTimer <= 0 && dPos.length < MAXD) {
+      if (obS > 0.45 && beadTimer <= 0 && dPos.length < dropBudget) {
         beadTimer = 0.05;
         var bFall = 1.6 + Math.min(Math.abs(scrollMomentum) * 0.06, 2.4);
-        for (var b = 0; b < 2 && dPos.length < MAXD; b++) {
+        for (var b = 0; b < 2 && dPos.length < dropBudget; b++) {
           var sideB = b === 0 ? 1 : -1;
           dPos.push(new THREE.Vector3(
             obX + sideB * obR * (0.55 + Math.random() * 0.35),
@@ -670,7 +771,6 @@
     // THE VOLUME — raymarched SDF water column (WebGL2 only)
     // ══════════════════════════════════════════════════════════════
     var radiusWorld = halfH * 0.052;
-    var MARCH_STEPS = isCoarse ? 28 : 44;
 
     var waterUniforms = {
       uSpine:   { value: spinePack },
@@ -680,6 +780,12 @@
       uRadius:  { value: radiusWorld },
       uStretch: { value: 0 }, uFlow: { value: 0 }, uTime: { value: 0 },
       uChurn:   { value: 0 }, uVel: { value: 0 },
+      // ── adaptive-quality knobs (see TIERS) ──
+      uSteps:   { value: Q.march },        // march iterations before giving up
+      uStepMul: { value: Q.stepMul },      // larger steps compensate for fewer of them
+      uEps:     { value: Q.eps },          // hit threshold, widened to match
+      uDisp:    { value: Q.disp ? 1 : 0 }, // per-channel cubemap dispersion (3 extra samples)
+      uMicro:   { value: Q.micro ? 1 : 0 },// capillary normal detail
       uRes:     { value: new THREE.Vector2(1, 1) },
       uBoxMin:  { value: new THREE.Vector3(-1, -1, -1) },
       uBoxMax:  { value: new THREE.Vector3(1, 1, 1) },
@@ -709,6 +815,7 @@
         uniform vec4 uObs;                       // the cursor-rock: (x, y, unused, radius)
         uniform float uObsK;                     // rock engagement 0..1 (eased, massive)
         uniform float uTopY, uBotY, uRadius, uStretch, uFlow, uTime, uChurn, uVel, uNeonI;
+        uniform float uSteps, uStepMul, uEps, uDisp, uMicro;
         uniform vec2 uRes;
         uniform vec3 uBoxMin, uBoxMax;
         uniform vec3 uEdge, uDeep, uSpark, uNeonCol, uNeonPos;
@@ -829,12 +936,15 @@
           float spd = 0.0, d = 1e9, dMin = 1e9;
           bool hit = false;
           vec3 p = ro;
-          for (int i = 0; i < ${MARCH_STEPS}; i++){
+          // loop bound is the compile-time max; uSteps breaks out early so
+          // quality can be retuned at runtime without a shader recompile
+          for (int i = 0; i < ${MARCH_MAX}; i++){
+            if (float(i) >= uSteps) break;
             p = ro + rd * t;
             d = columnSDF(p, spd);
             dMin = min(dMin, d);
-            if (d < 0.0025) { hit = true; break; }
-            t += d * 0.72;
+            if (d < uEps) { hit = true; break; }
+            t += d * uStepMul;
             if (t > tEnd) break;
           }
           if (!hit){
@@ -863,15 +973,21 @@
 
           // ── micro-capillary crinkles → tangential normal perturbation;
           //    ripples speed up through the venturi, churn in the wake
-          float msp = 1.0 + uChurn * 2.2 + chanH * 1.3;
-          float m0 = microField(p, msp);
-          float me = 0.02;
-          vec3 mg = vec3(
-            microField(p + vec3(me, 0.0, 0.0), msp) - m0,
-            microField(p + vec3(0.0, me, 0.0), msp) - m0,
-            microField(p + vec3(0.0, 0.0, me), msp) - m0) / me;
-          vec3 mgT = mg - N * dot(mg, N);
-          N = normalize(N + mgT * (0.035 + 0.045 * uChurn + 0.05 * wakeH));
+          //    (4 microField evaluations = 8 noise calls/pixel — the single
+          //     most expensive post-hit term, so it is tier-gated)
+          //    m0 is declared out here because the razor glint below reads it
+          float m0 = 0.0;
+          if (uMicro > 0.5) {
+            float msp = 1.0 + uChurn * 2.2 + chanH * 1.3;
+            m0 = microField(p, msp);
+            float me = 0.02;
+            vec3 mg = vec3(
+              microField(p + vec3(me, 0.0, 0.0), msp) - m0,
+              microField(p + vec3(0.0, me, 0.0), msp) - m0,
+              microField(p + vec3(0.0, 0.0, me), msp) - m0) / me;
+            vec3 mgT = mg - N * dot(mg, N);
+            N = normalize(N + mgT * (0.035 + 0.045 * uChurn + 0.05 * wakeH));
+          }
 
           vec3 V = -rd;
           float cosNV = max(dot(N, V), 0.0);
@@ -906,13 +1022,20 @@
           refrCol.g = texture2D(uRefr, suv + shift).g;          // per-channel lookup offsets
           refrCol.b = texture2D(uRefr, suv + shift * 1.08).b;
           refrCol = refrCol * 2.0 * transmit + uDeep * min(thick, 1.0) * 0.45;
-          // world-behind dispersion: per-channel physical IoR through the cubemap
-          vec3 rR = refract(rd, N, 1.0 / 1.345);
-          vec3 rG = refract(rd, N, 1.0 / 1.333);
-          vec3 rB = refract(rd, N, 1.0 / 1.318);
-          refrCol += vec3(textureCube(uEnv, rR).r,
-                          textureCube(uEnv, rG).g,
-                          textureCube(uEnv, rB).b) * 0.40 * transmit;
+          // world-behind dispersion: per-channel physical IoR through the
+          // cubemap. Three refract()+textureCube() per pixel — at the very
+          // lowest tier collapse to a single achromatic sample instead.
+          if (uDisp > 0.5) {
+            vec3 rR = refract(rd, N, 1.0 / 1.345);
+            vec3 rG = refract(rd, N, 1.0 / 1.333);
+            vec3 rB = refract(rd, N, 1.0 / 1.318);
+            refrCol += vec3(textureCube(uEnv, rR).r,
+                            textureCube(uEnv, rG).g,
+                            textureCube(uEnv, rB).b) * 0.40 * transmit;
+          } else {
+            vec3 rG = refract(rd, N, 1.0 / 1.333);
+            refrCol += textureCube(uEnv, rG).rgb * 0.40 * transmit;
+          }
 
           // ── strict Schlick fresnel, F₀ = ((1.333−1)/(1.333+1))² ≈ 0.02
           float F = 0.02 + 0.98 * pow(1.0 - cosNV, 5.0);
@@ -990,7 +1113,10 @@
     }
 
     // ── Droplets — molecular shear: refractive teardrops, dt-integrated ──
+    // pool is allocated once at the ceiling; the live budget is per-tier
+    // (dropBudget), so quality changes never reallocate instanced geometry
     var MAXD = 200;
+    var dropBudget = Q.drops;
     var dropUniforms = {
       uEdge: { value: theme().edge.clone() },
       uSpark: { value: theme().spark.clone() },
@@ -1056,7 +1182,7 @@
       var dlen = Math.sqrt(dvx * dvx + dvy * dvy) || 1e-4;
       var dirX = dvx / dlen, dirY = dvy / dlen;
       var streamFall = 1.4 + Math.min(Math.abs(scrollMomentum) * 0.06, 2.6);
-      for (var i = 0; i < count && dPos.length < MAXD; i++) {
+      for (var i = 0; i < count && dPos.length < dropBudget; i++) {
         var spread = (Math.random() - 0.5) * 1.1;          // ~±30° shear cone
         var ca = Math.cos(spread), sa = Math.sin(spread);
         var vx2 = dirX * ca - dirY * sa, vy2 = dirX * sa + dirY * ca;
@@ -1081,7 +1207,7 @@
       for (var i = 2; i < WN - 2; i += 2) {
         if (spawned >= cap) break;
         var hard = wspd[i] > 0.085 || (yank && wspd[i] > 0.035);
-        if (hard && Math.random() < (yank ? 0.30 : 0.16) && dPos.length < MAXD) {
+        if (hard && Math.random() < (yank ? 0.30 : 0.16) && dPos.length < dropBudget) {
           var side = wvx[i] > 0 ? 1 : -1;
           dPos.push(new THREE.Vector3(wsx[i] + side * radiusWorld, nodeY(i, WN), wsz[i]));
           // inherit the parent node's instantaneous velocity vector
@@ -1380,6 +1506,9 @@
 
     var compUniforms = {
       tB0: { value: null }, tB1: { value: null }, tB2: { value: null },
+      // per-level weights; a tier that renders fewer mips zeroes the tail
+      // and boosts the head so total bloom energy stays close to the same
+      uW: { value: new THREE.Vector3(1.10, 0.70, 0.50) },
       uStrength: { value: 1.25 }
     };
     var compMat = new THREE.ShaderMaterial({
@@ -1388,12 +1517,13 @@
       fragmentShader: `
         uniform sampler2D tB0, tB1, tB2;
         uniform float uStrength;
+        uniform vec3 uW;
         varying vec2 vUv;
         void main(){
           // Unreal-style weighted mip sum: tight radius hot, wide tail soft
-          vec3 b = texture2D(tB0, vUv).rgb * 1.10
-                 + texture2D(tB1, vUv).rgb * 0.70
-                 + texture2D(tB2, vUv).rgb * 0.50;
+          vec3 b = texture2D(tB0, vUv).rgb * uW.x;
+          if (uW.y > 0.001) b += texture2D(tB1, vUv).rgb * uW.y;
+          if (uW.z > 0.001) b += texture2D(tB2, vUv).rgb * uW.z;
           gl_FragColor = vec4(b * uStrength, 1.0);
         }`
     });
@@ -1414,8 +1544,9 @@
       renderer.render(scene, camera);
 
       // 3. gaussian mip pyramid: blur at each level, downsampling as we go
+      //    (Q.bloom levels — lower tiers render a shallower pyramid)
       var src = rtBright;
-      for (var l = 0; l < LEVELS; l++) {
+      for (var l = 0; l < Q.bloom; l++) {
         blurUniforms.uTexel.value.set(1 / rtPing[l].width, 1 / rtPing[l].height);
         blurUniforms.tDiffuse.value = src.texture;
         blurUniforms.uDir.value.set(1, 0);
@@ -1562,7 +1693,10 @@
 
       var db = renderer.getDrawingBufferSize(new THREE.Vector2());
       waterUniforms.uRes.value.copy(db);
-      refrRT.setSize(Math.max(2, db.x >> 1), Math.max(2, db.y >> 1));
+      // refraction buffer is scaled per tier rather than switched off —
+      // the water keeps refracting the neon on every machine
+      refrRT.setSize(Math.max(2, Math.floor(db.x / Q.refrDiv)),
+                     Math.max(2, Math.floor(db.y / Q.refrDiv)));
 
       // bloom pyramid: 1/4 → 1/8 → 1/16 of the viewport
       var bw = Math.max(64, Math.floor(w / 4)), bh = Math.max(64, Math.floor(h / 4));
@@ -1576,6 +1710,151 @@
     }
     window.addEventListener('resize', resize, { passive: true });
     resize();
+
+    // ══════════════════════════════════════════════════════════════
+    // QUALITY WATCHDOG
+    //
+    // The static guess can be wrong in both directions — a "good" GPU
+    // sharing a thermally-throttled laptop, a browser without the
+    // renderer-info extension, a machine busy with other tabs. So the
+    // real arbiter is measured frame time on the user's actual machine.
+    //
+    // Asymmetric by design: it downgrades FAST (a stuttering visitor
+    // gets relief inside about a second) and upgrades slowly and only
+    // into tiers that have never failed — so it converges and can never
+    // oscillate between two levels. Every failure permanently lowers
+    // the ceiling for the rest of the session.
+    // ══════════════════════════════════════════════════════════════
+    var frameBudget = 1000 / Q.fps;
+    var lastRender = 0;
+    var msEMA = 16.7, badRun = 0, goodRun = 0;
+    var bootAt = 0, hardStalls = 0, floorMisses = 0;
+    var maxAllowed = TIERS.length - 1;
+
+    function applyTier(n) {
+      n = Math.max(0, Math.min(maxAllowed, n));
+      if (n === tier) return;
+      tier = n; Q = TIERS[n];
+      DPR = Math.min(window.devicePixelRatio || 1, Q.dpr);
+      renderer.setPixelRatio(DPR);
+      waterUniforms.uSteps.value   = Q.march;
+      waterUniforms.uStepMul.value = Q.stepMul;
+      waterUniforms.uEps.value     = Q.eps;
+      waterUniforms.uDisp.value    = Q.disp  ? 1 : 0;
+      waterUniforms.uMicro.value   = Q.micro ? 1 : 0;
+      dropBudget = Q.drops;
+      compUniforms.uW.value.set(
+        Q.bloom >= 3 ? 1.10 : (Q.bloom === 2 ? 1.25 : 1.55),
+        Q.bloom >= 3 ? 0.70 : (Q.bloom === 2 ? 0.95 : 0.00),
+        Q.bloom >= 3 ? 0.50 : 0.00);
+      frameBudget = 1000 / Q.fps;
+      resize();                       // re-sizes every render target for the new DPR
+    }
+
+    // Health is judged on the rAF CADENCE (how fast the browser can get
+    // us frames at all), never on our own render-to-render spacing. That
+    // distinction matters: at the floor tier we deliberately render at
+    // 30fps, which quantises render intervals to multiples of the display
+    // tick — measuring those made a perfectly healthy 36fps laptop look
+    // like an 18fps one and shut the effect off. Cadence is the honest
+    // signal, and these thresholds are absolute rather than relative to
+    // whatever budget the current tier happens to target.
+    var DOWN_MS  = 26;   // sustained worse than ~38fps -> spend less
+    var UP_MS    = 17.5; // comfortably holding ~57fps+ -> room to spend more
+    var ABANDON_MS = 50; // worse than ~20fps AT THE FLOOR -> give up entirely
+    var lastRaf = 0;
+
+    function watchdog(now) {
+      if (bootAt === 0) { bootAt = now; lastRaf = now; return; }
+      var dtMs = now - lastRaf;
+      lastRaf = now;
+      var age = now - bootAt;
+      // absorb the one-off first-draw cost before believing any number:
+      // shader compilation alone is ~300ms on a weak GPU
+      if (age < 400) return;
+
+      // The average is maintained on EVERY sampled frame, including the
+      // catastrophic ones below. (It used to be updated after the
+      // emergency early-return, so on a 5fps machine it never moved off
+      // its seed value and the give-up check could never fire.)
+      msEMA += (Math.min(dtMs, 400) - msEMA) * 0.10;
+
+      // ── EMERGENCY PATH ──
+      // Frame-COUNT thresholds are useless on a machine running at 4fps:
+      // waiting 20 frames to confirm would be five seconds of misery. A
+      // short run of catastrophic frames demotes at once, by as many tiers
+      // as the overshoot warrants, without waiting for the average.
+      if (dtMs > 90) {
+        if (++hardStalls >= 3) {
+          hardStalls = 0;
+          demote(dtMs > 250 ? 3 : (dtMs > 150 ? 2 : 1));
+        }
+        return;
+      }
+      hardStalls = 0;
+
+      if (age < 700) return;                  // let the average settle first
+
+      if (tier === 0 && msEMA > ABANDON_MS) {
+        // nothing left to turn down and still unusable
+        badRun++;
+        if (badRun > 25) shutdown();
+        return;
+      }
+      if (msEMA > DOWN_MS) {
+        badRun++; goodRun = 0;
+        if (badRun > 20) demote(1);
+      } else if (msEMA < UP_MS) {
+        goodRun++; badRun = 0;
+        if (goodRun > 600 && tier < maxAllowed) {
+          applyTier(tier + 1);
+          goodRun = 0;
+        }
+      } else { badRun = 0; goodRun = 0; }
+    }
+
+    function demote(levels) {
+      if (tier <= 0) {
+        // ── THE FLOOR HAS FAILED ──
+        // Already at the cheapest tier. If the machine is not merely slow
+        // but genuinely unusable, honour the promise and switch off rather
+        // than grind forever; otherwise sit here and keep the effect.
+        if (msEMA > ABANDON_MS && ++floorMisses >= 2) shutdown();
+        badRun = 0;
+        return;
+      }
+      var target = Math.max(0, tier - levels);
+      maxAllowed = Math.min(maxAllowed, target);
+      applyTier(target);
+      badRun = 0; goodRun = 0;
+    }
+
+    function shutdown() {
+      running = false;
+      try {
+        [refrRT, rtBright].concat(rtPing, rtPong).forEach(function (rt) {
+          if (rt && rt.dispose) rt.dispose();
+        });
+        if (cubeRT && cubeRT.dispose) cubeRT.dispose();
+        renderer.dispose();
+        if (renderer.forceContextLoss) renderer.forceContextLoss();
+      } catch (e) {}
+      if (canvas && canvas.parentNode) canvas.parentNode.removeChild(canvas);
+      if (glassEl && glassEl.parentNode) glassEl.parentNode.removeChild(glassEl);
+      // hook for a static CSS stand-in, so the page still reads as designed
+      document.documentElement.classList.add('pmx-fx-disabled');
+      // don't repeat this discovery on every page of the same visit
+      try { sessionStorage.setItem('pmx-fx-bail', '1'); } catch (e) {}
+    }
+
+    // small public handle so the site can offer a visible control
+    window.panmoxFX = {
+      tier: function () { return tier; },
+      fps: function () { return +(1000 / msEMA).toFixed(1); },
+      set: function (n) { maxAllowed = TIERS.length - 1; applyTier(n); },
+      off: function () { try { localStorage.setItem(FX_KEY, 'off'); } catch (e) {} location.reload(); },
+      auto: function () { try { localStorage.removeItem(FX_KEY); } catch (e) {} location.reload(); }
+    };
 
     // ── Main loop ─────────────────────────────────────────────────
     var running = true, lastT = performance.now();
@@ -1595,6 +1874,26 @@
     var projN = new THREE.Vector3();
     function loop(now) {
       if (!running) return;
+
+      // Health sampling happens on EVERY rAF, before the render cap, so it
+      // sees the browser's true cadence rather than our throttled spacing.
+      watchdog(now);
+      // watchdog() may have called shutdown(). The renderer and its targets
+      // are gone at that point, so abort here rather than march on and draw
+      // into a disposed context.
+      if (!running) return;
+
+      // ── frame-rate cap: at the lowest tier we deliberately target 30fps.
+      // Halving the render rate halves GPU load outright, and a smooth,
+      // consistent 30 reads far better than an unstable 40-ish. The physics
+      // accumulator below still runs its exact 1/60 substeps, so motion
+      // stays identical — only the presentation rate changes.
+      if (frameBudget > 17 && now - lastRender < frameBudget - 1.5) {
+        requestAnimationFrame(loop);
+        return;
+      }
+      lastRender = now;
+
       var dt = Math.min((now - lastT) / 1000, 0.1) || 0.016;
       lastT = now;
       var t = now / 1000;
