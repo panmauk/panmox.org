@@ -376,6 +376,13 @@ nav {
 }
 @keyframes dotPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(.65); } }
 
+/* AltNet alone in the hero — no PMX OS pane to split against */
+.hero-split.single { grid-template-columns: 1fr; }
+.hero-split.single::before, .hero-split.single::after { display: none; }
+.hero-split.single .split-pane.left { max-width: 980px; margin: 0 auto; padding: 40px 64px; }
+.hero-split.single .split-mark { font-size: clamp(64px, 13vw, 224px); }
+.hero-split.single .split-tagline { max-width: 640px; }
+
 .split-pane {
   position: relative;
   padding: 40px 56px;
@@ -829,6 +836,7 @@ section.bento-section, section.sticky-section, section.mission-section {
 .bento-lost    { grid-column: span 2; --accent-rgb: 255,140,0; }
 .bento-over    { grid-column: span 2; --accent-rgb: 40,200,120; }
 .bento-linux   { grid-column: span 2; --accent-rgb: 74,158,255; }
+.bento-pmxos   { grid-column: span 6; --accent-rgb: 255,61,139; }
 
 /* ═══ Card visuals — each its own little scene ═══ */
 /* AltNet: network constellation */
@@ -888,6 +896,18 @@ section.bento-section, section.sticky-section, section.mission-section {
 .studio-vis .shot-a { top: 12%; left: 8%; width: 72%; transform: rotate(-4deg); animation: studioBob 6s ease-in-out infinite; }
 .studio-vis .shot-b { bottom: 8%; right: 4%; width: 56%; transform: rotate(3deg); animation: studioBob 6s ease-in-out infinite 2s; }
 @keyframes studioBob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
+
+/* PMX OS: the hub screenshot, floated right on the wide banner card */
+.pmxos-vis { position: relative; width: 100%; height: 100%; }
+.pmxos-vis img {
+  position: absolute; top: 50%; right: 6%;
+  transform: translateY(-50%) rotate(-1.5deg);
+  height: 84%; width: auto;
+  border-radius: 8px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.6), 0 0 0 1px rgba(255,61,139,.25);
+  animation: pmxosBob 6s ease-in-out infinite;
+}
+@keyframes pmxosBob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
 
 /* NeuralXP: HAL monolith */
 .neural-vis { width: 200px; height: 280px; position: relative; }
@@ -1258,6 +1278,7 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
   .bento-lost { grid-column: span 2; }
   .bento-over { grid-column: span 2; }
   .bento-linux { grid-column: span 4; }
+  .bento-pmxos { grid-column: span 4; }
   .stats { grid-template-columns: 1fr; }
 }
 @media (max-width: 720px) {
@@ -1265,8 +1286,8 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
   .nav-links { gap: 18px; }
   section.bento-section, section.sticky-section, section.mission-section { padding: 80px 20px; }
   .bento-grid { grid-template-columns: 1fr; grid-auto-rows: minmax(280px, auto); }
-  .bento-studio, .bento-neural, .bento-lost, .bento-over, .bento-linux { grid-column: span 1; grid-row: span 1; }
-  .studio-vis, .neural-vis, .lost-vis, .ovb-vis, .lnx-vis { transform: scale(.7); }
+  .bento-studio, .bento-neural, .bento-lost, .bento-over, .bento-linux, .bento-pmxos { grid-column: span 1; grid-row: span 1; }
+  .studio-vis, .neural-vis, .lost-vis, .ovb-vis, .lnx-vis, .pmxos-vis { transform: scale(.7); }
   .hero { padding: 100px 20px 60px; }
   .hero-actions { flex-direction: column; width: 100%; max-width: 280px; }
   .hero-btn { justify-content: center; }
@@ -1328,9 +1349,9 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
 </div>
 
 <!-- ═══════════════════ HERO ═══════════════════ -->
-<section class="hero-split">
+<section class="hero-split single">
 
-  <!-- LEFT: AltNet — the network -->
+  <!-- AltNet — the network, the flagship, the whole hero to itself -->
   <div class="split-pane left">
     <div class="split-eyebrow">// THE NETWORK &middot; LIVE</div>
     <h1 class="split-mark">
@@ -1341,26 +1362,6 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
     <div class="split-actions">
       <a href="studio.html" class="split-btn primary">Get AltNet Studio</a>
       <a href="altnet.html" class="split-btn ghost">About AltNet</a>
-    </div>
-  </div>
-
-  <!-- RIGHT: PMX OS — the OS -->
-  <div class="split-pane right" id="osPane">
-    <button class="phos-toggle" id="phosToggle" type="button">Phosphor mode</button>
-    <div class="split-eyebrow">// THE OS &middot; AVAILABLE NOW</div>
-    <h1 class="split-mark">
-      <span class="ch">P</span><span class="ch">M</span><span class="ch">X</span> <span class="ch">O</span><span class="ch">S</span><span class="ch dot">.</span>
-    </h1>
-    <p class="split-tagline">A peer-to-peer internet, <em>in an operating system.</em> Debian underneath. No cloud. No telemetry. No boss.</p>
-    <div class="split-stamp" style="background:rgba(0,255,136,.08);border-color:rgba(0,255,136,.35);color:#00ff88;">Installer v1.0 &mdash; Available now</div>
-    <div class="split-actions">
-      <a href="pmxos.html#install" class="split-btn primary">Install PMX OS</a>
-      <a href="pmxos.html" class="split-btn ghost">Learn more</a>
-    </div>
-
-    <div class="os-preview">
-      <span class="os-preview-tag">Preview</span>
-      <img src="assets/pmxos-hub.png" alt="PMX Hub — the welcome app on PMX OS" loading="lazy">
     </div>
   </div>
 
@@ -1391,7 +1392,7 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
 <!-- ═══════════════════ BENTO PRODUCTS ═══════════════════ -->
 <section class="bento-section">
   <div class="section-kicker">// THE REST OF THE LINEUP</div>
-  <h2 class="section-title">Six more things <em>worth shipping.</em></h2>
+  <h2 class="section-title">Seven more things <em>worth shipping.</em></h2>
   <p class="section-sub">Each one solves a problem we kept hitting. Click any tile to dig in.</p>
 
   <div class="bento-grid">
@@ -1463,6 +1464,20 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
       <div class="card-name">LinuxSimplify<em>.</em></div>
       <p class="card-tagline">Switch from Windows to GNU/Linux, the easy way.</p>
       <span class="card-cta">Download</span>
+    </a>
+
+    <!-- PMX OS -->
+    <a href="pmxos.html" class="bento-card bento-pmxos">
+      <span class="card-tag">Operating system</span>
+      <span class="card-status">Available</span>
+      <div class="card-visual">
+        <div class="pmxos-vis">
+          <img src="assets/pmxos-hub.png" alt="" loading="lazy">
+        </div>
+      </div>
+      <div class="card-name">PMX OS<em>.</em></div>
+      <p class="card-tagline">A peer-to-peer internet, baked into the OS. Debian underneath. No cloud. No boss.</p>
+      <span class="card-cta">Explore</span>
     </a>
 
   </div>
@@ -1641,17 +1656,6 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
       mark.addEventListener('mouseleave', function(){
         chars.forEach(function(ch){ ch.style.translate = ''; });
       });
-    });
-  })();
-
-  // ═══════ Phosphor toggle on PMX OS split pane ═══════
-  (function(){
-    var btn = document.getElementById('phosToggle');
-    var pane = document.getElementById('osPane');
-    if (!btn || !pane) return;
-    btn.addEventListener('click', function(){
-      pane.classList.toggle('phosphor');
-      btn.classList.toggle('on');
     });
   })();
 
