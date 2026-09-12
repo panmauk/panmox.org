@@ -69,28 +69,118 @@
          alpha; this is the same mip-pyramid math)
        - organic hum + slot-hashed dropouts + scroll-surge flicker
 
-   Loaded as a classic script; Three.js core only from CDN (no addons,
-   no import maps). Respects prefers-reduced-motion. Fails silently
-   without WebGL.
+   OFF BY DEFAULT. A small switch, fixed top-right on every page, is the
+   only way it ever loads — no visitor pays for it unasked. Loaded as a
+   classic script; Three.js core only from CDN (no addons, no import
+   maps). Respects prefers-reduced-motion (the switch itself is hidden
+   for those visitors). Fails silently without WebGL.
    ═══════════════════════════════════════════════════════════════════ */
 (function () {
   'use strict';
 
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var isCoarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+  var FX_KEY = 'pmx-fx';
 
-  // Both checks run before we even fetch three.js — an opted-out visitor,
-  // or one whose machine already proved it cannot cope, should pay nothing
-  // at all: no library download, no context, no compile.
-  try { if (localStorage.getItem('pmx-fx') === 'off') return; } catch (e) {}
-  try {
+  function fxEnabled() {
+    try { return localStorage.getItem(FX_KEY) === 'on'; } catch (e) { return false; }
+  }
+  function fxBailedThisSession() {
     // set by the watchdog's shutdown() when even the floor tier failed;
-    // scoped to the browsing session, so it re-evaluates on a fresh visit
-    if (sessionStorage.getItem('pmx-fx-bail') === '1') {
-      document.documentElement.classList.add('pmx-fx-disabled');
-      return;
-    }
-  } catch (e) {}
+    // scoped to the browsing session, so a fresh visit gets a clean retry
+    try { return sessionStorage.getItem('pmx-fx-bail') === '1'; } catch (e) { return false; }
+  }
+  function markDisabled() {
+    // hook for a static CSS stand-in wherever the live effect isn't
+    // running — off by default, auto-bailed, or never attempted at all
+    document.documentElement.classList.add('pmx-fx-disabled');
+  }
+
+  // ══════════════════════════════════════════════════════════════
+  // ON/OFF SWITCH — water + neon are OFF BY DEFAULT.
+  //
+  // This is pure decoration layered over the page, and it was reported
+  // as the reason a visitor's machine struggled. Nobody should pay for
+  // it — not bandwidth, not GPU time, not a single WebGL context —
+  // unless they explicitly ask to see it. The switch is installed here,
+  // outside init(), because it must render instantly and needs nothing
+  // from three.js: a visitor who leaves it off never triggers the CDN
+  // import, the renderer, or any of the tiering/watchdog machinery below.
+  // ══════════════════════════════════════════════════════════════
+  var toggleBtn = null;
+  function paintToggle(on) {
+    if (!toggleBtn) return;
+    toggleBtn.dataset.on = on ? 'true' : 'false';
+    toggleBtn.setAttribute('aria-checked', on ? 'true' : 'false');
+    toggleBtn.title = on
+      ? 'Water & neon effect — on (click to turn off)'
+      : 'Water & neon effect — off (click to turn on)';
+  }
+  function installToggle(initiallyOn) {
+    var style = document.createElement('style');
+    // var(--x, #hex) throughout: several pages (the legal section) never
+    // define these custom properties, so a bare var() would compute to
+    // nothing there — the hardcoded fallback keeps the control's look
+    // identical on every page regardless of what that page's CSS defines.
+    style.textContent =
+      '#pmxFxToggle{position:fixed;top:72px;right:20px;z-index:500;' +
+      'display:flex;align-items:center;gap:8px;padding:8px 14px;' +
+      'background:rgba(5,8,17,.6);border:1px solid var(--rule,rgba(235,226,208,.08));' +
+      'border-radius:999px;backdrop-filter:blur(20px) saturate(160%);' +
+      '-webkit-backdrop-filter:blur(20px) saturate(160%);' +
+      'font-family:var(--mono,ui-monospace,monospace);font-size:10px;' +
+      'letter-spacing:2px;text-transform:uppercase;line-height:1;' +
+      'color:var(--paper-mute,#6a6e7c);cursor:pointer;' +
+      'transition:color .25s,border-color .25s;-webkit-tap-highlight-color:transparent;}' +
+      '#pmxFxToggle:hover{color:var(--paper,#ebe2d0);border-color:rgba(235,226,208,.2);}' +
+      '#pmxFxToggle .pmx-fx-dot{width:7px;height:7px;border-radius:50%;flex:none;' +
+      'background:var(--paper-mute,#6a6e7c);transition:background .25s,box-shadow .25s;}' +
+      '#pmxFxToggle[data-on="true"]{color:var(--paper,#ebe2d0);}' +
+      '#pmxFxToggle[data-on="true"] .pmx-fx-dot{background:var(--cyan,#00e5ff);' +
+      'box-shadow:0 0 8px var(--cyan,#00e5ff),0 0 16px var(--cyan,#00e5ff);}' +
+      '@media (max-width:720px){#pmxFxToggle{top:64px;right:14px;padding:7px 11px;' +
+      'font-size:9px;gap:6px;}}';
+    document.head.appendChild(style);
+
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = 'pmxFxToggle';
+    btn.setAttribute('role', 'switch');
+    btn.setAttribute('aria-label', 'Water and neon visual effect');
+
+    var dot = document.createElement('span');
+    dot.className = 'pmx-fx-dot';
+    var label = document.createElement('span');
+    label.textContent = 'FX';
+    btn.appendChild(dot);
+    btn.appendChild(label);
+
+    btn.addEventListener('click', function () {
+      var turningOn = toggleBtn.dataset.on !== 'true';
+      try {
+        if (turningOn) {
+          localStorage.setItem(FX_KEY, 'on');
+          sessionStorage.removeItem('pmx-fx-bail');   // a manual retry earns a clean attempt
+        } else {
+          localStorage.removeItem(FX_KEY);
+        }
+      } catch (e) {}
+      location.reload();
+    });
+
+    document.body.appendChild(btn);
+    toggleBtn = btn;
+    paintToggle(initiallyOn);
+  }
+
+  // an OS-level "reduce motion" request wins outright: no button, no
+  // temptation to opt into an animated effect the visitor has told their
+  // system they don't want
+  if (reducedMotion) return;
+
+  var enabled = fxEnabled() && !fxBailedThisSession();
+  installToggle(enabled);
+  if (!enabled) { markDisabled(); return; }
 
   // ── Deferred boot ────────────────────────────────────────────────
   // Nothing here is above-the-fold content, so it must never compete
@@ -102,7 +192,7 @@
   function boot() {
     import('https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js')
       .then(init)
-      .catch(function () { /* offline or blocked — the site lives without it */ });
+      .catch(function () { markDisabled(); /* offline or blocked — the site lives without it */ });
   }
   function whenIdle() {
     if (window.requestIdleCallback) requestIdleCallback(boot, { timeout: 2500 });
@@ -174,12 +264,6 @@
       if ((window.devicePixelRatio || 1) >= 2 && t > 1) t--;
       return t;
     }
-
-    // ── user override: 'off' disables entirely, persisted ─────────
-    var FX_KEY = 'pmx-fx';
-    var fxPref = null;
-    try { fxPref = localStorage.getItem(FX_KEY); } catch (e) {}
-    if (fxPref === 'off') return;
 
     // ── Renderer / scene / camera ─────────────────────────────────
     var canvas = document.createElement('canvas');
@@ -1841,19 +1925,20 @@
       } catch (e) {}
       if (canvas && canvas.parentNode) canvas.parentNode.removeChild(canvas);
       if (glassEl && glassEl.parentNode) glassEl.parentNode.removeChild(glassEl);
-      // hook for a static CSS stand-in, so the page still reads as designed
-      document.documentElement.classList.add('pmx-fx-disabled');
+      markDisabled();
+      // reflect it on the visible switch immediately — no reload, so a
+      // visitor mid-page doesn't get yanked back to the top of it
+      paintToggle(false);
       // don't repeat this discovery on every page of the same visit
       try { sessionStorage.setItem('pmx-fx-bail', '1'); } catch (e) {}
     }
 
-    // small public handle so the site can offer a visible control
+    // console/programmatic handle, in addition to the visible switch
     window.panmoxFX = {
       tier: function () { return tier; },
       fps: function () { return +(1000 / msEMA).toFixed(1); },
       set: function (n) { maxAllowed = TIERS.length - 1; applyTier(n); },
-      off: function () { try { localStorage.setItem(FX_KEY, 'off'); } catch (e) {} location.reload(); },
-      auto: function () { try { localStorage.removeItem(FX_KEY); } catch (e) {} location.reload(); }
+      off: function () { try { localStorage.removeItem(FX_KEY); } catch (e) {} location.reload(); }
     };
 
     // ── Main loop ─────────────────────────────────────────────────
