@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+/* AltNet Relay goes live by itself at Tue 13 Oct 2026, 19:30 Prague (17:30 UTC).
+   Preview before then with ?relay=1 (kept for this tab); ?relay=0 ends the preview. */
+(function(){var D=Date.UTC(2026,9,13,17,30),q=location.search,h=document.documentElement,s=null;
+try{if(/[?&]relay=1/.test(q))sessionStorage.setItem('relayPreview','1');if(/[?&]relay=0/.test(q))sessionStorage.removeItem('relayPreview');s=sessionStorage.getItem('relayPreview')}catch(e){}
+function on(){h.classList.add('relay-live')}
+if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
+</script>
+<style>html:not(.relay-live) .relay-only{display:none!important}</style>
+<script>if(!document.documentElement.classList.contains('relay-live'))location.replace('../../../panmox-week.html');</script>
+<link rel="icon" type="image/jpeg" href="../../../assets/favicon.jpg">
+<link rel="apple-touch-icon" href="../../../assets/favicon.jpg">
+<meta name="description" content="AltNet Relay &mdash; Workspace Terms.">
+<title>Workspace Terms &mdash; AltNet Relay &mdash; PANMOX</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+/* AltNet Relay documents: their own text, in the site's legal layout */
+.doc-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+.doc-tabs a { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; color: var(--paper-mute); padding: 8px 14px; border: 1px solid var(--rule); border-radius: 999px; transition: color .2s, border-color .2s; }
+.doc-tabs a:hover { color: var(--paper); border-color: rgba(235,226,208,.3); }
+.doc-tabs a[aria-current] { color: var(--ink); background: var(--cyan); border-color: var(--cyan); }
+.relay-doc h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(34px, 5vw, 60px); line-height: 1.05; letter-spacing: -1.4px; color: var(--paper); margin-bottom: 18px; font-variation-settings: 'opsz' 144; overflow-wrap: anywhere; }
+.relay-doc h1 + p { font-family: var(--mono); font-size: 12px; letter-spacing: 1px; color: var(--paper-mute); padding-bottom: 26px; border-bottom: 1px solid var(--rule); margin-bottom: 30px; }
+.relay-doc h1 + p strong { color: var(--paper); font-weight: 500; }
+.relay-doc h2:first-of-type { margin-top: 40px; }
+.relay-doc blockquote { font-style: normal; color: var(--paper); }
+.relay-doc .tw { overflow-x: auto; margin: 24px 0; -webkit-overflow-scrolling: touch; }
+.relay-doc .tw table { margin: 0; min-width: 36rem; }
+.relay-doc td code, .relay-doc li code, .relay-doc p code { overflow-wrap: anywhere; }
+.relay-doc pre { font-family: var(--mono); font-size: 12px; line-height: 1.6; color: var(--paper-dim); background: rgba(235,226,208,.03); border: 1px solid var(--rule); border-radius: 4px; padding: 16px 18px; margin: 0 0 24px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.relay-doc footer { margin-top: 56px; padding: 22px 0 0; border-top: 1px solid var(--rule); text-align: left; font-family: var(--mono); font-size: 11px; letter-spacing: 1px; color: var(--paper-mute); position: static; }
+@media (max-width: 640px) { .relay-doc h1 { font-size: 32px; } .doc-tabs a { font-size: 9px; padding: 7px 11px; } }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="grid-bg"></div>
+<div class="mesh"><div class="mesh-blob c"></div><div class="mesh-blob m"></div></div>
+<div class="stars" id="stars"></div>
+<div class="cursor-dot" id="cDot"></div>
+<div class="cursor-ring" id="cRing"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../../../index.html" class="nav-logo">PANMOX</a>
+    <ul class="nav-links">
+      <li><a href="../../../index.html">Home</a></li>
+      <li><a href="../../../about.html">About</a></li>
+      <li><a href="../../index.html" class="active">Legal</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="title-block" style="margin-bottom:40px">
+    <div class="title-kicker"><a href="../../index.html" class="home-back">&larr; Legal</a> &nbsp;&middot;&nbsp; AltNet Relay</div>
+    <div class="doc-tabs" role="navigation" aria-label="AltNet Relay legal documents"><a href="../terms/">Terms of Service</a><a href="../privacy/">Privacy Policy</a><a href="../community-guidelines/">Community Guidelines</a><a href="../workspace-terms/" aria-current="page">Workspace Terms</a><a href="../licences/">Open-source licences</a></div>
+  </div>
+
+  <article class="doc relay-doc">
+
+<h1 id="altnet-relay-workspace-terms-business-mode">AltNet Relay — Workspace Terms (Business mode)</h1>
+<p><strong>Last updated:</strong> 11 October 2026</p>
+<p>These terms apply to you if you <strong>create or own a workspace</strong> in AltNet Relay. They are in addition to the Terms of Service.</p>
+<h2 id="1-what-being-the-owner-means">1. What being the owner means</h2>
+<p>When you create a workspace, you become its <strong>owner</strong>. You can:</p>
+<ul><li>invite people by @name;</li><li>remove members;</li><li>receive and decide on <strong>reports</strong> that members make about each other.</li></ul>
+<p>If you leave, ownership passes to the first member who joined.</p>
+<h2 id="2-who-you-act-for">2. Who you act for</h2>
+<ul><li>If you create a workspace for an <strong>employer, company, school, club or other organisation</strong>, you confirm that you are allowed to do so. In that case, <strong>the organisation</strong> is responsible for the workspace and for how its people use Relay at work. "You" in these terms then also means the organisation.</li><li>If you create a workspace for yourself and friends, you are responsible for it personally.</li></ul>
+<h2 id="3-reports-from-members">3. Reports from members</h2>
+<p>Members can report a coworker <strong>to you</strong>. A report reaches only your computer, directly and encrypted. PANMOX never receives it. It can contain:</p>
+<ul><li>who made the report and who was reported;</li><li>the reason;</li><li>up to <strong>10 recent messages</strong> the reported person sent to the reporter or in #general.</li></ul>
+<p>When you receive reports, you agree to:</p>
+<ol><li><strong>Use them only to deal with the problem reported.</strong> That means deciding whether to remove someone, and, if you act for an organisation, following its own procedures (for example HR or disciplinary rules). Don't use them to watch people or for anything else.</li><li><strong>Keep them confidential.</strong> Don't show the reporter's identity, the reason or the messages to anyone who doesn't need them. In particular, don't show them to the person reported, unless your organisation's procedure or the law requires it.</li><li><strong>Be fair.</strong> Where your role or your organisation's rules require it, give the reported person a chance to respond before you take serious action.</li><li><strong>Delete what you no longer need.</strong> Relay keeps reports only on your computer, at most 200 of them, and clears them when you remove the person or dismiss the report. If you copy a report anywhere else, you are responsible for that copy.</li><li><strong>Don't retaliate</strong> against someone because they made a report in good faith.</li><li><strong>Pass on illegal content.</strong> If a report shows something illegal that threatens someone's safety (for example threats of violence or child sexual abuse), contact the police. You can also report it to PANMOX at <a href="mailto:abuse.report@panmox.org">abuse.report@panmox.org</a>.</li></ol>
+<h2 id="4-personal-data-and-the-law">4. Personal data and the law</h2>
+<ul><li>For the personal data in reports, and in your workspace generally, <strong>you (or your organisation) decide</strong> how it is used. That makes you the <strong>controller</strong> under the GDPR for that use. If your organisation uses Relay for work, it must tell its people how their data is used at work, as it does for its other workplace tools.</li><li><strong>PANMOX never has access</strong> to your workspace's messages or reports. We are not your processor, and we don't handle this data for you.</li><li>Inviting people to a workspace doesn't let you <strong>monitor</strong> them. Employers must follow employment and privacy law on monitoring employees (in the Czech Republic, for example, §316 of the Labour Code).</li></ul>
+<h2 id="5-things-to-know-before-using-a-workspace-for-work">5. Things to know before using a workspace for work</h2>
+<ul><li>Relay has <strong>no admin console, no message archive and no export</strong>, and no way to keep records for legal or regulatory purposes. If your organisation must keep business communications (for example in finance or healthcare), Relay is not suitable for that.</li><li>Messages are stored only on members' computers. When someone leaves or loses their computer, their copy goes with them.</li><li>Relay is a free service, provided as described in the Terms of Service. There is no service-level agreement.</li></ul>
+<h2 id="6-if-you-break-these-terms">6. If you break these terms</h2>
+<p>We can't see inside workspaces. If we receive a credible complaint that a workspace or its owner is used for abuse or illegal purposes, we may take action against the owner's account under the Terms of Service and the Community Guidelines. The owner can appeal.</p>
+<footer>AltNet Relay is published by PANMOX · Prague, Czech Republic · <a href="mailto:abuse.report@panmox.org">abuse.report@panmox.org</a></footer>
+
+  </article>
+
+</div>
+
+<footer>
+  &copy; 2026 PANMOX &middot; ALL RIGHTS RESERVED
+</footer>
+
+<script>
+(function(){var c=document.getElementById('stars');for(var i=0;i<60;i++){var s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.width=s.style.height=(Math.random()*2+.4)+'px';s.style.animationDelay=Math.random()*4+'s';s.style.animationDuration=(Math.random()*3+2.5)+'s';c.appendChild(s);}})();
+(function(){var dot=document.getElementById('cDot'),ring=document.getElementById('cRing');if(!dot||!ring)return;var x=0,y=0,rx=0,ry=0;window.addEventListener('mousemove',function(e){x=e.clientX;y=e.clientY;dot.style.left=x+'px';dot.style.top=y+'px';});function tick(){rx+=(x-rx)*.18;ry+=(y-ry)*.18;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);}requestAnimationFrame(tick);document.querySelectorAll('a, button').forEach(function(el){el.addEventListener('mouseenter',function(){dot.classList.add('hover');ring.classList.add('hover');});el.addEventListener('mouseleave',function(){dot.classList.remove('hover');ring.classList.remove('hover');});});})();
+</script>
+<script src="../../../waterline.js?v=2"></script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+/* AltNet Relay goes live by itself at Tue 13 Oct 2026, 19:30 Prague (17:30 UTC).
+   Preview before then with ?relay=1 (kept for this tab); ?relay=0 ends the preview. */
+(function(){var D=Date.UTC(2026,9,13,17,30),q=location.search,h=document.documentElement,s=null;
+try{if(/[?&]relay=1/.test(q))sessionStorage.setItem('relayPreview','1');if(/[?&]relay=0/.test(q))sessionStorage.removeItem('relayPreview');s=sessionStorage.getItem('relayPreview')}catch(e){}
+function on(){h.classList.add('relay-live')}
+if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
+</script>
+<style>html:not(.relay-live) .relay-only{display:none!important}</style>
+<script>if(!document.documentElement.classList.contains('relay-live'))location.replace('../../../panmox-week.html');</script>
+<link rel="icon" type="image/jpeg" href="../../../assets/favicon.jpg">
+<link rel="apple-touch-icon" href="../../../assets/favicon.jpg">
+<meta name="description" content="AltNet Relay &mdash; Terms of Service.">
+<title>Terms of Service &mdash; AltNet Relay &mdash; PANMOX</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+/* AltNet Relay documents: their own text, in the site's legal layout */
+.doc-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+.doc-tabs a { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; color: var(--paper-mute); padding: 8px 14px; border: 1px solid var(--rule); border-radius: 999px; transition: color .2s, border-color .2s; }
+.doc-tabs a:hover { color: var(--paper); border-color: rgba(235,226,208,.3); }
+.doc-tabs a[aria-current] { color: var(--ink); background: var(--cyan); border-color: var(--cyan); }
+.relay-doc h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(34px, 5vw, 60px); line-height: 1.05; letter-spacing: -1.4px; color: var(--paper); margin-bottom: 18px; font-variation-settings: 'opsz' 144; overflow-wrap: anywhere; }
+.relay-doc h1 + p { font-family: var(--mono); font-size: 12px; letter-spacing: 1px; color: var(--paper-mute); padding-bottom: 26px; border-bottom: 1px solid var(--rule); margin-bottom: 30px; }
+.relay-doc h1 + p strong { color: var(--paper); font-weight: 500; }
+.relay-doc h2:first-of-type { margin-top: 40px; }
+.relay-doc blockquote { font-style: normal; color: var(--paper); }
+.relay-doc .tw { overflow-x: auto; margin: 24px 0; -webkit-overflow-scrolling: touch; }
+.relay-doc .tw table { margin: 0; min-width: 36rem; }
+.relay-doc td code, .relay-doc li code, .relay-doc p code { overflow-wrap: anywhere; }
+.relay-doc pre { font-family: var(--mono); font-size: 12px; line-height: 1.6; color: var(--paper-dim); background: rgba(235,226,208,.03); border: 1px solid var(--rule); border-radius: 4px; padding: 16px 18px; margin: 0 0 24px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.relay-doc footer { margin-top: 56px; padding: 22px 0 0; border-top: 1px solid var(--rule); text-align: left; font-family: var(--mono); font-size: 11px; letter-spacing: 1px; color: var(--paper-mute); position: static; }
+@media (max-width: 640px) { .relay-doc h1 { font-size: 32px; } .doc-tabs a { font-size: 9px; padding: 7px 11px; } }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="grid-bg"></div>
+<div class="mesh"><div class="mesh-blob c"></div><div class="mesh-blob m"></div></div>
+<div class="stars" id="stars"></div>
+<div class="cursor-dot" id="cDot"></div>
+<div class="cursor-ring" id="cRing"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../../../index.html" class="nav-logo">PANMOX</a>
+    <ul class="nav-links">
+      <li><a href="../../../index.html">Home</a></li>
+      <li><a href="../../../about.html">About</a></li>
+      <li><a href="../../index.html" class="active">Legal</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="title-block" style="margin-bottom:40px">
+    <div class="title-kicker"><a href="../../index.html" class="home-back">&larr; Legal</a> &nbsp;&middot;&nbsp; AltNet Relay</div>
+    <div class="doc-tabs" role="navigation" aria-label="AltNet Relay legal documents"><a href="../terms/" aria-current="page">Terms of Service</a><a href="../privacy/">Privacy Policy</a><a href="../community-guidelines/">Community Guidelines</a><a href="../workspace-terms/">Workspace Terms</a><a href="../licences/">Open-source licences</a></div>
+  </div>
+
+  <article class="doc relay-doc">
+
+<h1 id="altnet-relay-terms-of-service">AltNet Relay — Terms of Service</h1>
+<p><strong>Last updated:</strong> 12 October 2026 · <strong>Applies to:</strong> AltNet Relay 1.0.3 and later</p>
+<p>These terms are the agreement between you and the person who runs AltNet Relay. We have tried to write them so that anyone can read them. Please read them before you create an account.</p>
+<h2 id="1-who-we-are">1. Who we are</h2>
+<p>AltNet Relay ("Relay") is free, open-source software published by <strong>PANMOX</strong>.</p>
+<blockquote><strong>PANMOX</strong><br>Operator: Gabriel Wenzel, Prague, Czech Republic<br>Email: <strong><a href="mailto:abuse.report@panmox.org">abuse.report@panmox.org</a></strong> (for everything: questions, legal matters, privacy, reports and appeals)<br>Postal address: sent on request to that email address.</blockquote>
+<p>In these terms, "PANMOX", "we" and "us" mean PANMOX, the publisher of Relay, operated by Gabriel Wenzel. "You" means the person using Relay.</p>
+<h2 id="2-what-relay-is">2. What Relay is</h2>
+<p>Relay is a desktop app for Windows, Linux and Mac. It is for private messages, group chats, and voice and video calls. It works over <strong>AltNet</strong>, a peer-to-peer network: the computers of the people using it pass messages to each other. Some of those computers are run by us.</p>
+<ul><li><strong>Messages and calls are end-to-end encrypted.</strong> Only the people in a conversation can read it. We cannot read your messages or listen to your calls.</li><li><strong>Personal mode</strong> is for friends, message requests and groups of up to 32 people.</li><li><strong>Business mode</strong> is for workspaces of up to 50 people. Workspaces have channels, direct messages between coworkers, and calls and meetings of up to 8 people.</li><li>Relay is <strong>free</strong>. There are no adverts and no paid plans.</li></ul>
+<p>Relay is open-source software. Your right to copy, change and share the <strong>software itself</strong> comes from its licence, not from these terms. These terms cover your use of the <strong>service</strong>: the AltNet account, @names, our network nodes, the call relay and moderation.</p>
+<h2 id="3-who-can-use-relay">3. Who can use Relay</h2>
+<ul><li>You must be <strong>at least 16 years old</strong>. When you create an account, you confirm that you are.</li><li>If you use Relay for an organisation (for example, you create a workspace for your company), you confirm that you are allowed to do that. Section 8 also applies.</li><li>You may not use Relay if we have banned you, unless we have lifted the ban.</li></ul>
+<h2 id="4-your-account">4. Your account</h2>
+<ul><li>You need a free <strong>AltNet account</strong> to use Relay. It is the same account used for AltNet Studio. We verify your email address with a code.</li><li>Keep your password secret. You are responsible for what is done with your account, unless someone else used it without any fault on your part.</li><li><strong>One account works on one computer.</strong> To move to a new computer, write to us.</li><li>You can choose one <strong>@name</strong>. It is permanent: you can't change it, sell it or give it away. It stays yours while your account is in good standing. Vulgar, sexual or hateful names are refused automatically. We may remove a name that impersonates someone, infringes someone's rights or is abusive, and we will tell you why.</li><li>Anyone who knows your @name can send you a <strong>message request</strong>. Until you accept, they can send you at most 3 messages. If you don't choose an @name, people can only reach you with your long Relay ID.</li></ul>
+<h2 id="5-rules-you-agree-to-follow">5. Rules you agree to follow</h2>
+<p>The full rules are in the <strong>Community Guidelines</strong>, which are part of these terms. In short, you must not use Relay to:</p>
+<ul><li>harass, threaten, stalk or bully anyone;</li><li>share sexual content involving anyone under 18, or any intimate content of a person without their consent;</li><li>promote or support terrorism, or incite violence or hatred;</li><li>send spam, run scams or phishing, or spread malware;</li><li>impersonate a person or organisation;</li><li>break the law, including other people's privacy, copyright or other rights;</li><li>attack, overload or interfere with AltNet, our servers or other people's computers;</li><li>report people falsely;</li><li>get around a ban, for example by creating another account.</li></ul>
+<h2 id="6-your-content">6. Your content</h2>
+<p>What you write and send stays <strong>yours</strong>. Because it is end-to-end encrypted, we don't see it and we don't need any licence to use it. If you report someone and choose to include messages, you send us copies of those messages so that we can handle the report (see the Privacy Policy).</p>
+<p>You are responsible for what you send. Once a message has reached someone, it is on their computer. We cannot take it back or delete it there.</p>
+<h2 id="7-reports-bans-and-appeals">7. Reports, bans and appeals</h2>
+<p>The details are in the <strong>Community Guidelines</strong>. The key points:</p>
+<ul><li>You can <strong>report</strong> anyone in Personal mode. You can choose to include the last 10 messages of the conversation. If you do, they are sent to us for that report only.</li><li><strong>When three different people report the same account within 30 days, the account is banned automatically.</strong> No person at PANMOX checks the case before the ban. Some reports don't count towards this:<ul><li>reports from accounts that our server first saw less than 72 hours ago;</li><li>reports from people who have reported more than 5 different accounts in 30 days;</li><li>reports from people whose reports led to two bans that we later overturned.</li></ul></li><li>We may also ban an account ourselves after looking at reports, or because an authority orders it.</li><li>A ban stops the account from using Relay. Its Relay identity can't send messages or call anyone anywhere on the network, and its @name stops working. Messages already on other people's computers are not deleted.</li><li>When you are banned, the app tells you the reason and how to appeal. You are not told who reported you.</li><li><strong>You can appeal every ban</strong> by writing to <a href="mailto:abuse.report@panmox.org">abuse.report@panmox.org</a> within six months. A person will review your appeal, consider what you say and answer within <strong>14 days</strong>. If the ban was wrong, we lift it.</li><li>You can also go to court (see section 13).</li></ul>
+<h2 id="8-business-mode-and-workspaces">8. Business mode and workspaces</h2>
+<ul><li>Anyone can create a <strong>workspace</strong>. The person who creates it is its <strong>owner</strong>. If the owner leaves, the first member who joined becomes the owner.</li><li>The owner invites people by @name. Each person decides whether to join.</li><li><strong>Inside a workspace, reports go to the owner, not to us.</strong> A member can report a coworker to the owner and may include up to 10 recent messages. The owner sees who reported whom, why, and those messages, and decides whether to remove the person. Nothing about a workspace report is sent to PANMOX.</li><li>Coworkers can't block each other inside a workspace. If you have a problem with the owner, you can leave the workspace. In Personal mode you can still block anyone and report them to us, including someone you work with.</li><li><strong>If you own a workspace</strong>, you must also follow the <strong>Workspace Terms</strong>, which cover how you handle reports and the personal data in them. If you use a workspace for an employer or another organisation, that organisation is responsible for how it uses Relay at work.</li></ul>
+<h2 id="9-the-app-on-your-computer">9. The app on your computer</h2>
+<ul><li>Relay can start with your computer and keep running in the background so that messages reach you straight away. The Windows installer offers this with the box already ticked. You can turn it off in the installer, or at any time under <strong>Account</strong>.</li><li>Because AltNet is peer-to-peer, <strong>your computer helps run the network.</strong> It stores encrypted pieces of other people's messages and some public network records, and passes traffic on. It can't read those messages. Relay uses some of your internet connection and disk space for this.</li><li>Your conversations are stored <strong>only on your computer</strong>, and they are <strong>not encrypted</strong> there: anyone who can use your computer account can read them. Protect your computer with a password. If you lose the computer or the app's data folder, you lose your conversations. There is no backup.</li><li>The Windows installer and the Mac build are <strong>not code-signed</strong> yet. Download Relay only from <strong>panmox.org</strong>.</li></ul>
+<h2 id="10-availability-and-changes-to-the-service">10. Availability and changes to the service</h2>
+<p>Relay is a free service. We try to keep it working, but we can't promise that it will always be available, that every message will be delivered, or that it is free of errors. We may change features, or stop the service. If we plan to stop the service, we will announce it on panmox.org at least 30 days before, where we can.</p>
+<h2 id="11-ending-your-use">11. Ending your use</h2>
+<ul><li><strong>You</strong> can stop at any time, and delete your account yourself. In the app (version 1.0.4 or later), go to <strong>Account → Delete account</strong>. We email you a code, then ask for your password and your @name, then ask whether you are sure. Deleting:<ul><li>removes your AltNet account, which is also your AltNet Studio sign-in;</li><li>removes what our Relay server holds about you;</li><li>erases everything Relay stored on your computer.</li></ul></li></ul>
+<p>  Your @name is never given to anyone else. Deleting your account does not delete messages other people already have. If you can't use the app to delete your account (for example, because the account is banned), write to <a href="mailto:abuse.report@panmox.org">abuse.report@panmox.org</a> from your account's email address.</p>
+<ul><li><strong>We</strong> may suspend or end your account if you seriously or repeatedly break these terms, if the law requires it, or if your account is used to harm others. Section 7 applies, and you can appeal.</li></ul>
+<h2 id="12-liability">12. Liability</h2>
+<p>Relay is free, and we can't control the network or the people on it. Within the limits of the law:</p>
+<ul><li>We are <strong>not</strong> responsible for what other users send or do, for lost or delayed messages, or for loss caused by events outside our control.</li><li>We are <strong>not</strong> responsible for indirect loss, lost profits or lost data. Keep your own copies of anything important.</li></ul>
+<p><strong>These limits do not apply</strong> where the law does not allow them. In particular, they do not apply to:</p>
+<ul><li>harm to life, health or other natural rights of a person;</li><li>harm we cause on purpose or through gross negligence;</li><li>your rights as a consumer under the law of the country where you live.</li></ul>
+<h2 id="13-law-courts-and-complaints">13. Law, courts and complaints</h2>
+<ul><li><strong>Czech law</strong> applies to these terms. If you are a consumer living in another country, you also keep the protection of the mandatory rules of that country.</li><li>If you are a consumer, you can bring a claim in the courts where you live or in the Czech Republic. We can only bring a claim against a consumer in the courts where the consumer lives.</li><li>Please write to us first at <a href="mailto:abuse.report@panmox.org">abuse.report@panmox.org</a>. Most problems can be solved that way.</li><li>For a privacy complaint, you can contact the Czech data protection authority <strong>ÚOOÚ</strong> (<a href="https://www.uoou.gov.cz">www.uoou.gov.cz</a>), or the authority where you live.</li></ul>
+<h2 id="14-changes-to-these-terms">14. Changes to these terms</h2>
+<p>We may update these terms, for example when Relay gains new features or the law changes. We will publish important changes on panmox.org <strong>at least 30 days</strong> before they apply, unless the law requires a change sooner or the change only fixes something minor. The date at the top shows the current version. If you don't agree with a change, you can stop using Relay and ask us to delete your account. If you keep using Relay after the change applies, the new terms apply to you.</p>
+<h2 id="15-other-documents-that-are-part-of-these-terms">15. Other documents that are part of these terms</h2>
+<ul><li><strong>Privacy Policy</strong>: what data we hold and why.</li><li><strong>Community Guidelines</strong>: the rules, and how reports and bans work.</li><li><strong>Workspace Terms</strong>: for people who create workspaces.</li></ul>
+<p>These terms are written in English. If we publish a translation and it differs from the English text, the English text applies, unless the law of your country gives you the right to rely on your own language.</p>
+<footer>AltNet Relay is published by PANMOX · Prague, Czech Republic · <a href="mailto:abuse.report@panmox.org">abuse.report@panmox.org</a></footer>
+
+  </article>
+
+</div>
+
+<footer>
+  &copy; 2026 PANMOX &middot; ALL RIGHTS RESERVED
+</footer>
+
+<script>
+(function(){var c=document.getElementById('stars');for(var i=0;i<60;i++){var s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.width=s.style.height=(Math.random()*2+.4)+'px';s.style.animationDelay=Math.random()*4+'s';s.style.animationDuration=(Math.random()*3+2.5)+'s';c.appendChild(s);}})();
+(function(){var dot=document.getElementById('cDot'),ring=document.getElementById('cRing');if(!dot||!ring)return;var x=0,y=0,rx=0,ry=0;window.addEventListener('mousemove',function(e){x=e.clientX;y=e.clientY;dot.style.left=x+'px';dot.style.top=y+'px';});function tick(){rx+=(x-rx)*.18;ry+=(y-ry)*.18;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);}requestAnimationFrame(tick);document.querySelectorAll('a, button').forEach(function(el){el.addEventListener('mouseenter',function(){dot.classList.add('hover');ring.classList.add('hover');});el.addEventListener('mouseleave',function(){dot.classList.remove('hover');ring.classList.remove('hover');});});})();
+</script>
+<script src="../../../waterline.js?v=2"></script>
+</body>
+</html>

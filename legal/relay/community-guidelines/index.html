@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+/* AltNet Relay goes live by itself at Tue 13 Oct 2026, 19:30 Prague (17:30 UTC).
+   Preview before then with ?relay=1 (kept for this tab); ?relay=0 ends the preview. */
+(function(){var D=Date.UTC(2026,9,13,17,30),q=location.search,h=document.documentElement,s=null;
+try{if(/[?&]relay=1/.test(q))sessionStorage.setItem('relayPreview','1');if(/[?&]relay=0/.test(q))sessionStorage.removeItem('relayPreview');s=sessionStorage.getItem('relayPreview')}catch(e){}
+function on(){h.classList.add('relay-live')}
+if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
+</script>
+<style>html:not(.relay-live) .relay-only{display:none!important}</style>
+<script>if(!document.documentElement.classList.contains('relay-live'))location.replace('../../../panmox-week.html');</script>
+<link rel="icon" type="image/jpeg" href="../../../assets/favicon.jpg">
+<link rel="apple-touch-icon" href="../../../assets/favicon.jpg">
+<meta name="description" content="AltNet Relay &mdash; Community Guidelines.">
+<title>Community Guidelines &mdash; AltNet Relay &mdash; PANMOX</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+/* AltNet Relay documents: their own text, in the site's legal layout */
+.doc-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+.doc-tabs a { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; color: var(--paper-mute); padding: 8px 14px; border: 1px solid var(--rule); border-radius: 999px; transition: color .2s, border-color .2s; }
+.doc-tabs a:hover { color: var(--paper); border-color: rgba(235,226,208,.3); }
+.doc-tabs a[aria-current] { color: var(--ink); background: var(--cyan); border-color: var(--cyan); }
+.relay-doc h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(34px, 5vw, 60px); line-height: 1.05; letter-spacing: -1.4px; color: var(--paper); margin-bottom: 18px; font-variation-settings: 'opsz' 144; overflow-wrap: anywhere; }
+.relay-doc h1 + p { font-family: var(--mono); font-size: 12px; letter-spacing: 1px; color: var(--paper-mute); padding-bottom: 26px; border-bottom: 1px solid var(--rule); margin-bottom: 30px; }
+.relay-doc h1 + p strong { color: var(--paper); font-weight: 500; }
+.relay-doc h2:first-of-type { margin-top: 40px; }
+.relay-doc blockquote { font-style: normal; color: var(--paper); }
+.relay-doc .tw { overflow-x: auto; margin: 24px 0; -webkit-overflow-scrolling: touch; }
+.relay-doc .tw table { margin: 0; min-width: 36rem; }
+.relay-doc td code, .relay-doc li code, .relay-doc p code { overflow-wrap: anywhere; }
+.relay-doc pre { font-family: var(--mono); font-size: 12px; line-height: 1.6; color: var(--paper-dim); background: rgba(235,226,208,.03); border: 1px solid var(--rule); border-radius: 4px; padding: 16px 18px; margin: 0 0 24px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.relay-doc footer { margin-top: 56px; padding: 22px 0 0; border-top: 1px solid var(--rule); text-align: left; font-family: var(--mono); font-size: 11px; letter-spacing: 1px; color: var(--paper-mute); position: static; }
+@media (max-width: 640px) { .relay-doc h1 { font-size: 32px; } .doc-tabs a { font-size: 9px; padding: 7px 11px; } }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="grid-bg"></div>
+<div class="mesh"><div class="mesh-blob c"></div><div class="mesh-blob m"></div></div>
+<div class="stars" id="stars"></div>
+<div class="cursor-dot" id="cDot"></div>
+<div class="cursor-ring" id="cRing"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../../../index.html" class="nav-logo">PANMOX</a>
+    <ul class="nav-links">
+      <li><a href="../../../index.html">Home</a></li>
+      <li><a href="../../../about.html">About</a></li>
+      <li><a href="../../index.html" class="active">Legal</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="title-block" style="margin-bottom:40px">
+    <div class="title-kicker"><a href="../../index.html" class="home-back">&larr; Legal</a> &nbsp;&middot;&nbsp; AltNet Relay</div>
+    <div class="doc-tabs" role="navigation" aria-label="AltNet Relay legal documents"><a href="../terms/">Terms of Service</a><a href="../privacy/">Privacy Policy</a><a href="../community-guidelines/" aria-current="page">Community Guidelines</a><a href="../workspace-terms/">Workspace Terms</a><a href="../licences/">Open-source licences</a></div>
+  </div>
+
+  <article class="doc relay-doc">
+
+<h1 id="altnet-relay-community-guidelines-and-moderation-policy">AltNet Relay — Community Guidelines and Moderation Policy</h1>
+<p><strong>Last updated:</strong> 11 October 2026</p>
+<p>These rules are part of the Terms of Service. They explain what is not allowed on AltNet Relay and what happens when someone breaks the rules.</p>
+<h2 id="part-1-community-guidelines">Part 1 — Community Guidelines</h2>
+<p>Relay is for private conversations. Most of what you say is between you and the people you talk to. These rules exist to protect people from abuse.</p>
+<p><strong>These are not allowed:</strong></p>
+<ol><li><strong>Harassment and threats.</strong> For example: threatening, stalking, bullying or intimidating someone, or continuing to contact someone who has clearly asked you to stop.</li><li><strong>Sexual exploitation of children.</strong> For example: any sexual content involving anyone under 18, or any attempt to groom a child. We report this to the police.</li><li><strong>Non-consensual intimate content.</strong> For example: sharing intimate images of someone without their consent, or threatening to; sending sexual messages to someone who has not asked for them.</li><li><strong>Terrorism and violent extremism.</strong> For example: promoting, supporting or recruiting for terrorist acts or groups.</li><li><strong>Hate and incitement.</strong> For example: inciting violence or hatred against people because of their race, ethnicity, religion, disability, sex, sexual orientation, gender identity or similar characteristics.</li><li><strong>Scams, spam and malware.</strong> For example: fraud, phishing, mass unwanted messages, or links or files meant to harm someone's computer.</li><li><strong>Impersonation.</strong> For example: pretending to be another person or organisation in a way that misleads people, including through your @name.</li><li><strong>Illegal activity.</strong> For example: using Relay to commit or organise crimes, or to break other people's rights, such as their privacy or copyright.</li><li><strong>Attacking the network.</strong> For example: interfering with AltNet, our servers or other users' computers, or misusing the call relay.</li><li><strong>Misusing reports.</strong> For example: reporting people falsely, or in a coordinated way to get them banned.</li><li><strong>Getting around a ban.</strong> For example: using another account or identity after being banned.</li></ol>
+<p><strong>@names</strong> must not be vulgar, sexual or hateful, must not impersonate anyone, and must not infringe trademarks. Relay automatically refuses many such names. If one gets through, a report deals with it.</p>
+<h2 id="part-2-how-moderation-works">Part 2 — How moderation works</h2>
+<h3 id="what-we-can-and-can-t-see">What we can and can't see</h3>
+<p>Messages and calls are end-to-end encrypted. <strong>We never see a conversation unless someone in it sends us messages with a report.</strong> We don't scan messages, and we don't use automated tools to read content. All our moderation starts from <strong>reports by users</strong> or from <strong>orders from authorities</strong>.</p>
+<h3 id="reporting-to-altnet-personal-mode">Reporting to AltNet (Personal mode)</h3>
+<ul><li>Press <strong>Report</strong> in a conversation, or tick <strong>Also report them</strong> when you block someone.</li><li>Give a reason. You can choose to <strong>include the last 10 messages</strong> of the conversation, both yours and theirs. Your computer decrypts them and sends them to us for this report only.</li><li>The person you report is <strong>not told</strong> that you reported them, and <strong>never told who you are</strong>.</li><li>You can send up to 10 reports a day, and have one open report about the same person at a time.</li><li>The app confirms that we received your report.</li></ul>
+<p><strong>Reporting illegal content without an account:</strong> anyone can tell us about illegal content or behaviour on Relay by writing to <strong><a href="mailto:abuse.report@panmox.org">abuse.report@panmox.org</a></strong>. Please include:</p>
+<ul><li>why you think it is illegal;</li><li>the @name or Relay ID involved;</li><li>the messages, if you have them;</li><li>your name and email address (you may leave these out if you are reporting child sexual abuse);</li><li>a statement that you believe your report is accurate and complete.</li></ul>
+<p>We will confirm that we received it and tell you what we decided.</p>
+<h3 id="the-automatic-ban-three-different-people">The automatic ban: three different people</h3>
+<p>When <strong>three different people report the same account within 30 days</strong>, Relay bans the account <strong>automatically</strong>. No person at PANMOX checks the case before the ban.</p>
+<p>To stop reports from being used as a weapon, some reports <strong>do not count</strong> towards this. We still keep them for a person to read. A report doesn't count if it comes from someone who:</p>
+<ul><li>has an account that our server first saw <strong>less than 72 hours</strong> ago;</li><li>has reported <strong>more than 5 different accounts</strong> in the last 30 days;</li><li>is banned;</li><li>has <strong>2 strikes</strong>. A person gets a strike when we overturn a ban that their report helped cause.</li></ul>
+<p>Only one report per person counts. Only reports made since the account was last cleared count.</p>
+<h3 id="bans-we-decide-ourselves">Bans we decide ourselves</h3>
+<p>We may ban an account ourselves after reviewing reports, when a court or authority orders it, or when we learn of clear abuse in another way (for example, someone attacking the network). We may also remove an @name that impersonates someone or infringes their rights, and keep the account.</p>
+<h3 id="what-a-ban-does">What a ban does</h3>
+<ul><li>The account's Relay identity is put on a <strong>ban list</strong> that we sign and every Relay app enforces. The account can't send messages or make calls, and its @name stops working. Other people stop receiving its messages, including in conversations that already exist.</li><li><strong>The ban list is public.</strong> Anyone on the network can read it. It contains the Relay ID, a short reason and the date. It does not contain the email address or the names of the people who reported the account. The entry is removed when the ban is lifted.</li><li>Messages already on other people's computers are <strong>not deleted</strong>. We can't reach them.</li><li>Messages the banned account sends are held back, not destroyed. If the ban is lifted, they are delivered.</li><li>A banned account can't link a new Relay identity. Creating a new account to get around a ban breaks these rules.</li></ul>
+<h3 id="what-a-banned-person-is-told">What a banned person is told</h3>
+<p>When a banned person opens Relay, the app shows:</p>
+<ul><li>that the account can't use Relay;</li><li>the reason (for an automatic ban: that it was reported by several different people for breaking the rules);</li><li>how to appeal.</li></ul>
+<p>The people who reported the account are never named. We can explain in more detail on request: which rule was broken, the facts, and whether the decision was automatic or made by a person.</p>
+<h3 id="appeals">Appeals</h3>
+<ul><li><strong>Anyone who is banned</strong> can appeal, and so can anyone whose @name we removed or whose report we rejected. Write to <strong><a href="mailto:abuse.report@panmox.org">abuse.report@panmox.org</a></strong> from your account's email address, <strong>within 6 months</strong> of the decision.</li><li>Tell us why you think the decision is wrong. Messages from your own conversations can help.</li><li>A <strong>person</strong> looks at every appeal, with the reports, any attached messages and your reply. Software never decides an appeal.</li><li>We answer within <strong>14 days</strong>. If the ban was wrong, we <strong>lift it straight away</strong>, and the change reaches every app within about ten minutes. If we keep the ban, we explain why.</li><li>When we lift a ban on appeal, the reports that led to it stop counting, and <strong>each person whose report led to an overturned automatic ban gets a strike</strong>.</li><li>You can always go to <strong>court</strong> instead of appealing, or after an appeal.</li></ul>
+<h3 id="reports-that-suggest-a-serious-crime">Reports that suggest a serious crime</h3>
+<p>If information in a report makes us suspect a crime that threatens someone's life or safety (for example, a credible threat to kill, or child sexual abuse), we <strong>tell the police</strong> and give them the information we have.</p>
+<h3 id="misusing-reports-and-appeals">Misusing reports and appeals</h3>
+<p>If someone often sends reports or appeals that are clearly unfounded, we may warn them and then, for a period, stop dealing with their reports or appeals.</p>
+<h2 id="part-3-workspaces-business-mode">Part 3 — Workspaces (Business mode)</h2>
+<p>Workspaces are moderated by their <strong>owner</strong>, not by us.</p>
+<ul><li>A member can <strong>report a coworker to the workspace owner</strong>, either in their chat or next to the coworker's name under People. The member can include up to <strong>10 recent messages</strong> that the coworker sent to them or in #general.</li><li>The report goes <strong>directly to the owner</strong>, encrypted. <strong>Nothing goes to PANMOX</strong>, and the person reported isn't told.</li><li>The owner sees who reported whom, why, and any messages included. The owner can <strong>remove</strong> the person from the workspace or <strong>dismiss</strong> the report.</li><li>Coworkers can't block each other inside a workspace. If you have a problem with the owner, <strong>leave the workspace</strong>. You can then block them like anyone else.</li><li><strong>In Personal mode, everything above still applies.</strong> You can block anyone and report them to AltNet, including a coworker. You can always report illegal content or behaviour in a workspace to us at <a href="mailto:abuse.report@panmox.org">abuse.report@panmox.org</a>.</li><li>Owners must follow the <strong>Workspace Terms</strong>.</li></ul>
+<p>Removing someone from a workspace is the owner's decision, not ours, and we don't review it. If you think a removal was unlawful (for example, an employer acting against employment law), take it up with the organisation or the authorities.</p>
+<h2 id="contact">Contact</h2>
+<p><strong><a href="mailto:abuse.report@panmox.org">abuse.report@panmox.org</a></strong> is our single point of contact for users and for authorities. We answer in <strong>English or Czech</strong>.</p>
+<footer>AltNet Relay is published by PANMOX · Prague, Czech Republic · <a href="mailto:abuse.report@panmox.org">abuse.report@panmox.org</a></footer>
+
+  </article>
+
+</div>
+
+<footer>
+  &copy; 2026 PANMOX &middot; ALL RIGHTS RESERVED
+</footer>
+
+<script>
+(function(){var c=document.getElementById('stars');for(var i=0;i<60;i++){var s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.width=s.style.height=(Math.random()*2+.4)+'px';s.style.animationDelay=Math.random()*4+'s';s.style.animationDuration=(Math.random()*3+2.5)+'s';c.appendChild(s);}})();
+(function(){var dot=document.getElementById('cDot'),ring=document.getElementById('cRing');if(!dot||!ring)return;var x=0,y=0,rx=0,ry=0;window.addEventListener('mousemove',function(e){x=e.clientX;y=e.clientY;dot.style.left=x+'px';dot.style.top=y+'px';});function tick(){rx+=(x-rx)*.18;ry+=(y-ry)*.18;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);}requestAnimationFrame(tick);document.querySelectorAll('a, button').forEach(function(el){el.addEventListener('mouseenter',function(){dot.classList.add('hover');ring.classList.add('hover');});el.addEventListener('mouseleave',function(){dot.classList.remove('hover');ring.classList.remove('hover');});});})();
+</script>
+<script src="../../../waterline.js?v=2"></script>
+</body>
+</html>

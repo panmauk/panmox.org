@@ -7,6 +7,15 @@
 <link rel="apple-touch-icon" href="../assets/favicon.jpg">
 <meta name="description" content="PANMOX — Legal: Privacy, Terms of Service, and Notice & Takedown.">
 <title>Legal &mdash; PANMOX</title>
+<script>
+/* AltNet Relay goes live by itself at Tue 13 Oct 2026, 19:30 Prague (17:30 UTC).
+   Preview before then with ?relay=1 (kept for this tab); ?relay=0 ends the preview. */
+(function(){var D=Date.UTC(2026,9,13,17,30),q=location.search,h=document.documentElement,s=null;
+try{if(/[?&]relay=1/.test(q))sessionStorage.setItem('relayPreview','1');if(/[?&]relay=0/.test(q))sessionStorage.removeItem('relayPreview');s=sessionStorage.getItem('relayPreview')}catch(e){}
+function on(){h.classList.add('relay-live')}
+if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
+</script>
+<style>html:not(.relay-live) .relay-only{display:none!important}</style>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -61,6 +70,44 @@
 
   </div>
 
+  <section class="relay-only" id="altnet-relay" style="margin-top:96px">
+    <div class="title-kicker">AltNet Relay</div>
+    <h2 class="doc-title" style="font-size:clamp(36px,5vw,56px)">AltNet <em>Relay.</em></h2>
+    <p style="font-size:17px; color:var(--paper-dim); margin-top:14px; line-height:1.65; max-width:620px;">The documents that apply to AltNet Relay, the private messenger.</p>
+    <div class="hub-list" style="margin-top:36px">
+
+      <a href="relay/terms/" class="hub-card">
+        <div class="hub-k">// 01 &middot; AltNet Relay</div>
+        <h2>Terms of <em>Service.</em></h2>
+        <p>The agreement for using AltNet Relay: your account and @name, the rules, reports, bans and appeals.</p>
+      </a>
+
+      <a href="relay/privacy/" class="hub-card">
+        <div class="hub-k">// 02 &middot; AltNet Relay</div>
+        <h2>Privacy <em>Policy.</em></h2>
+        <p>What data AltNet Relay involves, where it is held, why, for how long, and your rights.</p>
+      </a>
+
+      <a href="relay/community-guidelines/" class="hub-card">
+        <div class="hub-k">// 03 &middot; AltNet Relay</div>
+        <h2>Community <em>Guidelines.</em></h2>
+        <p>The rules for everyone on AltNet Relay, and how reports, bans and appeals work.</p>
+      </a>
+
+      <a href="relay/workspace-terms/" class="hub-card">
+        <div class="hub-k">// 04 &middot; AltNet Relay</div>
+        <h2>Workspace <em>Terms.</em></h2>
+        <p>For people who create and run workspaces in Business mode.</p>
+      </a>
+
+      <a href="relay/licences/" class="hub-card">
+        <div class="hub-k">// 05 &middot; AltNet Relay</div>
+        <h2>Open-source <em>licences.</em></h2>
+        <p>The open-source components AltNet Relay is built from, and their licences.</p>
+      </a>
+
+    </div>
+  </section>
 
 </div>
 
