@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+/* AltNet Relay goes live by itself at Tue 13 Oct 2026, 19:30 Prague (17:30 UTC).
+   Preview before then with ?relay=1 (kept for this tab); ?relay=0 ends the preview. */
+(function(){var D=Date.UTC(2026,9,13,17,30),q=location.search,h=document.documentElement,s=null;
+try{if(/[?&]relay=1/.test(q))sessionStorage.setItem('relayPreview','1');if(/[?&]relay=0/.test(q))sessionStorage.removeItem('relayPreview');s=sessionStorage.getItem('relayPreview')}catch(e){}
+function on(){h.classList.add('relay-live')}
+if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
+</script>
+<script>if(!document.documentElement.classList.contains('relay-live'))location.replace('panmox-week.html');</script>
+<link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
+<link rel="apple-touch-icon" href="assets/favicon.jpg">
+<meta name="description" content="Technical details of PANMOX software: how AltNet Relay handles identity, messages, the network, calls, moderation and data, and its known limits.">
+<title>Technical &mdash; PANMOX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter+Tight:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+/* The Technical page is deliberately still: no animations, no transitions, no custom cursor. */
+:root{--ink:#080d1b;--paper:#ebe2d0;--paper-dim:#b9b09e;--paper-mute:#6a6e7c;--rule:rgba(235,226,208,0.08);--rule2:rgba(235,226,208,0.16);--cyan:#00e5ff;--magenta:#ff3d8b;--jade:#00ff88;--amber:#ff8c00;--violet:#b765ff;--serif:'Fraunces',serif;--sans:'Inter Tight',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;animation:none!important;transition:none!important}
+html{scroll-behavior:auto}::selection{background:var(--cyan);color:var(--ink)}
+body{background:var(--ink);color:var(--paper);font-family:var(--sans);font-weight:300;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(235,226,208,0.022) 1px,transparent 1px),linear-gradient(90deg,rgba(235,226,208,0.022) 1px,transparent 1px);background-size:88px 88px;mask:radial-gradient(ellipse 90% 70% at 50% 0%,#000 30%,transparent 90%);-webkit-mask:radial-gradient(ellipse 90% 70% at 50% 0%,#000 30%,transparent 90%)}
+.glow{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 60% 40% at 15% 0%,rgba(0,229,255,.10),transparent 70%)}
+nav{position:fixed;top:0;left:0;right:0;z-index:150;backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);background:rgba(8,13,27,.85);border-bottom:1px solid var(--rule)}
+.nav-inner{max-width:1480px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:16px 32px}
+.nav-logo{font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:5px;color:var(--paper);text-decoration:none}
+.nav-logo:hover{color:var(--cyan)}
+.nav-links{display:flex;gap:32px;list-style:none;align-items:center}
+.nav-links a,.nav-links button{font-family:var(--mono);color:var(--paper-mute);text-decoration:none;font-size:11px;letter-spacing:2px;text-transform:uppercase;background:none;border:none;padding:0;cursor:pointer}
+.nav-links a:hover,.nav-links button:hover,.nav-links button.open,.nav-links a[aria-current]{color:var(--paper)}
+.nav-dropdown-overlay{position:fixed;inset:0;z-index:148;display:none}
+.nav-dropdown-overlay.show{display:block}
+.nav-dropdown{position:fixed;top:56px;left:0;right:0;z-index:149;backdrop-filter:blur(40px) saturate(180%);background:rgba(8,13,27,.97);border-bottom:1px solid var(--rule);display:none}
+.nav-dropdown.show{display:block}
+.nav-dropdown-inner{max-width:1000px;margin:0 auto;padding:40px 32px 48px}
+.nav-dropdown h4{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--paper-mute);margin-bottom:20px;font-weight:500}
+.nav-dropdown ul{list-style:none}.nav-dropdown li{margin-bottom:4px}
+.nav-dropdown li a{font-family:var(--serif);font-weight:500;font-size:28px;letter-spacing:-.5px;color:var(--paper);text-decoration:none;display:inline-block}
+.nav-dropdown li a:hover{color:var(--cyan)}
+.acc-studio{color:var(--jade)}.acc-altnet{color:var(--cyan)}.acc-violet{color:var(--violet)}.acc-amber{color:var(--amber)}.acc-green{color:#28c878}.acc-blue{color:#4a9eff}
+
+.page{position:relative;z-index:5;max-width:1240px;margin:0 auto;padding:140px 32px 120px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:64px}
+.toc{position:sticky;top:100px;align-self:start;font-family:var(--mono);font-size:11px;letter-spacing:1px}
+.toc h4{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--paper-mute);font-weight:500;margin-bottom:14px}
+.toc ul{list-style:none;border-left:1px solid var(--rule2)}
+.toc a{display:block;padding:5px 0 5px 14px;color:var(--paper-mute);text-decoration:none;margin-left:-1px;border-left:1px solid transparent}
+.toc a:hover{color:var(--paper);border-left-color:var(--cyan)}
+.toc .prod{margin-top:26px;color:var(--paper-mute);font-size:10px;letter-spacing:2px;text-transform:uppercase;line-height:1.8}
+
+.doc{max-width:800px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--cyan);margin-bottom:22px}
+.doc h1{font-family:var(--serif);font-weight:400;font-size:clamp(40px,5vw,64px);letter-spacing:-1.5px;line-height:1.02;font-variation-settings:'opsz' 144;margin-bottom:22px}
+.doc h1 em{font-style:italic;font-weight:300;color:var(--paper-dim)}
+.intro{font-size:18px;color:var(--paper-dim);margin-bottom:22px}
+.intro a,.doc p a{color:var(--cyan)}
+.meta{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--paper-mute);padding:14px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);margin-bottom:56px}
+
+.doc h2{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.6vw,34px);letter-spacing:-.6px;line-height:1.15;margin:64px 0 18px;padding-top:24px;border-top:1px solid var(--rule);scroll-margin-top:90px}
+.doc h2 .n{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--cyan);margin-right:14px;vertical-align:middle}
+.doc h3{font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--paper-mute);font-weight:500;margin:28px 0 10px}
+.doc p{color:var(--paper-dim);margin-bottom:14px}
+.doc ul.facts{list-style:none;margin:6px 0 10px}
+.doc ul.facts li{position:relative;padding:9px 0 9px 22px;color:var(--paper-dim);border-bottom:1px solid var(--rule)}
+.doc ul.facts li::before{content:'';position:absolute;left:2px;top:19px;width:6px;height:6px;border-radius:50%;background:var(--cyan);opacity:.8}
+.doc strong{color:var(--paper);font-weight:500}
+code{font-family:var(--mono);font-size:.86em;background:rgba(235,226,208,.06);border:1px solid var(--rule);border-radius:4px;padding:1px 6px;color:var(--paper)}
+
+figure.diag{margin:26px 0 20px;border:1px solid var(--rule2);border-radius:12px;background:rgba(235,226,208,.015);padding:18px;overflow-x:auto}
+figure.diag svg{display:block;width:100%;min-width:620px;height:auto}
+figure.diag figcaption{margin-top:12px;font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--paper-mute)}
+.diag text{font-family:'JetBrains Mono',ui-monospace,monospace;fill:#b9b09e;font-size:12px}
+.diag .t{fill:#ebe2d0;font-size:13px}
+.diag .s{font-size:10.5px;fill:#6a6e7c}
+.diag .box{fill:#0c1224;stroke:rgba(235,226,208,.28);stroke-width:1.2}
+.diag .box.hl{stroke:#00e5ff}
+.diag .box.op{stroke:rgba(255,140,0,.6)}
+.diag .ln{stroke:rgba(235,226,208,.45);stroke-width:1.3;fill:none}
+.diag .ln.dash{stroke-dasharray:5 5}
+.diag .ln.c{stroke:#00e5ff}
+.diag .ln.m{stroke:#ff3d8b}
+
+table.ref{width:100%;border-collapse:collapse;margin:10px 0 18px;font-size:15px}
+table.ref th,table.ref td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+table.ref th{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--paper-mute);font-weight:500}
+table.ref td{color:var(--paper-dim)}
+table.ref td:first-child{color:var(--paper)}
+table.ref td.v{font-family:var(--mono);font-size:13px;color:var(--cyan);white-space:nowrap}
+.tbl{overflow-x:auto}
+
+.limits{border:1px solid rgba(255,140,0,.35);background:rgba(255,140,0,.04);border-radius:12px;padding:8px 22px;margin-top:10px}
+.limits dt{font-family:var(--serif);font-size:20px;color:var(--paper);margin-top:16px}
+.limits dd{color:var(--paper-dim);padding-bottom:16px;border-bottom:1px solid var(--rule)}
+.limits dd:last-child{border-bottom:0}
+
+footer{position:relative;z-index:5;border-top:1px solid var(--rule);padding:56px 32px;text-align:center}
+footer .ftxt{font-family:var(--mono);font-size:11px;letter-spacing:3px;color:var(--paper-mute)}
+footer .ftxt a{color:var(--paper-mute);text-decoration:none;border-bottom:1px solid rgba(106,110,124,.3)}
+footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
+.tm{margin-top:16px;font-family:var(--mono);font-size:9px;letter-spacing:1px;color:rgba(106,110,124,.5);max-width:980px;margin-left:auto;margin-right:auto;line-height:1.6}
+
+@media (max-width:980px){.page{grid-template-columns:1fr;gap:0;padding-top:120px}.toc{display:none}}
+@media (max-width:720px){.nav-inner{padding:14px 14px}.nav-logo{letter-spacing:3px;font-size:12px}.nav-links{gap:12px}.nav-links a,.nav-links button{font-size:9.5px;letter-spacing:1px}.page{padding:110px 20px 90px}table.ref{font-size:14px}}
+@media (max-width:420px){.nav-links{gap:10px}.nav-links a,.nav-links button{font-size:9px;letter-spacing:.5px}}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div><div class="glow"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">PANMOX</a>
+    <ul class="nav-links">
+      <li><button id="productsBtn">Products</button></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="technical.html" aria-current="page">Technical</a></li>
+      <li><a href="legal/">Legal</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="nav-dropdown-overlay" id="dropdownOverlay"></div>
+<div class="nav-dropdown" id="productsDropdown">
+  <div class="nav-dropdown-inner">
+    <h4>// EXPLORE</h4>
+    <ul>
+      <li><a href="relay.html"><span style="color:#00e5ff;">AltNet</span> Relay</a></li>
+      <li><a href="pmxos.html"><span style="color:#ff3d8b;">PMX</span> OS</a></li>
+      <li><a href="studio.html"><span class="acc-studio">AltNet</span> Studio</a></li>
+      <li><a href="altnet.html"><span class="acc-altnet">Alt</span>Net</a></li>
+      <li><a href="neuralxp.html"><span class="acc-violet">Neural</span>XP</a></li>
+      <li><a href="lostengine.html"><span class="acc-amber">Lost</span>Engine</a></li>
+      <li><a href="overbyte.html?intro=1"><span class="acc-green">Over</span>Byte</a></li>
+      <li><a href="linuxsimplify.html?intro=1"><span class="acc-blue">Linux</span>Simplify</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="page">
+  <aside class="toc" aria-label="On this page">
+    <h4>AltNet Relay</h4>
+    <ul>
+      <li><a href="#identity">Identity</a></li>
+      <li><a href="#messages">Messages</a></li>
+      <li><a href="#network">Network</a></li>
+      <li><a href="#names">Names</a></li>
+      <li><a href="#groups">Groups &amp; workspaces</a></li>
+      <li><a href="#calls">Calls</a></li>
+      <li><a href="#moderation">Moderation</a></li>
+      <li><a href="#data">Accounts &amp; data</a></li>
+      <li><a href="#app">The app</a></li>
+      <li><a href="#numbers">Numbers</a></li>
+      <li><a href="#limits">Known limits</a></li>
+    </ul>
+    <div class="prod">More products<br>will follow here.</div>
+  </aside>
+
+  <main class="doc">
+    <div class="eyebrow">// Technical &middot; AltNet Relay</div>
+    <h1>How AltNet Relay <em>works.</em></h1>
+    <p class="intro">For developers and security-minded readers: how identity, messages, calls and moderation work, what we run, and where the limits are. For the plain-words version, see the <a href="relay.html">AltNet Relay page</a>.</p>
+    <div class="meta">Version 1.0.4 &nbsp;&middot;&nbsp; Windows and Linux from 16 October 2026 &nbsp;&middot;&nbsp; Mac later in October</div>
+
+    <!-- ─────────── Identity ─────────── -->
+    <h2 id="identity"><span class="n">01</span>Identity</h2>
+    <ul class="facts">
+      <li>Each user has an <strong>Ed25519</strong> key pair, made on their own computer.</li>
+      <li>Their ID (&ldquo;username&rdquo;) is the 64-character hex <strong>SHA-256</strong> of the public key.</li>
+      <li>This identity is separate from the computer&rsquo;s network node key, so it never appears in network routing.</li>
+      <li>An <strong>X25519 &ldquo;box&rdquo; key</strong> for receiving is published in a signed profile record. The record is findable only by someone who already knows the ID; the network can&rsquo;t be browsed or searched.</li>
+    </ul>
+
+    <!-- ─────────── Messages ─────────── -->
+    <h2 id="messages"><span class="n">02</span>Messages</h2>
+    <ul class="facts">
+      <li>Each message is sealed to the recipient with an <strong>ephemeral X25519</strong> key exchange and <strong>AES-256-GCM</strong>.</li>
+      <li>It is signed with <strong>Ed25519</strong> and kept in a per-conversation chain: hash-linked, sequence-numbered per direction.</li>
+      <li>Storage addresses are derived by hashing the two IDs (domain-separated), so nothing about a user can be found without their ID.</li>
+      <li>First contact goes through a <strong>&ldquo;doorbell&rdquo; address</strong>. The recipient&rsquo;s app shows at most the first 3 messages until accepted; this is enforced by the receiver.</li>
+      <li>Text is limited to <strong>16 KiB</strong> per message. Data is stored in <strong>64 KiB</strong> pieces, sealed before splitting.</li>
+    </ul>
+
+    <figure class="diag">
+      <svg viewBox="0 0 760 250" role="img" aria-label="Message path: the sender seals and signs, stores to the AltNet network at an address derived from both IDs, and also delivers directly when both are online. The recipient is notified through a watch registration and opens the message.">
+        <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="rgba(235,226,208,.6)"/></marker>
+        <marker id="arc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#00e5ff"/></marker></defs>
+        <rect class="box hl" x="10" y="70" width="170" height="100" rx="8"/>
+        <text class="t" x="95" y="96" text-anchor="middle">Sender app</text>
+        <text x="95" y="120" text-anchor="middle">seal: X25519 (eph.)</text>
+        <text x="95" y="138" text-anchor="middle">+ AES-256-GCM</text>
+        <text x="95" y="156" text-anchor="middle">sign: Ed25519</text>
+        <rect class="box" x="290" y="20" width="180" height="110" rx="8"/>
+        <text class="t" x="380" y="46" text-anchor="middle">AltNet network</text>
+        <text x="380" y="70" text-anchor="middle">Kademlia DHT</text>
+        <text x="380" y="88" text-anchor="middle">address = H(domain,</text>
+        <text x="380" y="106" text-anchor="middle">ID&#8321;, ID&#8322;)</text>
+        <text class="s" x="380" y="122" text-anchor="middle">stored sealed, replicated</text>
+        <rect class="box hl" x="580" y="70" width="170" height="100" rx="8"/>
+        <text class="t" x="665" y="96" text-anchor="middle">Recipient app</text>
+        <text x="665" y="120" text-anchor="middle">verify signature</text>
+        <text x="665" y="138" text-anchor="middle">open with box key</text>
+        <text x="665" y="156" text-anchor="middle">check chain</text>
+        <path class="ln" d="M180 100 L290 70" marker-end="url(#ar)"/>
+        <text class="s" x="200" y="72">1 &middot; store first</text>
+        <path class="ln" d="M470 70 L580 100" marker-end="url(#ar)"/>
+        <text class="s" x="490" y="66">2 &middot; watch push (10-min TTL)</text>
+        <path class="ln dash c" d="M180 150 L580 150" marker-end="url(#arc)"/>
+        <text class="s" x="380" y="170" text-anchor="middle">also delivered directly when both are online</text>
+        <text class="s" x="380" y="232" text-anchor="middle">Nothing between sender and recipient can open the message.</text>
+      </svg>
+      <figcaption>Figure 1 &middot; A message, from one app to another</figcaption>
+    </figure>
+
+    <!-- ─────────── Network ─────────── -->
+    <h2 id="network"><span class="n">03</span>Network</h2>
+    <ul class="facts">
+      <li>AltNet is a <strong>Kademlia</strong> distributed hash table (&alpha; = 3) with exact-key lookups only.</li>
+      <li>Values are replicated to the closest nodes, and each node has a storage budget.</li>
+      <li>Connections between live peers use a <strong>Noise-XK-style</strong> handshake: X25519 + Ed25519 + AES-256-GCM, with forward secrecy.</li>
+      <li>Computers behind home routers are reached through a <strong>rendezvous relay</strong> that forwards only encrypted bytes.</li>
+      <li>When both people are online, a message is also delivered directly. It is always stored to the network first, so nothing is lost if the app is closed.</li>
+      <li>New messages arrive push-style, through short-lived <strong>watch registrations</strong> (10-minute TTL), with periodic reconciliation.</li>
+    </ul>
+
+    <!-- ─────────── Names ─────────── -->
+    <h2 id="names"><span class="n">04</span>Names (@names)</h2>
+    <ul class="facts">
+      <li>@names are unique. They are claimed with an account, and the operator&rsquo;s server signs a name record with the <strong>operator key</strong>.</li>
+      <li>Records are valid for <strong>90 days</strong> and renewed by the app.</li>
+      <li>The app trusts only the operator&rsquo;s public key for names.</li>
+      <li>Reserved names (<code>admin</code>, <code>support</code>, <code>panmox</code>, &hellip;) and vulgar names are refused.</li>
+      <li>A deleted account&rsquo;s name is never reissued.</li>
+    </ul>
+
+    <!-- ─────────── Groups ─────────── -->
+    <h2 id="groups"><span class="n">05</span>Groups and workspaces</h2>
+    <ul class="facts">
+      <li>Every group message is sealed separately to each member: <strong>fan-out, no shared group key.</strong></li>
+      <li>Groups are capped at <strong>32</strong> members, workspaces and channels at <strong>50</strong>.</li>
+      <li>Membership comes from admin-owned, numbered snapshots. Nobody is added without accepting.</li>
+    </ul>
+
+    <!-- ─────────── Calls ─────────── -->
+    <h2 id="calls"><span class="n">06</span>Calls</h2>
+    <ul class="facts">
+      <li>Calls use <strong>WebRTC</strong>, with media encrypted by <strong>DTLS-SRTP</strong>. Call setup (offer and answer) travels as sealed, signed messages in one round trip.</li>
+      <li>Only accepted contacts can ring you, and offers older than <strong>90 seconds</strong> never ring.</li>
+      <li>STUN comes from the operator&rsquo;s server, with Cloudflare&rsquo;s public STUN as a fallback.</li>
+      <li>When a direct path fails, a <strong>TURN relay</strong> (coturn, UDP 3478) carries the encrypted media. Credentials are short-lived (1 hour), HMAC-based and given only to signed-in accounts. The relay can&rsquo;t decrypt calls.</li>
+      <li>Group calls are a full mesh of up to <strong>8</strong> people. During a call, the other person&rsquo;s computer sees your IP address.</li>
+    </ul>
+
+    <figure class="diag">
+      <svg viewBox="0 0 760 230" role="img" aria-label="Call path: offer and answer travel as sealed, signed messages. Media goes directly between the two computers with DTLS-SRTP, or through the TURN relay when no direct path works; the relay cannot decrypt it.">
+        <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="rgba(235,226,208,.6)"/></marker>
+        <marker id="arm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ff3d8b"/></marker></defs>
+        <rect class="box hl" x="10" y="80" width="160" height="70" rx="8"/>
+        <text class="t" x="90" y="110" text-anchor="middle">Caller</text>
+        <text class="s" x="90" y="130" text-anchor="middle">WebRTC</text>
+        <rect class="box hl" x="590" y="80" width="160" height="70" rx="8"/>
+        <text class="t" x="670" y="110" text-anchor="middle">Callee</text>
+        <text class="s" x="670" y="130" text-anchor="middle">accepted contacts only</text>
+        <path class="ln" d="M170 92 L590 92" marker-start="url(#ar2)" marker-end="url(#ar2)"/>
+        <text x="380" y="84" text-anchor="middle">offer / answer as sealed, signed messages &middot; one round trip</text>
+        <path class="ln m" d="M170 132 L590 132" marker-start="url(#arm)" marker-end="url(#arm)"/>
+        <text x="380" y="150" text-anchor="middle">media, direct: DTLS-SRTP</text>
+        <rect class="box op" x="300" y="180" width="160" height="40" rx="8"/>
+        <text x="380" y="205" text-anchor="middle">TURN relay &middot; UDP 3478</text>
+        <path class="ln dash m" d="M120 150 L120 200 L300 200"/>
+        <path class="ln dash m" d="M460 200 L640 200 L640 150"/>
+        <text class="s" x="150" y="194">fallback, still encrypted</text>
+        <text class="s" x="490" y="194">relay can&rsquo;t decrypt</text>
+      </svg>
+      <figcaption>Figure 2 &middot; Setting up and carrying a call</figcaption>
+    </figure>
+
+    <!-- ─────────── Moderation ─────────── -->
+    <h2 id="moderation"><span class="n">07</span>Moderation</h2>
+    <ul class="facts">
+      <li><strong>Reports:</strong> a report may include up to the last 10 messages of that conversation, decrypted on the reporter&rsquo;s own computer and sent only if the reporter chooses.</li>
+      <li><strong>Automatic bans:</strong> three distinct reporters within 30 days ban an account automatically. Reporter accounts must be at least 72 hours old, and at most 5 different accounts per reporter count in 30 days.</li>
+      <li><strong>Strikes:</strong> a reporter whose reports led to bans that were later overturned gets a strike. At 2 strikes their reports no longer count.</li>
+      <li><strong>Ban list:</strong> bans are published as an operator-signed ban list on the network, and the person banned is shown a statement of reasons.</li>
+      <li><strong>Workspace reports</strong> go, sealed, to the workspace owner only. They are limited to 3 a day, and 1 per person a day.</li>
+    </ul>
+
+    <!-- ─────────── Accounts and data ─────────── -->
+    <h2 id="data"><span class="n">08</span>Accounts and data</h2>
+    <ul class="facts">
+      <li><strong>The account:</strong> email and password, held by the AltNet account service, shared with AltNet Studio.</li>
+      <li><strong>Sessions:</strong> the app stores only a session token, never the password.</li>
+      <li><strong>Conversations, contacts and keys</strong> stay on the user&rsquo;s computer.</li>
+      <li><strong>Notifications</strong> never contain message text.</li>
+      <li><strong>Deleting an account</strong> needs an emailed code, the password, the account&rsquo;s name and a final confirmation. Each step is checked on the server. It removes the account and the server&rsquo;s record, erases the local data folder, and keeps the @name reserved forever.</li>
+      <li><strong>Infrastructure:</strong> one VPS (Oracle Cloud, Frankfurt) runs the seed node, the Relay server (names, reports, bans), the account service and the call relay. Email is sent through Zoho (EU).</li>
+    </ul>
+
+    <figure class="diag">
+      <svg viewBox="0 0 760 210" role="img" aria-label="What runs where: users' computers hold conversations, contacts and keys. One VPS in Frankfurt runs the seed node, the Relay server, the account service and the call relay. Email goes through Zoho in the EU.">
+        <rect class="box hl" x="10" y="30" width="220" height="150" rx="8"/>
+        <text class="t" x="120" y="58" text-anchor="middle">Your computer</text>
+        <text x="120" y="88" text-anchor="middle">conversations</text>
+        <text x="120" y="108" text-anchor="middle">contacts</text>
+        <text x="120" y="128" text-anchor="middle">keys</text>
+        <text class="s" x="120" y="158" text-anchor="middle">session token, never the password</text>
+        <rect class="box op" x="300" y="10" width="300" height="190" rx="8"/>
+        <text class="t" x="450" y="38" text-anchor="middle">VPS &middot; Oracle Cloud, Frankfurt</text>
+        <rect class="box" x="320" y="54" width="125" height="58" rx="6"/><text x="382" y="80" text-anchor="middle">seed node</text><text class="s" x="382" y="98" text-anchor="middle">AltNet DHT</text>
+        <rect class="box" x="455" y="54" width="125" height="58" rx="6"/><text x="517" y="80" text-anchor="middle">Relay server</text><text class="s" x="517" y="98" text-anchor="middle">names, reports, bans</text>
+        <rect class="box" x="320" y="122" width="125" height="58" rx="6"/><text x="382" y="148" text-anchor="middle">account</text><text class="s" x="382" y="166" text-anchor="middle">service</text>
+        <rect class="box" x="455" y="122" width="125" height="58" rx="6"/><text x="517" y="148" text-anchor="middle">call relay</text><text class="s" x="517" y="166" text-anchor="middle">STUN / TURN</text>
+        <rect class="box" x="650" y="80" width="100" height="50" rx="8"/>
+        <text x="700" y="102" text-anchor="middle">Zoho</text><text class="s" x="700" y="118" text-anchor="middle">email (EU)</text>
+        <path class="ln dash" d="M230 105 L300 105"/>
+        <path class="ln dash" d="M600 105 L650 105"/>
+      </svg>
+      <figcaption>Figure 3 &middot; What runs where</figcaption>
+    </figure>
+
+    <!-- ─────────── The app ─────────── -->
+    <h2 id="app"><span class="n">09</span>The app</h2>
+    <ul class="facts">
+      <li>Written in <strong>Go</strong>, with a desktop shell built on <strong>Wails v2</strong>. The interface runs in the system&rsquo;s own web engine: WebView2 on Windows, WebKitGTK 4.1 on Linux, WKWebView on macOS.</li>
+      <li>It has no analytics, no third-party scripts and no web fonts.</li>
+      <li>There is a tray icon on Windows. The app starts with the computer through the Run key (Windows), a LaunchAgent (macOS) or XDG autostart (Linux).</li>
+    </ul>
+    <h3>Requirements</h3>
+    <div class="tbl"><table class="ref">
+      <thead><tr><th>System</th><th>Needs</th></tr></thead>
+      <tbody>
+        <tr><td>Windows</td><td>Windows 10 or 11, x64</td></tr>
+        <tr><td>Linux</td><td>x86-64 with glibc 2.34+ and WebKitGTK 4.1 (Ubuntu 22.04+, Debian 12+)</td></tr>
+        <tr><td>macOS</td><td>macOS 12+ (built locally from the kit, ad-hoc signed)</td></tr>
+      </tbody>
+    </table></div>
+
+    <!-- ─────────── Numbers ─────────── -->
+    <h2 id="numbers"><span class="n">10</span>The numbers, in one place</h2>
+    <div class="tbl"><table class="ref">
+      <thead><tr><th>What</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Messages shown from a stranger before accepting</td><td class="v">3</td></tr>
+        <tr><td>Text per message</td><td class="v">16 KiB</td></tr>
+        <tr><td>Stored piece size</td><td class="v">64 KiB</td></tr>
+        <tr><td>Kademlia lookup parallelism</td><td class="v">&alpha; = 3</td></tr>
+        <tr><td>Watch registration lifetime</td><td class="v">10 min</td></tr>
+        <tr><td>Name record validity</td><td class="v">90 days</td></tr>
+        <tr><td>Group size</td><td class="v">32</td></tr>
+        <tr><td>Workspace and channel size</td><td class="v">50</td></tr>
+        <tr><td>Group call (full mesh)</td><td class="v">8</td></tr>
+        <tr><td>Oldest call offer that still rings</td><td class="v">90 s</td></tr>
+        <tr><td>TURN credential lifetime</td><td class="v">1 h</td></tr>
+        <tr><td>Messages a report may include</td><td class="v">10</td></tr>
+        <tr><td>Distinct reporters for an automatic ban</td><td class="v">3 in 30 days</td></tr>
+        <tr><td>Minimum reporter account age</td><td class="v">72 h</td></tr>
+        <tr><td>Accounts one reporter can count against</td><td class="v">5 per 30 days</td></tr>
+        <tr><td>Strikes before reports stop counting</td><td class="v">2</td></tr>
+        <tr><td>Workspace reports</td><td class="v">3 a day &middot; 1 per person</td></tr>
+      </tbody>
+    </table></div>
+
+    <!-- ─────────── Known limits ─────────── -->
+    <h2 id="limits"><span class="n">11</span>Known limits</h2>
+    <p>Said plainly, so you can judge for yourself.</p>
+    <dl class="limits">
+      <dt>Metadata on a small network</dt>
+      <dd>Message contents are always encrypted, but nodes can see IP addresses and which addresses are active. On a small network that picture is richer. Watch registrations can link an IP to the addresses it watches.</dd>
+      <dt>Stored messages and key compromise</dt>
+      <dd>Stored messages are sealed to a long-lived box key, so someone who later gets that key could open stored messages. Box keys don&rsquo;t rotate yet.</dd>
+      <dt>Single device</dt>
+      <dd>One computer per account. Moving to another computer goes through us.</dd>
+      <dt>No phone apps yet</dt>
+      <dd>AltNet Relay runs on Windows, Linux and macOS only.</dd>
+      <dt>Unsigned installers</dt>
+      <dd>The installers aren&rsquo;t code-signed yet, and the Mac app is built on the user&rsquo;s Mac.</dd>
+      <dt>Not yet audited</dt>
+      <dd>There has been no independent security audit yet.</dd>
+      <dt>Operator key</dt>
+      <dd>Names and bans depend on the operator&rsquo;s signing key.</dd>
+    </dl>
+  </main>
+</div>
+
+<footer>
+  <div class="ftxt">&copy; 2026 PANMOX &nbsp;&middot;&nbsp; <a href="index.html">Home</a> &nbsp;&middot;&nbsp; <a href="relay.html">AltNet Relay</a> &nbsp;&middot;&nbsp; <a href="about.html">About</a> &nbsp;&middot;&nbsp; <a href="legal/">Legal</a></div>
+  <div class="tm">PANMOX&trade;, PMX OS&trade;, AltNet&trade;, AltNet Relay&trade;, AltNet Studio&trade;, LostEngine&trade;, NeuralXP&trade;, OverByte&trade;, and LinuxSimplify&trade; are trademarks of PANMOX. All other trademarks are property of their respective owners.</div>
+</footer>
+
+<script>
+(function(){var btn=document.getElementById('productsBtn');var dd=document.getElementById('productsDropdown');var ov=document.getElementById('dropdownOverlay');btn.addEventListener('click',function(){dd.classList.toggle('show');ov.classList.toggle('show');btn.classList.toggle('open');});ov.addEventListener('click',function(){dd.classList.remove('show');ov.classList.remove('show');btn.classList.remove('open');});})();
+</script>
+</body>
+</html>

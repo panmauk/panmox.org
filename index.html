@@ -638,10 +638,60 @@ nav {
   .phos-toggle { top: 20px; right: 24px; }
 }
 
+/* ═══════════════════ ALTNET RELAY HERO (live from Tue 13 Oct, 19:30) ═══════════════════ */
+section.relay-hero {
+  position: relative;
+  z-index: 5;
+  padding: calc(var(--nav-h, 64px) + 64px) 32px 110px;
+  text-align: center;
+}
+.relay-kicker {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 5px; text-transform: uppercase; color: var(--cyan);
+  display: inline-flex; align-items: center; gap: 14px; margin-bottom: 30px;
+}
+.relay-kicker::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); animation: dotPulse 1.6s ease-in-out infinite; }
+.relay-title {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(46px, 7.4vw, 112px); letter-spacing: -.045em; line-height: .95;
+  font-variation-settings: 'opsz' 144;
+  max-width: 1100px; margin: 0 auto 28px;
+}
+.relay-title em { font-style: italic; font-weight: 300; color: var(--paper-dim); }
+.relay-lede { font-size: clamp(17px, 1.5vw, 20px); color: var(--paper-dim); max-width: 600px; margin: 0 auto 36px; }
+.relay-lede strong { color: var(--paper); font-weight: 500; }
+.relay-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.relay-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-weight: 600;
+  padding: 15px 28px; border-radius: 999px; text-decoration: none;
+  border: 1px solid rgba(235,226,208,.25); color: var(--paper);
+  transition: transform .3s, border-color .3s, color .3s, box-shadow .3s;
+}
+.relay-btn:hover { transform: translateY(-2px); border-color: var(--cyan); color: var(--cyan); }
+.relay-btn.primary { background: var(--cyan); border-color: var(--cyan); color: var(--ink); }
+.relay-btn.primary:hover { color: var(--ink); box-shadow: 0 14px 40px rgba(0,229,255,.4); }
+.relay-note { margin-top: 22px; font-family: var(--mono); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--paper-mute); }
+.relay-film {
+  position: relative; width: min(100%, 1080px); margin: 64px auto 0; aspect-ratio: 16 / 9;
+  border-radius: 14px; overflow: hidden; background: #000;
+  border: 1px solid rgba(235,226,208,.12);
+  box-shadow: 0 50px 140px rgba(0,0,0,.7), 0 0 90px rgba(0,229,255,.08);
+}
+.relay-film img, .relay-film iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; border: 0; }
+.relay-film-cap { margin-top: 16px; font-family: var(--mono); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--paper-mute); }
+/* once Relay is live, the PANMOX Week section steps down below it */
+html.relay-live section.week-section { min-height: 0; padding: 100px 32px 110px; border-top: 1px solid var(--rule); }
+html.relay-live .week-count { display: none; }
+@media (max-width: 720px) {
+  section.relay-hero { padding: calc(var(--nav-h, 64px) + 44px) 16px 80px; }
+  .relay-film { margin-top: 44px; border-radius: 10px; }
+  html.relay-live section.week-section { padding: 80px 16px 90px; }
+}
+
 /* ═══════════════════ PANMOX WEEK ═══════════════════ */
 /* One thing on screen: the film. Label above, one line below, nothing else. */
 #pmxFxToggle { top: calc(var(--nav-h, 64px) + 12px) !important; }
-.week-section + .hero-split { padding-top: 40px; border-top: 1px solid var(--rule); }
+.week-section + .hero-split, .relay-hero + .hero-split { padding-top: 40px; border-top: 1px solid var(--rule); }
 
 section.week-section {
   position: relative;
@@ -1379,6 +1429,19 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
   .hero-mark .ch { transform: none !important; }
 }
 </style>
+<script>
+/* AltNet Relay goes live by itself at Tue 13 Oct 2026, 19:30 Prague (17:30 UTC).
+   Preview before then with ?relay=1 (kept for this tab); ?relay=0 ends the preview. */
+(function(){var D=Date.UTC(2026,9,13,17,30),q=location.search,h=document.documentElement,s=null;
+try{if(/[?&]relay=1/.test(q))sessionStorage.setItem('relayPreview','1');if(/[?&]relay=0/.test(q))sessionStorage.removeItem('relayPreview');s=sessionStorage.getItem('relayPreview')}catch(e){}
+function on(){h.classList.add('relay-live')}
+if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
+</script>
+<style>html:not(.relay-live) .relay-only{display:none!important}</style>
+<style id="nav-fit">
+@media (max-width:720px){.nav-inner{padding:14px 14px!important}.nav-logo{letter-spacing:3px!important;font-size:12px!important}.nav-links{gap:12px!important}.nav-links a,.nav-links button{font-size:9.5px!important;letter-spacing:1px!important}}
+@media (max-width:420px){.nav-links{gap:10px!important}.nav-links a,.nav-links button{font-size:9px!important;letter-spacing:.5px!important}}
+</style>
 </head>
 <body>
 
@@ -1405,6 +1468,7 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
       <li><button id="productsBtn">Products</button></li>
       <li><a href="about.html">About</a></li>
       <li><a href="#" id="navNlBtn">Newsletter</a></li>
+      <li class="relay-only"><a href="technical.html">Technical</a></li>
       <li><a href="legal/">Legal</a></li>
     </ul>
   </div>
@@ -1415,6 +1479,7 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
   <div class="nav-dropdown-inner">
     <h4>// EXPLORE</h4>
     <ul>
+      <li class="relay-only"><a href="relay.html"><span style="color:#00e5ff;">AltNet</span> Relay</a></li>
       <li><a href="pmxos.html"><span style="color:#ff3d8b;">PMX</span> OS</a></li>
       <li><a href="studio.html"><span class="acc-studio">AltNet</span> Studio</a></li>
       <li><a href="altnet.html"><span class="acc-altnet">Alt</span>Net</a></li>
@@ -1425,6 +1490,26 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
     </ul>
   </div>
 </div>
+
+<!-- ═══════════════════ ALTNET RELAY (appears by itself at 19:30 on Tue 13 Oct) ═══════════════════ -->
+<section class="relay-hero relay-only" id="altnet-relay">
+  <div class="relay-kicker">// New &middot; AltNet Relay</div>
+  <h1 class="relay-title">Private messages.<br><em>Just between you.</em></h1>
+  <p class="relay-lede">AltNet Relay is a private messenger for your computer. No phone number. Nobody in between can read what you write &mdash; <strong>not even us.</strong></p>
+  <div class="relay-actions">
+    <a class="relay-btn primary" href="relay.html#download">Get AltNet Relay</a>
+    <a class="relay-btn" href="relay.html">Learn more</a>
+  </div>
+  <div class="relay-note">Windows and Linux: coming Friday 16 October &middot; Mac: later in October</div>
+
+  <div class="relay-film" id="relayFilm" data-yt="cy51IFVpRz8">
+    <img src="assets/relay/relay-video-poster.jpg" width="1280" height="720" alt="Nobody in the Middle: the AltNet Relay video." loading="lazy">
+    <button class="week-play" id="relayPlay" aria-label="Play the AltNet Relay video from YouTube">
+      <span class="week-play-btn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4l15 8-15 8z"/></svg></span>
+    </button>
+  </div>
+  <div class="relay-film-cap">Nobody in the Middle &middot; Plays from YouTube</div>
+</section>
 
 <!-- ═══════════════════ PANMOX WEEK ═══════════════════ -->
 <section class="week-section" id="panmox-week">
@@ -1876,10 +1961,12 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
   function pad(n){ return (n < 10 ? '0' : '') + n; }
   function tick(){
     var left = Math.max(0, Math.floor((DROP - Date.now()) / 1000));
-    if (left === 0) {
-      line.innerHTML = 'Something new. <strong>Announced now.</strong>';
+    // At 19:30 the Relay hero takes the top; this section hands over to it.
+    if (left === 0 || document.documentElement.classList.contains('relay-live')) {
+      document.documentElement.classList.add('relay-live');
+      line.innerHTML = 'Announced this PANMOX Week: <strong>AltNet Relay.</strong>';
       var more = document.querySelector('.week-more');
-      if (more) { more.href = 'https://youtu.be/cy51IFVpRz8'; more.target = '_blank'; more.rel = 'noopener'; more.firstChild.textContent = 'Watch the premiere '; }
+      if (more) { more.href = 'relay.html'; more.firstChild.textContent = 'Meet AltNet Relay '; }
       clearInterval(timer); return;
     }
     // after midnight in Prague on the 13th it's no longer 'tomorrow'
@@ -1889,6 +1976,17 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
   }
   var timer = setInterval(tick, 1000);
   tick();
+
+  // AltNet Relay video: our own poster until the visitor presses play, then the privacy-enhanced YouTube player
+  var rf = document.getElementById('relayFilm'), rp = document.getElementById('relayPlay');
+  if (rf && rp) rp.addEventListener('click', function(){
+    var f = document.createElement('iframe');
+    f.src = 'https://www.youtube-nocookie.com/embed/' + rf.getAttribute('data-yt') + '?autoplay=1&rel=0&modestbranding=1';
+    f.title = 'AltNet Relay video';
+    f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    f.setAttribute('allowfullscreen', '');
+    rf.innerHTML = ''; rf.appendChild(f);
+  });
 })();
 </script>
 <script src="waterline.js?v=2"></script>
