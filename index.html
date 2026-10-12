@@ -680,6 +680,19 @@ section.relay-hero {
   box-shadow: 0 50px 140px rgba(0,0,0,.7), 0 0 90px rgba(0,229,255,.08);
 }
 .relay-film iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; }
+.sides { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0; max-width: 720px; margin: 0 auto 34px; text-align: left; }
+.side { border: 1px solid var(--rule2, rgba(235,226,208,.14)); border-radius: 14px; padding: 16px 20px; background: rgba(235,226,208,.025); }
+.side-k { display: block; font-family: var(--serif); font-size: 22px; letter-spacing: -.4px; color: var(--paper); margin-bottom: 4px; }
+.side:last-child .side-k { color: var(--cyan); }
+.side-t { display: block; font-size: 14px; line-height: 1.5; color: var(--paper-dim); }
+.side-join { position: relative; padding: 0 14px; }
+.side-join::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: rgba(0,229,255,.45); }
+.side-join span { position: relative; display: inline-block; font-family: var(--mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; white-space: nowrap; color: var(--ink); background: var(--cyan); padding: 6px 10px; border-radius: 999px; }
+@media (max-width: 720px) {
+  .sides { grid-template-columns: 1fr; gap: 0; }
+  .side-join { padding: 10px 0; text-align: center; }
+  .side-join::before { left: 50%; right: auto; top: 0; bottom: 0; width: 1px; height: auto; }
+}
 /* once Relay is live, the PANMOX Week section steps down below it */
 html.relay-live section.week-section { min-height: 0; padding: 100px 32px 110px; border-top: 1px solid var(--rule); }
 html.relay-live .week-count { display: none; }
@@ -1497,7 +1510,12 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
   <div class="relay-kicker">// New from PANMOX</div>
   <h1 class="relay-title">AltNet <em>Relay.</em></h1>
   <p class="relay-tagline">Private messages. <em>Just between you.</em></p>
-  <p class="relay-lede">AltNet Relay is a private messenger for your computer. No phone number. Nobody in between can read what you write &mdash; <strong>not even us.</strong></p>
+  <p class="relay-lede">AltNet Relay is a private messenger for your computer &mdash; for your personal life <strong>and</strong> your work, with <strong>one account.</strong> No phone number. Nobody in between can read what you write &mdash; <strong>not even us.</strong></p>
+  <div class="sides" aria-label="Personal and Business, with one account">
+    <div class="side"><span class="side-k">Personal</span><span class="side-t">Friends, family and groups of up to 32.</span></div>
+    <div class="side-join"><span>One account</span></div>
+    <div class="side"><span class="side-k">Business</span><span class="side-t">Workspaces of up to 50, with channels, calls and video meetings.</span></div>
+  </div>
   <div class="relay-actions">
     <a class="relay-btn primary" href="relay.html">Learn more</a>
   </div>
