@@ -19,7 +19,7 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
 <meta name="description" content="AltNet Relay is a private messenger for your computer. Message people, make groups, call on video. No phone number needed. Made by PANMOX in Prague.">
 <meta property="og:title" content="AltNet Relay — private messages, just between you">
 <meta property="og:description" content="A private messenger for your computer. No phone number. Free account. Windows, Linux and Mac.">
-<meta property="og:image" content="https://panmox.org/assets/relay/relay-video-poster.jpg">
+<meta property="og:image" content="https://panmox.org/assets/relay/02-welcome-tour.png">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <title>AltNet Relay &mdash; PANMOX</title>
@@ -113,13 +113,6 @@ h2.big em{font-style:italic;font-weight:300;color:var(--paper-dim)}
 /* ═════════ launch video ═════════ */
 .film{width:min(100%,1080px);margin:0 auto;position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000;box-shadow:0 50px 140px rgba(0,0,0,.7)}
 .film img,.film iframe{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;border:0;background:#000}
-.film-alt{text-align:center;margin-top:6px}.film-alt .more{background:none;border-top:0;border-left:0;border-right:0;margin-top:14px}
-.film-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:transparent;border:0}
-.film-play span{width:88px;height:88px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(8,13,27,.45);border:1px solid rgba(235,226,208,.55);color:var(--paper);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:transform .3s cubic-bezier(.16,1,.3,1),background .3s}
-.film-play svg{width:26px;height:26px;margin-left:4px}
-.film-play:hover span{transform:scale(1.08);background:rgba(8,13,27,.65)}
-.film.playing .film-play{display:none}
-.film-cap{text-align:center;margin-top:16px;font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--paper-mute)}
 .center-head{text-align:center;margin-bottom:56px}
 .center-head h2{margin-left:auto;margin-right:auto}
 
@@ -184,7 +177,7 @@ h2.big em{font-style:italic;font-weight:300;color:var(--paper-dim)}
 .ticks li{position:relative;padding:9px 0 9px 28px;color:var(--paper-dim);font-size:17px;border-bottom:1px solid var(--rule)}
 .ticks li::before{content:'';position:absolute;left:2px;top:19px;width:10px;height:6px;border-left:2px solid var(--cyan);border-bottom:2px solid var(--cyan);transform:rotate(-45deg)}
 .ticks li strong{color:var(--paper);font-weight:500}
-.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px}
+h3.sub{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.8vw,38px);letter-spacing:-.8px;line-height:1.1;margin-bottom:16px}
 
 /* ═════════ calls ═════════ */
 .calls{display:grid;grid-template-columns:1fr 1.5fr;gap:24px;margin-top:64px}
@@ -253,7 +246,6 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
   section.blk{padding:84px 0}
   .hero{padding:118px 20px 24px}
   .hero-shot{padding:0 12px;margin-top:44px}
-  .gallery{grid-template-columns:1fr}
   .lockrow{grid-template-columns:54px 1fr 54px}
   .pc svg{width:50px}.pc{font-size:9px;letter-spacing:1px}
   .packet{width:104px;height:38px;margin-top:-19px}
@@ -261,7 +253,6 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
   @keyframes travel{0%{left:0;opacity:0}3%{left:0;opacity:1}16%{left:0}68%{left:calc(100% - 104px)}92%{left:calc(100% - 104px);opacity:1}98%{left:calc(100% - 104px);opacity:0}100%{left:0;opacity:0}}
   .watcher{display:none}
   .scene{padding:30px 14px 26px}
-  .film-play span{width:64px;height:64px}
   .tiles.eight{grid-template-columns:repeat(4,1fr);gap:6px}
   .switch button{padding:11px 20px}
   .net text{font-size:13px}
@@ -331,7 +322,7 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
   <div class="hero-note">Free account &middot; Windows and Linux from Friday 16 October &middot; Mac later in October</div>
 </header>
 <div class="hero-shot rv">
-  <div class="frame"><img src="assets/relay/03-chat.png" width="2880" height="1800" alt="A chat in AltNet Relay: two friends talking about a new build." fetchpriority="high"></div>
+  <div class="frame"><img src="assets/relay/02-welcome-tour.png" width="2880" height="1800" alt="The welcome screen of AltNet Relay: private messages and calls with the people you choose." fetchpriority="high"></div>
 </div>
 
 <!-- ═════════ 2. LAUNCH VIDEO ═════════ -->
@@ -341,21 +332,26 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
       <div class="kicker">// The launch</div>
       <h2 class="big">See it in <em>two minutes.</em></h2>
     </div>
-    <div class="film rv" id="film" data-yt="cy51IFVpRz8">
-      <img src="assets/relay/relay-video-poster.jpg" width="1280" height="720" alt="Nobody in the Middle: a still from the AltNet Relay video." loading="lazy">
-      <button class="film-play" data-start="0" aria-label="Play the AltNet Relay video from YouTube"><span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4l15 8-15 8z"/></svg></span></button>
+    <div class="film rv">
+      <iframe src="https://www.youtube-nocookie.com/embed/cy51IFVpRz8" title="Nobody in the Middle | PANMOX" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
     </div>
-    <div class="film-cap">Nobody in the Middle &middot; about 4 minutes &middot; Plays from YouTube</div>
-    <div class="film-alt"><button class="more" data-yt-start="91">Skip to the app &rarr;</button></div>
   </div>
 </section>
 
 <!-- ═════════ 3. PRIVATE BY DESIGN ═════════ -->
 <section class="blk" id="private">
   <div class="wrap">
-    <div class="kicker rv">// Private by design</div>
-    <h2 class="big rv">Locked before it leaves.<br><em>Opened only by them.</em></h2>
-    <p class="lead rv">Your message is locked on your computer before it is sent. Only the person you wrote to has the key to open it. Nobody in between can read it. <strong>Not even us.</strong></p>
+    <div class="split">
+      <div class="copy">
+        <div class="kicker rv">// Private by design</div>
+        <h2 class="big rv">Locked before it leaves.<br><em>Opened only by them.</em></h2>
+        <p class="lead rv">Your message is locked on your computer before it is sent. Only the person you wrote to has the key to open it. Nobody in between can read it. <strong>Not even us.</strong></p>
+      </div>
+      <figure class="shot rv d1">
+        <div class="frame"><img src="assets/relay/03-chat.png" width="2880" height="1800" alt="A one-to-one chat in AltNet Relay." loading="lazy"></div>
+        <figcaption>A one-to-one chat</figcaption>
+      </figure>
+    </div>
 
     <div class="scene rv" id="sceneLock">
       <div class="lockrow">
@@ -401,10 +397,6 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
       </div>
     </div>
 
-    <figure class="shot rv" style="max-width:760px;margin:90px auto 0">
-      <div class="frame"><img src="assets/relay/02-welcome-tour.png" width="2880" height="1800" alt="The welcome screen of AltNet Relay: private messages and calls with the people you choose." loading="lazy"></div>
-      <figcaption>The first thing you see when you open it</figcaption>
-    </figure>
   </div>
 </section>
 
@@ -446,17 +438,27 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
       </div>
     </div>
 
-    <div class="pair">
-      <figure class="shot rv">
-        <div class="frame"><img src="assets/relay/04-message-request.png" width="2880" height="1800" alt="A message request from a stranger, with Accept and Decline buttons." loading="lazy"></div>
-        <figcaption>A request from a stranger: Accept or Decline</figcaption>
-      </figure>
+    <div class="split" style="margin-top:96px">
+      <div class="copy">
+        <h3 class="sub rv">When someone knocks</h3>
+        <p class="lead rv">You see who it is and what they wrote. <strong>Accept</strong> and you can talk. <strong>Decline</strong> and that&rsquo;s the end of it.</p>
+      </div>
       <figure class="shot rv d1">
-        <div class="frame"><img src="assets/relay/06-block-and-report.png" width="2880" height="1800" alt="Blocking someone, with the option to also report them to AltNet." loading="lazy"></div>
-        <figcaption>Block anyone. Report them if you want to</figcaption>
+        <div class="frame"><img src="assets/relay/04-message-request.png" width="2880" height="1800" alt="A message request from a stranger, with Accept and Decline buttons." loading="lazy"></div>
+        <figcaption>A request from a stranger</figcaption>
       </figure>
     </div>
-    <p class="lead rv" style="margin:36px auto 0;text-align:center;max-width:680px">You can <strong>block or report</strong> anyone, quietly. They aren&rsquo;t told. When three different people report the same account, it&rsquo;s banned automatically. A ban can be appealed by email.</p>
+
+    <div class="split rev" style="margin-top:96px" id="safety">
+      <div class="copy">
+        <h3 class="sub rv">Block or report, quietly</h3>
+        <p class="lead rv">You can <strong>block or report</strong> anyone. They aren&rsquo;t told. When three different people report the same account, it&rsquo;s banned automatically. A ban can be appealed by email.</p>
+      </div>
+      <figure class="shot rv d1">
+        <div class="frame"><img src="assets/relay/06-block-and-report.png" width="2880" height="1800" alt="Blocking someone, with the option to also report them to AltNet." loading="lazy"></div>
+        <figcaption>Block, and report if you want to</figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 
@@ -495,18 +497,44 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
           <p class="lead">For a company or a team. Same account, kept separate from your personal chats.</p>
           <ul class="ticks">
             <li><strong>Workspaces</strong> of up to 50 people, invited by name. Each person accepts or declines.</li>
-            <li><strong>Channels</strong>, like #design or #launch, for the people who need them.</li>
             <li>Coworkers can <strong>message and call</strong> each other directly.</li>
             <li><strong>Video meetings</strong> of up to 8 people.</li>
-            <li>At work, a report about a coworker goes to <strong>the person who runs the workspace</strong>, not to us.</li>
           </ul>
         </div>
-        <figure class="shot"><div class="frame"><img src="assets/relay/07-business-workspace.png" width="2880" height="1800" alt="A company workspace with channels and people." loading="lazy"></div><figcaption>A workspace: channels and people</figcaption></figure>
+      <figure class="shot">
+        <div class="frame"><img src="assets/relay/07-business-workspace.png" width="2880" height="1800" alt="A company workspace with channels and people." loading="lazy"></div>
+        <figcaption>A workspace: channels and people</figcaption>
+      </figure>
       </div>
-      <div class="gallery">
-        <figure class="shot"><div class="frame"><img src="assets/relay/08-business-channel.png" width="2880" height="1800" alt="A channel called design." loading="lazy"></div><figcaption>A channel</figcaption></figure>
-        <figure class="shot"><div class="frame"><img src="assets/relay/09-new-channel.png" width="2880" height="1800" alt="Making a new channel and choosing who is in it." loading="lazy"></div><figcaption>Choose who is in a channel</figcaption></figure>
-        <figure class="shot"><div class="frame"><img src="assets/relay/10-workspace-reports.png" width="2880" height="1800" alt="The workspace owner reading a report from a team member." loading="lazy"></div><figcaption>Reports go to the workspace owner</figcaption></figure>
+      <div class="split rev" style="margin-top:80px">
+        <div class="copy">
+          <h3 class="sub">Channels</h3>
+          <p class="lead">Like #design or #launch: a place for one topic, for the people who need it.</p>
+        </div>
+      <figure class="shot">
+        <div class="frame"><img src="assets/relay/08-business-channel.png" width="2880" height="1800" alt="A channel called design." loading="lazy"></div>
+        <figcaption>The #design channel</figcaption>
+      </figure>
+      </div>
+      <div class="split" style="margin-top:80px">
+        <div class="copy">
+          <h3 class="sub">You choose who&rsquo;s in</h3>
+          <p class="lead">Make a channel and pick its members. Nobody else sees it.</p>
+        </div>
+      <figure class="shot">
+        <div class="frame"><img src="assets/relay/09-new-channel.png" width="2880" height="1800" alt="Making a new channel and choosing who is in it." loading="lazy"></div>
+        <figcaption>Making a channel</figcaption>
+      </figure>
+      </div>
+      <div class="split rev" style="margin-top:80px">
+        <div class="copy">
+          <h3 class="sub">Reports stay at work</h3>
+          <p class="lead">At work, a report about a coworker goes to <strong>the person who runs the workspace</strong>, not to us.</p>
+        </div>
+      <figure class="shot">
+        <div class="frame"><img src="assets/relay/10-workspace-reports.png" width="2880" height="1800" alt="The workspace owner reading a report from a team member." loading="lazy"></div>
+        <figcaption>The workspace owner reading a report</figcaption>
+      </figure>
       </div>
     </div>
   </div>
@@ -657,22 +685,6 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
   sw.addEventListener('keydown', function(e){
     if (e.key === 'ArrowRight') { pick(true); tB.focus(); }
     if (e.key === 'ArrowLeft') { pick(false); tP.focus(); }
-  });
-
-  // ── Video: our own poster until the visitor presses play; then the privacy-enhanced YouTube player ──
-  var film = document.getElementById('film');
-  function playYT(start){
-    var f = document.createElement('iframe');
-    f.src = 'https://www.youtube-nocookie.com/embed/' + film.getAttribute('data-yt') + '?autoplay=1&rel=0&modestbranding=1' + (start ? '&start=' + start : '');
-    f.title = 'AltNet Relay video';
-    f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-    f.setAttribute('allowfullscreen', '');
-    film.innerHTML = ''; film.appendChild(f); film.classList.add('playing');
-  }
-  film.querySelector('.film-play').addEventListener('click', function(){ playYT(0); });
-  document.querySelector('[data-yt-start]').addEventListener('click', function(){
-    playYT(+this.getAttribute('data-yt-start'));
-    film.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
 
   // ── Hear when it's out: the site's newsletter list ──

@@ -677,14 +677,23 @@ section.relay-hero {
   border: 1px solid rgba(235,226,208,.12);
   box-shadow: 0 50px 140px rgba(0,0,0,.7), 0 0 90px rgba(0,229,255,.08);
 }
-.relay-film img, .relay-film iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; border: 0; }
-.relay-film-cap { margin-top: 16px; font-family: var(--mono); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--paper-mute); }
+.relay-film iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; }
+.relay-point { max-width: 1080px; margin: 110px auto 0; display: grid; grid-template-columns: 5fr 7fr; gap: 64px; align-items: center; text-align: left; }
+.relay-point.rev { grid-template-columns: 7fr 5fr; }
+.relay-point.rev .relay-point-copy { order: 2; }
+.relay-point h3 { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 3.4vw, 48px); letter-spacing: -1.2px; line-height: 1.05; margin-bottom: 16px; font-variation-settings: 'opsz' 144; }
+.relay-point h3 em { font-style: italic; font-weight: 300; color: var(--paper-dim); }
+.relay-point p { font-size: 17px; color: var(--paper-dim); }
+.relay-point figure { margin: 0; border-radius: 12px; overflow: hidden; border: 1px solid rgba(235,226,208,.12); box-shadow: 0 40px 120px rgba(0,0,0,.6); background: #0a0e1a; }
+.relay-point img { display: block; width: 100%; height: auto; }
 /* once Relay is live, the PANMOX Week section steps down below it */
 html.relay-live section.week-section { min-height: 0; padding: 100px 32px 110px; border-top: 1px solid var(--rule); }
 html.relay-live .week-count { display: none; }
 @media (max-width: 720px) {
   section.relay-hero { padding: calc(var(--nav-h, 64px) + 44px) 16px 80px; }
   .relay-film { margin-top: 44px; border-radius: 10px; }
+  .relay-point, .relay-point.rev { grid-template-columns: 1fr; gap: 28px; margin-top: 72px; }
+  .relay-point.rev .relay-point-copy { order: 0; }
   html.relay-live section.week-section { padding: 80px 16px 90px; }
 }
 
@@ -1502,13 +1511,26 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
   </div>
   <div class="relay-note">Windows and Linux: coming Friday 16 October &middot; Mac: later in October</div>
 
-  <div class="relay-film" id="relayFilm" data-yt="cy51IFVpRz8">
-    <img src="assets/relay/relay-video-poster.jpg" width="1280" height="720" alt="Nobody in the Middle: the AltNet Relay video." loading="lazy">
-    <button class="week-play" id="relayPlay" aria-label="Play the AltNet Relay video from YouTube">
-      <span class="week-play-btn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4l15 8-15 8z"/></svg></span>
-    </button>
+  <div class="relay-film">
+    <iframe src="https://www.youtube-nocookie.com/embed/cy51IFVpRz8" title="Nobody in the Middle | PANMOX" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
   </div>
-  <div class="relay-film-cap">Nobody in the Middle &middot; Plays from YouTube</div>
+
+  <!-- two screenshots, each next to what it shows -->
+  <div class="relay-point">
+    <div class="relay-point-copy">
+      <h3>Message the people <em>you choose.</em></h3>
+      <p>Chat one to one or in groups. Strangers have to knock first, and only you decide who gets in.</p>
+    </div>
+    <figure><img src="assets/relay/03-chat.png" width="2880" height="1800" alt="A one-to-one chat in AltNet Relay." loading="lazy"></figure>
+  </div>
+  <div class="relay-point rev">
+    <div class="relay-point-copy">
+      <h3>The same account, <em>for work.</em></h3>
+      <p>Workspaces, channels and video meetings for your team &mdash; kept apart from your personal chats.</p>
+      <a class="week-more" href="relay.html">Learn more <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <figure><img src="assets/relay/07-business-workspace.png" width="2880" height="1800" alt="A company workspace in AltNet Relay, with channels and people." loading="lazy"></figure>
+  </div>
 </section>
 
 <!-- ═══════════════════ PANMOX WEEK ═══════════════════ -->
@@ -1965,7 +1987,7 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
     if (left === 0 || document.documentElement.classList.contains('relay-live')) {
       document.documentElement.classList.add('relay-live');
       line.innerHTML = 'Announced this PANMOX Week: <strong>AltNet Relay.</strong>';
-      var more = document.querySelector('.week-more');
+      var more = document.querySelector('#panmox-week .week-more');
       if (more) { more.href = 'relay.html'; more.firstChild.textContent = 'Meet AltNet Relay '; }
       clearInterval(timer); return;
     }
@@ -1977,16 +1999,6 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
   var timer = setInterval(tick, 1000);
   tick();
 
-  // AltNet Relay video: our own poster until the visitor presses play, then the privacy-enhanced YouTube player
-  var rf = document.getElementById('relayFilm'), rp = document.getElementById('relayPlay');
-  if (rf && rp) rp.addEventListener('click', function(){
-    var f = document.createElement('iframe');
-    f.src = 'https://www.youtube-nocookie.com/embed/' + rf.getAttribute('data-yt') + '?autoplay=1&rel=0&modestbranding=1';
-    f.title = 'AltNet Relay video';
-    f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-    f.setAttribute('allowfullscreen', '');
-    rf.innerHTML = ''; rf.appendChild(f);
-  });
 })();
 </script>
 <script src="waterline.js?v=2"></script>
