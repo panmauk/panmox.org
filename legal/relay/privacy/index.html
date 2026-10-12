@@ -3,16 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>
-/* AltNet Relay goes live by itself at Tue 13 Oct 2026, 19:30 Prague (17:30 UTC).
-   Preview before then with ?relay=1 (kept for this tab); ?relay=0 ends the preview. */
-(function(){var D=Date.UTC(2026,9,13,17,30),q=location.search,h=document.documentElement,s=null;
-try{if(/[?&]relay=1/.test(q))sessionStorage.setItem('relayPreview','1');if(/[?&]relay=0/.test(q))sessionStorage.removeItem('relayPreview');s=sessionStorage.getItem('relayPreview')}catch(e){}
-function on(){h.classList.add('relay-live')}
-if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
-</script>
-<style>html:not(.relay-live) .relay-only{display:none!important}</style>
-<script>if(!document.documentElement.classList.contains('relay-live'))location.replace('../../../panmox-week.html');</script>
 <link rel="icon" type="image/jpeg" href="../../../assets/favicon.jpg">
 <link rel="apple-touch-icon" href="../../../assets/favicon.jpg">
 <meta name="description" content="AltNet Relay &mdash; Privacy Policy.">

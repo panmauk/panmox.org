@@ -110,15 +110,6 @@ footer .ftxt a:hover{color:var(--blue);border-color:var(--blue)}
 @media (max-width:720px){.nav-inner{padding:14px 20px}.nav-links{gap:18px}section.editorial{padding:80px 20px}.hero{padding:100px 20px 60px}.hero-actions{flex-direction:column;width:100%;max-width:280px}.hero-btn{justify-content:center}.hero-switch{font-size:14px;gap:10px}.hero-switch .from,.hero-switch .to{padding:12px 14px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01s!important;transition-duration:.1s!important}.hero-mark .ch{transform:none!important}}
 </style>
-<script>
-/* AltNet Relay goes live by itself at Tue 13 Oct 2026, 19:30 Prague (17:30 UTC).
-   Preview before then with ?relay=1 (kept for this tab); ?relay=0 ends the preview. */
-(function(){var D=Date.UTC(2026,9,13,17,30),q=location.search,h=document.documentElement,s=null;
-try{if(/[?&]relay=1/.test(q))sessionStorage.setItem('relayPreview','1');if(/[?&]relay=0/.test(q))sessionStorage.removeItem('relayPreview');s=sessionStorage.getItem('relayPreview')}catch(e){}
-function on(){h.classList.add('relay-live')}
-if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
-</script>
-<style>html:not(.relay-live) .relay-only{display:none!important}</style>
 <style id="nav-fit">
 @media (max-width:720px){.nav-inner{padding:14px 14px!important}.nav-logo{letter-spacing:3px!important;font-size:12px!important}.nav-links{gap:12px!important}.nav-links a,.nav-links button{font-size:9.5px!important;letter-spacing:1px!important}}
 @media (max-width:420px){.nav-links{gap:10px!important}.nav-links a,.nav-links button{font-size:9px!important;letter-spacing:.5px!important}}
@@ -148,7 +139,7 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
   <div class="nav-dropdown-inner">
     <h4>// EXPLORE</h4>
     <ul>
-      <li class="relay-only"><a href="relay.html"><span style="color:#00e5ff;">AltNet</span> Relay</a></li>
+      <li><a href="relay.html"><span style="color:#00e5ff;">AltNet</span> Relay</a></li>
       <li><a href="pmxos.html"><span style="color:#ff3d8b;">PMX</span> OS</a></li>
       <li><a href="studio.html"><span class="acc-studio">AltNet</span> Studio</a></li>
       <li><a href="altnet.html"><span class="acc-altnet">Alt</span>Net</a></li>

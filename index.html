@@ -674,12 +674,11 @@ section.relay-hero {
 }
 .relay-film iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; }
 /* once Relay is live, the PANMOX Week section steps down below it */
-html.relay-live section.week-section { min-height: 0; padding: 100px 32px 110px; border-top: 1px solid var(--rule); }
-html.relay-live .week-count { display: none; }
+#panmox-week.week-section { min-height: 0; padding: 100px 32px 110px; border-top: 1px solid var(--rule); }
 @media (max-width: 720px) {
   section.relay-hero { padding: calc(var(--nav-h, 64px) + 44px) 16px 80px; }
   .relay-film { margin-top: 36px; border-radius: 10px; }
-  html.relay-live section.week-section { padding: 80px 16px 90px; }
+  #panmox-week.week-section { padding: 80px 16px 90px; }
 }
 
 /* ═══════════════════ PANMOX WEEK ═══════════════════ */
@@ -1423,15 +1422,6 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
   .hero-mark .ch { transform: none !important; }
 }
 </style>
-<script>
-/* AltNet Relay goes live by itself at Tue 13 Oct 2026, 19:30 Prague (17:30 UTC).
-   Preview before then with ?relay=1 (kept for this tab); ?relay=0 ends the preview. */
-(function(){var D=Date.UTC(2026,9,13,17,30),q=location.search,h=document.documentElement,s=null;
-try{if(/[?&]relay=1/.test(q))sessionStorage.setItem('relayPreview','1');if(/[?&]relay=0/.test(q))sessionStorage.removeItem('relayPreview');s=sessionStorage.getItem('relayPreview')}catch(e){}
-function on(){h.classList.add('relay-live')}
-if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
-</script>
-<style>html:not(.relay-live) .relay-only{display:none!important}</style>
 <style id="nav-fit">
 @media (max-width:720px){.nav-inner{padding:14px 14px!important}.nav-logo{letter-spacing:3px!important;font-size:12px!important}.nav-links{gap:12px!important}.nav-links a,.nav-links button{font-size:9.5px!important;letter-spacing:1px!important}}
 @media (max-width:420px){.nav-links{gap:10px!important}.nav-links a,.nav-links button{font-size:9px!important;letter-spacing:.5px!important}}
@@ -1473,7 +1463,7 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
   <div class="nav-dropdown-inner">
     <h4>// EXPLORE</h4>
     <ul>
-      <li class="relay-only"><a href="relay.html"><span style="color:#00e5ff;">AltNet</span> Relay</a></li>
+      <li><a href="relay.html"><span style="color:#00e5ff;">AltNet</span> Relay</a></li>
       <li><a href="pmxos.html"><span style="color:#ff3d8b;">PMX</span> OS</a></li>
       <li><a href="studio.html"><span class="acc-studio">AltNet</span> Studio</a></li>
       <li><a href="altnet.html"><span class="acc-altnet">Alt</span>Net</a></li>
@@ -1486,7 +1476,7 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
 </div>
 
 <!-- ═══════════════════ ALTNET RELAY (appears by itself at 19:30 on Tue 13 Oct) ═══════════════════ -->
-<section class="relay-hero relay-only" id="altnet-relay">
+<section class="relay-hero" id="altnet-relay">
   <h1 class="relay-title">AltNet <em>Relay.</em></h1>
   <p class="relay-tagline">Private messages, for your life <em>and your work.</em><br>One account.</p>
   <div class="relay-actions">
@@ -1513,10 +1503,8 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
     </button>
   </div>
 
-  <p class="week-line" id="weekDrop">Something new. <strong>Announced <span id="weekWhen">tomorrow at 19:30.</span></strong>
-    <span class="week-count" id="weekCount" aria-live="off"></span>
-  </p>
-  <a class="week-more" href="panmox-week.html">The countdown <span aria-hidden="true">&rarr;</span></a>
+  <p class="week-line">Announced this PANMOX Week: <strong>AltNet Relay.</strong></p>
+  <a class="week-more" href="relay.html">Meet AltNet Relay <span aria-hidden="true">&rarr;</span></a>
 </section>
 
 <!-- ═══════════════════ HERO ═══════════════════ -->
@@ -1923,7 +1911,7 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
   };
 </script>
 <script>
-/* ─── PANMOX Week: promo player + countdown ─── */
+/* ─── PANMOX Week: promo player ─── */
 (function(){
   var frame = document.getElementById('weekFrame');
   var video = document.getElementById('weekVideo');
@@ -1942,29 +1930,6 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
   function navH(){ if (nav) document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px'); }
   navH(); window.addEventListener('resize', navH);
 
-  // Tue 13 Oct 2026, 19:30 Prague (CEST, UTC+2)
-  var DROP = Date.UTC(2026, 9, 13, 17, 30, 0);
-  var line = document.getElementById('weekDrop');
-  var out = document.getElementById('weekCount');
-  if (!line || !out) return;
-  function pad(n){ return (n < 10 ? '0' : '') + n; }
-  function tick(){
-    var left = Math.max(0, Math.floor((DROP - Date.now()) / 1000));
-    // At 19:30 the Relay hero takes the top; this section hands over to it.
-    if (left === 0 || document.documentElement.classList.contains('relay-live')) {
-      document.documentElement.classList.add('relay-live');
-      line.innerHTML = 'Announced this PANMOX Week: <strong>AltNet Relay.</strong>';
-      var more = document.querySelector('#panmox-week .week-more');
-      if (more) { more.href = 'relay.html'; more.firstChild.textContent = 'Meet AltNet Relay '; }
-      clearInterval(timer); return;
-    }
-    // after midnight in Prague on the 13th it's no longer 'tomorrow'
-    if (Date.now() >= Date.UTC(2026, 9, 12, 22, 0, 0)) { var w = document.getElementById('weekWhen'); if (w) w.textContent = 'today at 19:30.'; }
-    var d = Math.floor(left / 86400);
-    out.textContent = (d ? d + 'd  ' : '') + pad(Math.floor(left / 3600) % 24) + ':' + pad(Math.floor(left / 60) % 60) + ':' + pad(left % 60) + '  \u00b7  Prague time';
-  }
-  var timer = setInterval(tick, 1000);
-  tick();
 
 })();
 </script>
