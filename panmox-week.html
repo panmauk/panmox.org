@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
+<link rel="apple-touch-icon" href="assets/favicon.jpg">
+<meta name="description" content="It's PANMOX Week. Something new — announced Tuesday 13 October, 19:30 Prague time.">
+<meta property="og:title" content="PANMOX Week">
+<meta property="og:description" content="Something new. Announced Tuesday 13 October, 19:30 Prague time.">
+<meta property="og:image" content="https://panmox.org/assets/video/panmox-week-poster.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<title>PANMOX Week</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter+Tight:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+:root{--ink:#080d1b;--paper:#ebe2d0;--paper-dim:#b9b09e;--paper-mute:#6a6e7c;--rule:rgba(235,226,208,0.08);--cyan:#00e5ff;--magenta:#ff3d8b;--jade:#00ff88;--amber:#ff8c00;--violet:#b765ff;--serif:'Fraunces',serif;--sans:'Inter Tight',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth;cursor:none}::selection{background:var(--cyan);color:var(--ink)}
+body{background:var(--ink);color:var(--paper);font-family:var(--sans);font-weight:300;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a,button{cursor:none}
+.grain{position:fixed;inset:0;z-index:200;pointer-events:none;opacity:.06;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.9'/></svg>")}
+.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(235,226,208,0.022) 1px,transparent 1px),linear-gradient(90deg,rgba(235,226,208,0.022) 1px,transparent 1px);background-size:88px 88px;mask:radial-gradient(ellipse 90% 80% at 50% 30%,#000 30%,transparent 90%);-webkit-mask:radial-gradient(ellipse 90% 80% at 50% 30%,#000 30%,transparent 90%)}
+.mesh{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.mesh-blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.55;mix-blend-mode:screen}
+.mesh-blob.c{width:800px;height:800px;background:radial-gradient(circle,rgba(0,229,255,.30),transparent 65%);top:-200px;left:-150px;animation:drift1 28s ease-in-out infinite alternate}
+.mesh-blob.m{width:700px;height:700px;background:radial-gradient(circle,rgba(183,101,255,.20),transparent 65%);top:40%;right:-180px;animation:drift2 32s ease-in-out infinite alternate}
+@keyframes drift1{from{transform:translate(0,0) scale(1)}to{transform:translate(160px,100px) scale(1.2)}}
+@keyframes drift2{from{transform:translate(0,0) scale(1)}to{transform:translate(-130px,180px) scale(1.15)}}
+.stars{position:fixed;inset:0;z-index:1;pointer-events:none}
+.star{position:absolute;border-radius:50%;background:var(--paper);opacity:0;animation:twinkle 4s ease-in-out infinite alternate}
+@keyframes twinkle{0%{opacity:.08}100%{opacity:.55}}
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;transition:transform .25s cubic-bezier(.16,1,.3,1),width .25s,height .25s,background .25s,opacity .25s}
+.cursor-dot{width:6px;height:6px;background:var(--cyan);box-shadow:0 0 12px var(--cyan),0 0 24px var(--cyan);transform:translate(-50%,-50%)}
+.cursor-ring{width:36px;height:36px;border:1px solid rgba(0,229,255,.5);transform:translate(-50%,-50%);transition:transform .35s cubic-bezier(.16,1,.3,1) .03s,width .25s,height .25s,opacity .25s}
+.cursor-ring.hover{width:64px;height:64px;border-color:rgba(255,61,139,.5)}
+.cursor-dot.hover{background:var(--magenta);box-shadow:0 0 12px var(--magenta),0 0 24px var(--magenta)}
+@media (max-width:980px),(pointer:coarse){.cursor-dot,.cursor-ring{display:none}html{cursor:auto}a,button{cursor:pointer}}
+nav{position:fixed;top:0;left:0;right:0;z-index:150;backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);background:rgba(8,13,27,.6);border-bottom:1px solid var(--rule)}
+.nav-inner{max-width:1480px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:16px 32px}
+.nav-logo{font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:5px;color:var(--paper);text-decoration:none;transition:color .25s}
+.nav-logo:hover{color:var(--cyan)}
+.nav-links{display:flex;gap:32px;list-style:none;align-items:center}
+.nav-links a,.nav-links button{font-family:var(--mono);color:var(--paper-mute);text-decoration:none;font-size:11px;letter-spacing:2px;text-transform:uppercase;background:none;border:none;padding:0;transition:color .25s}
+.nav-links a:hover,.nav-links button:hover,.nav-links button.open{color:var(--paper)}
+.nav-dropdown-overlay{position:fixed;inset:0;z-index:148;display:none}
+.nav-dropdown-overlay.show{display:block}
+.nav-dropdown{position:fixed;top:56px;left:0;right:0;z-index:149;backdrop-filter:blur(40px) saturate(180%);background:rgba(8,13,27,.95);border-bottom:1px solid var(--rule);max-height:0;overflow:hidden;opacity:0;transition:max-height .5s cubic-bezier(.16,1,.3,1),opacity .3s}
+.nav-dropdown.show{max-height:540px;opacity:1}
+.nav-dropdown-inner{max-width:1000px;margin:0 auto;padding:40px 32px 48px}
+.nav-dropdown h4{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--paper-mute);margin-bottom:20px;font-weight:500}
+.nav-dropdown ul{list-style:none}.nav-dropdown li{margin-bottom:4px}
+.nav-dropdown li a{font-family:var(--serif);font-weight:500;font-size:28px;letter-spacing:-.5px;color:var(--paper);text-decoration:none;display:inline-block;transition:color .25s,transform .25s}
+.nav-dropdown li a:hover{color:var(--cyan);transform:translateX(10px)}
+.acc-studio{color:var(--jade)}.acc-altnet{color:var(--cyan)}.acc-violet{color:var(--violet)}.acc-amber{color:var(--amber)}.acc-green{color:#28c878}.acc-blue{color:#4a9eff}
+@keyframes heroFade{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══════ Countdown — the one thing on the first screen ═══════ */
+.cd{position:relative;z-index:5;min-height:100vh;padding:120px 24px 80px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.cd-title{font-family:var(--serif);font-weight:400;font-size:clamp(34px,4vw,58px);letter-spacing:-1.5px;line-height:1;font-variation-settings:'opsz' 144;margin-bottom:clamp(36px,6vh,64px);opacity:0;animation:heroFade 1s .1s cubic-bezier(.16,1,.3,1) forwards}
+.cd-title em{font-style:italic;font-weight:300;color:var(--paper-dim)}
+.cd-clock{display:flex;align-items:flex-start;justify-content:center;gap:clamp(6px,1.6vw,22px);opacity:0;animation:heroFade 1.2s .3s cubic-bezier(.16,1,.3,1) forwards}
+.cd-unit{display:flex;flex-direction:column;align-items:center;min-width:1.6em;font-size:clamp(52px,10.5vw,170px)}
+.cd-num{font-family:var(--serif);font-weight:300;font-size:1em;line-height:1;letter-spacing:-.04em;font-variant-numeric:tabular-nums lining-nums;font-variation-settings:'opsz' 144;color:var(--paper);display:block;overflow:hidden;height:1.02em}
+.cd-num span{display:block}
+.cd-num.tick span{animation:numIn .55s cubic-bezier(.16,1,.3,1)}
+@keyframes numIn{from{transform:translateY(-30%);opacity:.55}to{transform:none;opacity:1}}
+.cd-lbl{margin-top:clamp(10px,1.4vw,18px);font-family:var(--mono);font-size:clamp(9px,.85vw,11px);letter-spacing:4px;text-transform:uppercase;color:var(--paper-mute)}
+.cd-sep{font-family:var(--serif);font-weight:200;font-size:clamp(52px,10.5vw,170px);line-height:.92;color:rgba(235,226,208,.18)}
+.cd-unit.sec .cd-num{color:var(--cyan);text-shadow:0 0 40px rgba(0,229,255,.25)}
+.cd-line{margin-top:clamp(36px,6vh,60px);font-size:clamp(17px,1.5vw,20px);color:var(--paper-dim);opacity:0;animation:heroFade 1.2s .6s cubic-bezier(.16,1,.3,1) forwards}
+.cd-line strong{color:var(--paper);font-weight:500}
+.cd-local{margin-top:8px;font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--paper-mute);min-height:1.6em}
+.cd-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:36px;opacity:0;animation:heroFade 1.2s .8s cubic-bezier(.16,1,.3,1) forwards}
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:600;padding:14px 26px;border-radius:999px;text-decoration:none;border:1px solid rgba(235,226,208,.25);background:transparent;color:var(--paper);transition:transform .3s,border-color .3s,color .3s,background .3s,box-shadow .3s}
+.btn:hover{transform:translateY(-2px);border-color:var(--cyan);color:var(--cyan)}
+.btn.primary{background:var(--cyan);border-color:var(--cyan);color:var(--ink)}
+.btn.primary:hover{color:var(--ink);box-shadow:0 14px 40px rgba(0,229,255,.4)}
+.btn svg{width:14px;height:14px}
+.cd-scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--paper-mute);text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:10px}
+.cd-scroll::after{content:'';width:1px;height:34px;background:linear-gradient(180deg,var(--paper-mute),transparent);animation:scrollCue 2s ease-in-out infinite}
+@keyframes scrollCue{0%,100%{opacity:.3;transform:scaleY(.6);transform-origin:top}50%{opacity:1;transform:scaleY(1)}}
+.cd.live .cd-clock,.cd.live .cd-lbl{display:none}
+.cd-here{display:none;font-family:var(--serif);font-weight:300;font-size:clamp(72px,14vw,220px);letter-spacing:-.04em;line-height:.95;font-variation-settings:'opsz' 144}
+.cd-here em{font-style:italic;color:var(--cyan)}
+.cd.live .cd-here{display:block}
+
+/* notify inline form */
+.notify{display:none;margin-top:18px;gap:10px;justify-content:center;flex-wrap:wrap}
+.notify.show{display:flex}
+.notify input{width:min(300px,80vw);padding:13px 18px;border-radius:999px;border:1px solid rgba(235,226,208,.25);background:rgba(8,13,27,.6);color:var(--paper);font-family:var(--mono);font-size:13px;outline:none;transition:border-color .25s,box-shadow .25s}
+.notify input:focus{border-color:var(--cyan);box-shadow:0 0 12px rgba(0,229,255,.3)}
+.notify-msg{width:100%;font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--cyan);min-height:1.4em}
+
+/* ═══════ The film ═══════ */
+.film{position:relative;z-index:5;padding:100px 24px 120px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--cyan);margin-bottom:28px;display:inline-flex;align-items:center;gap:14px}
+.kicker::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation:dotPulse 1.6s ease-in-out infinite}
+@keyframes dotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.6)}}
+.film-frame{position:relative;width:min(100%,1240px);aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000;box-shadow:0 50px 140px rgba(0,0,0,.7)}
+.film-frame video{display:block;width:100%;height:100%;object-fit:cover;background:#000;cursor:auto}
+.film-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:transparent;border:0}
+.film-play-btn{width:88px;height:88px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(8,13,27,.45);border:1px solid rgba(235,226,208,.55);color:var(--paper);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:transform .3s cubic-bezier(.16,1,.3,1),background .3s}
+.film-play-btn svg{width:26px;height:26px;margin-left:4px}
+.film-play:hover .film-play-btn{transform:scale(1.08);background:rgba(8,13,27,.65)}
+.film-frame.playing .film-play{display:none}
+.film-cap{margin-top:18px;font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--paper-mute)}
+.film-cap b{color:var(--paper-dim);font-weight:500}
+
+/* ═══════ The week ═══════ */
+.week{position:relative;z-index:5;padding:60px 24px 140px;max-width:880px;margin:0 auto}
+.week h2{font-family:var(--serif);font-weight:400;font-size:clamp(36px,4.4vw,60px);letter-spacing:-1.5px;line-height:1.05;margin-bottom:48px;text-align:center;font-variation-settings:'opsz' 144}
+.week h2 em{font-style:italic;font-weight:300;color:var(--paper-dim)}
+.tl{list-style:none;border-top:1px solid var(--rule)}
+.tl li{display:grid;grid-template-columns:150px 1fr auto;gap:24px;align-items:center;padding:26px 4px;border-bottom:1px solid var(--rule)}
+.tl-when{font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--paper-mute)}
+.tl-what{font-family:var(--serif);font-size:clamp(20px,2vw,26px);font-weight:400;letter-spacing:-.4px;color:var(--paper)}
+.tl-what small{display:block;font-family:var(--sans);font-size:14px;font-weight:300;color:var(--paper-mute);letter-spacing:0;margin-top:2px}
+.tl-tag{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:6px 12px;border-radius:999px;border:1px solid var(--rule);color:var(--paper-mute);white-space:nowrap}
+.tl li.done .tl-what{color:var(--paper-dim)}
+.tl li.next .tl-tag{border-color:rgba(0,229,255,.4);color:var(--cyan);background:rgba(0,229,255,.06)}
+.tl li.later .tl-what{color:var(--paper-mute);font-style:italic}
+
+footer{position:relative;z-index:5;border-top:1px solid var(--rule);padding:56px 32px;text-align:center}
+footer .ftxt{font-family:var(--mono);font-size:11px;letter-spacing:3px;color:var(--paper-mute)}
+footer .ftxt a{color:var(--paper-mute);text-decoration:none;border-bottom:1px solid rgba(106,110,124,.3);transition:color .25s,border-color .25s}
+footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
+.tm{margin-top:16px;font-family:var(--mono);font-size:9px;letter-spacing:1px;color:rgba(106,110,124,.5);max-width:980px;margin-left:auto;margin-right:auto;line-height:1.6}
+
+@media (max-width:720px){
+  .nav-inner{padding:14px 20px}.nav-links{gap:18px}
+  .cd{padding:100px 16px 90px}
+  .cd-unit{min-width:1.45em;font-size:clamp(44px,13.5vw,70px)}
+  .cd-sep{font-size:clamp(44px,13.5vw,70px)}
+  .cd-clock{gap:2px}
+  .cd-lbl{letter-spacing:2px}
+  .film{padding:70px 16px 90px}
+  .film-frame{border-radius:10px}
+  .film-play-btn{width:64px;height:64px}
+  .week{padding:40px 16px 100px}
+  .tl li{grid-template-columns:1fr auto;gap:6px 16px;padding:22px 0}
+  .tl-when{grid-column:1 / -1}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01s!important;transition-duration:.1s!important}}
+</style>
+</head>
+<body>
+
+<div class="grain"></div><div class="grid-bg"></div>
+<div class="mesh"><div class="mesh-blob c"></div><div class="mesh-blob m"></div></div>
+<div class="stars" id="stars"></div>
+<div class="cursor-dot" id="cDot"></div><div class="cursor-ring" id="cRing"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">PANMOX</a>
+    <ul class="nav-links">
+      <li><button id="productsBtn">Products</button></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="legal/">Legal</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="nav-dropdown-overlay" id="dropdownOverlay"></div>
+<div class="nav-dropdown" id="productsDropdown">
+  <div class="nav-dropdown-inner">
+    <h4>// EXPLORE</h4>
+    <ul>
+      <li><a href="pmxos.html"><span style="color:#ff3d8b;">PMX</span> OS</a></li>
+      <li><a href="studio.html"><span class="acc-studio">AltNet</span> Studio</a></li>
+      <li><a href="altnet.html"><span class="acc-altnet">Alt</span>Net</a></li>
+      <li><a href="neuralxp.html"><span class="acc-violet">Neural</span>XP</a></li>
+      <li><a href="lostengine.html"><span class="acc-amber">Lost</span>Engine</a></li>
+      <li><a href="overbyte.html?intro=1"><span class="acc-green">Over</span>Byte</a></li>
+      <li><a href="linuxsimplify.html?intro=1"><span class="acc-blue">Linux</span>Simplify</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════ COUNTDOWN ═══════ -->
+<section class="cd" id="cd">
+  <h1 class="cd-title">PANMOX <em>Week.</em></h1>
+
+  <div class="cd-clock" role="timer" aria-label="Time until the announcement">
+    <div class="cd-unit"><span class="cd-num" id="cdD"><span>0</span></span><span class="cd-lbl">Days</span></div>
+    <span class="cd-sep">:</span>
+    <div class="cd-unit"><span class="cd-num" id="cdH"><span>00</span></span><span class="cd-lbl">Hours</span></div>
+    <span class="cd-sep">:</span>
+    <div class="cd-unit"><span class="cd-num" id="cdM"><span>00</span></span><span class="cd-lbl">Minutes</span></div>
+    <span class="cd-sep">:</span>
+    <div class="cd-unit sec"><span class="cd-num" id="cdS"><span>00</span></span><span class="cd-lbl">Seconds</span></div>
+  </div>
+  <div class="cd-here">It&rsquo;s <em>here.</em></div>
+
+  <p class="cd-line" id="cdLine">Something new. <strong>Announced Tuesday 13 October, 19:30.</strong></p>
+  <p class="cd-local" id="cdLocal">Prague time (CEST)</p>
+
+  <div class="cd-actions">
+    <button class="btn primary" id="calBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Add to calendar</button>
+    <button class="btn" id="notifyBtn">Get notified</button>
+    <button class="btn" id="shareBtn">Share</button>
+  </div>
+  <div class="notify" id="notify">
+    <input type="email" id="notifyEmail" placeholder="your@email.com" aria-label="Email address">
+    <button class="btn primary" id="notifyGo">Notify me</button>
+    <div class="notify-msg" id="notifyMsg"></div>
+  </div>
+
+  <a href="#film" class="cd-scroll">Watch the promo</a>
+</section>
+
+<!-- ═══════ THE FILM ═══════ -->
+<section class="film" id="film">
+  <div class="kicker">// The promo</div>
+  <div class="film-frame" id="filmFrame">
+    <video id="filmVideo" preload="none" playsinline poster="assets/video/panmox-week-poster.jpg" aria-label="PANMOX Week promotional video">
+      <source src="assets/video/panmox-week-promo.mp4" type="video/mp4">
+    </video>
+    <button class="film-play" id="filmPlay" aria-label="Play the PANMOX Week promo">
+      <span class="film-play-btn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4l15 8-15 8z"/></svg></span>
+    </button>
+  </div>
+  <div class="film-cap"><b>PANMOX: The Samurai</b> &nbsp;&middot;&nbsp; 1:00 &nbsp;&middot;&nbsp; Sound on</div>
+</section>
+
+<!-- ═══════ THE WEEK ═══════ -->
+<section class="week">
+  <h2>The <em>week.</em></h2>
+  <ul class="tl">
+    <li class="done"><span class="tl-when">Mon 12 Oct</span><span class="tl-what">PANMOX Week begins.<small>You&rsquo;re here.</small></span><span class="tl-tag">Started</span></li>
+    <li class="next" id="tlNext"><span class="tl-when">Tue 13 Oct &middot; 19:30</span><span class="tl-what">Something new.<small>Announced.</small></span><span class="tl-tag" id="tlNextTag">Next</span></li>
+    <li class="later"><span class="tl-when">Later this week</span><span class="tl-what">More to come.</span><span class="tl-tag">Soon</span></li>
+  </ul>
+</section>
+
+<footer>
+  <div class="ftxt">&copy; 2026 PANMOX &nbsp;&middot;&nbsp; <a href="index.html">Home</a> &nbsp;&middot;&nbsp; <a href="about.html">About</a> &nbsp;&middot;&nbsp; <a href="legal/">Legal</a></div>
+  <div class="tm">PANMOX&trade;, PMX OS&trade;, AltNet&trade;, AltNet Studio&trade;, LostEngine&trade;, NeuralXP&trade;, OverByte&trade;, and LinuxSimplify&trade; are trademarks of PANMOX. All other trademarks are property of their respective owners.</div>
+</footer>
+
+<script>
+(function(){var c=document.getElementById('stars');for(var i=0;i<80;i++){var s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.width=s.style.height=(Math.random()*2+.4)+'px';s.style.animationDelay=Math.random()*4+'s';s.style.animationDuration=(Math.random()*3+2.5)+'s';c.appendChild(s);}})();
+(function(){var dot=document.getElementById('cDot'),ring=document.getElementById('cRing');if(!dot||!ring)return;var x=0,y=0,rx=0,ry=0;window.addEventListener('mousemove',function(e){x=e.clientX;y=e.clientY;dot.style.left=x+'px';dot.style.top=y+'px';});function tick(){rx+=(x-rx)*.18;ry+=(y-ry)*.18;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);}requestAnimationFrame(tick);document.querySelectorAll('a, button').forEach(function(el){el.addEventListener('mouseenter',function(){dot.classList.add('hover');ring.classList.add('hover');});el.addEventListener('mouseleave',function(){dot.classList.remove('hover');ring.classList.remove('hover');});});})();
+(function(){var btn=document.getElementById('productsBtn');var dd=document.getElementById('productsDropdown');var ov=document.getElementById('dropdownOverlay');btn.addEventListener('click',function(){dd.classList.toggle('show');ov.classList.toggle('show');btn.classList.toggle('open');});ov.addEventListener('click',function(){dd.classList.remove('show');ov.classList.remove('show');btn.classList.remove('open');});})();
+</script>
+<script>
+/* ─── PANMOX Week ─── */
+(function(){
+  // Tue 13 Oct 2026, 19:30 Prague (CEST, UTC+2)
+  var DROP = Date.UTC(2026, 9, 13, 17, 30, 0);
+  var TITLE = 'PANMOX Week: something new';
+  var URL_ = 'https://panmox.org/panmox-week.html';
+
+  // ── countdown ──
+  var cd = document.getElementById('cd');
+  var cells = { d: document.getElementById('cdD'), h: document.getElementById('cdH'), m: document.getElementById('cdM'), s: document.getElementById('cdS') };
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
+  function set(el, v){
+    var span = el.firstChild;
+    if (span.textContent === v) return;
+    span.textContent = v;
+    el.classList.remove('tick'); void el.offsetWidth; el.classList.add('tick');
+  }
+  function goLive(){
+    cd.classList.add('live');
+    document.getElementById('cdLine').innerHTML = 'Something new. <strong>Announced now.</strong>';
+    document.getElementById('cdLocal').textContent = '';
+    document.getElementById('calBtn').style.display = 'none';
+    document.getElementById('tlNextTag').textContent = 'Now';
+  }
+  function tick(){
+    var left = Math.max(0, Math.floor((DROP - Date.now()) / 1000));
+    if (left === 0) { goLive(); clearInterval(timer); return; }
+    set(cells.d, String(Math.floor(left / 86400)));
+    set(cells.h, pad(Math.floor(left / 3600) % 24));
+    set(cells.m, pad(Math.floor(left / 60) % 60));
+    set(cells.s, pad(left % 60));
+  }
+  var timer = setInterval(tick, 1000);
+  tick();
+
+  // ── the visitor's own time, if they're not in Prague ──
+  try {
+    var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    var mine = new Intl.DateTimeFormat(undefined, { weekday: 'long', hour: '2-digit', minute: '2-digit' }).format(new Date(DROP));
+    var prague = new Intl.DateTimeFormat(undefined, { weekday: 'long', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Prague' }).format(new Date(DROP));
+    if (tz && tz !== 'Europe/Prague' && mine !== prague) {
+      document.getElementById('cdLocal').textContent = 'Prague time (CEST) · that’s ' + mine + ' where you are';
+    }
+  } catch (e) {}
+
+  // ── add to calendar (.ics, made in the browser) ──
+  document.getElementById('calBtn').addEventListener('click', function(){
+    function stamp(t){ return new Date(t).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); }
+    var ics = [
+      'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//PANMOX//PANMOX Week//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH',
+      'BEGIN:VEVENT',
+      'UID:panmox-week-2026-announcement@panmox.org',
+      'DTSTAMP:' + stamp(Date.now()),
+      'DTSTART:' + stamp(DROP),
+      'DTEND:' + stamp(DROP + 30 * 60 * 1000),
+      'SUMMARY:' + TITLE,
+      'DESCRIPTION:Something new from PANMOX. ' + URL_,
+      'URL:' + URL_,
+      'BEGIN:VALARM','TRIGGER:-PT10M','ACTION:DISPLAY','DESCRIPTION:' + TITLE,'END:VALARM',
+      'END:VEVENT','END:VCALENDAR'
+    ].join('\r\n');
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }));
+    a.download = 'panmox-week.ics';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+  });
+
+  // ── get notified (same list as the site newsletter) ──
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwpiLx3ns4NCbid78rKH4xSn4ST4BYJ4oK_xI44ogJXF6RIoFYr7nl1vR3rTajqngAf/exec';
+  var notify = document.getElementById('notify');
+  var email = document.getElementById('notifyEmail');
+  var msg = document.getElementById('notifyMsg');
+  document.getElementById('notifyBtn').addEventListener('click', function(){
+    notify.classList.toggle('show');
+    if (notify.classList.contains('show')) email.focus();
+  });
+  function subscribe(){
+    var v = email.value.trim();
+    if (!v || v.indexOf('@') === -1) { email.style.borderColor = '#ff3d8b'; return; }
+    email.style.borderColor = '';
+    msg.textContent = '// Sending…';
+    fetch(SCRIPT_URL + '?email=' + encodeURIComponent(v))
+      .then(function(r){ return r.text(); })
+      .then(function(res){ msg.textContent = res === 'exists' ? '// Already on the list //' : '// You’re in. //'; })
+      .catch(function(){ msg.textContent = '// Network error — try again //'; });
+  }
+  document.getElementById('notifyGo').addEventListener('click', subscribe);
+  email.addEventListener('keydown', function(e){ if (e.key === 'Enter') subscribe(); });
+
+  // ── share ──
+  var shareBtn = document.getElementById('shareBtn');
+  shareBtn.addEventListener('click', function(){
+    if (navigator.share) {
+      navigator.share({ title: 'PANMOX Week', text: 'Something new from PANMOX. Announced Tuesday 13 October, 19:30.', url: URL_ }).catch(function(){});
+      return;
+    }
+    var done = function(){ shareBtn.textContent = 'Link copied'; setTimeout(function(){ shareBtn.textContent = 'Share'; }, 1800); };
+    if (navigator.clipboard) navigator.clipboard.writeText(URL_).then(done, function(){});
+  });
+
+  // ── promo player ──
+  var frame = document.getElementById('filmFrame');
+  var video = document.getElementById('filmVideo');
+  document.getElementById('filmPlay').addEventListener('click', function(){
+    video.controls = true;
+    frame.classList.add('playing');
+    var p = video.play();
+    if (p && p.catch) p.catch(function(){});
+  });
+})();
+</script>
+<script src="waterline.js?v=2"></script>
+</body>
+</html>

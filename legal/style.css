@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-  --ink:        #050811;
+  --ink:        #080d1b;
   --paper:      #ebe2d0;
   --paper-dim:  #b9b09e;
   --paper-mute: #6a6e7c;
@@ -71,7 +71,7 @@ nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 150;
   backdrop-filter: blur(20px) saturate(160%);
   -webkit-backdrop-filter: blur(20px) saturate(160%);
-  background: rgba(5,8,17,.6);
+  background: rgba(8,13,27,.6);
   border-bottom: 1px solid var(--rule);
 }
 .nav-inner {
