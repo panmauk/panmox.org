@@ -11,7 +11,6 @@ try{if(/[?&]relay=1/.test(q))sessionStorage.setItem('relayPreview','1');if(/[?&]
 function on(){h.classList.add('relay-live')}
 if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
 </script>
-<script>if(!document.documentElement.classList.contains('relay-live'))location.replace('panmox-week.html');</script>
 <link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
 <link rel="apple-touch-icon" href="assets/favicon.jpg">
 <meta name="description" content="Technical details of PANMOX software: how AltNet Relay handles identity, messages, the network, calls, moderation and data, and its known limits.">
@@ -104,9 +103,30 @@ footer .ftxt a{color:var(--paper-mute);text-decoration:none;border-bottom:1px so
 footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
 .tm{margin-top:16px;font-family:var(--mono);font-size:9px;letter-spacing:1px;color:rgba(106,110,124,.5);max-width:980px;margin-left:auto;margin-right:auto;line-height:1.6}
 
-@media (max-width:980px){.page{grid-template-columns:1fr;gap:0;padding-top:120px}.toc{display:none}}
+@media (max-width:980px){.page{grid-template-columns:minmax(0,1fr);gap:0;padding-top:120px}.toc{display:none}}
 @media (max-width:720px){.nav-inner{padding:14px 14px}.nav-logo{letter-spacing:3px;font-size:12px}.nav-links{gap:12px}.nav-links a,.nav-links button{font-size:9.5px;letter-spacing:1px}.page{padding:110px 20px 90px}table.ref{font-size:14px}}
 @media (max-width:420px){.nav-links{gap:10px}.nav-links a,.nav-links button{font-size:9px;letter-spacing:.5px}}
+html:not(.relay-live) .relay-only{display:none!important}
+.doc h2.prod{font-family:var(--serif);font-weight:400;font-size:clamp(34px,4vw,50px);letter-spacing:-1.2px;line-height:1.05;margin:120px 0 0;padding-top:44px;border-top:1px solid var(--rule2);scroll-margin-top:80px}
+.doc h2.prod em{font-style:italic;font-weight:300;color:var(--paper-dim)}
+.doc section.p:first-of-type h2.prod{margin-top:72px}
+.prod-k{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);margin:0 0 14px}
+.prod-sum{font-size:17px;color:var(--paper-dim);margin:16px 0 18px;max-width:680px}
+.prod-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.prod-meta span,.prod-meta a{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:6px 11px;border-radius:999px;border:1px solid var(--rule2);color:var(--paper-dim);text-decoration:none}
+.prod-meta a{color:var(--cyan);border-color:rgba(0,229,255,.35)}
+.prod-meta a:hover{border-color:var(--cyan)}
+.doc h3{font-family:var(--serif);font-weight:400;font-size:clamp(22px,2.2vw,28px);letter-spacing:-.5px;line-height:1.2;margin:46px 0 12px;scroll-margin-top:90px;text-transform:none;color:var(--paper)}
+.doc h4{font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--paper-mute);font-weight:500;margin:28px 0 10px}
+.prods{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px}
+.prods a{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;color:var(--paper-dim);padding:8px 14px;border:1px solid var(--rule2);border-radius:999px}
+.prods a:hover{color:var(--paper);border-color:rgba(235,226,208,.35)}
+.toc h4{margin-top:22px}
+.toc h4:first-child{margin-top:0}
+.toc h4 a{display:inline;padding:0;border:0;margin:0;color:var(--paper-mute)}
+.toc h4 a:hover{color:var(--paper)}
+.toc{max-height:calc(100vh - 120px);overflow-y:auto}
+.doc code{overflow-wrap:anywhere}
 </style>
 </head>
 <body>
@@ -144,31 +164,70 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
 
 <div class="page">
   <aside class="toc" aria-label="On this page">
-    <h4>AltNet Relay</h4>
+    <div class="relay-only"><h4><a href="#relay">AltNet Relay</a></h4>
     <ul>
-      <li><a href="#identity">Identity</a></li>
-      <li><a href="#messages">Messages</a></li>
-      <li><a href="#network">Network</a></li>
-      <li><a href="#names">Names</a></li>
-      <li><a href="#groups">Groups &amp; workspaces</a></li>
-      <li><a href="#calls">Calls</a></li>
-      <li><a href="#moderation">Moderation</a></li>
-      <li><a href="#data">Accounts &amp; data</a></li>
-      <li><a href="#app">The app</a></li>
-      <li><a href="#numbers">Numbers</a></li>
-      <li><a href="#limits">Known limits</a></li>
-    </ul>
-    <div class="prod">More products<br>will follow here.</div>
+      <li><a href="#relay-identity">Identity</a></li>
+      <li><a href="#relay-messages">Messages</a></li>
+      <li><a href="#relay-network">Network</a></li>
+      <li><a href="#relay-names">Names</a></li>
+      <li><a href="#relay-groups">Groups &amp; workspaces</a></li>
+      <li><a href="#relay-calls">Calls</a></li>
+      <li><a href="#relay-moderation">Moderation</a></li>
+      <li><a href="#relay-data">Accounts &amp; data</a></li>
+      <li><a href="#relay-app">The app</a></li>
+      <li><a href="#relay-numbers">Numbers</a></li>
+      <li><a href="#relay-limits">Known limits</a></li>
+    </ul></div>
+    <div><h4><a href="#altnet">AltNet</a></h4>
+    <ul>
+      <li><a href="#altnet-transport">Identity &amp; transport</a></li>
+      <li><a href="#altnet-dht">Storage &amp; routing</a></li>
+      <li><a href="#altnet-names">Names &amp; revocation</a></li>
+      <li><a href="#altnet-browsing">Browsing</a></li>
+    </ul></div>
+    <div><h4><a href="#studio">AltNet Studio</a></h4>
+    <ul>
+      <li><a href="#studio-arch">Architecture</a></li>
+      <li><a href="#studio-alt">.alt in any browser</a></li>
+      <li><a href="#studio-accounts">Accounts</a></li>
+    </ul></div>
+    <div><h4><a href="#pmxos">PMX OS</a></h4>
+    <ul>
+      <li><a href="#pmxos-build">How it is built</a></li>
+    </ul></div>
+    <div><h4><a href="#linuxsimplify">LinuxSimplify</a></h4>
+    <ul>
+      <li><a href="#linuxsimplify-pmx">LinuxSimplify &middot; PMX</a></li>
+      <li><a href="#linuxsimplify-v01">v0.1</a></li>
+    </ul></div>
+    <div><h4><a href="#neuralxp">NeuralXP</a></h4>
+    <ul>
+      <li><a href="#neuralxp-build">Built for old machines</a></li>
+      <li><a href="#neuralxp-model">The model</a></li>
+    </ul></div>
+    <div><h4><a href="#lostengine">LostEngine</a></h4>
+    <ul>
+      <li><a href="#lostengine-arch">How it works</a></li>
+      <li><a href="#lostengine-modes">The three modes</a></li>
+    </ul></div>
+    <div><h4><a href="#overbyte">OverByte</a></h4>
+    <ul>
+      <li><a href="#overbyte-padding">Padding</a></li>
+    </ul></div>
   </aside>
 
   <main class="doc">
-    <div class="eyebrow">// Technical &middot; AltNet Relay</div>
-    <h1>How AltNet Relay <em>works.</em></h1>
-    <p class="intro">For developers and security-minded readers: how identity, messages, calls and moderation work, what we run, and where the limits are. For the plain-words version, see the <a href="relay.html">AltNet Relay page</a>.</p>
-    <div class="meta">Version 1.0.4 &nbsp;&middot;&nbsp; Windows and Linux from 16 October 2026 &nbsp;&middot;&nbsp; Mac later in October</div>
+    <div class="eyebrow">// Technical</div>
+    <h1>How our software <em>works.</em></h1>
+    <p class="intro">For developers and security-minded readers: how each PANMOX product is built, what it does under the hood, and where the limits are. Everything here comes from the source code, and every product links to it. For the plain-words versions, see each product&rsquo;s own page.</p>
+    <div class="prods"><a href="#relay" class="relay-only">AltNet Relay</a><a href="#altnet">AltNet</a><a href="#studio">AltNet Studio</a><a href="#pmxos">PMX OS</a><a href="#linuxsimplify">LinuxSimplify</a><a href="#neuralxp">NeuralXP</a><a href="#lostengine">LostEngine</a><a href="#overbyte">OverByte</a></div>
 
+  <section class="p relay-only" id="relay">
+    <h2 class="prod">AltNet <em>Relay</em></h2>
+    <p class="prod-sum">The private messenger. Identity, messages, the network, calls, moderation, what we run, and where the limits are. Plain-words version: the <a href="relay.html">AltNet Relay page</a>.</p>
+    <div class="prod-meta"><span>Version 1.0.4</span><span>Go &middot; Wails v2</span><span>Windows and Linux from 16 October 2026 &middot; Mac later in October</span></div>
     <!-- ─────────── Identity ─────────── -->
-    <h2 id="identity"><span class="n">01</span>Identity</h2>
+    <h3 id="relay-identity">Identity</h3>
     <ul class="facts">
       <li>Each user has an <strong>Ed25519</strong> key pair, made on their own computer.</li>
       <li>Their ID (&ldquo;username&rdquo;) is the 64-character hex <strong>SHA-256</strong> of the public key.</li>
@@ -177,7 +236,7 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
     </ul>
 
     <!-- ─────────── Messages ─────────── -->
-    <h2 id="messages"><span class="n">02</span>Messages</h2>
+    <h3 id="relay-messages">Messages</h3>
     <ul class="facts">
       <li>Each message is sealed to the recipient with an <strong>ephemeral X25519</strong> key exchange and <strong>AES-256-GCM</strong>.</li>
       <li>It is signed with <strong>Ed25519</strong> and kept in a per-conversation chain: hash-linked, sequence-numbered per direction.</li>
@@ -218,7 +277,7 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
     </figure>
 
     <!-- ─────────── Network ─────────── -->
-    <h2 id="network"><span class="n">03</span>Network</h2>
+    <h3 id="relay-network">Network</h3>
     <ul class="facts">
       <li>AltNet is a <strong>Kademlia</strong> distributed hash table (&alpha; = 3) with exact-key lookups only.</li>
       <li>Values are replicated to the closest nodes, and each node has a storage budget.</li>
@@ -229,7 +288,7 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
     </ul>
 
     <!-- ─────────── Names ─────────── -->
-    <h2 id="names"><span class="n">04</span>Names (@names)</h2>
+    <h3 id="relay-names">Names (@names)</h3>
     <ul class="facts">
       <li>@names are unique. They are claimed with an account, and the operator&rsquo;s server signs a name record with the <strong>operator key</strong>.</li>
       <li>Records are valid for <strong>90 days</strong> and renewed by the app.</li>
@@ -239,7 +298,7 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
     </ul>
 
     <!-- ─────────── Groups ─────────── -->
-    <h2 id="groups"><span class="n">05</span>Groups and workspaces</h2>
+    <h3 id="relay-groups">Groups and workspaces</h3>
     <ul class="facts">
       <li>Every group message is sealed separately to each member: <strong>fan-out, no shared group key.</strong></li>
       <li>Groups are capped at <strong>32</strong> members, workspaces and channels at <strong>50</strong>.</li>
@@ -247,7 +306,7 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
     </ul>
 
     <!-- ─────────── Calls ─────────── -->
-    <h2 id="calls"><span class="n">06</span>Calls</h2>
+    <h3 id="relay-calls">Calls</h3>
     <ul class="facts">
       <li>Calls use <strong>WebRTC</strong>, with media encrypted by <strong>DTLS-SRTP</strong>. Call setup (offer and answer) travels as sealed, signed messages in one round trip.</li>
       <li>Only accepted contacts can ring you, and offers older than <strong>90 seconds</strong> never ring.</li>
@@ -281,7 +340,7 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
     </figure>
 
     <!-- ─────────── Moderation ─────────── -->
-    <h2 id="moderation"><span class="n">07</span>Moderation</h2>
+    <h3 id="relay-moderation">Moderation</h3>
     <ul class="facts">
       <li><strong>Reports:</strong> a report may include up to the last 10 messages of that conversation, decrypted on the reporter&rsquo;s own computer and sent only if the reporter chooses.</li>
       <li><strong>Automatic bans:</strong> three distinct reporters within 30 days ban an account automatically. Reporter accounts must be at least 72 hours old, and at most 5 different accounts per reporter count in 30 days.</li>
@@ -291,7 +350,7 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
     </ul>
 
     <!-- ─────────── Accounts and data ─────────── -->
-    <h2 id="data"><span class="n">08</span>Accounts and data</h2>
+    <h3 id="relay-data">Accounts and data</h3>
     <ul class="facts">
       <li><strong>The account:</strong> email and password, held by the AltNet account service, shared with AltNet Studio.</li>
       <li><strong>Sessions:</strong> the app stores only a session token, never the password.</li>
@@ -324,13 +383,13 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
     </figure>
 
     <!-- ─────────── The app ─────────── -->
-    <h2 id="app"><span class="n">09</span>The app</h2>
+    <h3 id="relay-app">The app</h3>
     <ul class="facts">
       <li>Written in <strong>Go</strong>, with a desktop shell built on <strong>Wails v2</strong>. The interface runs in the system&rsquo;s own web engine: WebView2 on Windows, WebKitGTK 4.1 on Linux, WKWebView on macOS.</li>
       <li>It has no analytics, no third-party scripts and no web fonts.</li>
       <li>There is a tray icon on Windows. The app starts with the computer through the Run key (Windows), a LaunchAgent (macOS) or XDG autostart (Linux).</li>
     </ul>
-    <h3>Requirements</h3>
+    <h4>Requirements</h4>
     <div class="tbl"><table class="ref">
       <thead><tr><th>System</th><th>Needs</th></tr></thead>
       <tbody>
@@ -341,7 +400,7 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
     </table></div>
 
     <!-- ─────────── Numbers ─────────── -->
-    <h2 id="numbers"><span class="n">10</span>The numbers, in one place</h2>
+    <h3 id="relay-numbers">The numbers, in one place</h3>
     <div class="tbl"><table class="ref">
       <thead><tr><th>What</th><th>Value</th></tr></thead>
       <tbody>
@@ -366,7 +425,7 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
     </table></div>
 
     <!-- ─────────── Known limits ─────────── -->
-    <h2 id="limits"><span class="n">11</span>Known limits</h2>
+    <h3 id="relay-limits">Known limits</h3>
     <p>Said plainly, so you can judge for yourself.</p>
     <dl class="limits">
       <dt>Metadata on a small network</dt>
@@ -384,11 +443,228 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
       <dt>Operator key</dt>
       <dd>Names and bans depend on the operator&rsquo;s signing key.</dd>
     </dl>
+
+  </section>
+
+  <section class="p" id="altnet">
+    <h2 class="prod">AltNet</h2>
+    <p class="prod-sum">The network itself: the node software that every AltNet app runs. It stores and serves <code>.alt</code> sites from the computers of the people who use it. <code>.alt</code> is reserved by the IETF (RFC 9476) for names outside the regular DNS, so AltNet names never collide with the normal internet.</p>
+    <div class="prod-meta"><span>Go &middot; standard library + Go crypto only</span><span>GPL-3.0</span><a href="https://github.com/panmauk/AltNet" rel="noopener">Source</a></div>
+    <h3 id="altnet-transport">Identity and transport</h3>
+    <ul class="facts">
+      <li>Every node is an <strong>Ed25519</strong> key pair; its 32-byte node ID is derived from the public key.</li>
+      <li>Peer connections use a hand-rolled, Noise-XK-shaped handshake: each side sends its long-term Ed25519 key, a fresh <strong>X25519</strong> key and a signature over the session. The responder signs both ephemeral keys, binding its reply to that session.</li>
+      <li>After the handshake every frame is <strong>AES-256-GCM</strong>, with a separate key per direction and 12-byte counter nonces, so a replayed or reordered frame fails authentication. Keys come from a fresh X25519 exchange per connection, giving forward secrecy.</li>
+      <li>Frames are capped at about 1 MiB; the handshake times out after 10 s; idle connections send a keep-alive every 30 s; a node accepts up to 1,024 connections by default.</li>
+    </ul>
+
+    <h3 id="altnet-dht">Storage and routing</h3>
+    <ul class="facts">
+      <li>A <strong>Kademlia</strong> distributed hash table: buckets of <strong>K = 20</strong>, lookups with <strong>&alpha; = 3</strong> parallel requests, 5 s per request.</li>
+      <li>Files are split into <strong>64 KiB</strong> chunks addressed by their <strong>SHA-256</strong> hash, so tampering is detectable and identical content is stored once.</li>
+      <li>Each node keeps a persistent on-disk store with a budget (1 GiB by default, at most 64 MiB from any single peer); the oldest entries are evicted first.</li>
+      <li>Maintenance: stored values are republished every hour, peers are checked every 10 minutes, and bootstrap is retried every 30 s with back-off up to 5 minutes.</li>
+      <li>Nodes behind home routers register with a <strong>relay</strong> so other peers can reach them.</li>
+    </ul>
+
+    <h3 id="altnet-names">Names, revocation and blocking</h3>
+    <ul class="facts">
+      <li>A name is a signed record pointing <code>name &rarr; content root</code>, with a version number that only goes up and a default lifetime of <strong>7 days</strong>. Names are at most 253 characters; clocks may differ by up to 5 minutes.</li>
+      <li><strong>Permissioned naming</strong> is optional: a node configured with trusted registrar keys resolves only names signed by one of them. Empty by default (first writer wins).</li>
+      <li><strong>Signed revocation</strong>: a trusted authority can broadcast a signed <code>dht_revoke</code> that purges a name&rsquo;s chunks and blocklists them on every node that honours that key. Revocations older than 24 hours, or more than 5 minutes in the future, are rejected.</li>
+      <li>A <strong>content blocklist</strong> makes nodes refuse to store or serve known-bad hashes.</li>
+      <li>Security of naming and takedowns rests on the authority&rsquo;s private key, not on keeping the code closed.</li>
+    </ul>
+
+    <h3 id="altnet-browsing">Browsing with a normal browser</h3>
+    <ul class="facts">
+      <li>A small <strong>DNS resolver</strong> answers <code>.alt</code> queries and forwards everything else upstream.</li>
+      <li>An <strong>HTTP and HTTPS gateway</strong> serves sites by Host header. HTTPS uses a per-install local certificate authority (ECDSA P-256) that is <strong>name-constrained to <code>.alt</code></strong> (critical <code>PermittedDNSDomains</code>), so it cannot vouch for any other site. The CA is valid for 10 years; site certificates for 395 days.</li>
+      <li>The resolver and the gateway rate-limit each IP address with a token bucket.</li>
+      <li>An authenticated <strong>registrar API</strong> publishes content and registers, updates or revokes names; a JSON <strong>metrics</strong> endpoint reports node status.</li>
+    </ul>
+
+  </section>
+
+  <section class="p" id="studio">
+    <h2 class="prod">AltNet <em>Studio</em></h2>
+    <p class="prod-sum">The desktop app that runs an AltNet node, makes <code>.alt</code> addresses open in any browser, and lets approved accounts publish sites. Plain-words version: the <a href="studio.html">Studio page</a>.</p>
+    <div class="prod-meta"><span>v1.0</span><span>Go 1.23 &middot; Wails v2 &middot; vanilla JS</span><span>Windows &middot; Linux</span><span>GPL-3.0</span><a href="https://github.com/panmauk/AltNet-Studio" rel="noopener">Source</a></div>
+    <h3 id="studio-arch">How it is put together</h3>
+    <ul class="facts">
+      <li>One codebase for Windows and Linux. Operating-system-specific parts live in build-tagged files (for example <code>nrpt_windows.go</code> and <code>nrpt_linux.go</code>); Go compiles only the ones for the target system.</li>
+      <li>Studio starts the <code>altnet</code> node as a supervised child process and talks to it over loopback HTTP: the registrar API, metrics and the gateway.</li>
+      <li>Every install bootstraps from a seed node run by PANMOX (<code>seed.panmox.org</code>), plus any seeds the user adds.</li>
+      <li>The PANMOX naming and revocation keys are built in. Only names the registrar has signed (that is, admin-approved) resolve, and takedowns reach every Studio node.</li>
+      <li>Closing the window hides it; the node keeps running. Studio starts with the computer through the <code>Run</code> key (Windows) or XDG autostart (Linux).</li>
+    </ul>
+
+    <h3 id="studio-alt">Making <code>.alt</code> work in any browser</h3>
+    <ul class="facts">
+      <li><strong>Windows:</strong> an NRPT (Name Resolution Policy Table) rule sends every <code>*.alt</code> query to the node&rsquo;s resolver on <code>127.0.0.53:53</code>, which answers <code>127.0.0.1</code>; the local gateway then serves the site. The rule is installed once through an elevated PowerShell (one UAC prompt) and survives reboots.</li>
+      <li><strong>Linux:</strong> <code>127.0.0.53</code> belongs to systemd-resolved, so the node&rsquo;s resolver listens on <code>127.0.0.1:5354</code> and Studio adds <code>/etc/systemd/resolved.conf.d/altnet-alt.conf</code> with <code>Domains=~alt</code>, a routing-only domain: only <code>.alt</code> goes there, every other name resolves as before.</li>
+      <li><strong>HTTPS:</strong> the &ldquo;AltNet Local CA&rdquo; goes into the current user&rsquo;s Root store on Windows (no admin, this user only) and into the system store via <code>update-ca-certificates</code> on Linux, which WebKitGTK honours.</li>
+      <li>On Windows, optional per-site <code>hosts</code> entries give clean URLs; names are checked against DNS characters before anything is written.</li>
+    </ul>
+
+    <h3 id="studio-accounts">Accounts</h3>
+    <ul class="facts">
+      <li>Accounts and domain requests go to a separate account and registration service (not open source) over HTTPS with a bearer token.</li>
+      <li>The token stays in the Go side of the app and never reaches the user interface; the session is kept in the per-user config folder.</li>
+      <li>The same account is used by AltNet Relay.</li>
+    </ul>
+
+    <h4>Requirements</h4>
+    <div class="tbl"><table class="ref">
+      <thead><tr><th>System</th><th>Needs</th></tr></thead>
+      <tbody>
+        <tr><td>Windows</td><td class="v">x86-64</td></tr>
+        <tr><td>Debian / Ubuntu</td><td class="v">x86-64 &middot; GTK 3 + WebKit2GTK 4.1</td></tr>
+      </tbody>
+    </table></div>
+    <dl class="limits">
+      <dt>Linux needs root</dt>
+      <dd>Studio must run as root on Linux: it binds port 80, changes the resolver configuration and installs its CA. It asks through <code>pkexec</code>.</dd>
+      <dt>Chrome and Firefox on Linux</dt>
+      <dd>They keep their own certificate stores, so they don&rsquo;t trust the AltNet CA yet. WebKit-based browsers do.</dd>
+      <dt>No automatic updates</dt>
+      <dd>Version 1.0 doesn&rsquo;t update itself; new versions are published on panmox.org.</dd>
+    </dl>
+
+  </section>
+
+  <section class="p" id="pmxos">
+    <h2 class="prod">PMX <em>OS</em></h2>
+    <p class="prod-sum">A complete desktop operating system: Debian with a KDE Plasma desktop rebuilt in PANMOX&rsquo;s look, with AltNet Studio built in. The repository holds the build system. Plain-words version: the <a href="pmxos.html">PMX OS page</a>.</p>
+    <div class="prod-meta"><span>PMX OS 1</span><span>Debian 12 &middot; KDE Plasma</span><span>Build code: GPL-3.0</span><a href="https://github.com/panmauk/PMX-OS" rel="noopener">Source</a></div>
+    <h3 id="pmxos-build">How it is built</h3>
+    <ul class="facts">
+      <li>Based on <strong>Debian 12 (bookworm)</strong>, assembled into an ISO with Debian&rsquo;s <code>live-build</code> inside WSL2 Ubuntu, by numbered scripts: toolchain, scaffold, branding, KDE, apps, installer, rebuild, finalize.</li>
+      <li>A <strong>hybrid ISO</strong> that boots on UEFI and legacy BIOS. It runs live from USB and installs to disk with a rebranded <strong>Calamares</strong> installer.</li>
+      <li>Branded end to end: boot splash, Plymouth, SDDM, the GRUB background and the login avatar.</li>
+      <li>Preinstalled: <strong>AltNet Studio</strong>, <strong>PMX Hub</strong> (a welcome app), <strong>MoxTerminal</strong> (GTK 3 + VTE) as the default terminal, and fastfetch. Phosphor mode switches the whole desktop theme between deep cyan and phosphor green.</li>
+      <li>The v1 release is published as two ISO parts (about 1.1 GB and 1.0 GB) with a <code>SHA256SUMS.txt</code>.</li>
+      <li>Debian, the Linux kernel, KDE Plasma, Calamares and the other bundled components keep their own licences, listed in <code>CREDITS.md</code>. The GPL covers the build code; the PANMOX names and branding are trademarks.</li>
+    </ul>
+    <dl class="limits">
+      <dt>Secure Boot must be off</dt>
+      <dd>The GRUB EFI binary isn&rsquo;t signed, so Secure Boot has to be disabled to boot it.</dd>
+      <dt>Not a turnkey builder</dt>
+      <dd>The build scripts encode PANMOX&rsquo;s own build environment. They are a faithful record of how PMX OS is made, not a cross-machine build tool.</dd>
+    </dl>
+
+  </section>
+
+  <section class="p" id="linuxsimplify">
+    <h2 class="prod">Linux<em>Simplify</em></h2>
+    <p class="prod-sum">Two installers from one repository. <strong>LinuxSimplify &middot; PMX</strong> (v1.0.0) puts PMX OS on a USB stick. <strong>LinuxSimplify v0.1</strong> helps people move from Windows to another Linux distribution. Plain-words version: the <a href="linuxsimplify.html">LinuxSimplify page</a>.</p>
+    <div class="prod-meta"><span>C# &middot; .NET 8</span><span>Windows: WPF &middot; Linux: Avalonia 11</span><span>GPL-3.0</span><a href="https://github.com/panmauk/LinuxSimplify" rel="noopener">Source</a></div>
+    <h3 id="linuxsimplify-pmx">LinuxSimplify &middot; PMX</h3>
+    <ul class="facts">
+      <li>Finds the newest PMX OS through the GitHub API (<code>repos/panmauk/PMX-OS/releases/latest</code>). Nothing is hard-coded: it works out the ISO parts and the checksum file from the asset names alone.</li>
+      <li>Downloads every part, joins them into one ISO and checks it against the published <strong>SHA-256</strong> (or SHA-512, if that is what is published). The ISO is deleted after flashing.</li>
+      <li><strong>Windows:</strong> reads the hardware through WMI (<code>Win32_Processor</code>, <code>Win32_PhysicalMemory</code>, <code>Win32_VideoController</code>, <code>Win32_DiskDrive</code>), clears the stick with <code>diskpart clean</code>, locks and dismounts its volumes, and writes the image raw to <code>\\.\PhysicalDriveN</code>. Needs administrator rights.</li>
+      <li><strong>Linux:</strong> lists drives with <code>lsblk</code>, unmounts the stick&rsquo;s partitions, writes with <code>dd bs=4M conv=fsync</code>, then <code>sync</code> and <code>partprobe</code>, elevating through <code>pkexec</code>.</li>
+      <li>Both builds are self-contained single-file executables (Windows x64, Linux x64).</li>
+    </ul>
+
+    <h3 id="linuxsimplify-v01">LinuxSimplify v0.1</h3>
+    <ul class="facts">
+      <li>Supports Ubuntu, Lubuntu, Linux Mint, Fedora, Pop!_OS, Zorin OS, Arch Linux, EndeavourOS, Debian and Trisquel.</li>
+      <li>Finds the latest ISO by reading each project&rsquo;s official release directory or mirror (for example <code>releases.ubuntu.com</code>, the kernel.org Linux Mint mirror, <code>dl.fedoraproject.org</code>), so links don&rsquo;t go stale.</li>
+      <li>Each distribution has minimum and recommended RAM and disk figures; the scanned hardware gives every distribution a fit score, and the list is sorted by it.</li>
+      <li>Downloads are checked against SHA-256 checksums and written to the stick the same raw way as above.</li>
+    </ul>
+
+  </section>
+
+  <section class="p" id="neuralxp">
+    <h2 class="prod">Neural<em>XP</em></h2>
+    <p class="prod-sum">A small language model that runs entirely offline on Windows XP-era hardware. Plain-words version: the <a href="neuralxp.html">NeuralXP page</a>.</p>
+    <div class="prod-meta"><span>v1.0.2</span><span>C++ &middot; Win32</span><span>Windows XP SP2/SP3 32-bit</span><span>GPL-3.0</span><a href="https://github.com/panmauk/NeuralXP" rel="noopener">Source</a></div>
+    <h3 id="neuralxp-build">Built for old machines</h3>
+    <ul class="facts">
+      <li>A native <strong>Win32</strong> program: no .NET and no web engine. Cross-compiled with MinGW-w64 i686 (GCC 10.5, MSVCRT runtime), statically linked, targeting Windows XP (<code>_WIN32_WINNT=0x0501</code>).</li>
+      <li>Compiled for the <strong>Pentium M</strong>: SSE2 only (<code>-march=pentium-m -mno-sse3</code>, BMI2 off). Newer instructions would crash with &ldquo;illegal instruction&rdquo; on real XP hardware.</li>
+      <li>Inference is <strong>llama.cpp / ggml</strong>, patched for XP: the Vista-only threading primitives (<code>SRWLOCK</code>, <code>CONDITION_VARIABLE</code>) are replaced with <code>CRITICAL_SECTION</code> and Event objects.</li>
+    </ul>
+
+    <h3 id="neuralxp-model">The model and each answer</h3>
+    <ul class="facts">
+      <li>The model is <strong>Qwen2.5-0.5B-Instruct</strong>, quantised to GGUF <strong>Q2_K</strong> (about 300 MB), and loaded from a local file. A smaller SmolLM-135M model is used if it is present instead.</li>
+      <li>For every answer the window starts <code>llama-simple-chat-headless.exe</code> with a <strong>256-token</strong> context, at most <strong>80</strong> new tokens and temperature <strong>0.8</strong>, under a fixed system prompt. The previous exchange is passed along as short context.</li>
+      <li>Chats are saved as plain <code>.txt</code> files in a <code>chats</code> folder next to the program.</li>
+      <li>The NeuralXP program contains no networking code; prompts stay on the machine.</li>
+    </ul>
+
+    <h4>Measured</h4>
+    <div class="tbl"><table class="ref">
+      <thead><tr><th>What</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Test machine</td><td class="v">Dell Inspiron 6000 &middot; Pentium M 1.6 GHz &middot; 2 GB</td></tr>
+        <tr><td>Time for a short answer</td><td class="v">&asymp; 30 s</td></tr>
+        <tr><td>Model file</td><td class="v">&asymp; 300 MB</td></tr>
+      </tbody>
+    </table></div>
+
+    <h4>Licences</h4>
+    <ul class="facts">
+      <li>llama.cpp / ggml and cpp-httplib: MIT. Qwen2.5 model: Apache 2.0. GCC runtime: GPL v3 with the runtime exception. Full texts ship with the installer.</li>
+    </ul>
+
+  </section>
+
+  <section class="p" id="lostengine">
+    <h2 class="prod">Lost<em>Engine</em></h2>
+    <p class="prod-sum">A joke search engine: three modes, every answer wrong on purpose. Plain-words version: the <a href="lostengine.html">LostEngine page</a>.</p>
+    <div class="prod-meta"><span>JavaScript</span><span>Cloudflare Pages + Functions</span><span>GPL-3.0</span><a href="https://github.com/panmauk/LostEngine" rel="noopener">Source</a></div>
+    <h3 id="lostengine-arch">How it works</h3>
+    <ul class="facts">
+      <li>A static front end (HTML, CSS and plain JavaScript) on <strong>Cloudflare Pages</strong>, plus one server function, <code>search-stream</code>.</li>
+      <li>Answers stream to the browser as <strong>Server-Sent Events</strong>, read with <code>fetch</code> and a stream reader, so text appears as it is written.</li>
+      <li>The text comes from <strong>Groq</strong>&rsquo;s OpenAI-compatible chat API, model <code>llama-3.1-8b-instant</code>. The API key is a Cloudflare secret, never in the page.</li>
+      <li>Images, videos and links come from <strong>DuckDuckGo</strong> and <strong>Bing</strong> image search, with a Google search link as the fallback.</li>
+    </ul>
+
+    <h3 id="lostengine-modes">The three modes</h3>
+    <ul class="facts">
+      <li><strong>How it really was:</strong> the model writes a confident, encyclopedia-style summary that is false on purpose. Some queries have pinned answers.</li>
+      <li><strong>Searching what you want:</strong> the model is asked for the best-known opposite or rival of your query. Real results for that are fetched, then every title and description has the rival&rsquo;s name swapped for yours (Unicode-normalised, case-insensitive).</li>
+      <li><strong>Searching something:</strong> a random word from a fixed list replaces your query; the model writes a short, real summary of that word.</li>
+    </ul>
+    <dl class="limits">
+      <dt>Your query leaves the site</dt>
+      <dd>To make the answers, your search text is sent to Groq, and to DuckDuckGo or Bing for results. The front-end code sets no cookies, uses no local storage and has no analytics.</dd>
+    </dl>
+
+  </section>
+
+  <section class="p" id="overbyte">
+    <h2 class="prod">Over<em>Byte</em></h2>
+    <p class="prod-sum">Makes files bigger on purpose, while keeping them usable. Plain-words version: the <a href="overbyte.html">OverByte page</a>.</p>
+    <div class="prod-meta"><span>v1.0</span><span>C# &middot; .NET 10 &middot; WinForms</span><span>Windows x64</span><span>GPL-3.0</span><a href="https://github.com/panmauk/OverByte" rel="noopener">Source</a></div>
+    <h3 id="overbyte-padding">Padding that keeps the file valid</h3>
+    <ul class="facts">
+      <li>The original bytes are left intact. The padding goes where each format&rsquo;s readers skip it, chosen by file extension:</li>
+      <li><strong>PNG:</strong> private <code>paDd</code> chunks (16 MiB each, with correct CRCs) before <code>IEND</code>, up to 2.5 GB; anything beyond that as zeros after <code>IEND</code>.</li>
+      <li><strong>JPEG:</strong> comment (<code>COM</code>) segments of spaces before <code>EOI</code>, up to 2.5 GB; then zeros after <code>EOI</code>.</li>
+      <li><strong>MP4 / MOV and relatives:</strong> an appended <code>free</code> box, which ISO/IEC 14496-12 parsers skip by definition.</li>
+      <li><strong>ZIP-based files</strong> (ZIP, DOCX, XLSX, PPTX, ODF, JAR, APK, EPUB, &hellip;): padding goes before the end-of-central-directory record, which is moved to the very end where readers look for it.</li>
+      <li><strong>PDF:</strong> an incremental update: the padding is a stream object, followed by a new xref and trailer that point back to the original.</li>
+      <li><strong>Everything else:</strong> zeros appended to the end (works for WAV, BMP, GIF, FLAC, ISO, EXE and others).</li>
+      <li><strong>Folders:</strong> either zipped and padded as one file, or every file padded to a per-file target size.</li>
+    </ul>
+    <dl class="limits">
+      <dt>No undo button</dt>
+      <dd>The app has no &ldquo;restore&rdquo; function. Because the original data is untouched, the file still opens normally, but removing the padding is up to you.</dd>
+    </dl>
+
+  </section>
   </main>
 </div>
 
 <footer>
-  <div class="ftxt">&copy; 2026 PANMOX &nbsp;&middot;&nbsp; <a href="index.html">Home</a> &nbsp;&middot;&nbsp; <a href="relay.html">AltNet Relay</a> &nbsp;&middot;&nbsp; <a href="about.html">About</a> &nbsp;&middot;&nbsp; <a href="legal/">Legal</a></div>
+  <div class="ftxt">&copy; 2026 PANMOX &nbsp;&middot;&nbsp; <a href="index.html">Home</a> &nbsp;&middot;&nbsp; <span class="relay-only"><a href="relay.html">AltNet Relay</a> &nbsp;&middot;&nbsp; </span><a href="about.html">About</a> &nbsp;&middot;&nbsp; <a href="legal/">Legal</a></div>
   <div class="tm">PANMOX&trade;, PMX OS&trade;, AltNet&trade;, AltNet Relay&trade;, AltNet Studio&trade;, LostEngine&trade;, NeuralXP&trade;, OverByte&trade;, and LinuxSimplify&trade; are trademarks of PANMOX. All other trademarks are property of their respective owners.</div>
 </footer>
 

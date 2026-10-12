@@ -245,7 +245,7 @@ try{if(/[?&]relay=1/.test(q))sessionStorage.setItem('relayPreview','1');if(/[?&]
 function on(){h.classList.add('relay-live')}
 if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
 </script>
-<style>html:not(.relay-live) .relay-only{display:none!important}</style>
+<style>html:not(.relay-live) .relay-only{display:none!important}html.relay-live .pre-relay{display:none!important}</style>
 <style id="nav-fit">
 @media (max-width:720px){.nav-inner{padding:14px 14px!important}.nav-logo{letter-spacing:3px!important;font-size:12px!important}.nav-links{gap:12px!important}.nav-links a,.nav-links button{font-size:9.5px!important;letter-spacing:1px!important}}
 @media (max-width:420px){.nav-links{gap:10px!important}.nav-links a,.nav-links button{font-size:9px!important;letter-spacing:.5px!important}}
@@ -268,7 +268,7 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
       <li><button id="productsBtn">Products</button></li>
       <li><a href="about.html">About</a></li>
       <li><a href="#" id="navNlBtn">Newsletter</a></li>
-      <li class="relay-only"><a href="technical.html">Technical</a></li>
+      <li><a href="technical.html">Technical</a></li>
       <li><a href="legal/">Legal</a></li>
     </ul>
   </div>
@@ -300,10 +300,10 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
   <div class="hero-rotator">
     The
     <span class="rotator">
-      <span>peer-to-peer.</span>
+      <span>people-powered.</span>
       <span>resilient.</span>
       <span>open-source.</span>
-      <span>uncensorable.</span>
+      <span>independent.</span>
       <span>forever-yours.</span>
       <span>real.</span>
     </span>
@@ -324,13 +324,13 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
 <!-- MARQUEE 1 -->
 <div class="marquee">
   <div class="marquee-track">
-    <span class="hot">A peer-to-peer internet</span>
+    <span class="hot">An internet run by its users</span>
     <span>No central servers</span>
     <span class="hot">No hosting bills</span>
     <span>No DNS provider</span>
     <span class="hot">Yours forever</span>
     <span>Studio v1.0 live</span>
-    <span class="hot">A peer-to-peer internet</span>
+    <span class="hot">An internet run by its users</span>
     <span>No central servers</span>
     <span class="hot">No hosting bills</span>
     <span>No DNS provider</span>
@@ -373,7 +373,7 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
       <div class="stage-content" data-stage="2">
         <div class="stage-kicker">// 02 &middot; WHAT IT CARRIES</div>
         <h2>Sites. <span class="magenta">Identity.</span><br>And more.</h2>
-        <p>Drag a folder, it&rsquo;s a website. Your <code>.alt</code> name is yours forever. Files and messaging are on hold pending legal review.</p>
+        <p>Drag a folder, it&rsquo;s a website. Your <code>.alt</code> name is yours forever. <span class="pre-relay">Files and messaging are on hold pending legal review.</span><span class="relay-only">Messaging is here: <a href="relay.html" style="color:var(--cyan)">AltNet Relay</a>. Files are on hold pending legal review.</span></p>
       </div>
 
       <div class="stage-content" data-stage="3">
@@ -411,25 +411,33 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
       <span class="cta">Download</span>
     </a>
 
-    <div class="app-card app-messenger locked">
+    <div class="app-card app-messenger locked pre-relay">
       <span class="tag">On hold &middot; legal review</span>
       <div class="name">Messenger<em>.</em></div>
-      <p class="tagline">End-to-end encrypted, peer-to-peer messaging. <em>Development paused while we work through the legal questions.</em></p>
+      <p class="tagline">Private messaging between people. <em>Development paused while we work through the legal questions.</em></p>
     </div>
+
+    <a href="relay.html" class="app-card app-messenger relay-only" style="--accent-rgb:0,229,255;">
+      <span class="tag">Announced &middot; Windows &amp; Linux 16 Oct</span>
+      <div class="name">Relay<em>.</em></div>
+      <p class="tagline">Private messages, groups and calls &mdash; personal and business, one account.</p>
+      <span class="cta">Learn more</span>
+    </a>
 
     <div class="app-card app-drive locked">
       <span class="tag">On hold &middot; legal review</span>
       <div class="name">Drive<em>.</em></div>
-      <p class="tagline">Peer-to-peer file sharing and sync. <em>Development paused while we work through the legal questions.</em></p>
+      <p class="tagline">Share and sync files between your computers, with no company in between. <em>Development paused while we work through the legal questions.</em></p>
     </div>
 
     <div class="app-card app-id locked">
       <span class="tag">On hold &middot; legal review</span>
       <div class="name">ID<em>.</em></div>
-      <p class="tagline">Your identity wallet. One keypair, one name, every app on AltNet. <em>Development paused while we work through the legal questions.</em></p>
+      <p class="tagline">Your identity wallet. One identity, one name, every app on AltNet. <em>Development paused while we work through the legal questions.</em></p>
     </div>
 
   </div>
+  <p style="text-align:center;margin-top:44px"><a href="technical.html#altnet" style="font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,229,255,.35);padding-bottom:3px">How AltNet works, in detail &rarr;</a></p>
 </section>
 
 <!-- .ALT BLOCK -->
@@ -461,13 +469,13 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
     <span>Windows + Linux</span>
     <span class="hot">GPL v3</span>
     <span>panmox.org</span>
-    <span class="hot">peer-to-peer internet</span>
+    <span class="hot">run by its users</span>
     <span>Studio v1.0</span>
     <span class="hot">Live now</span>
     <span>Windows + Linux</span>
     <span class="hot">GPL v3</span>
     <span>panmox.org</span>
-    <span class="hot">peer-to-peer internet</span>
+    <span class="hot">run by its users</span>
   </div>
 </div>
 

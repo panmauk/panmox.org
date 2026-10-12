@@ -241,7 +241,7 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
     <ul class="nav-links">
       <li><button id="productsBtn">Products</button></li>
       <li><a href="about.html">About</a></li>
-      <li class="relay-only"><a href="technical.html">Technical</a></li>
+      <li><a href="technical.html">Technical</a></li>
       <li><a href="legal/">Legal</a></li>
     </ul>
   </div>
@@ -303,7 +303,7 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
 <section class="editorial">
   <div class="section-kicker">// WHAT IT IS</div>
   <h2 class="section-title">The window <em>into AltNet.</em></h2>
-  <p class="section-sub">Studio is the desktop application that connects your computer to the AltNet peer-to-peer network. Runs a background node, routes <code style="font-family:var(--mono);color:var(--magenta);background:rgba(255,61,139,.08);padding:1px 6px;border-radius:2px;font-size:.92em;">.alt</code> names through any browser, lets you publish your own.</p>
+  <p class="section-sub">Studio is the app that connects your computer to AltNet. It quietly helps run the network, makes <code style="font-family:var(--mono);color:var(--magenta);background:rgba(255,61,139,.08);padding:1px 6px;border-radius:2px;font-size:.92em;">.alt</code> addresses open in any browser, and lets you put up your own site.</p>
 </section>
 
 <!-- SCREENSHOTS -->
@@ -332,12 +332,12 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
     <div class="feat">
       <div class="ico">// 01</div>
       <h3>Be a <em>node.</em></h3>
-      <p>One click starts a background daemon that joins the network and comes back on every login.</p>
+      <p>One click and your computer helps carry the network. It starts again by itself every time you log in.</p>
     </div>
     <div class="feat">
       <div class="ico">// 02</div>
       <h3>Browse <em>.alt</em></h3>
-      <p>Routes <code>name.alt</code> through your local node so any browser can reach it. Windows: NRPT rule. Linux: systemd-resolved drop-in.</p>
+      <p>Type <code>name.alt</code> into any browser and the site opens. Studio sets this up for you, once.</p>
     </div>
     <div class="feat">
       <div class="ico">// 03</div>
@@ -355,17 +355,17 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
 <!-- MARQUEE 2 -->
 <div class="marquee reverse">
   <div class="marquee-track">
-    <span>Built with Wails v2</span>
-    <span class="hot">Go + vanilla JS</span>
+    <span>Windows &amp; Linux</span>
+    <span class="hot">Open source</span>
     <span>One codebase</span>
     <span class="hot">Two platforms</span>
-    <span>Tiny binary</span>
+    <span>Small download</span>
     <span class="hot">Free forever</span>
-    <span>Built with Wails v2</span>
-    <span class="hot">Go + vanilla JS</span>
+    <span>Windows &amp; Linux</span>
+    <span class="hot">Open source</span>
     <span>One codebase</span>
     <span class="hot">Two platforms</span>
-    <span>Tiny binary</span>
+    <span>Small download</span>
     <span class="hot">Free forever</span>
   </div>
 </div>
@@ -380,7 +380,7 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
       <div class="platform">// Windows &middot; x86-64</div>
       <h3>Windows<em>.</em></h3>
       <p>Download the installer and run it. SmartScreen may warn about an unrecognized app &mdash; click <strong>More info</strong> &rarr; <strong>Run anyway</strong>.</p>
-      <p>Open AltNet Studio and click <strong>Be a node</strong>. A UAC prompt asks to install the <code>.alt</code> NRPT rule &mdash; accept it. Closing the window hides the app; the node keeps running.</p>
+      <p>Open AltNet Studio and click <strong>Be a node</strong>. Windows asks for permission once, so <code>.alt</code> addresses work in your browser &mdash; say yes. Closing the window just hides the app; it keeps helping the network in the background.</p>
       <a href="https://github.com/panmauk/AltNet-Studio/releases/download/v1.0/AltNetStudio-Setup-1.0.exe" class="dl js-dl">↓ AltNetStudio-Setup-1.0.exe</a>
     </div>
 
@@ -390,7 +390,7 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
       <p>Install it from your Downloads folder:</p>
       <div class="code-line">cd ~/Downloads
 sudo apt install ./altnet-studio_1.0.0_amd64.deb</div>
-      <p>Then launch <strong>AltNet Studio</strong> from your apps menu &mdash; it&rsquo;ll ask for your password since it needs root for port 80, <code>.alt</code> DNS, and its certificate.</p>
+      <p>Then launch <strong>AltNet Studio</strong> from your apps menu &mdash; it asks for your password, because it needs to set up <code>.alt</code> addresses on your computer.</p>
       <a href="https://github.com/panmauk/AltNet-Studio/releases/download/v1.0/altnet-studio_1.0.0_amd64.deb" class="dl js-dl">↓ altnet-studio_1.0.0_amd64.deb</a>
     </div>
   </div>
@@ -405,7 +405,7 @@ sudo apt install ./altnet-studio_1.0.0_amd64.deb</div>
     <li><span class="dot"></span><span class="txt"><strong>Early release</strong> &mdash; v1.0 is the first public build. Feedback welcome on the source repo.</span></li>
     <li><span class="dot"></span><span class="txt"><strong>No account needed to browse</strong> <code>.alt</code> sites. An admin-approved account is required to publish.</span></li>
     <li><span class="dot"></span><span class="txt">Auto-updates aren&rsquo;t in v1.0 yet &mdash; <strong>check back here for new versions</strong>.</span></li>
-    <li><span class="dot"></span><span class="txt">Protocol &amp; daemon live in the separate <strong>AltNet</strong> protocol repo. Studio is the desktop client.</span></li>
+    <li><span class="dot"></span><span class="txt">Curious how it works under the hood? <a href="technical.html#studio" style="color:var(--cyan)"><strong>How it works, in detail &rarr;</strong></a></span></li>
   </ul>
 </section>
 

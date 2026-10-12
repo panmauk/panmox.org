@@ -326,7 +326,7 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
     <ul class="nav-links">
       <li><button id="productsBtn">Products</button></li>
       <li><a href="about.html">About</a></li>
-      <li class="relay-only"><a href="technical.html">Technical</a></li>
+      <li><a href="technical.html">Technical</a></li>
       <li><a href="legal/">Legal</a></li>
     </ul>
   </div>
@@ -406,7 +406,7 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
       <div class="stage-content" data-stage="2">
         <div class="stage-kicker">// 02 &middot; BUILT ON</div>
         <h2>The hard parts, <em>done right.</em></h2>
-        <p><strong>Debian</strong> — the most trusted, security-maintained Linux base there is — with a <strong>KDE Plasma</strong> desktop rebuilt into something purely PMX. UEFI and BIOS. Live from USB. Installs to disk when you&rsquo;re ready.</p>
+        <p><strong>Debian</strong> — the most trusted, security-maintained Linux base there is — with a <strong>KDE Plasma</strong> desktop rebuilt into something purely PMX. Works on new and older PCs. Try it straight from a USB stick, then install it when you&rsquo;re ready.</p>
       </div>
 
       <div class="stage-content" data-stage="3">
@@ -459,7 +459,7 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
 <section class="editorial" id="install">
   <div class="section-kicker">// INSTALL</div>
   <h2 class="section-title">Onto a USB <em class="cyan">in one flow.</em></h2>
-  <p class="section-sub"><strong style="color:var(--paper);font-weight:500;">LinuxSimplify &middot; PMX</strong> is the official installer. It scans your hardware, downloads the newest PMX OS release, and flashes it to a USB drive &mdash; ready to boot and install. No terminal gymnastics, no hunting for ISOs.</p>
+  <p class="section-sub"><strong style="color:var(--paper);font-weight:500;">LinuxSimplify &middot; PMX</strong> is the official installer. It scans your hardware, downloads the newest PMX OS release, and flashes it to a USB drive &mdash; ready to boot and install. No typing commands, no hunting for downloads.</p>
 
   <div class="dl-row">
     <a href="https://github.com/panmauk/LinuxSimplify/releases/download/v1.0.0/LinuxSimplify-PMX-windows-x64.exe" class="dl-btn win">↓ Download for Windows <span class="os">.exe &middot; x64</span></a>
@@ -471,22 +471,22 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
     <div class="step s-l">
       <span class="n">1</span>
       <h3>Scan your <em>hardware.</em></h3>
-      <p>Slide to detect CPU, RAM, GPU, storage and boot mode &mdash; so you know what to expect before you start.</p>
+      <p>Slide to check what&rsquo;s inside your computer &mdash; processor, memory, graphics and disks &mdash; so you know what to expect before you start.</p>
     </div>
     <div class="step s-t">
       <span class="n">2</span>
       <h3>Download <em>PMX OS.</em></h3>
-      <p>Always grabs the newest release from GitHub. Handles split ISOs automatically and verifies the SHA-256 checksum.</p>
+      <p>Always gets the newest version, puts it together for you, and checks that the download arrived complete and unchanged.</p>
     </div>
     <div class="step s-b">
       <span class="n">3</span>
       <h3>Flash the <em>USB.</em></h3>
-      <p>Raw flashing like dd or Rufus. Auto-detects the drive when you plug it in, then cleans up the ISO when it&rsquo;s done.</p>
+      <p>Writes PMX OS onto your USB stick. It spots the stick as soon as you plug it in, and tidies up the download afterwards.</p>
     </div>
     <div class="step s-r">
       <span class="n">4</span>
       <h3>Boot &amp; <em>install.</em></h3>
-      <p>Disable Secure Boot, pick the UEFI USB entry, and install. Live first, then to disk when you&rsquo;re ready.</p>
+      <p>Turn off Secure Boot in your PC&rsquo;s start-up settings, start the computer from the USB stick, and try PMX OS. Install it when you&rsquo;re ready.</p>
     </div>
   </div>
 
@@ -495,12 +495,12 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
     <pre><span class="c"># make it executable, then launch</span>
 chmod +x LinuxSimplify-PMX-linux-x64
 <span class="p">./</span>LinuxSimplify-PMX-linux-x64
-<span class="c"># a pkexec prompt appears when flashing</span></pre>
+<span class="c"># it asks for your password before writing the USB stick</span></pre>
   </div>
 
   <div class="install-note">
     <span class="tag">Heads up</span>
-    <p>On Windows, SmartScreen may warn about an unrecognized app &mdash; click <strong style="color:var(--paper);">More info &rarr; Run anyway</strong>. Full steps live in <a href="https://github.com/panmauk/LinuxSimplify" target="_blank" rel="noopener">release/HOW-TO-INSTALL.md</a> in the repo.</p>
+    <p>On Windows, SmartScreen may warn about an unrecognized app &mdash; click <strong style="color:var(--paper);">More info &rarr; Run anyway</strong>. Full steps live in <a href="https://github.com/panmauk/LinuxSimplify" target="_blank" rel="noopener">release/HOW-TO-INSTALL.md</a> in the repo. <a href="technical.html#pmxos">How it works, in detail &rarr;</a></p>
   </div>
 </section>
 
@@ -546,8 +546,8 @@ chmod +x LinuxSimplify-PMX-linux-x64
 <!-- MARQUEE 2 -->
 <div class="marquee reverse">
   <div class="marquee-track">
-    <span>PMX OS 1</span><span class="hot">Debian underneath</span><span>KDE Plasma</span><span class="hot">Live USB &middot; Installs to disk</span><span>UEFI + BIOS</span><span class="hot">Available now</span>
-    <span>PMX OS 1</span><span class="hot">Debian underneath</span><span>KDE Plasma</span><span class="hot">Live USB &middot; Installs to disk</span><span>UEFI + BIOS</span><span class="hot">Available now</span>
+    <span>PMX OS 1</span><span class="hot">Debian underneath</span><span>KDE Plasma</span><span class="hot">Live USB &middot; Installs to disk</span><span>New &amp; older PCs</span><span class="hot">Available now</span>
+    <span>PMX OS 1</span><span class="hot">Debian underneath</span><span>KDE Plasma</span><span class="hot">Live USB &middot; Installs to disk</span><span>New &amp; older PCs</span><span class="hot">Available now</span>
   </div>
 </div>
 
