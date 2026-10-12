@@ -1876,7 +1876,12 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
   function pad(n){ return (n < 10 ? '0' : '') + n; }
   function tick(){
     var left = Math.max(0, Math.floor((DROP - Date.now()) / 1000));
-    if (left === 0) { line.innerHTML = 'Something new. <strong>Announced now.</strong>'; clearInterval(timer); return; }
+    if (left === 0) {
+      line.innerHTML = 'Something new. <strong>Announced now.</strong>';
+      var more = document.querySelector('.week-more');
+      if (more) { more.href = 'https://youtu.be/cy51IFVpRz8'; more.target = '_blank'; more.rel = 'noopener'; more.firstChild.textContent = 'Watch the premiere '; }
+      clearInterval(timer); return;
+    }
     // after midnight in Prague on the 13th it's no longer 'tomorrow'
     if (Date.now() >= Date.UTC(2026, 9, 12, 22, 0, 0)) { var w = document.getElementById('weekWhen'); if (w) w.textContent = 'today at 19:30.'; }
     var d = Math.floor(left / 86400);

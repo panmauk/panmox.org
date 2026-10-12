@@ -198,7 +198,8 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
   <p class="cd-local" id="cdLocal">Prague time (CEST)</p>
 
   <div class="cd-actions">
-    <button class="btn primary" id="calBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Add to calendar</button>
+    <a class="btn primary" id="watchBtn" href="https://youtu.be/cy51IFVpRz8" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4l15 8-15 8z"/></svg>Watch the premiere</a>
+    <button class="btn" id="calBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Add to calendar</button>
     <button class="btn" id="notifyBtn">Get notified</button>
     <button class="btn" id="shareBtn">Share</button>
   </div>
@@ -268,6 +269,8 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
     document.getElementById('cdLine').innerHTML = 'Something new. <strong>Announced now.</strong>';
     document.getElementById('cdLocal').textContent = '';
     document.getElementById('calBtn').style.display = 'none';
+    document.getElementById('notifyBtn').style.display = 'none';
+    document.getElementById('notify').classList.remove('show');
     document.getElementById('tlNextTag').textContent = 'Now';
   }
   function tick(){
