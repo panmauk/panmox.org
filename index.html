@@ -642,22 +642,22 @@ nav {
 section.relay-hero {
   position: relative;
   z-index: 5;
-  padding: calc(var(--nav-h, 64px) + 64px) 32px 110px;
+  padding: calc(var(--nav-h, 64px) + 56px) 32px 96px;
   text-align: center;
 }
 .relay-kicker {
   font-family: var(--mono); font-size: 11px; letter-spacing: 5px; text-transform: uppercase; color: var(--cyan);
-  display: inline-flex; align-items: center; gap: 14px; margin-bottom: 30px;
+  display: inline-flex; align-items: center; gap: 14px; margin-bottom: 24px;
 }
 .relay-kicker::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); animation: dotPulse 1.6s ease-in-out infinite; }
 .relay-title {
   font-family: var(--serif); font-weight: 400;
-  font-size: clamp(46px, 7.4vw, 112px); letter-spacing: -.045em; line-height: .95;
+  font-size: clamp(40px, 5.2vw, 76px); letter-spacing: -.035em; line-height: 1;
   font-variation-settings: 'opsz' 144;
-  max-width: 1100px; margin: 0 auto 28px;
+  max-width: 900px; margin: 0 auto 22px;
 }
 .relay-title em { font-style: italic; font-weight: 300; color: var(--paper-dim); }
-.relay-lede { font-size: clamp(17px, 1.5vw, 20px); color: var(--paper-dim); max-width: 600px; margin: 0 auto 36px; }
+.relay-lede { font-size: 17px; color: var(--paper-dim); max-width: 560px; margin: 0 auto 30px; }
 .relay-lede strong { color: var(--paper); font-weight: 500; }
 .relay-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 .relay-btn {
@@ -672,28 +672,18 @@ section.relay-hero {
 .relay-btn.primary:hover { color: var(--ink); box-shadow: 0 14px 40px rgba(0,229,255,.4); }
 .relay-note { margin-top: 22px; font-family: var(--mono); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--paper-mute); }
 .relay-film {
-  position: relative; width: min(100%, 1080px); margin: 64px auto 0; aspect-ratio: 16 / 9;
+  position: relative; width: min(100%, 820px); margin: 48px auto 0; aspect-ratio: 16 / 9;
   border-radius: 14px; overflow: hidden; background: #000;
   border: 1px solid rgba(235,226,208,.12);
   box-shadow: 0 50px 140px rgba(0,0,0,.7), 0 0 90px rgba(0,229,255,.08);
 }
 .relay-film iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; }
-.relay-point { max-width: 1080px; margin: 110px auto 0; display: grid; grid-template-columns: 5fr 7fr; gap: 64px; align-items: center; text-align: left; }
-.relay-point.rev { grid-template-columns: 7fr 5fr; }
-.relay-point.rev .relay-point-copy { order: 2; }
-.relay-point h3 { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 3.4vw, 48px); letter-spacing: -1.2px; line-height: 1.05; margin-bottom: 16px; font-variation-settings: 'opsz' 144; }
-.relay-point h3 em { font-style: italic; font-weight: 300; color: var(--paper-dim); }
-.relay-point p { font-size: 17px; color: var(--paper-dim); }
-.relay-point figure { margin: 0; border-radius: 12px; overflow: hidden; border: 1px solid rgba(235,226,208,.12); box-shadow: 0 40px 120px rgba(0,0,0,.6); background: #0a0e1a; }
-.relay-point img { display: block; width: 100%; height: auto; }
 /* once Relay is live, the PANMOX Week section steps down below it */
 html.relay-live section.week-section { min-height: 0; padding: 100px 32px 110px; border-top: 1px solid var(--rule); }
 html.relay-live .week-count { display: none; }
 @media (max-width: 720px) {
   section.relay-hero { padding: calc(var(--nav-h, 64px) + 44px) 16px 80px; }
-  .relay-film { margin-top: 44px; border-radius: 10px; }
-  .relay-point, .relay-point.rev { grid-template-columns: 1fr; gap: 28px; margin-top: 72px; }
-  .relay-point.rev .relay-point-copy { order: 0; }
+  .relay-film { margin-top: 36px; border-radius: 10px; }
   html.relay-live section.week-section { padding: 80px 16px 90px; }
 }
 
@@ -1506,8 +1496,7 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
   <h1 class="relay-title">Private messages.<br><em>Just between you.</em></h1>
   <p class="relay-lede">AltNet Relay is a private messenger for your computer. No phone number. Nobody in between can read what you write &mdash; <strong>not even us.</strong></p>
   <div class="relay-actions">
-    <a class="relay-btn primary" href="relay.html#download">Get AltNet Relay</a>
-    <a class="relay-btn" href="relay.html">Learn more</a>
+    <a class="relay-btn primary" href="relay.html">Learn more</a>
   </div>
   <div class="relay-note">Windows and Linux: coming Friday 16 October &middot; Mac: later in October</div>
 
@@ -1515,22 +1504,6 @@ if(s||Date.now()>=D)on();else{var w=D-Date.now();if(w<2e9)setTimeout(on,w)}})();
     <iframe src="https://www.youtube-nocookie.com/embed/cy51IFVpRz8" title="Nobody in the Middle | PANMOX" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
   </div>
 
-  <!-- two screenshots, each next to what it shows -->
-  <div class="relay-point">
-    <div class="relay-point-copy">
-      <h3>Message the people <em>you choose.</em></h3>
-      <p>Chat one to one or in groups. Strangers have to knock first, and only you decide who gets in.</p>
-    </div>
-    <figure><img src="assets/relay/03-chat.png" width="2880" height="1800" alt="A one-to-one chat in AltNet Relay." loading="lazy"></figure>
-  </div>
-  <div class="relay-point rev">
-    <div class="relay-point-copy">
-      <h3>The same account, <em>for work.</em></h3>
-      <p>Workspaces, channels and video meetings for your team &mdash; kept apart from your personal chats.</p>
-      <a class="week-more" href="relay.html">Learn more <span aria-hidden="true">&rarr;</span></a>
-    </div>
-    <figure><img src="assets/relay/07-business-workspace.png" width="2880" height="1800" alt="A company workspace in AltNet Relay, with channels and people." loading="lazy"></figure>
-  </div>
 </section>
 
 <!-- ═══════════════════ PANMOX WEEK ═══════════════════ -->
