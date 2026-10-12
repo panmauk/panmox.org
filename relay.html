@@ -206,6 +206,7 @@ h3.sub{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.8vw,38px)
 .dl-how code{display:inline-block;font-family:var(--mono);font-size:12px;background:rgba(235,226,208,.06);border:1px solid var(--rule);border-radius:6px;padding:3px 8px;margin-top:6px;word-break:break-all;color:var(--paper)}
 .dl-act{text-align:right}
 .dl-date{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:11px 18px;border-radius:999px;border:1px solid rgba(255,140,0,.4);color:var(--amber);background:rgba(255,140,0,.06)}
+.dl-row.soon{grid-template-columns:1fr auto}
 .dl-ver{margin-top:22px;font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--paper-mute)}
 .notify{margin:56px auto 0;max-width:560px;text-align:center}
 .notify-q{font-family:var(--serif);font-size:clamp(22px,2.2vw,30px);letter-spacing:-.5px;margin-bottom:18px}
@@ -240,6 +241,7 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
   .pair,.calls{grid-template-columns:1fr}
   .dl-row{grid-template-columns:1fr;gap:12px}
   .dl-act{text-align:left}
+  .dl-row.soon{grid-template-columns:1fr}
 }
 @media (max-width:720px){
   .wrap{padding:0 20px}
@@ -599,14 +601,12 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
 
     <!-- RELAY-DOWNLOADS:START -->
     <div class="dl rv" id="dl">
-      <div class="dl-row">
-        <div class="dl-os">Windows &amp; Linux</div>
-        <div class="dl-how">Out on Friday. The downloads appear right here.</div>
-        <div class="dl-act"><span class="dl-date">Friday 16 October</span></div>
+      <div class="dl-row soon">
+        <div class="dl-os">Windows and Linux</div>
+        <div class="dl-act"><span class="dl-date">Coming Friday 16 October</span></div>
       </div>
-      <div class="dl-row">
+      <div class="dl-row soon">
         <div class="dl-os">Mac</div>
-        <div class="dl-how">Coming a little later.</div>
         <div class="dl-act"><span class="dl-date">Later in October</span></div>
       </div>
     </div>
