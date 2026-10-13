@@ -349,6 +349,7 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
       <li><strong>Conversations, contacts and keys</strong> stay on the user&rsquo;s computer.</li>
       <li><strong>Notifications</strong> never contain message text.</li>
       <li><strong>Deleting an account</strong> needs an emailed code, the password, the account&rsquo;s name and a final confirmation. Each step is checked on the server. It removes the account and the server&rsquo;s record, erases the local data folder, and keeps the @name reserved forever.</li>
+      <li><strong>Signing in on another computer:</strong> the app keeps a locked copy of the account on the Relay server: identity keys, contacts, conversations and settings. It is sealed on the user&rsquo;s computer with <strong>AES-256-GCM</strong> under a key from <strong>PBKDF2-SHA256</strong> (600,000 rounds, random salt), refreshed automatically after changes, and at most 8 MB. Signing in elsewhere downloads and unlocks it with the password. One computer at a time: each install has a random device ID, signing in claims the account, and the previous computer signs itself out. Before sending, the new computer catches up each conversation&rsquo;s outgoing chain from the network. Users can turn the copy off (it is deleted), or start fresh with new keys and the same @name.</li>
       <li><strong>Infrastructure:</strong> one VPS (Oracle Cloud, Frankfurt) runs the seed node, the Relay server (names, reports, bans), the account service and the call relay. Email is sent through Zoho (EU).</li>
     </ul>
 
@@ -363,7 +364,7 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
         <rect class="box op" x="300" y="10" width="300" height="190" rx="8"/>
         <text class="t" x="450" y="38" text-anchor="middle">VPS &middot; Oracle Cloud, Frankfurt</text>
         <rect class="box" x="320" y="54" width="125" height="58" rx="6"/><text x="382" y="80" text-anchor="middle">seed node</text><text class="s" x="382" y="98" text-anchor="middle">AltNet DHT</text>
-        <rect class="box" x="455" y="54" width="125" height="58" rx="6"/><text x="517" y="80" text-anchor="middle">Relay server</text><text class="s" x="517" y="98" text-anchor="middle">names, reports, bans</text>
+        <rect class="box" x="455" y="54" width="125" height="58" rx="6"/><text x="517" y="76" text-anchor="middle">Relay server</text><text class="s" x="517" y="92" text-anchor="middle">names, reports, bans,</text><text class="s" x="517" y="105" text-anchor="middle">locked account copies</text>
         <rect class="box" x="320" y="122" width="125" height="58" rx="6"/><text x="382" y="148" text-anchor="middle">account</text><text class="s" x="382" y="166" text-anchor="middle">service</text>
         <rect class="box" x="455" y="122" width="125" height="58" rx="6"/><text x="517" y="148" text-anchor="middle">call relay</text><text class="s" x="517" y="166" text-anchor="middle">STUN / TURN</text>
         <rect class="box" x="650" y="80" width="100" height="50" rx="8"/>
@@ -407,6 +408,9 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
         <tr><td>Group call (full mesh)</td><td class="v">8</td></tr>
         <tr><td>Oldest call offer that still rings</td><td class="v">90 s</td></tr>
         <tr><td>TURN credential lifetime</td><td class="v">1 h</td></tr>
+        <tr><td>Locked copy: PBKDF2-SHA256 rounds</td><td class="v">600,000</td></tr>
+        <tr><td>Locked copy: maximum size</td><td class="v">8 MB</td></tr>
+        <tr><td>Computers using an account at once</td><td class="v">1</td></tr>
         <tr><td>Messages a report may include</td><td class="v">10</td></tr>
         <tr><td>Distinct reporters for an automatic ban</td><td class="v">3 in 30 days</td></tr>
         <tr><td>Minimum reporter account age</td><td class="v">72 h</td></tr>
@@ -424,8 +428,10 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
       <dd>Message contents are always encrypted, but nodes can see IP addresses and which addresses are active. On a small network that picture is richer. Watch registrations can link an IP to the addresses it watches.</dd>
       <dt>Stored messages and key compromise</dt>
       <dd>Stored messages are sealed to a long-lived box key, so someone who later gets that key could open stored messages. Box keys don&rsquo;t rotate yet.</dd>
-      <dt>Single device</dt>
-      <dd>One computer per account. Moving to another computer goes through us.</dd>
+      <dt>One computer at a time</dt>
+      <dd>An account is in use on one computer at a time (signing in on another moves it there). There is no simultaneous multi-device use yet.</dd>
+      <dt>The locked copy relies on the password</dt>
+      <dd>A stolen copy can only be opened by guessing the password, which PBKDF2 makes slow but not impossible for a weak one.</dd>
       <dt>No phone apps yet</dt>
       <dd>AltNet Relay runs on Windows, Linux and macOS only.</dd>
       <dt>Unsigned installers</dt>
