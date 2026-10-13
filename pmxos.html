@@ -295,6 +295,8 @@ footer .ftxt a:hover{color:var(--magenta);border-color:var(--magenta)}
   .feat-grid,.feat-grid-3{grid-template-columns:1fr}.cat-row{grid-template-columns:1fr}
   .install-flow{grid-template-columns:repeat(2,1fr)}
 }
+/* phones and tablets: slide up into place instead of in from the sides, so nothing sits off-screen */
+@media (max-width:1100px){.shot.from-left:not(.in),.shot.from-right:not(.in),.step.s-l:not(.in),.step.s-r:not(.in){transform:translateY(60px)}}
 @media (max-width:560px){.install-flow{grid-template-columns:1fr}.dl-btn{justify-content:center;width:100%}}
 @media (max-width:720px){.nav-inner{padding:14px 20px}.nav-links{gap:18px}.phos-fab{top:auto;bottom:24px;right:24px}section.editorial{padding:80px 20px}.hero{padding:120px 20px 60px}.hero-actions{flex-direction:column;width:100%;max-width:280px}.hero-btn{justify-content:center}.stage-progress{right:16px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01s!important;transition-duration:.1s!important}.hero-mark .ch{transform:none!important}}
@@ -303,6 +305,7 @@ footer .ftxt a:hover{color:var(--magenta);border-color:var(--magenta)}
 @media (max-width:720px){.nav-inner{padding:14px 14px!important}.nav-logo{letter-spacing:3px!important;font-size:12px!important}.nav-links{gap:12px!important}.nav-links a,.nav-links button{font-size:9.5px!important;letter-spacing:1px!important}}
 @media (max-width:420px){.nav-links{gap:10px!important}.nav-links a,.nav-links button{font-size:9px!important;letter-spacing:.5px!important}}
 </style>
+<style id="fit">/* fit every screen: nothing may widen the page sideways (iOS Safari included) */html{-webkit-text-size-adjust:100%;text-size-adjust:100%}@supports (overflow-x:clip){html,body{overflow-x:clip}}</style>
 </head>
 <body>
 
