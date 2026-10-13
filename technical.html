@@ -346,7 +346,7 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
     <ul class="facts">
       <li><strong>The account:</strong> email and password, held by the AltNet account service, shared with AltNet Studio.</li>
       <li><strong>Sessions:</strong> the app stores only a session token, never the password.</li>
-      <li><strong>Conversations, contacts and keys</strong> stay on the user&rsquo;s computer.</li>
+      <li><strong>Conversations, contacts and keys</strong> live on the user&rsquo;s computer. The only copy that leaves it is the locked copy below, which PANMOX can&rsquo;t open.</li>
       <li><strong>Notifications</strong> never contain message text.</li>
       <li><strong>Deleting an account</strong> needs an emailed code, the password, the account&rsquo;s name and a final confirmation. Each step is checked on the server. It removes the account and the server&rsquo;s record, erases the local data folder, and keeps the @name reserved forever.</li>
       <li><strong>Signing in on another computer:</strong> the app keeps a locked copy of the account on the Relay server: identity keys, contacts, conversations and settings. It is sealed on the user&rsquo;s computer with <strong>AES-256-GCM</strong> under a key from <strong>PBKDF2-SHA256</strong> (600,000 rounds, random salt), refreshed automatically after changes, and at most 8 MB. Signing in elsewhere downloads and unlocks it with the password. One computer at a time: each install has a random device ID, signing in claims the account, and the previous computer signs itself out. Before sending, the new computer catches up each conversation&rsquo;s outgoing chain from the network. Users can turn the copy off (it is deleted), or start fresh with new keys and the same @name.</li>
