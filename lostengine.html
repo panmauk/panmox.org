@@ -115,6 +115,21 @@ footer .ftxt a:hover{color:var(--amber);border-color:var(--amber)}
 @media (max-width:420px){.nav-links{gap:10px!important}.nav-links a,.nav-links button{font-size:9px!important;letter-spacing:.5px!important}}
 </style>
 <style id="fit">/* fit every screen: nothing may widen the page sideways (iOS Safari included) */html{-webkit-text-size-adjust:100%;text-size-adjust:100%}@supports (overflow-x:clip){html,body{overflow-x:clip}}</style>
+<style id="whats-new-css">
+/* What's new block on product pages */
+.whats-new{border-top:1px solid var(--rule)}
+.whats-new .section-title{font-size:clamp(40px,6vw,84px);letter-spacing:-1px}
+.wn-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.wn-grid.one{grid-template-columns:minmax(0,1fr);max-width:760px}
+.wn-col{border:1px solid var(--rule);border-radius:14px;padding:26px 26px 18px;background:rgba(235,226,208,.02)}
+.wn-col h3{font-family:var(--mono);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--wn);font-weight:500;margin-bottom:12px}
+.wn-list{list-style:none;margin:0;padding:0}
+.wn-list li{position:relative;padding:10px 0 10px 22px;border-bottom:1px solid var(--rule);font-size:15px;line-height:1.6;color:var(--paper-dim)}
+.wn-list li:last-child{border-bottom:0}
+.wn-list li::before{content:'';position:absolute;left:2px;top:19px;width:7px;height:7px;border-radius:50%;background:var(--wn);opacity:.85}
+.wn-list li strong{color:var(--paper);font-weight:500}
+@media (max-width:820px){.wn-grid{grid-template-columns:minmax(0,1fr)}.wn-col{padding:22px 18px 14px}}
+</style>
 </head>
 <body>
 
@@ -144,10 +159,10 @@ footer .ftxt a:hover{color:var(--amber);border-color:var(--amber)}
       <li><a href="pmxos.html"><span style="color:#ff3d8b;">PMX</span> OS</a></li>
       <li><a href="studio.html"><span class="acc-studio">AltNet</span> Studio</a></li>
       <li><a href="altnet.html"><span class="acc-altnet">Alt</span>Net</a></li>
-      <li><a href="neuralxp.html"><span class="acc-violet">Neural</span>XP</a></li>
-      <li><a href="lostengine.html"><span class="acc-amber">Lost</span>Engine</a></li>
-      <li><a href="overbyte.html?intro=1"><span class="acc-green">Over</span>Byte</a></li>
-      <li><a href="linuxsimplify.html?intro=1"><span class="acc-blue">Linux</span>Simplify</a></li>
+      <li><a href="neuralxp.html#whats-new"><span class="acc-violet">Neural</span>XP<span style="font-family:var(--mono);font-size:.42em;letter-spacing:3px;color:#00e5ff;border:1px solid rgba(0,229,255,.45);border-radius:999px;padding:3px 9px;vertical-align:middle;margin-left:10px;">UPDATE</span></a></li>
+      <li><a href="lostengine.html#whats-new"><span class="acc-amber">Lost</span>Engine<span style="font-family:var(--mono);font-size:.42em;letter-spacing:3px;color:#00e5ff;border:1px solid rgba(0,229,255,.45);border-radius:999px;padding:3px 9px;vertical-align:middle;margin-left:10px;">UPDATE</span></a></li>
+      <li><a href="overbyte.html?intro=1#whats-new"><span class="acc-green">Over</span>Byte<span style="font-family:var(--mono);font-size:.42em;letter-spacing:3px;color:#00e5ff;border:1px solid rgba(0,229,255,.45);border-radius:999px;padding:3px 9px;vertical-align:middle;margin-left:10px;">UPDATE</span></a></li>
+      <li><a href="linuxsimplify.html?intro=1#whats-new"><span class="acc-blue">Linux</span>Simplify<span style="font-family:var(--mono);font-size:.42em;letter-spacing:3px;color:#00e5ff;border:1px solid rgba(0,229,255,.45);border-radius:999px;padding:3px 9px;vertical-align:middle;margin-left:10px;">UPDATE</span></a></li>
     </ul>
   </div>
 </div>
@@ -172,6 +187,15 @@ footer .ftxt a:hover{color:var(--amber);border-color:var(--amber)}
     <span class="hot">Every result is wrong</span><span>Three modes</span><span class="hot">Written by A.I.</span><span>GPL v3</span><span class="hot">Free to use</span><span>panmox.org</span>
   </div>
 </div>
+
+<section class="editorial whats-new" id="whats-new" style="--wn:var(--amber)">
+  <div class="section-kicker">// What&rsquo;s new &middot; Friday 16 October</div>
+  <h2 class="section-title">A smoother <em>wrong.</em></h2>
+  <p class="section-sub">An update to LostEngine.</p>
+  <div class="wn-grid one">
+    <div class="wn-col"><h3>What changed</h3><ul class="wn-list"><li>Search results from an old search no longer mix into a new one.</li><li>Short answers no longer disappear.</li><li>Better error messages when something goes wrong.</li><li>Security and stability improvements.</li><li>Works better on phones (no more sideways scrolling).</li></ul></div>
+  </div>
+</section>
 
 <section class="editorial">
   <div class="section-kicker">// THE IDEA</div>
