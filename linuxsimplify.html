@@ -130,6 +130,22 @@ footer .ftxt a:hover{color:var(--blue);border-color:var(--blue)}
 .wn-list li strong{color:var(--paper);font-weight:500}
 @media (max-width:820px){.wn-grid{grid-template-columns:minmax(0,1fr)}.wn-col{padding:22px 18px 14px}}
 </style>
+<style id="linux-dl-css">
+/* Linux downloads inside the What's new block */
+.lx-dl{margin-top:28px;border:1px solid var(--rule);border-radius:14px;padding:26px;background:rgba(235,226,208,.02)}
+.lx-dl h3{font-family:var(--mono);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--wn);font-weight:500;margin-bottom:6px}
+.lx-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px 22px;align-items:center;padding:16px 0;border-bottom:1px solid var(--rule)}
+.lx-row:last-of-type{border-bottom:0}
+.lx-what{font-size:15px;color:var(--paper-dim);line-height:1.5}
+.lx-what strong{display:block;color:var(--paper);font-weight:500;font-size:17px}
+.lx-btns{display:flex;gap:10px;flex-wrap:wrap}
+.lx-btns a{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;color:var(--paper);border:1px solid rgba(235,226,208,.25);border-radius:999px;padding:11px 18px;white-space:nowrap;transition:border-color .25s,color .25s}
+.lx-btns a:hover{border-color:var(--wn);color:var(--wn)}
+.lx-btns a small{font-size:9px;letter-spacing:1px;color:var(--paper-mute);margin-left:6px}
+.lx-note{margin-top:12px;font-size:13px;color:var(--paper-mute);line-height:1.6}
+.lx-note code{font-family:var(--mono);font-size:12px;color:var(--paper-dim);word-break:break-all}
+@media (max-width:720px){.lx-dl{padding:20px 16px}.lx-row{grid-template-columns:minmax(0,1fr)}}
+</style>
 </head>
 <body>
 
@@ -179,7 +195,8 @@ footer .ftxt a:hover{color:var(--blue);border-color:var(--blue)}
   </div>
   <p class="hero-sub">Switch from Windows to GNU/Linux, <em>the easy way.</em> We hold your hand through every step.</p>
   <div class="hero-actions">
-    <a href="https://github.com/panmauk/LinuxSimplify-Windows/releases/download/v0.1/LinuxSimplify_Setup.exe" class="hero-btn primary">Download v0.1</a>
+    <a href="https://github.com/panmauk/LinuxSimplify-Windows/releases/download/v0.1/LinuxSimplify_Setup.exe" class="hero-btn primary">Download for Windows</a>
+    <a href="#linux-download" class="hero-btn primary">Download for Linux</a>
     <a href="https://github.com/panmauk/LinuxSimplify-Windows" target="_blank" rel="noopener" class="hero-btn ghost">View source</a>
   </div>
   <div class="hero-scroll">↓ How</div>
@@ -193,12 +210,24 @@ footer .ftxt a:hover{color:var(--blue);border-color:var(--blue)}
 </div>
 
 <section class="editorial whats-new" id="whats-new" style="--wn:var(--blue)">
-  <div class="section-kicker">// What&rsquo;s new &middot; Friday 16 October</div>
+  <div class="section-kicker">// What&rsquo;s new &middot; 16 October</div>
   <h2 class="section-title">Now on <em>Linux</em> too.</h2>
   <p class="section-sub">LinuxSimplify 1.0.0 also runs on Linux, on x86_64 and ARM64: make a bootable USB of another distro straight from Linux. Available as .deb and AppImage.</p>
   <div class="wn-grid">
     <div class="wn-col"><h3>New</h3><ul class="wn-list"><li>All 10 distros download their latest official version: Ubuntu 26.04.1, Lubuntu 26.04.1, Fedora 44, Linux Mint 22.3, Debian 13.7, Arch Linux, EndeavourOS, Pop!_OS 24.04 (Intel and NVIDIA), Zorin OS 18.1, Trisquel 12.</li><li>Downloads can now <strong>resume</strong> after a dropped connection instead of starting over.</li><li>After flashing, the USB stick is <strong>read back and checked</strong> to make sure it was written correctly.</li><li>Your system drive can never be selected or overwritten.</li><li>Better hardware detection, including Intel Arc graphics and correct memory for graphics cards over 4 GB.</li><li>Updated requirements, such as Ubuntu now needing 6 GB of RAM.</li></ul></div>
     <div class="wn-col"><h3>Fixed</h3><ul class="wn-list"><li>Download security checks (SHA-256) didn&rsquo;t actually work; now every download is checked properly.</li><li>Pop!_OS NVIDIA was checked against the wrong file.</li><li>A stalled download no longer hangs forever.</li><li>The flasher could damage the image while writing it.</li></ul></div>
+  </div>
+  <div class="lx-dl" id="linux-download">
+    <h3>Download for Linux</h3>
+    <div class="lx-row">
+      <div class="lx-what"><strong>.deb</strong>Ubuntu, Debian, Linux Mint</div>
+      <div class="lx-btns"><a href="https://github.com/panmauk/LinuxSimplify-original/releases/download/v1.0.0/linuxsimplify_1.0.0_amd64.deb">x86_64<small>33 MB</small></a><a href="https://github.com/panmauk/LinuxSimplify-original/releases/download/v1.0.0/linuxsimplify_1.0.0_arm64.deb">ARM64<small>29 MB</small></a></div>
+    </div>
+    <div class="lx-row">
+      <div class="lx-what"><strong>AppImage</strong>Most other Linux distributions</div>
+      <div class="lx-btns"><a href="https://github.com/panmauk/LinuxSimplify-original/releases/download/v1.0.0/LinuxSimplify-1.0.0-x86_64.AppImage">x86_64<small>42 MB</small></a><a href="https://github.com/panmauk/LinuxSimplify-original/releases/download/v1.0.0/LinuxSimplify-1.0.0-aarch64.AppImage">ARM64<small>39 MB</small></a></div>
+    </div>
+    <p class="lx-note">Not sure? Most PCs are x86_64. ARM64 is for computers like the Raspberry Pi. For the AppImage: make it runnable with <code>chmod +x</code>, then open it.</p>
   </div>
 </section>
 
@@ -224,7 +253,8 @@ footer .ftxt a:hover{color:var(--blue);border-color:var(--blue)}
   <h2 class="section-title">Free. <em>Open.</em> Forever.</h2>
   <p class="section-sub">LinuxSimplify is open source under GPL v3. We will never ask for money to migrate you to free software. That would defeat the point.</p>
   <div class="hero-actions" style="justify-content:flex-start;margin-top:24px;">
-    <a href="https://github.com/panmauk/LinuxSimplify-Windows/releases/download/v0.1/LinuxSimplify_Setup.exe" class="hero-btn primary">Download</a>
+    <a href="https://github.com/panmauk/LinuxSimplify-Windows/releases/download/v0.1/LinuxSimplify_Setup.exe" class="hero-btn primary">Download for Windows</a>
+    <a href="#linux-download" class="hero-btn primary">Download for Linux</a>
     <a href="https://github.com/panmauk/LinuxSimplify-Windows" target="_blank" rel="noopener" class="hero-btn ghost">View source</a>
     <a href="technical.html#linuxsimplify" class="hero-btn ghost">How it works</a>
   </div>

@@ -214,6 +214,9 @@ h3.sub{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.8vw,38px)
 .dl-act{text-align:right}
 .dl-date{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:11px 18px;border-radius:999px;border:1px solid rgba(255,140,0,.4);color:var(--amber);background:rgba(255,140,0,.06)}
 .dl-row.soon{grid-template-columns:1fr auto}
+.dl-act .btn{white-space:nowrap}
+.dl-size{display:block;margin-top:8px;font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--paper-mute)}
+.dl-ver{text-align:center}.dl-ver a{color:var(--paper-mute)}.dl-ver a:hover{color:var(--cyan)}
 .dl-ver{margin-top:22px;font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--paper-mute)}
 .notify{margin:56px auto 0;max-width:560px;text-align:center}
 .notify-q{font-family:var(--serif);font-size:clamp(22px,2.2vw,30px);letter-spacing:-.5px;margin-bottom:18px}
@@ -336,10 +339,10 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
     <div class="side"><span class="side-k">Business</span><span class="side-t">Workspaces of up to 50, with channels, calls and video meetings.</span></div>
   </div>
   <div class="hero-actions">
-    <a class="btn primary" href="#download">Release dates</a>
+    <a class="btn primary" href="#download">Download</a>
     <a class="btn" href="#launch"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4l15 8-15 8z"/></svg>Watch the launch</a>
   </div>
-  <div class="hero-note">Free account &middot; Windows and Linux from Friday 16 October &middot; Mac later in October</div>
+  <div class="hero-note">Free account &middot; Out now for Windows and Linux &middot; Mac later in October</div>
 </header>
 <div class="hero-shot rv">
   <div class="frame"><img src="assets/relay/02-welcome-tour.png" width="2880" height="1800" alt="The welcome screen of AltNet Relay: private messages and calls with the people you choose." fetchpriority="high"></div>
@@ -612,25 +615,37 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
 <section class="blk" id="download">
   <div class="wrap">
     <div class="center-head rv">
-      <div class="kicker">// Release dates</div>
-      <h2 class="big">Coming <em>soon.</em></h2>
+      <div class="kicker">// Download</div>
+      <h2 class="big">Get <em>it.</em></h2>
       <p class="lead" style="margin:0 auto">For your computer. No phone app yet.</p>
     </div>
 
     <!-- RELAY-DOWNLOADS:START -->
     <div class="dl rv" id="dl">
-      <div class="dl-row soon">
-        <div class="dl-os">Windows and Linux</div>
-        <div class="dl-act"><span class="dl-date">Coming Friday 16 October</span></div>
+      <div class="dl-row">
+        <div class="dl-os">Windows<small>Windows 10 and 11, 64-bit</small></div>
+        <div class="dl-how">Windows warns that the installer isn&rsquo;t signed yet. Click <strong>More info</strong>, then <strong>Run anyway</strong>.</div>
+        <div class="dl-act"><a class="btn primary" href="https://github.com/panmauk/AltNet-Relay/releases/download/v1.0.6/AltNetRelay-Setup-1.0.6.exe">Download .exe</a><span class="dl-size">5.9 MB</span></div>
+      </div>
+      <div class="dl-row">
+        <div class="dl-os">Ubuntu, Debian<small>Ubuntu 22.04+, Debian 12+</small></div>
+        <div class="dl-how">Install it with:<br><code>sudo apt install ./AltNetRelay_1.0.6_amd64.deb</code></div>
+        <div class="dl-act"><a class="btn primary" href="https://github.com/panmauk/AltNet-Relay/releases/download/v1.0.6/AltNetRelay_1.0.6_amd64.deb">Download .deb</a><span class="dl-size">4.0 MB</span></div>
+      </div>
+      <div class="dl-row">
+        <div class="dl-os">Other Linux<small>64-bit (x86-64)</small></div>
+        <div class="dl-how">Unpack it, then run <code>./install.sh</code></div>
+        <div class="dl-act"><a class="btn primary" href="https://github.com/panmauk/AltNet-Relay/releases/download/v1.0.6/AltNetRelay-1.0.6-linux-amd64.tar.gz">Download .tar.gz</a><span class="dl-size">4.7 MB</span></div>
       </div>
       <div class="dl-row soon">
         <div class="dl-os">Mac</div>
         <div class="dl-act"><span class="dl-date">Later in October</span></div>
       </div>
     </div>
+    <p class="dl-ver">Version 1.0.6 &middot; Updates itself &middot; <a href="https://github.com/panmauk/AltNet-Relay" target="_blank" rel="noopener">Source code</a></p>
     <!-- RELAY-DOWNLOADS:END -->
     <div class="notify rv" id="notify">
-      <p class="notify-q">Want to hear when it&rsquo;s out?</p>
+      <p class="notify-q">Want to hear when the Mac version is out?</p>
       <div class="notify-form">
         <input type="email" id="nlEmail" placeholder="your@email.com" aria-label="Email address">
         <button class="btn primary" id="nlGo">Tell me</button>
@@ -652,7 +667,7 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
       <details><summary>Do I need a phone number?</summary><p>No. You sign up with an email and choose a name, like @rob. People find you by that name.</p></details>
       <details><summary>Can PANMOX read my messages?</summary><p>No. Your messages are locked on your computer before they leave, and only the person you write to can open them. We can&rsquo;t read them either.</p></details>
       <details><summary>What happens if I lose my computer?</summary><p>Just sign in on another computer. Your account, @name and conversations come with you, from a copy locked with your password that we can&rsquo;t open. If you turned that copy off in Account, you can start fresh there with the same @name.</p></details>
-      <details><summary>Is there a phone app?</summary><p>Not yet. AltNet Relay is for computers: Windows and Linux from Friday 16 October, and Mac later in October.</p></details>
+      <details><summary>Is there a phone app?</summary><p>Not yet. AltNet Relay is for computers: Windows and Linux now, and Mac later in October.</p></details>
       <details><summary>Why does Windows warn me?</summary><p>The installer isn&rsquo;t signed yet, so Windows doesn&rsquo;t recognise it and shows a warning. The download section shows what to click.</p></details>
       <details><summary>How do I delete my account?</summary><p>Go to Account, then Delete account. It removes your account and everything on your computer. Your @name is never given to anyone else, so nobody can pose as you.</p></details>
     </div>
