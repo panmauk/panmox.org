@@ -673,91 +673,13 @@ section.relay-hero {
   box-shadow: 0 50px 140px rgba(0,0,0,.7), 0 0 90px rgba(0,229,255,.08);
 }
 .relay-film iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; }
-/* once Relay is live, the PANMOX Week section steps down below it */
-#panmox-week.week-section { min-height: 0; padding: 100px 32px 110px; border-top: 1px solid var(--rule); }
 @media (max-width: 720px) {
   section.relay-hero { padding: calc(var(--nav-h, 64px) + 44px) 16px 80px; }
   .relay-film { margin-top: 36px; border-radius: 10px; }
-  #panmox-week.week-section { padding: 80px 16px 90px; }
 }
 
-/* ═══════════════════ PANMOX WEEK ═══════════════════ */
-/* One thing on screen: the film. Label above, one line below, nothing else. */
 #pmxFxToggle { top: calc(var(--nav-h, 64px) + 12px) !important; }
-.week-section + .hero-split, .relay-hero + .hero-split { padding-top: 40px; border-top: 1px solid var(--rule); }
-
-section.week-section {
-  position: relative;
-  z-index: 5;
-  min-height: 100vh;
-  padding: calc(var(--nav-h, 64px) + 40px) 32px 64px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  text-align: center;
-}
-.week-title {
-  font-family: var(--serif);
-  font-weight: 400;
-  font-size: clamp(42px, 5.2vw, 76px);
-  letter-spacing: -2px;
-  line-height: 1;
-  font-variation-settings: 'opsz' 144;
-  margin-bottom: 32px;
-}
-.week-title em { font-style: italic; font-weight: 300; color: var(--paper-dim); }
-
-.week-frame {
-  position: relative;
-  width: min(100%, 1180px, calc((100vh - var(--nav-h, 64px) - 300px) * 16 / 9));
-  min-width: min(100%, 560px);
-  aspect-ratio: 16 / 9;
-  border-radius: 14px;
-  overflow: hidden;
-  background: #000;
-  box-shadow: 0 50px 140px rgba(0,0,0,.7);
-}
-.week-frame video { display: block; width: 100%; height: 100%; object-fit: cover; background: #000; cursor: auto; }
-.week-play {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  background: transparent; border: 0;
-}
-.week-play-btn {
-  width: 84px; height: 84px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(8,13,27,.45);
-  border: 1px solid rgba(235,226,208,.55);
-  color: var(--paper);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  transition: transform .3s cubic-bezier(.16,1,.3,1), background .3s;
-}
-.week-play-btn svg { width: 26px; height: 26px; margin-left: 4px; }
-.week-play:hover .week-play-btn { transform: scale(1.08); background: rgba(8,13,27,.65); }
-.week-frame.playing .week-play { display: none; }
-
-.week-line {
-  margin-top: 32px;
-  font-size: 18px;
-  color: var(--paper-dim);
-}
-.week-line strong { color: var(--paper); font-weight: 500; }
-.week-title a { color: inherit; text-decoration: none; }
-.week-more { margin-top: 22px; font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--cyan); text-decoration: none; border-bottom: 1px solid rgba(0,229,255,.35); padding-bottom: 3px; transition: border-color .25s, letter-spacing .25s; }
-.week-more:hover { border-color: var(--cyan); letter-spacing: 4px; }
-.week-count {
-  display: block;
-  margin-top: 10px;
-  font-family: var(--mono); font-size: 12px; letter-spacing: 3px;
-  color: var(--paper-mute);
-  font-variant-numeric: tabular-nums;
-}
-
-@media (max-width: 720px) {
-  section.week-section { min-height: 0; padding: calc(var(--nav-h, 64px) + 48px) 16px 72px; }
-  .week-frame { width: 100%; min-width: 0; border-radius: 10px; }
-  .week-play-btn { width: 64px; height: 64px; }
-  .week-play-btn svg { width: 22px; height: 22px; }
-  .week-line { font-size: 16px; }
-}
+.relay-hero + .hero-split { padding-top: 40px; border-top: 1px solid var(--rule); }
 
 /* ═══════════════════ MARQUEE BANDS ═══════════════════ */
 .marquee {
@@ -1494,23 +1416,6 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
 
 </section>
 
-<!-- ═══════════════════ PANMOX WEEK ═══════════════════ -->
-<section class="week-section" id="panmox-week">
-  <h2 class="week-title"><a href="panmox-week.html">PANMOX <em>Week.</em></a></h2>
-
-  <div class="week-frame" id="weekFrame">
-    <video id="weekVideo" preload="none" playsinline poster="assets/video/panmox-week-poster.jpg" aria-label="PANMOX Week promotional video">
-      <source src="assets/video/panmox-week-promo.mp4" type="video/mp4">
-    </video>
-    <button class="week-play" id="weekPlay" aria-label="Play the PANMOX Week promo">
-      <span class="week-play-btn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4l15 8-15 8z"/></svg></span>
-    </button>
-  </div>
-
-  <p class="week-line">Announced this PANMOX Week: <strong>AltNet Relay.</strong></p>
-  <a class="week-more" href="relay.html">Meet AltNet Relay <span aria-hidden="true">&rarr;</span></a>
-</section>
-
 <!-- ═══════════════════ HERO ═══════════════════ -->
 <section class="hero-split single">
 
@@ -1915,26 +1820,11 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
   };
 </script>
 <script>
-/* ─── PANMOX Week: promo player ─── */
 (function(){
-  var frame = document.getElementById('weekFrame');
-  var video = document.getElementById('weekVideo');
-  var play  = document.getElementById('weekPlay');
-  if (frame && video && play) {
-    play.addEventListener('click', function(){
-      video.controls = true;
-      frame.classList.add('playing');
-      var p = video.play();
-      if (p && p.catch) p.catch(function(){});
-    });
-  }
-
   // expose the real nav height so the FX toggle sits below the ribbon
   var nav = document.querySelector('nav');
   function navH(){ if (nav) document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px'); }
   navH(); window.addEventListener('resize', navH);
-
-
 })();
 </script>
 <script src="waterline.js?v=2"></script>
