@@ -170,6 +170,7 @@ footer .ftxt a:hover{color:var(--amber);border-color:var(--amber)}
   </h1>
   <div class="hero-q">?</div>
   <p class="hero-sub">The search engine that finds <em>everything except</em> what you&rsquo;re looking for. Three modes of lies.</p>
+  <p class="side-note" style="font-family:var(--mono,monospace);font-size:12px;letter-spacing:1px;line-height:1.6;color:var(--paper-mute,#8a8372);max-width:560px;margin:-12px auto 32px">A side project, not our main product. We update it only when it needs fixing to keep working.</p>
   <div class="hero-actions">
     <a href="https://lost.panmox.org" target="_blank" rel="noopener" class="hero-btn primary">Try LostEngine</a>
     <a href="https://github.com/panmauk/LostEngine" target="_blank" rel="noopener" class="hero-btn ghost">View source</a>
@@ -250,7 +251,7 @@ footer .ftxt a:hover{color:var(--amber);border-color:var(--amber)}
 (function(){var mark=document.querySelector('.hero-mark');if(!mark)return;var chars=mark.querySelectorAll('.ch');window.addEventListener('mousemove',function(e){var r=mark.getBoundingClientRect();var cx=r.left+r.width/2,cy=r.top+r.height/2;var dx=(e.clientX-cx)/r.width,dy=(e.clientY-cy)/r.height;chars.forEach(function(ch,i){var f=(i%2===0?1:-1)*(8+i*2);ch.style.translate=(dx*f)+'px '+(dy*f)+'px';});});})();
 (function(){var btn=document.getElementById('productsBtn');var dd=document.getElementById('productsDropdown');var ov=document.getElementById('dropdownOverlay');btn.addEventListener('click',function(){dd.classList.toggle('show');ov.classList.toggle('show');btn.classList.toggle('open');});ov.addEventListener('click',function(){dd.classList.remove('show');ov.classList.remove('show');btn.classList.remove('open');});})();
 </script>
-<script src="nav-more.js?v=1"></script>
+<script src="nav-more.js?v=2"></script>
 <script src="waterline.js?v=2"></script>
 </body>
 </html>

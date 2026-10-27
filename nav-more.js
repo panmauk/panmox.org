@@ -34,6 +34,7 @@
     '.nav-dropdown .nav-other-grid a:hover{border-color:rgba(0,229,255,.4);background:rgba(0,229,255,.04);transform:translateY(-2px)}' +
     '.nav-other-name{display:block;font-family:var(--serif,serif);font-weight:500;font-size:24px;letter-spacing:-.5px;color:var(--paper,#ebe2d0);margin-bottom:6px}' +
     '.nav-other-desc{display:block;font-family:var(--sans,system-ui,sans-serif);font-size:14px;line-height:1.5;color:var(--paper-dim,#b9b09e)}' +
+    '.nav-other-note{margin:16px 2px 0;font-family:var(--mono,monospace);font-size:11px;letter-spacing:1px;line-height:1.6;color:var(--paper-mute,#8a8372)}' +
     '@media (max-width:860px){' +
       '.nav-split{grid-template-columns:minmax(0,1fr);gap:20px}' +
       '.nav-other{display:none;border-left:0;padding-left:0;transform:none}' +
@@ -57,7 +58,8 @@
   panel.innerHTML = '<div class="nav-other-grid">' + APPS.map(function (a) {
     return '<a href="' + a[0] + '"><span class="nav-other-name"><span style="color:' + a[3] + '">' + a[1] + '</span>' + a[2] +
       '</span><span class="nav-other-desc">' + a[4] + '</span></a>';
-  }).join('') + '</div>';
+  }).join('') + '</div>' +
+    '<p class="nav-other-note">Side projects, not our main products. We update them only when needed to keep them working.</p>';
   split.appendChild(panel);
 
   function setOpen(open) {
