@@ -376,7 +376,7 @@ nav {
 }
 @keyframes dotPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(.65); } }
 
-/* AltNet alone in the hero — no PMX OS pane to split against */
+/* AltNet alone in the hero */
 .hero-split.single { grid-template-columns: 1fr; }
 .hero-split.single::before, .hero-split.single::after { display: none; }
 .hero-split.single .split-pane.left { max-width: 980px; margin: 0 auto; padding: 40px 64px; }
@@ -538,95 +538,6 @@ nav {
 .split-pane.right .split-btn.ghost { background: transparent; color: var(--paper); border-color: rgba(235,226,208,.25); }
 .split-pane.right .split-btn.ghost:hover { border-color: var(--magenta); color: var(--magenta); }
 
-/* OS preview window in right pane — a tilted mini-screenshot */
-.os-preview {
-  position: absolute;
-  bottom: 32px; right: 56px;
-  width: 320px;
-  border-radius: 8px;
-  overflow: hidden;
-  transform: perspective(1200px) rotateX(8deg) rotateY(-12deg);
-  transform-origin: bottom right;
-  box-shadow:
-    0 0 50px rgba(0,229,255,.15),
-    0 30px 70px rgba(0,0,0,.6),
-    inset 0 0 0 1px rgba(0,229,255,.2);
-  opacity: 0;
-  animation: heroFade 1.6s 1.4s cubic-bezier(.16,1,.3,1) forwards, osFloat 7s 1.4s ease-in-out infinite;
-}
-@keyframes osFloat {
-  0%, 100% { transform: perspective(1200px) rotateX(8deg) rotateY(-12deg) translateY(0); }
-  50%      { transform: perspective(1200px) rotateX(6deg) rotateY(-10deg) translateY(-10px); }
-}
-.os-preview img { display: block; width: 100%; }
-.os-preview::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(180deg, transparent 70%, rgba(0,229,255,.08));
-  pointer-events: none;
-}
-.os-preview-tag {
-  position: absolute;
-  top: -14px; left: -14px;
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  padding: 5px 11px;
-  background: var(--magenta);
-  color: var(--ink);
-  border-radius: 3px;
-  font-weight: 700;
-  z-index: 5;
-  box-shadow: 0 8px 24px rgba(255,61,139,.35);
-}
-
-/* Phosphor toggle — flips the OS pane to green */
-.phos-toggle {
-  position: absolute;
-  top: 32px; right: 56px;
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  padding: 6px 12px;
-  background: rgba(235,226,208,.04);
-  border: 1px solid var(--rule);
-  border-radius: 999px;
-  color: var(--paper-mute);
-  cursor: none;
-  transition: color .3s, background .3s, border-color .3s, box-shadow .3s;
-  z-index: 4;
-}
-.phos-toggle:hover { color: var(--jade); border-color: var(--jade); background: rgba(0,255,136,.06); }
-.phos-toggle.on { color: var(--jade); border-color: var(--jade); background: rgba(0,255,136,.12); box-shadow: 0 0 16px rgba(0,255,136,.3); }
-.phos-toggle::before { content: '◉ '; }
-
-/* When phosphor on, repaint the right pane in green tones */
-.split-pane.right.phosphor .split-mark { color: #c8ffd8; text-shadow: 0 0 20px rgba(0,255,136,.3); }
-.split-pane.right.phosphor .split-mark .dot { color: #00ff88; text-shadow: 0 0 18px rgba(0,255,136,.8); }
-.split-pane.right.phosphor .split-eyebrow { color: var(--jade); }
-.split-pane.right.phosphor .split-tagline em { color: #c8ffd8; }
-.split-pane.right.phosphor .split-stamp { background: rgba(0,255,136,.08); border-color: rgba(0,255,136,.35); color: var(--jade); }
-.split-pane.right.phosphor .split-btn.primary { background: var(--jade); }
-.split-pane.right.phosphor .split-btn.primary:hover { box-shadow: 0 14px 40px rgba(0,255,136,.5); }
-.split-pane.right.phosphor .os-preview { box-shadow: 0 0 50px rgba(0,255,136,.2), 0 30px 70px rgba(0,0,0,.6), inset 0 0 0 1px rgba(0,255,136,.25); }
-.split-pane.right.phosphor .os-preview::after { background: linear-gradient(180deg, transparent 70%, rgba(0,255,136,.1)); }
-.split-pane.right.phosphor .os-preview img { filter: hue-rotate(110deg) saturate(.85); }
-.split-pane.right.phosphor .os-preview-tag { background: var(--jade); }
-
-/* Subtle radial wallpaper glow behind the right pane to evoke the OS desktop */
-.split-pane.right::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 60% 50% at 30% 70%, rgba(0,229,255,.08), transparent 70%);
-  pointer-events: none;
-  transition: background .4s;
-  z-index: 0;
-}
-.split-pane.right.phosphor::before {
-  background: radial-gradient(ellipse 60% 50% at 30% 70%, rgba(0,255,136,.1), transparent 70%);
-}
 .split-pane > * { position: relative; z-index: 1; }
 
 @media (max-width: 1100px) {
@@ -634,8 +545,6 @@ nav {
   .hero-split::before, .hero-split::after { display: none; }
   .split-pane { padding: 60px 32px !important; min-height: auto; border-bottom: 1px solid var(--rule); }
   .split-pane.right { border-bottom: none; }
-  .os-preview { position: relative; bottom: auto; right: auto; margin-top: 40px; width: 100%; max-width: 480px; }
-  .phos-toggle { top: 20px; right: 24px; }
 }
 
 /* ═══════════════════ ALTNET RELAY HERO (live from Tue 13 Oct, 19:30) ═══════════════════ */
@@ -715,7 +624,7 @@ section.relay-hero {
 @keyframes marqueeRun { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
 /* ═══════════════════ SECTION GENERAL ═══════════════════ */
-section.bento-section, section.sticky-section, section.mission-section {
+section.explain-section, section.manifesto-section {
   position: relative;
   z-index: 5;
   padding: 120px 32px;
@@ -765,442 +674,97 @@ section.bento-section, section.sticky-section, section.mission-section {
   line-height: 1.5;
 }
 
-/* ═══════════════════ BENTO GRID ═══════════════════ */
-.bento-section { max-width: 1480px; margin: 0 auto; }
-.bento-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-auto-rows: 220px;
-  gap: 16px;
+/* ═══════════════════ ALTNET EXPLAINER ═══════════════════ */
+.explain-section { max-width: 1200px; margin: 0 auto; }
+.explain-section .section-title { font-size: clamp(40px, 7vw, 104px); }
+.explain-section .section-sub { margin-bottom: 40px; }
+.explain {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: stretch;
+  border: 1px solid var(--rule); border-radius: 20px; padding: 32px;
+  background: rgba(235,226,208,.015);
 }
-.bento-card {
-  position: relative;
-  border-radius: 20px;
-  overflow: hidden;
-  background: linear-gradient(160deg, rgba(235,226,208,.04), rgba(235,226,208,.01));
-  border: 1px solid var(--rule);
-  text-decoration: none;
-  color: inherit;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 28px;
-  transition: transform .55s cubic-bezier(.16,1,.3,1), border-color .4s, background .4s, box-shadow .4s;
-  will-change: transform;
+.explain-tabs { display: flex; flex-wrap: wrap; gap: 8px; grid-column: 1 / -1; }
+.explain-tabs button {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--paper-mute); background: none; border: 1px solid var(--rule); border-radius: 999px;
+  padding: 10px 18px; cursor: pointer; transition: color .25s, border-color .25s, background .25s;
 }
-.bento-card::before {
-  /* hover-bloom gradient layer */
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(800px circle at var(--mx, 50%) var(--my, 50%), rgba(var(--accent-rgb), .14), transparent 50%);
-  opacity: 0;
-  transition: opacity .4s;
-  pointer-events: none;
+.explain-tabs button:hover { color: var(--paper); border-color: rgba(235,226,208,.25); }
+.explain-tabs button.on { color: var(--cyan); border-color: rgba(0,229,255,.5); background: rgba(0,229,255,.06); }
+.explain-text { display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+.explain-panel { display: none; }
+.explain-panel.on { display: block; animation: exIn .4s ease both; }
+@keyframes exIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.explain-panel h3 {
+  font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 4vw, 52px); line-height: 1.08;
+  letter-spacing: -1px; color: var(--paper); margin-bottom: 18px; font-variation-settings: 'opsz' 144;
 }
-.bento-card:hover { transform: translateY(-6px); border-color: rgba(var(--accent-rgb), .5); background: linear-gradient(160deg, rgba(var(--accent-rgb), .06), rgba(var(--accent-rgb), .01)); box-shadow: 0 30px 60px rgba(0,0,0,.4), 0 0 50px rgba(var(--accent-rgb), .15); }
-.bento-card:hover::before { opacity: 1; }
-.bento-card .card-tag {
-  position: absolute;
-  top: 24px; left: 24px;
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: rgb(var(--accent-rgb));
-  padding: 5px 12px;
-  border: 1px solid rgba(var(--accent-rgb), .35);
-  background: rgba(var(--accent-rgb), .08);
-  border-radius: 999px;
-  z-index: 5;
+.explain-panel h3 em { font-style: italic; font-weight: 300; color: var(--cyan); }
+.explain-panel p { font-size: 17px; line-height: 1.6; color: var(--paper-dim); max-width: 520px; margin-bottom: 24px; }
+.explain-panel code { font-family: var(--mono); color: var(--magenta); background: rgba(255,61,139,.08); padding: 1px 6px; border-radius: 2px; }
+.explain-links { display: flex; flex-wrap: wrap; gap: 10px 22px; }
+.explain-links a {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--cyan); text-decoration: none; transition: color .25s, transform .25s;
 }
-.bento-card .card-status {
-  position: absolute;
-  top: 24px; right: 24px;
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--paper-mute);
-  z-index: 5;
+.explain-links a:hover { color: var(--paper); transform: translateX(4px); }
+.explain-net-wrap { min-width: 0; }
+.explain-net {
+  position: relative; width: 100%; aspect-ratio: 1 / 1; max-height: 440px; margin: 0 auto;
+  border: 1px solid var(--rule); border-radius: 16px; overflow: hidden;
+  background: radial-gradient(ellipse at 50% 40%, rgba(0,229,255,.07), transparent 70%);
 }
-.bento-card .card-status.card-update { color: var(--cyan); border: 1px solid rgba(0,229,255,.4); background: rgba(0,229,255,.08); padding: 5px 10px; border-radius: 999px; top: 22px; }
-.bento-card .card-visual {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  opacity: .9;
-  transition: transform .8s cubic-bezier(.16,1,.3,1), opacity .4s;
+.explain-net svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.explain-net line { stroke: rgba(0,229,255,.22); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.explain-node {
+  position: absolute; width: 44px; height: 44px; margin: -22px 0 0 -22px; padding: 0;
+  background: none; border: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;
 }
-.bento-card:hover .card-visual { transform: scale(1.06); opacity: 1; }
-.bento-card .card-name {
-  position: relative; z-index: 4;
-  font-family: var(--serif);
-  font-weight: 500;
-  font-size: clamp(32px, 3.6vw, 56px);
-  letter-spacing: -1.2px;
-  line-height: 1;
-  color: var(--paper);
-  margin-bottom: 10px;
-  font-variation-settings: 'opsz' 144;
-  transition: transform .5s cubic-bezier(.16,1,.3,1), color .4s;
+.explain-node::before {
+  content: ''; width: 14px; height: 14px; border-radius: 50%;
+  background: #0b2a3a; border: 1px solid rgba(0,229,255,.6);
+  transition: transform .3s, background .3s, box-shadow .3s;
 }
-.bento-card .card-name em { font-style: italic; font-weight: 300; }
-.bento-card:hover .card-name { color: rgb(var(--accent-rgb)); transform: translateX(6px); }
-.bento-card .card-tagline {
-  position: relative; z-index: 4;
-  font-size: 14px;
-  color: var(--paper-dim);
-  line-height: 1.45;
-  max-width: 380px;
-  margin-bottom: 8px;
+.explain-node:hover::before { background: rgba(0,229,255,.4); }
+.explain-node.lit::before { background: var(--cyan); box-shadow: 0 0 22px var(--cyan); transform: scale(1.7); }
+.explain-node.you::before { background: rgba(0,255,136,.35); border-color: var(--jade); }
+.explain-hint {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--paper-mute); text-align: center; margin-top: 14px;
 }
-.bento-card .card-cta {
-  position: relative; z-index: 4;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: rgb(var(--accent-rgb));
-  margin-top: 14px;
-  transition: gap .3s, color .3s;
-}
-.bento-card .card-cta::after { content: '→'; transition: transform .3s; }
-.bento-card:hover .card-cta { gap: 14px; }
-.bento-card:hover .card-cta::after { transform: translateX(4px); }
 
-/* Card grid placement (6-col) — Studio is flagship since AltNet headlines the hero */
-.bento-studio  { grid-column: span 4; grid-row: span 2; --accent-rgb: 0,255,136; padding: 36px; }
-.bento-neural  { grid-column: span 2; grid-row: span 2; --accent-rgb: 183,101,255; }
-.bento-lost    { grid-column: span 2; --accent-rgb: 255,140,0; }
-.bento-over    { grid-column: span 2; --accent-rgb: 40,200,120; }
-.bento-linux   { grid-column: span 2; --accent-rgb: 74,158,255; }
-.bento-pmxos   { grid-column: span 6; --accent-rgb: 255,61,139; }
-
-/* ═══ Card visuals — each its own little scene ═══ */
-/* AltNet: network constellation */
-.alnet-vis { width: 380px; height: 380px; position: relative; }
-.alnet-vis::before {
-  content: ''; position: absolute; top: 50%; left: 50%;
-  width: 80px; height: 80px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #44e9ff, #00e5ff 50%, #007a92 100%);
-  box-shadow: 0 0 40px rgba(0,229,255,.7), 0 0 80px rgba(0,229,255,.4);
-  animation: alnetCore 3s ease-in-out infinite;
+/* ═══════════════════ MANIFESTO ═══════════════════ */
+.manifesto-section { max-width: 1100px; margin: 0 auto; }
+.manifesto-head {
+  font-family: var(--serif); font-weight: 300; font-size: clamp(38px, 6vw, 84px); line-height: 1.08;
+  letter-spacing: -1.5px; color: var(--paper); margin-bottom: 48px; font-variation-settings: 'opsz' 144;
 }
-@keyframes alnetCore { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.15); } }
-.alnet-vis .ring {
-  position: absolute; top: 50%; left: 50%;
-  border-radius: 50%; border: 1px solid rgba(0,229,255,.25);
-  transform: translate(-50%, -50%);
+.manifesto-head em { font-style: italic; color: var(--cyan); }
+.manifesto-body { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 56px; margin-bottom: 40px; }
+.manifesto-body p { font-size: 18px; line-height: 1.65; color: var(--paper-dim); }
+.manifesto-body p.goal {
+  grid-column: 1 / -1; font-family: var(--serif); font-weight: 300; font-size: clamp(24px, 3vw, 38px);
+  line-height: 1.25; color: var(--paper); letter-spacing: -.5px;
 }
-.alnet-vis .r1 { width: 180px; height: 180px; animation: alnetRing 3.2s ease-in-out infinite; }
-.alnet-vis .r2 { width: 280px; height: 280px; border-color: rgba(255,61,139,.18); animation: alnetRing 4.2s ease-in-out infinite .5s; }
-.alnet-vis .r3 { width: 380px; height: 380px; animation: alnetRing 5.4s ease-in-out infinite 1s; }
-@keyframes alnetRing { 0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: .6; } 50% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; } }
-.alnet-vis .sat {
-  position: absolute; top: 50%; left: 50%;
-  width: 12px; height: 12px;
-  margin: -6px 0 0 -6px;
-  border-radius: 50%;
-  background: var(--cyan);
-  box-shadow: 0 0 12px var(--cyan);
-}
-.alnet-vis .sat.pink { background: var(--magenta); box-shadow: 0 0 12px var(--magenta); }
-.alnet-vis .sat:nth-child(4) { transform: translate(110px, -50px); }
-.alnet-vis .sat:nth-child(5) { transform: translate(-90px, -70px); }
-.alnet-vis .sat:nth-child(6) { transform: translate(140px, 60px); }
-.alnet-vis .sat:nth-child(7) { transform: translate(-130px, 40px); }
-.alnet-vis .sat:nth-child(8) { transform: translate(20px, -150px); }
-.alnet-vis .sat:nth-child(9) { transform: translate(-40px, 150px); }
-.alnet-vis .sat:nth-child(10) { transform: translate(100px, 130px); }
-.alnet-vis .sat:nth-child(11) { transform: translate(-180px, -10px); }
-.alnet-vis-wrap { animation: alnetSpin 26s linear infinite; transform-style: preserve-3d; }
-@keyframes alnetSpin { from { transform: rotateY(0) rotateX(10deg); } to { transform: rotateY(360deg) rotateX(10deg); } }
-
-/* Studio: floating screenshot */
-.studio-vis {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-.studio-vis img {
-  position: absolute;
-  border-radius: 6px;
-  box-shadow: 0 20px 50px rgba(0,0,0,.6), 0 0 0 1px rgba(0,255,136,.25);
-  display: block;
-  max-width: 78%;
-}
-.studio-vis .shot-a { top: 12%; left: 8%; width: 72%; transform: rotate(-4deg); animation: studioBob 6s ease-in-out infinite; }
-.studio-vis .shot-b { bottom: 8%; right: 4%; width: 56%; transform: rotate(3deg); animation: studioBob 6s ease-in-out infinite 2s; }
-@keyframes studioBob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
-
-/* PMX OS: the hub screenshot, floated right on the wide banner card */
-.pmxos-vis { position: relative; width: 100%; height: 100%; }
-.pmxos-vis img {
-  position: absolute; top: 50%; right: 6%;
-  transform: translateY(-50%) rotate(-1.5deg);
-  height: 84%; width: auto;
-  border-radius: 8px;
-  box-shadow: 0 20px 50px rgba(0,0,0,.6), 0 0 0 1px rgba(255,61,139,.25);
-  animation: pmxosBob 6s ease-in-out infinite;
-}
-@keyframes pmxosBob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
-
-/* NeuralXP: HAL monolith */
-.neural-vis { width: 200px; height: 280px; position: relative; }
-.neural-vis::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, #0a0612, #1a0a2e 50%, #0a0612);
-  border: 1px solid rgba(183,101,255,.4);
-  border-radius: 4px;
-  box-shadow: inset 0 0 40px rgba(183,101,255,.1), 0 0 60px rgba(183,101,255,.2);
-}
-.neural-vis .eye {
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 60px; height: 60px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #ff8080, #ef4444 40%, #b91c1c 75%, #450a0a);
-  box-shadow: 0 0 30px rgba(239,68,68,.6), 0 0 60px rgba(239,68,68,.3);
-  animation: halBlink 3s ease-in-out infinite;
-}
-@keyframes halBlink { 0%, 100% { box-shadow: 0 0 30px rgba(239,68,68,.6), 0 0 60px rgba(239,68,68,.3); } 50% { box-shadow: 0 0 60px rgba(239,68,68,1), 0 0 100px rgba(239,68,68,.6); } }
-
-/* LostEngine: spinning ? */
-.lost-vis { width: 220px; height: 220px; position: relative; display: flex; align-items: center; justify-content: center; }
-.lost-vis .q {
-  font-family: var(--serif);
-  font-weight: 700;
-  font-size: 180px;
-  color: var(--amber);
-  text-shadow: 0 0 30px rgba(255,140,0,.6), 0 0 60px rgba(255,140,0,.3);
-  line-height: 1;
-  animation: lostWobble 4s ease-in-out infinite;
-  font-variation-settings: 'opsz' 144;
-}
-@keyframes lostWobble { 0%, 100% { transform: rotate(-6deg) scale(1); } 25% { transform: rotate(4deg) scale(1.05); } 50% { transform: rotate(-3deg) scale(.95); } 75% { transform: rotate(8deg) scale(1.02); } }
-
-/* OverByte: growing balloon */
-.ovb-vis { width: 200px; height: 200px; position: relative; display: flex; align-items: center; justify-content: center; }
-.ovb-vis .file {
-  width: 100px; height: 130px;
-  background: linear-gradient(160deg, #28c878, #1a9a5a);
-  border-radius: 4px;
-  position: relative;
-  box-shadow: 0 0 24px rgba(40,200,120,.4);
-  animation: ovbInflate 3s ease-in-out infinite;
-}
-.ovb-vis .file::before {
-  content: 'BIG'; position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: var(--mono); font-weight: 700;
-  color: #061a0e; letter-spacing: 2px;
-}
-@keyframes ovbInflate { 0%, 100% { transform: scale(.6); } 50% { transform: scale(1.15); } }
-
-/* LinuxSimplify: penguin transition */
-.lnx-vis { width: 220px; height: 200px; position: relative; display: flex; align-items: center; justify-content: center; gap: 16px; font-family: var(--mono); font-size: 14px; letter-spacing: 2px; }
-.lnx-vis .from {
-  padding: 20px 18px; background: rgba(74,158,255,.08);
-  border: 1px solid rgba(74,158,255,.3); color: rgba(74,158,255,.6);
-  border-radius: 6px;
-  animation: lnxFade1 3s ease-in-out infinite;
-}
-.lnx-vis .arrow { color: #4a9eff; font-size: 24px; animation: lnxArrow 3s ease-in-out infinite; }
-.lnx-vis .to {
-  padding: 20px 18px; background: rgba(74,158,255,.18);
-  border: 1px solid rgba(74,158,255,.6); color: #4a9eff;
-  border-radius: 6px;
-  box-shadow: 0 0 20px rgba(74,158,255,.3);
-  animation: lnxFade2 3s ease-in-out infinite;
-}
-@keyframes lnxFade1 { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
-@keyframes lnxFade2 { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
-@keyframes lnxArrow { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(8px); } }
-
-/* ═══════════════════ STICKY ALTNET SCROLL ═══════════════════ */
-.sticky-section {
-  position: relative;
-  background: linear-gradient(180deg, transparent, rgba(0,229,255,.04) 50%, transparent);
-}
-.sticky-stage {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-.sticky-spacer { height: 280vh; }
-.stage-bg {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-}
-.stage-bg .massive-net {
-  width: 700px;
-  height: 700px;
-  position: relative;
-  transition: opacity .8s, transform 1.2s cubic-bezier(.16,1,.3,1);
-}
-.stage-bg .massive-net::before {
-  content: '';
-  position: absolute; top: 50%; left: 50%;
-  width: 120px; height: 120px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #44e9ff, #00e5ff 50%, #007a92);
-  box-shadow: 0 0 80px rgba(0,229,255,.6), 0 0 160px rgba(0,229,255,.3);
-  animation: alnetCore 3.5s ease-in-out infinite;
-}
-.stage-content {
-  position: relative;
-  z-index: 5;
-  text-align: center;
-  max-width: 900px;
-  padding: 0 32px;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity .6s, transform .6s;
-}
-.stage-content.active { opacity: 1; transform: translateY(0); }
-.stage-content .stage-kicker {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 5px;
-  color: var(--cyan);
-  margin-bottom: 24px;
-  text-transform: uppercase;
-}
-.stage-content h2 {
-  font-family: var(--serif);
-  font-weight: 400;
-  font-size: clamp(48px, 8vw, 120px);
-  line-height: 1;
-  letter-spacing: -2.5px;
-  color: var(--paper);
-  margin-bottom: 28px;
-  font-variation-settings: 'opsz' 144;
-}
-.stage-content h2 em { font-style: italic; font-weight: 300; color: var(--paper-dim); }
-.stage-content p {
-  font-size: 19px;
-  color: var(--paper-dim);
-  line-height: 1.6;
-  max-width: 620px;
-  margin: 0 auto 32px;
-}
-.stage-content .cta-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  padding: 16px 32px;
-  background: var(--cyan);
-  color: var(--ink);
-  text-decoration: none;
-  border-radius: 999px;
-  font-weight: 600;
-  transition: transform .25s, box-shadow .3s;
-}
-.stage-content .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 20px 50px rgba(0,229,255,.5); }
-.stage-content .cta-btn-jade { background: var(--jade); }
-.stage-content .cta-btn-jade:hover { box-shadow: 0 20px 50px rgba(0,255,136,.5); }
-
-.stage-progress {
-  position: absolute;
-  top: 50%;
-  right: 32px;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  z-index: 6;
-}
-.stage-progress span {
-  width: 4px; height: 28px;
-  background: rgba(235,226,208,.15);
-  border-radius: 2px;
-  transition: background .3s, height .3s;
-}
-.stage-progress span.on { background: var(--cyan); box-shadow: 0 0 12px var(--cyan); height: 44px; }
-
-/* ═══════════════════ MISSION ═══════════════════ */
-.mission-section { max-width: 1200px; margin: 0 auto; text-align: center; }
-.mission-quote {
-  font-family: var(--serif);
-  font-weight: 300;
-  font-size: clamp(36px, 5vw, 68px);
-  line-height: 1.15;
-  letter-spacing: -1.2px;
-  color: var(--paper);
-  margin-bottom: 32px;
-  font-variation-settings: 'opsz' 144;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.mission-quote em { font-style: italic; color: var(--cyan); }
+.manifesto-body p.goal em { font-style: italic; color: var(--jade); }
 .mission-attr {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--paper-mute);
-  margin-bottom: 80px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--paper-mute); margin-bottom: 64px;
 }
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-  max-width: 900px;
-  margin: 0 auto;
-}
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; max-width: 900px; }
 .stat {
-  padding: 40px 24px;
-  border: 1px solid var(--rule);
-  border-radius: 14px;
+  padding: 40px 24px; border: 1px solid var(--rule); border-radius: 14px; text-align: center;
   transition: border-color .3s, background .3s, transform .3s;
 }
 .stat:hover { border-color: var(--cyan); background: rgba(0,229,255,.04); transform: translateY(-4px); }
 .stat .num {
-  font-family: var(--serif);
-  font-weight: 500;
-  font-size: clamp(80px, 12vw, 160px);
-  line-height: 1;
-  letter-spacing: -3px;
-  color: var(--paper);
-  display: block;
-  margin-bottom: 12px;
-  font-variation-settings: 'opsz' 144;
+  font-family: var(--serif); font-weight: 500; font-size: clamp(64px, 10vw, 130px); line-height: 1;
+  letter-spacing: -3px; color: var(--paper); display: block; margin-bottom: 12px; font-variation-settings: 'opsz' 144;
 }
 .stat:nth-child(1) .num { color: var(--cyan); }
 .stat:nth-child(2) .num { color: var(--magenta); }
 .stat:nth-child(3) .num { color: var(--jade); }
-.stat .label {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--paper-mute);
-}
+.stat .label { font-family: var(--mono); font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--paper-mute); }
 
 /* ═══════════════════ FOOTER ═══════════════════ */
 footer {
@@ -1316,27 +880,22 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
 
 /* ═══════════════════ RESPONSIVE ═══════════════════ */
 @media (max-width: 1100px) {
-  .bento-grid { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; }
-  .bento-studio { grid-column: span 4; grid-row: span 2; }
-  .bento-neural { grid-column: span 4; grid-row: span 2; }
-  .bento-lost { grid-column: span 2; }
-  .bento-over { grid-column: span 2; }
-  .bento-linux { grid-column: span 4; }
-  .bento-pmxos { grid-column: span 4; }
   .stats { grid-template-columns: 1fr; }
 }
 @media (max-width: 720px) {
   .nav-inner { padding: 14px 20px; }
   .nav-links { gap: 18px; }
-  section.bento-section, section.sticky-section, section.mission-section { padding: 80px 20px; }
-  .bento-grid { grid-template-columns: 1fr; grid-auto-rows: minmax(280px, auto); }
-  .bento-studio, .bento-neural, .bento-lost, .bento-over, .bento-linux, .bento-pmxos { grid-column: span 1; grid-row: span 1; }
-  .studio-vis, .neural-vis, .lost-vis, .ovb-vis, .lnx-vis, .pmxos-vis { transform: scale(.7); }
+  section.explain-section, section.manifesto-section { padding: 72px 20px; }
+  .explain { grid-template-columns: minmax(0, 1fr); padding: 20px; gap: 24px; }
+  .explain-tabs button { padding: 9px 14px; letter-spacing: 2px; }
+  .manifesto-body { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .manifesto-head { margin-bottom: 32px; }
+  .stats { gap: 16px; }
+  .stat { padding: 28px 20px; }
   .hero { padding: 100px 20px 60px; }
   .hero-actions { flex-direction: column; width: 100%; max-width: 280px; }
   .hero-btn { justify-content: center; }
   .stats { grid-template-columns: 1fr; }
-  .stage-progress { right: 16px; }
   .nl-form { flex-direction: column; }
 }
 
@@ -1388,13 +947,9 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
     <h4>// EXPLORE</h4>
     <ul>
       <li><a href="relay.html"><span style="color:#00e5ff;">AltNet</span> Relay</a></li>
-      <li><a href="pmxos.html"><span style="color:#ff3d8b;">PMX</span> OS</a></li>
       <li><a href="studio.html"><span class="acc-studio">AltNet</span> Studio</a></li>
       <li><a href="altnet.html"><span class="acc-altnet">Alt</span>Net</a></li>
-      <li><a href="neuralxp.html#whats-new"><span class="acc-violet">Neural</span>XP<span style="font-family:var(--mono);font-size:.42em;letter-spacing:3px;color:#00e5ff;border:1px solid rgba(0,229,255,.45);border-radius:999px;padding:3px 9px;vertical-align:middle;margin-left:10px;">UPDATE</span></a></li>
-      <li><a href="lostengine.html#whats-new"><span class="acc-amber">Lost</span>Engine<span style="font-family:var(--mono);font-size:.42em;letter-spacing:3px;color:#00e5ff;border:1px solid rgba(0,229,255,.45);border-radius:999px;padding:3px 9px;vertical-align:middle;margin-left:10px;">UPDATE</span></a></li>
-      <li><a href="overbyte.html?intro=1#whats-new"><span class="acc-green">Over</span>Byte<span style="font-family:var(--mono);font-size:.42em;letter-spacing:3px;color:#00e5ff;border:1px solid rgba(0,229,255,.45);border-radius:999px;padding:3px 9px;vertical-align:middle;margin-left:10px;">UPDATE</span></a></li>
-      <li><a href="linuxsimplify.html?intro=1#whats-new"><span class="acc-blue">Linux</span>Simplify<span style="font-family:var(--mono);font-size:.42em;letter-spacing:3px;color:#00e5ff;border:1px solid rgba(0,229,255,.45);border-radius:999px;padding:3px 9px;vertical-align:middle;margin-left:10px;">UPDATE</span></a></li>
+      <li><button type="button" class="nav-other-btn" id="otherBtn" aria-expanded="false" aria-controls="otherPanel">Other<span class="nav-other-arrow" aria-hidden="true">&rarr;</span></button></li>
     </ul>
   </div>
 </div>
@@ -1457,162 +1012,82 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
   </div>
 </div>
 
-<!-- ═══════════════════ BENTO PRODUCTS ═══════════════════ -->
-<section class="bento-section">
-  <div class="section-kicker">// THE REST OF THE LINEUP</div>
-  <h2 class="section-title">Seven more things <em>worth shipping.</em></h2>
-  <p class="section-sub">Each one solves a problem we kept hitting. Click any tile to dig in.</p>
+<!-- ═══════════════════ WHAT IS ALTNET ═══════════════════ -->
+<section class="explain-section" id="altnet-explained">
+  <div class="section-kicker">// WHAT IS ALTNET</div>
+  <h2 class="section-title">A peer-to-peer <em>internet.</em></h2>
+  <p class="section-sub">The web was supposed to belong to everyone. Three companies took it. We&rsquo;re building it back.</p>
 
-  <div class="bento-grid">
+  <div class="explain" id="explain">
+    <div class="explain-tabs" role="tablist" aria-label="About AltNet">
+      <button type="button" role="tab" class="on" data-tab="sites" aria-selected="true">Sites</button>
+      <button type="button" role="tab" data-tab="names" aria-selected="false">Names</button>
+      <button type="button" role="tab" data-tab="nodes" aria-selected="false">Nodes</button>
+      <button type="button" role="tab" data-tab="apps" aria-selected="false">Apps</button>
+    </div>
 
-    <!-- Studio (flagship slot) -->
-    <a href="studio.html" class="bento-card bento-studio">
-      <span class="card-tag">App &middot; v1.0</span>
-      <span class="card-status">Available</span>
-      <div class="card-visual">
-        <div class="studio-vis">
-          <img src="assets/altnet-home.png" alt="" class="shot-a" loading="lazy">
-          <img src="assets/altnet-node.png" alt="" class="shot-b" loading="lazy">
-        </div>
+    <div class="explain-text">
+      <div class="explain-panel on" data-panel="sites" role="tabpanel">
+        <h3>Drag a folder. <em>It&rsquo;s a website.</em></h3>
+        <p>No hosting account and no monthly bill. Publish a folder from AltNet Studio and it&rsquo;s on the network, at an address that ends in <code>.alt</code>.</p>
+        <div class="explain-links"><a href="studio.html">Get AltNet Studio &rarr;</a></div>
       </div>
-      <div class="card-name">Studio<em>.</em></div>
-      <p class="card-tagline">The desktop client for AltNet. Run a node. Browse <code style="font-family:var(--mono);color:var(--magenta);">.alt</code>. Publish.</p>
-      <span class="card-cta">Download</span>
-    </a>
-
-    <!-- NeuralXP -->
-    <a href="neuralxp.html#whats-new" class="bento-card bento-neural">
-      <span class="card-tag">Offline AI</span>
-      <span class="card-status card-update">Update &middot; 16 Oct</span>
-      <div class="card-visual">
-        <div class="neural-vis">
-          <div class="eye"></div>
-        </div>
+      <div class="explain-panel" data-panel="names" role="tabpanel">
+        <h3>Your name is <em>yours forever.</em></h3>
+        <p>Claim a <code>.alt</code> name and it&rsquo;s your address on the network. One free AltNet account signs you in to both Studio and Relay.</p>
+        <div class="explain-links"><a href="altnet.html">About AltNet &rarr;</a></div>
       </div>
-      <div class="card-name">NeuralXP<em>.</em></div>
-      <p class="card-tagline">AI for Windows XP. Modern language model on machines the world forgot.</p>
-      <span class="card-cta">Read</span>
-    </a>
-
-    <!-- LostEngine -->
-    <a href="lostengine.html#whats-new" class="bento-card bento-lost">
-      <span class="card-tag">Search engine</span>
-      <span class="card-status card-update">Update &middot; 16 Oct</span>
-      <div class="card-visual">
-        <div class="lost-vis"><div class="q">?</div></div>
+      <div class="explain-panel" data-panel="nodes" role="tabpanel">
+        <h3>Everyone who runs it <em>helps carry it.</em></h3>
+        <p>Run a node and your computer helps pass sites and messages along. There&rsquo;s no single company in the middle holding it all. Try the network on the right.</p>
+        <div class="explain-links"><a href="technical.html">How it works &rarr;</a></div>
       </div>
-      <div class="card-name">LostEngine<em>.</em></div>
-      <p class="card-tagline">The search engine that finds everything except what you’re looking for.</p>
-      <span class="card-cta">Try it</span>
-    </a>
-
-    <!-- OverByte -->
-    <a href="overbyte.html?intro=1#whats-new" class="bento-card bento-over">
-      <span class="card-tag">File tool</span>
-      <span class="card-status card-update">Update &middot; 16 Oct</span>
-      <div class="card-visual">
-        <div class="ovb-vis"><div class="file"></div></div>
+      <div class="explain-panel" data-panel="apps" role="tabpanel">
+        <h3>Apps made to be <em>simple.</em></h3>
+        <p>AltNet Relay is a private messenger for your life and your work. AltNet Studio runs your node and publishes your sites. Both are free and open source.</p>
+        <div class="explain-links"><a href="relay.html">AltNet Relay &rarr;</a><a href="studio.html">AltNet Studio &rarr;</a></div>
       </div>
-      <div class="card-name">OverByte<em>.</em></div>
-      <p class="card-tagline">Reverse compression. Makes files bigger. On purpose.</p>
-      <span class="card-cta">Download</span>
-    </a>
+    </div>
 
-    <!-- LinuxSimplify -->
-    <a href="linuxsimplify.html?intro=1#whats-new" class="bento-card bento-linux">
-      <span class="card-tag">Migration tool</span>
-      <span class="card-status card-update">Update &middot; 16 Oct</span>
-      <div class="card-visual">
-        <div class="lnx-vis">
-          <div class="from">WIN</div>
-          <div class="arrow">→</div>
-          <div class="to">LNX</div>
-        </div>
+    <div class="explain-net-wrap">
+      <div class="explain-net" id="exNet" aria-label="A small peer-to-peer network. Tap a node to send a message across it.">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="50" y1="12" x2="18" y2="34"/><line x1="50" y1="12" x2="82" y2="30"/>
+          <line x1="18" y1="34" x2="36" y2="62"/><line x1="82" y1="30" x2="68" y2="66"/>
+          <line x1="36" y1="62" x2="68" y2="66"/><line x1="18" y1="34" x2="12" y2="80"/>
+          <line x1="36" y1="62" x2="50" y2="88"/><line x1="68" y1="66" x2="50" y2="88"/>
+          <line x1="68" y1="66" x2="88" y2="84"/><line x1="82" y1="30" x2="88" y2="84"/>
+          <line x1="12" y1="80" x2="50" y2="88"/><line x1="50" y1="12" x2="36" y2="62"/>
+        </svg>
+        <button type="button" class="explain-node" style="left:50%;top:12%" data-n="0" aria-label="Node 1"></button>
+        <button type="button" class="explain-node" style="left:18%;top:34%" data-n="1" aria-label="Node 2"></button>
+        <button type="button" class="explain-node" style="left:82%;top:30%" data-n="2" aria-label="Node 3"></button>
+        <button type="button" class="explain-node" style="left:36%;top:62%" data-n="3" aria-label="Node 4"></button>
+        <button type="button" class="explain-node" style="left:68%;top:66%" data-n="4" aria-label="Node 5"></button>
+        <button type="button" class="explain-node" style="left:12%;top:80%" data-n="5" aria-label="Node 6"></button>
+        <button type="button" class="explain-node" style="left:50%;top:88%" data-n="6" aria-label="Node 7"></button>
+        <button type="button" class="explain-node" style="left:88%;top:84%" data-n="7" aria-label="Node 8"></button>
       </div>
-      <div class="card-name">LinuxSimplify<em>.</em></div>
-      <p class="card-tagline">Switch from Windows to GNU/Linux, the easy way.</p>
-      <span class="card-cta">Download</span>
-    </a>
-
-    <!-- PMX OS -->
-    <a href="pmxos.html" class="bento-card bento-pmxos">
-      <span class="card-tag">Operating system</span>
-      <span class="card-status">Available</span>
-      <div class="card-visual">
-        <div class="pmxos-vis">
-          <img src="assets/pmxos-hub.png" alt="" loading="lazy">
-        </div>
-      </div>
-      <div class="card-name">PMX OS<em>.</em></div>
-      <p class="card-tagline">A peer-to-peer internet, baked into the OS. Debian underneath. No cloud. No boss.</p>
-      <span class="card-cta">Explore</span>
-    </a>
-
-  </div>
-</section>
-
-<!-- ═══════════════════ STICKY SCROLL: ALTNET FEATURE ═══════════════════ -->
-<section class="sticky-section" id="altnet-stage">
-  <div class="sticky-spacer">
-    <div class="sticky-stage">
-      <!-- background visual -->
-      <div class="stage-bg">
-        <div class="massive-net"></div>
-      </div>
-
-      <!-- Progress indicator -->
-      <div class="stage-progress">
-        <span data-stage="1" class="on"></span>
-        <span data-stage="2"></span>
-        <span data-stage="3"></span>
-      </div>
-
-      <!-- Stage 1 -->
-      <div class="stage-content active" data-stage="1">
-        <div class="stage-kicker">// FOCUSED ON</div>
-        <h2>A peer-to-peer<br><em>internet.</em></h2>
-        <p>The web was supposed to belong to everyone. Three companies took it. We're building it back.</p>
-      </div>
-
-      <!-- Stage 2 -->
-      <div class="stage-content" data-stage="2">
-        <div class="stage-kicker">// CARRIES</div>
-        <h2>Sites. <em>Identity.</em><br>And more.</h2>
-        <p>Drag a folder, it's a website. Your <code style="font-family:var(--mono);color:var(--magenta);background:rgba(255,61,139,.08);padding:1px 6px;border-radius:2px;">.alt</code> name is yours forever. Files and messaging are on the way.</p>
-      </div>
-
-      <!-- Stage 3 -->
-      <div class="stage-content" data-stage="3">
-        <div class="stage-kicker">// SHIPPING NOW</div>
-        <h2>Studio is <em>live.</em></h2>
-        <p>The first desktop client. Windows and Linux. Free, GPL v3, no account needed to browse.</p>
-        <a href="studio.html" class="cta-btn cta-btn-jade">Get AltNet Studio v1.0 →</a>
-      </div>
+      <div class="explain-hint">Tap a node &middot; it passes it on</div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════ MISSION + STATS ═══════════════════ -->
-<section class="mission-section">
-  <div class="section-kicker">// WHAT WE&rsquo;RE FOR</div>
-  <h2 class="mission-quote">
-    Free, open-source software that is <em>actually simple to use</em> &mdash; with a proper interface, so you never have to live in the terminal.
-  </h2>
+<!-- ═══════════════════ MANIFESTO ═══════════════════ -->
+<section class="manifesto-section" id="manifesto">
+  <div class="section-kicker">// WHY WE BUILD</div>
+  <h2 class="manifesto-head">We don&rsquo;t have to put up with being <em>watched.</em></h2>
+  <div class="manifesto-body">
+    <p>Constant surveillance is not something we have to tolerate, and neither is companies taking our data to train their AI models. Right now, most of us are being exploited by megacorporations that care about one thing: how much profit they make next quarter.</p>
+    <p>The alternatives do exist, but they&rsquo;re often hard to use. Nobody wants to spend their time in a terminal, typing commands by hand.</p>
+    <p class="goal">So we build open-source software that is <em>actually easy to use.</em></p>
+  </div>
   <div class="mission-attr">PANMOX &middot; 2026 &middot; Prague</div>
 
   <div class="stats">
-    <div class="stat">
-      <span class="num">0</span>
-      <span class="label">Ads</span>
-    </div>
-    <div class="stat">
-      <span class="num">0</span>
-      <span class="label">Telemetry</span>
-    </div>
-    <div class="stat">
-      <span class="num">∞</span>
-      <span class="label">Freedom</span>
-    </div>
+    <div class="stat"><span class="num">0</span><span class="label">Ads</span></div>
+    <div class="stat"><span class="num">0</span><span class="label">Telemetry</span></div>
+    <div class="stat"><span class="num">&infin;</span><span class="label">Freedom</span></div>
   </div>
 </section>
 
@@ -1663,7 +1138,7 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
       <li><a href="https://pmmusic.pro/downloads/" target="_blank" rel="noopener">Also Sprach Zarathustra — PM Music</a></li>
     </ul>
   </div>
-  <div class="tm">PANMOX™, PMX OS™, AltNet™, AltNet Studio™, LostEngine™, NeuralXP™, OverByte™, and LinuxSimplify™ are trademarks of PANMOX. All other trademarks are property of their respective owners.</div>
+  <div class="tm">PANMOX™, AltNet™, AltNet Studio™, LostEngine™, NeuralXP™, OverByte™, and LinuxSimplify™ are trademarks of PANMOX. All other trademarks are property of their respective owners.</div>
 </footer>
 
 <script>
@@ -1698,7 +1173,7 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
     }
     requestAnimationFrame(tick);
     // hover state on interactive elements
-    document.querySelectorAll('a, button, .bento-card, .hero-mark .ch, .split-mark .ch').forEach(function(el){
+    document.querySelectorAll('a, button, .hero-mark .ch, .split-mark .ch').forEach(function(el){
       el.addEventListener('mouseenter', function(){ dot.classList.add('hover'); ring.classList.add('hover'); });
       el.addEventListener('mouseleave', function(){ dot.classList.remove('hover'); ring.classList.remove('hover'); });
     });
@@ -1727,40 +1202,38 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
     });
   })();
 
-  // ═══════ Bento card cursor-tracking spotlight ═══════
+  // ═══════ AltNet explainer: tabs + tap-a-node network ═══════
   (function(){
-    document.querySelectorAll('.bento-card').forEach(function(card){
-      card.addEventListener('mousemove', function(e){
-        var r = card.getBoundingClientRect();
-        card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
-        card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+    var root = document.getElementById('explain');
+    if (!root) return;
+    var tabs = root.querySelectorAll('.explain-tabs button');
+    var panels = root.querySelectorAll('.explain-panel');
+    tabs.forEach(function(t){
+      t.addEventListener('click', function(){
+        var k = t.getAttribute('data-tab');
+        tabs.forEach(function(b){ var on = b === t; b.classList.toggle('on', on); b.setAttribute('aria-selected', on ? 'true' : 'false'); });
+        panels.forEach(function(p){ p.classList.toggle('on', p.getAttribute('data-panel') === k); });
       });
     });
-  })();
 
-  // ═══════ Sticky scroll: AltNet stage ═══════
-  (function(){
-    var section = document.getElementById('altnet-stage');
-    if (!section) return;
-    var contents = section.querySelectorAll('.stage-content');
-    var dots = section.querySelectorAll('.stage-progress span');
-    function tick(){
-      var rect = section.getBoundingClientRect();
-      var total = rect.height - window.innerHeight;
-      var scrolled = -rect.top;
-      var p = Math.max(0, Math.min(1, scrolled / total));
-      var stage = Math.min(3, Math.floor(p * 3) + 1);
-      contents.forEach(function(c){
-        var s = parseInt(c.getAttribute('data-stage'), 10);
-        c.classList.toggle('active', s === stage);
+    var nodes = root.querySelectorAll('.explain-node');
+    var edges = [[0,1],[0,2],[1,3],[2,4],[3,4],[1,5],[3,6],[4,6],[4,7],[2,7],[5,6],[0,3]];
+    var adj = nodes.length ? Array.prototype.map.call(nodes, function(){ return []; }) : [];
+    edges.forEach(function(e){ adj[e[0]].push(e[1]); adj[e[1]].push(e[0]); });
+    var timers = [];
+    function send(from){
+      timers.forEach(clearTimeout); timers = [];
+      nodes.forEach(function(n){ n.classList.remove('lit', 'you'); });
+      var dist = {}; dist[from] = 0; var q = [from];
+      while (q.length) { var c = q.shift(); adj[c].forEach(function(nb){ if (dist[nb] === undefined) { dist[nb] = dist[c] + 1; q.push(nb); } }); }
+      nodes[from].classList.add('you');
+      Object.keys(dist).forEach(function(k){
+        timers.push(setTimeout(function(){ nodes[k].classList.add('lit'); }, dist[k] * 260));
+        timers.push(setTimeout(function(){ nodes[k].classList.remove('lit'); }, dist[k] * 260 + 900));
       });
-      dots.forEach(function(d){
-        var s = parseInt(d.getAttribute('data-stage'), 10);
-        d.classList.toggle('on', s <= stage);
-      });
+      timers.push(setTimeout(function(){ nodes[from].classList.remove('you'); }, 2600));
     }
-    window.addEventListener('scroll', tick, { passive: true });
-    tick();
+    nodes.forEach(function(n, i){ n.addEventListener('click', function(){ send(i); }); });
   })();
 
   // ═══════ Nav dropdown ═══════
@@ -1827,6 +1300,7 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
   navH(); window.addEventListener('resize', navH);
 })();
 </script>
+<script src="nav-more.js?v=1"></script>
 <script src="waterline.js?v=2"></script>
 </body>
 </html>

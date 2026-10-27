@@ -143,13 +143,9 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
     <h4>// EXPLORE</h4>
     <ul>
       <li><a href="relay.html"><span style="color:#00e5ff;">AltNet</span> Relay</a></li>
-      <li><a href="pmxos.html"><span style="color:#ff3d8b;">PMX</span> OS</a></li>
       <li><a href="studio.html"><span class="acc-studio">AltNet</span> Studio</a></li>
       <li><a href="altnet.html"><span class="acc-altnet">Alt</span>Net</a></li>
-      <li><a href="neuralxp.html#whats-new"><span class="acc-violet">Neural</span>XP<span style="font-family:var(--mono);font-size:.42em;letter-spacing:3px;color:#00e5ff;border:1px solid rgba(0,229,255,.45);border-radius:999px;padding:3px 9px;vertical-align:middle;margin-left:10px;">UPDATE</span></a></li>
-      <li><a href="lostengine.html#whats-new"><span class="acc-amber">Lost</span>Engine<span style="font-family:var(--mono);font-size:.42em;letter-spacing:3px;color:#00e5ff;border:1px solid rgba(0,229,255,.45);border-radius:999px;padding:3px 9px;vertical-align:middle;margin-left:10px;">UPDATE</span></a></li>
-      <li><a href="overbyte.html?intro=1#whats-new"><span class="acc-green">Over</span>Byte<span style="font-family:var(--mono);font-size:.42em;letter-spacing:3px;color:#00e5ff;border:1px solid rgba(0,229,255,.45);border-radius:999px;padding:3px 9px;vertical-align:middle;margin-left:10px;">UPDATE</span></a></li>
-      <li><a href="linuxsimplify.html?intro=1#whats-new"><span class="acc-blue">Linux</span>Simplify<span style="font-family:var(--mono);font-size:.42em;letter-spacing:3px;color:#00e5ff;border:1px solid rgba(0,229,255,.45);border-radius:999px;padding:3px 9px;vertical-align:middle;margin-left:10px;">UPDATE</span></a></li>
+      <li><button type="button" class="nav-other-btn" id="otherBtn" aria-expanded="false" aria-controls="otherPanel">Other<span class="nav-other-arrow" aria-hidden="true">&rarr;</span></button></li>
     </ul>
   </div>
 </div>
@@ -183,13 +179,8 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
       <li><a href="#studio-alt">.alt in any browser</a></li>
       <li><a href="#studio-accounts">Accounts</a></li>
     </ul></div>
-    <div><h4><a href="#pmxos">PMX OS</a></h4>
-    <ul>
-      <li><a href="#pmxos-build">How it is built</a></li>
-    </ul></div>
     <div><h4><a href="#linuxsimplify">LinuxSimplify</a></h4>
     <ul>
-      <li><a href="#linuxsimplify-pmx">LinuxSimplify &middot; PMX</a></li>
       <li><a href="#linuxsimplify-v01">v0.1</a></li>
     </ul></div>
     <div><h4><a href="#neuralxp">NeuralXP</a></h4>
@@ -212,7 +203,7 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
     <div class="eyebrow">// Technical</div>
     <h1>How our software <em>works.</em></h1>
     <p class="intro">For developers and security-minded readers: how each PANMOX product is built, what it does under the hood, and where the limits are. Everything here comes from the source code, and every product links to it. For the plain-words versions, see each product&rsquo;s own page.</p>
-    <div class="prods"><a href="#relay">AltNet Relay</a><a href="#altnet">AltNet</a><a href="#studio">AltNet Studio</a><a href="#pmxos">PMX OS</a><a href="#linuxsimplify">LinuxSimplify</a><a href="#neuralxp">NeuralXP</a><a href="#lostengine">LostEngine</a><a href="#overbyte">OverByte</a></div>
+    <div class="prods"><a href="#relay">AltNet Relay</a><a href="#altnet">AltNet</a><a href="#studio">AltNet Studio</a><a href="#linuxsimplify">LinuxSimplify</a><a href="#neuralxp">NeuralXP</a><a href="#lostengine">LostEngine</a><a href="#overbyte">OverByte</a></div>
 
   <section class="p" id="relay">
     <h2 class="prod">AltNet <em>Relay</em></h2>
@@ -531,47 +522,18 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
 
   </section>
 
-  <section class="p" id="pmxos">
-    <h2 class="prod">PMX <em>OS</em></h2>
-    <p class="prod-sum">A complete desktop operating system: Debian with a KDE Plasma desktop rebuilt in PANMOX&rsquo;s look, with AltNet Studio built in. The repository holds the build system. Plain-words version: the <a href="pmxos.html">PMX OS page</a>.</p>
-    <div class="prod-meta"><span>PMX OS 1</span><span>Debian 12 &middot; KDE Plasma</span><span>Build code: GPL-3.0</span><a href="https://github.com/panmauk/PMX-OS" rel="noopener">Source</a></div>
-    <h3 id="pmxos-build">How it is built</h3>
-    <ul class="facts">
-      <li>Based on <strong>Debian 12 (bookworm)</strong>, assembled into an ISO with Debian&rsquo;s <code>live-build</code> inside WSL2 Ubuntu, by numbered scripts: toolchain, scaffold, branding, KDE, apps, installer, rebuild, finalize.</li>
-      <li>A <strong>hybrid ISO</strong> that boots on UEFI and legacy BIOS. It runs live from USB and installs to disk with a rebranded <strong>Calamares</strong> installer.</li>
-      <li>Branded end to end: boot splash, Plymouth, SDDM, the GRUB background and the login avatar.</li>
-      <li>Preinstalled: <strong>AltNet Studio</strong>, <strong>PMX Hub</strong> (a welcome app), <strong>MoxTerminal</strong> (GTK 3 + VTE) as the default terminal, and fastfetch. Phosphor mode switches the whole desktop theme between deep cyan and phosphor green.</li>
-      <li>The v1 release is published as two ISO parts (about 1.1 GB and 1.0 GB) with a <code>SHA256SUMS.txt</code>.</li>
-      <li>Debian, the Linux kernel, KDE Plasma, Calamares and the other bundled components keep their own licences, listed in <code>CREDITS.md</code>. The GPL covers the build code; the PANMOX names and branding are trademarks.</li>
-    </ul>
-    <dl class="limits">
-      <dt>Secure Boot must be off</dt>
-      <dd>The GRUB EFI binary isn&rsquo;t signed, so Secure Boot has to be disabled to boot it.</dd>
-      <dt>Not a turnkey builder</dt>
-      <dd>The build scripts encode PANMOX&rsquo;s own build environment. They are a faithful record of how PMX OS is made, not a cross-machine build tool.</dd>
-    </dl>
-
-  </section>
-
   <section class="p" id="linuxsimplify">
     <h2 class="prod">Linux<em>Simplify</em></h2>
-    <p class="prod-sum">Two installers from one repository. <strong>LinuxSimplify &middot; PMX</strong> (v1.0.0) puts PMX OS on a USB stick. <strong>LinuxSimplify v0.1</strong> helps people move from Windows to another Linux distribution. Plain-words version: the <a href="linuxsimplify.html">LinuxSimplify page</a>.</p>
+    <p class="prod-sum">Helps people move from Windows to another Linux distribution. Plain-words version: the <a href="linuxsimplify.html">LinuxSimplify page</a>.</p>
     <div class="prod-meta"><span>C# &middot; .NET 8</span><span>Windows: WPF &middot; Linux: Avalonia 11</span><span>GPL-3.0</span><a href="https://github.com/panmauk/LinuxSimplify" rel="noopener">Source</a></div>
-    <h3 id="linuxsimplify-pmx">LinuxSimplify &middot; PMX</h3>
-    <ul class="facts">
-      <li>Finds the newest PMX OS through the GitHub API (<code>repos/panmauk/PMX-OS/releases/latest</code>). Nothing is hard-coded: it works out the ISO parts and the checksum file from the asset names alone.</li>
-      <li>Downloads every part, joins them into one ISO and checks it against the published <strong>SHA-256</strong> (or SHA-512, if that is what is published). The ISO is deleted after flashing.</li>
-      <li><strong>Windows:</strong> reads the hardware through WMI (<code>Win32_Processor</code>, <code>Win32_PhysicalMemory</code>, <code>Win32_VideoController</code>, <code>Win32_DiskDrive</code>), clears the stick with <code>diskpart clean</code>, locks and dismounts its volumes, and writes the image raw to <code>\\.\PhysicalDriveN</code>. Needs administrator rights.</li>
-      <li><strong>Linux:</strong> lists drives with <code>lsblk</code>, unmounts the stick&rsquo;s partitions, writes with <code>dd bs=4M conv=fsync</code>, then <code>sync</code> and <code>partprobe</code>, elevating through <code>pkexec</code>.</li>
-      <li>Both builds are self-contained single-file executables (Windows x64, Linux x64).</li>
-    </ul>
-
-    <h3 id="linuxsimplify-v01">LinuxSimplify v0.1</h3>
     <ul class="facts">
       <li>Supports Ubuntu, Lubuntu, Linux Mint, Fedora, Pop!_OS, Zorin OS, Arch Linux, EndeavourOS, Debian and Trisquel.</li>
       <li>Finds the latest ISO by reading each project&rsquo;s official release directory or mirror (for example <code>releases.ubuntu.com</code>, the kernel.org Linux Mint mirror, <code>dl.fedoraproject.org</code>), so links don&rsquo;t go stale.</li>
       <li>Each distribution has minimum and recommended RAM and disk figures; the scanned hardware gives every distribution a fit score, and the list is sorted by it.</li>
-      <li>Downloads are checked against SHA-256 checksums and written to the stick the same raw way as above.</li>
+      <li>Downloads are checked against SHA-256 checksums, and the ISO is deleted after flashing.</li>
+      <li><strong>Windows:</strong> reads the hardware through WMI (<code>Win32_Processor</code>, <code>Win32_PhysicalMemory</code>, <code>Win32_VideoController</code>, <code>Win32_DiskDrive</code>), clears the stick with <code>diskpart clean</code>, locks and dismounts its volumes, and writes the image raw to <code>\\.\PhysicalDriveN</code>. Needs administrator rights.</li>
+      <li><strong>Linux:</strong> lists drives with <code>lsblk</code>, unmounts the stick&rsquo;s partitions, writes with <code>dd bs=4M conv=fsync</code>, then <code>sync</code> and <code>partprobe</code>, elevating through <code>pkexec</code>.</li>
+      <li>Both builds are self-contained single-file executables (Windows x64, Linux x64).</li>
     </ul>
 
   </section>
@@ -663,11 +625,12 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
 
 <footer>
   <div class="ftxt">&copy; 2026 PANMOX &nbsp;&middot;&nbsp; <a href="index.html">Home</a> &nbsp;&middot;&nbsp; <span><a href="relay.html">AltNet Relay</a> &nbsp;&middot;&nbsp; </span><a href="about.html">About</a> &nbsp;&middot;&nbsp; <a href="legal/">Legal</a></div>
-  <div class="tm">PANMOX&trade;, PMX OS&trade;, AltNet&trade;, AltNet Relay&trade;, AltNet Studio&trade;, LostEngine&trade;, NeuralXP&trade;, OverByte&trade;, and LinuxSimplify&trade; are trademarks of PANMOX. All other trademarks are property of their respective owners.</div>
+  <div class="tm">PANMOX&trade;, AltNet&trade;, AltNet Relay&trade;, AltNet Studio&trade;, LostEngine&trade;, NeuralXP&trade;, OverByte&trade;, and LinuxSimplify&trade; are trademarks of PANMOX. All other trademarks are property of their respective owners.</div>
 </footer>
 
 <script>
 (function(){var btn=document.getElementById('productsBtn');var dd=document.getElementById('productsDropdown');var ov=document.getElementById('dropdownOverlay');btn.addEventListener('click',function(){dd.classList.toggle('show');ov.classList.toggle('show');btn.classList.toggle('open');});ov.addEventListener('click',function(){dd.classList.remove('show');ov.classList.remove('show');btn.classList.remove('open');});})();
 </script>
+<script src="nav-more.js?v=1"></script>
 </body>
 </html>

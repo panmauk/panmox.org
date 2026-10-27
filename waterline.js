@@ -304,18 +304,15 @@
     var halfH = Math.tan(THREE.MathUtils.degToRad(FOV / 2)) * CAMZ; // world half-height at z=0
     var halfW = halfH;                                              // corrected on resize
 
-    // ── Theme (phosphor mode flips cyan → jade; neon mirrors magenta → amber) ──
+    // ── Theme (the neon tube mirrors the cyan water in magenta) ──
     var COLORS = {
-      cyan: { edge: new THREE.Color(0x00e5ff), deep: new THREE.Color(0x00394d), spark: new THREE.Color(0x9ff4ff) },
-      jade: { edge: new THREE.Color(0x00ff88), deep: new THREE.Color(0x00402a), spark: new THREE.Color(0xa8ffd4) }
+      cyan: { edge: new THREE.Color(0x00e5ff), deep: new THREE.Color(0x00394d), spark: new THREE.Color(0x9ff4ff) }
     };
     var NEON = {
-      cyan: { core: new THREE.Color(0xff2fc9), hot: new THREE.Color(0xffd9f2), tint: new THREE.Color(0x330022) },
-      jade: { core: new THREE.Color(0xffab1f), hot: new THREE.Color(0xfff0d0), tint: new THREE.Color(0x3a2400) }
+      cyan: { core: new THREE.Color(0xff2fc9), hot: new THREE.Color(0xffd9f2), tint: new THREE.Color(0x330022) }
     };
-    function phosphor() { return document.body.classList.contains('phosphor'); }
-    function theme() { return phosphor() ? COLORS.jade : COLORS.cyan; }
-    function neonTheme() { return phosphor() ? NEON.jade : NEON.cyan; }
+    function theme() { return COLORS.cyan; }
+    function neonTheme() { return NEON.cyan; }
 
     // ══════════════════════════════════════════════════════════════
     // SCROLL RIG — mass-spring-damper hydrodynamics, dt-correct.
@@ -1729,26 +1726,6 @@
       var sx = (projV.x * 0.5 + 0.5) * window.innerWidth;
       glassEl.style.transform = 'translateX(' + (sx - 105) + 'px)';
     }
-
-    // ── Theme watcher (phosphor toggle) ───────────────────────────
-    new MutationObserver(function () {
-      var c = theme(), nc = neonTheme();
-      waterUniforms.uEdge.value.copy(c.edge);
-      waterUniforms.uDeep.value.copy(c.deep);
-      waterUniforms.uSpark.value.copy(c.spark);
-      waterUniforms.uNeonCol.value.copy(nc.core);
-      dropUniforms.uEdge.value.copy(c.edge);
-      dropUniforms.uSpark.value.copy(c.spark);
-      dropUniforms.uNeonCol.value.copy(nc.core);
-      neonUniforms.uGlassTint.value.copy(nc.tint);
-      neonUniforms.uCoreColor.value.copy(nc.core);
-      coreUniforms.uCoreColor.value.copy(nc.core);
-      coreUniforms.uHotColor.value.copy(nc.hot);
-      gasUniforms.uCol.value.copy(nc.core);
-      backUniforms.uEdge.value.copy(c.edge);
-      backUniforms.uNeon.value.copy(nc.core);
-      refreshEnv();
-    }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
     // ── Resize ────────────────────────────────────────────────────
     function resize() {
