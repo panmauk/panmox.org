@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <radialGradient id="g" cx="50%" cy="38%" r="75%">
+      <stop offset="0" stop-color="#1a2240"/>
+      <stop offset="1" stop-color="#05070d"/>
+    </radialGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#g)"/>
+  <g fill="none" stroke="#e8dcc8" stroke-opacity=".07">
+    <path d="M0 540H1280M0 600H1280M0 660H1280"/>
+    <path d="M160 720L520 470M1120 720L760 470M640 720V470"/>
+  </g>
+  <g>
+    <rect x="80" y="64" width="560" height="14" rx="7" fill="#ff9f45"/>
+    <rect x="652" y="64" width="190" height="14" rx="7" fill="#d9b98a"/>
+    <rect x="854" y="64" width="90" height="14" rx="7" fill="#7fd4e4"/>
+    <rect x="956" y="64" width="244" height="14" rx="7" fill="#ec93a9"/>
+    <rect x="80" y="642" width="300" height="14" rx="7" fill="#d9b98a"/>
+    <rect x="392" y="642" width="120" height="14" rx="7" fill="#7fd4e4"/>
+    <rect x="524" y="642" width="676" height="14" rx="7" fill="#ff9f45"/>
+  </g>
+  <g fill="#e8dcc8" fill-opacity=".05">
+    <rect x="80" y="120" width="250" height="150" rx="18"/>
+    <rect x="950" y="120" width="250" height="150" rx="18"/>
+  </g>
+  <text x="640" y="208" text-anchor="middle" fill="#ece4d6" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="74" font-weight="700" letter-spacing="-1.5">The Measure of a Machine</text>
+  <text x="640" y="262" text-anchor="middle" fill="#ff9f45" font-family="ui-monospace,Consolas,Menlo,monospace" font-size="22" letter-spacing="7">A STAR TREK FAN PRODUCTION</text>
+</svg>

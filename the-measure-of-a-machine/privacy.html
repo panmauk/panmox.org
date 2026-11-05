@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' file:; style-src 'unsafe-inline'; script-src 'sha256-vo9KCvnp3Kmew6hdt71Zm/Sd3cZ5Zv/JsJumNivEISw=' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; frame-src https://www.youtube-nocookie.com; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="color-scheme" content="dark light">
+<title>Privacy · The Measure of a Machine</title>
+<meta name="description" content="Privacy">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>:root{--bg:#090c15;--bg2:#0e1220;--panel:#131a29;--panel2:#18203a;--line:rgba(232,220,200,.13);--line2:rgba(232,220,200,.28);--text:#ece4d6;--muted:#b6ae9f;--orange:#ff9f45;--tan:#d9b98a;--cyan:#7fd4e4;--rose:#ec93a9;--ok:#8fd6a8;--shadow:0 30px 90px rgba(0,0,0,.55);--sans:system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,Cantarell,"Noto Sans",sans-serif;--mono:ui-monospace,SFMono-Regular,"Cascadia Mono","Segoe UI Mono",Menlo,Consolas,monospace;--col:68ch}
+@media (prefers-color-scheme:light){:root{--bg:#f6f1e7;--bg2:#efe7d8;--panel:#fffaf1;--panel2:#f3eadb;--line:rgba(30,32,44,.14);--line2:rgba(30,32,44,.3);--text:#1b1e28;--muted:#4b4e5a;--orange:#a95300;--tan:#7c5d31;--cyan:#0d6878;--rose:#a3385a;--ok:#1f7a45;--shadow:0 24px 60px rgba(60,40,10,.12)}}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:24px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:1.125rem;line-height:1.65;overflow-x:hidden;overflow-wrap:break-word}
+a{color:var(--cyan);text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{color:var(--orange)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:6px}
+.skip{position:absolute;left:-9999px;top:8px;background:var(--orange);color:#000;padding:8px 14px;border-radius:999px;z-index:10}
+.skip:focus{left:16px}
+img,svg{max-width:100%}
+strong{color:var(--text);font-weight:650}
+
+/* bars: rounded pill ends, warm accents */
+.bars{display:flex;gap:6px;height:10px;padding:0 32px;max-width:1240px;margin:0 auto}
+.bars span{border-radius:999px;background:var(--orange);flex:6}
+.bars span:nth-child(2){background:var(--tan);flex:2}
+.bars span:nth-child(3){background:var(--cyan);flex:1}
+.bars span:nth-child(4){background:var(--rose);flex:3}
+.bars span:nth-child(5){background:var(--tan);flex:1;opacity:.6}
+
+.site-head{padding-top:18px}
+.head-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:1240px;margin:0 auto;padding:0 32px 16px}
+.brand{font-weight:700;letter-spacing:.02em;color:var(--text);text-decoration:none;font-size:1.05rem}
+.brand:hover{color:var(--orange)}
+.site-head nav a{font-family:var(--mono);font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--text);padding:9px 18px;border:1px solid var(--line2);border-radius:999px;white-space:nowrap}
+.site-head nav a:hover,.site-head nav a[aria-current]{border-color:var(--orange);color:var(--orange)}
+
+main{display:block;padding:0 32px}
+h1,h2,h3{line-height:1.2;font-weight:700;letter-spacing:-.01em}
+h2{font-size:1.7rem;margin:2.6em 0 .7em;display:flex;align-items:center;gap:14px}
+h2::before{content:"";flex:0 0 34px;height:10px;border-radius:999px;background:var(--orange)}
+h3{font-size:1.25rem;margin:2em 0 .5em;color:var(--tan)}
+p,ul,ol{margin:0 0 1.1em}
+li{margin:.35em 0}
+li::marker{color:var(--orange)}
+hr{border:0;height:1px;background:var(--line);margin:2.4em 0}
+
+/* home */
+body.page-home{background:radial-gradient(ellipse 70% 45% at 85% -5%,rgba(255,159,69,.13),transparent 65%),radial-gradient(ellipse 55% 40% at 0% 30%,rgba(127,212,228,.07),transparent 70%),var(--bg)}
+.home{max-width:1100px;margin:0 auto}
+.hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:48px;align-items:stretch;margin:44px 0 0;padding:64px 56px 56px 84px;border:1px solid var(--line);border-radius:32px;background:linear-gradient(160deg,var(--panel),var(--bg2) 70%);box-shadow:var(--shadow);overflow:hidden}
+.hero::before{content:"";position:absolute;left:34px;top:40px;bottom:40px;width:12px;border-radius:999px;background:linear-gradient(var(--orange) 0 52%,transparent 52% 55%,var(--tan) 55% 72%,transparent 72% 75%,var(--cyan) 75% 82%,transparent 82% 85%,var(--rose) 85%)}
+.hero h1{font-size:clamp(2.7rem,6.4vw,5.2rem);line-height:.98;letter-spacing:-.035em;margin:0 0 .35em}
+.tagline{font-size:clamp(1.25rem,2.4vw,1.65rem);color:var(--text);max-width:28ch;margin:0 0 1.2em;line-height:1.35}
+.subtitle{display:inline-block;font-family:var(--mono);font-size:.8rem;letter-spacing:.3em;color:var(--orange);margin:0;padding:9px 16px 9px 19px;border:1px solid var(--orange);border-radius:999px}
+.hero-panel{display:flex;flex-direction:column;justify-content:center;gap:12px}
+.hero-panel span{height:14px;border-radius:999px;background:var(--line2)}
+.hero-panel span:nth-child(1){width:100%;background:var(--orange)}
+.hero-panel span:nth-child(2){width:62%;background:var(--tan)}
+.hero-panel span:nth-child(3){width:84%}
+.hero-panel span:nth-child(4){width:40%;background:var(--cyan)}
+.hero-panel span:nth-child(5){width:92%}
+.hero-panel span:nth-child(6){width:28%;background:var(--rose)}
+.hero-panel span:nth-child(7){width:70%}
+.hero-panel span:nth-child(8){width:52%;background:var(--tan);opacity:.7}
+.video{margin:0 auto;max-width:900px}
+.video-poster,.video-frame{display:block;position:relative;width:100%;aspect-ratio:16/9;border-radius:22px;overflow:hidden;border:1px solid var(--line2);background:#05070d;box-shadow:var(--shadow)}
+.video-poster{padding:0;cursor:pointer;font:inherit;color:#fff}
+.video-poster img{display:block;width:100%;height:100%;object-fit:cover}
+.play{position:absolute;left:50%;top:46%;width:92px;height:62px;margin:-31px 0 0 -46px;border-radius:999px;background:var(--orange);box-shadow:0 10px 40px rgba(0,0,0,.5)}
+.play::after{content:"";position:absolute;left:39px;top:19px;border-style:solid;border-width:12px 0 12px 20px;border-color:transparent transparent transparent #120c05}
+.video-note{position:absolute;left:0;right:0;bottom:0;padding:14px 18px;background:rgba(5,7,13,.82);color:#f1ead9;font-size:.95rem;line-height:1.4}
+.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.credit{font-size:.95rem;color:var(--muted);margin-top:8px}
+.smallprint{margin:20px 0 0;padding:18px 24px 18px 84px;color:var(--muted);font-size:.95rem;line-height:1.6;position:relative}
+.smallprint::before{content:"";position:absolute;left:34px;top:24px;width:12px;height:12px;border-radius:999px;background:var(--line2)}
+.smallprint small{font-size:inherit}
+.sections{padding-top:40px}
+.sections>hr{border:0;height:0;margin:0}
+.block{display:grid;grid-template-columns:260px minmax(0,1fr);gap:48px;padding:56px 0;border-top:1px solid var(--line)}
+.block>h2{grid-column:1;margin:0;align-self:start;position:sticky;top:24px;font-size:1.55rem}
+.block>:not(h2){grid-column:2;max-width:var(--col)}
+.block>h2+*{margin-top:.15em}
+.block>:last-child{margin-bottom:0}
+#what-makes-it-different>p{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:20px 24px 20px 26px;position:relative;margin-bottom:14px}
+#what-makes-it-different>p::before{content:"";position:absolute;left:0;top:22px;bottom:22px;width:4px;border-radius:999px;background:var(--tan)}
+#what-makes-it-different>p:nth-of-type(2)::before{background:var(--cyan)}
+#what-makes-it-different>p:nth-of-type(3)::before{background:var(--rose)}
+#what-makes-it-different>p:nth-of-type(4)::before{background:var(--orange)}
+#what-makes-it-different>p strong{display:block;font-size:1.15rem;margin-bottom:.2em}
+#talk-to-them>p{font-size:1.2rem;line-height:1.6;padding:24px 28px;border-radius:20px;border:1px solid var(--line2);background:linear-gradient(135deg,var(--panel2),var(--panel))}
+#how-it-works>p a,#can-i-try-it>p{font-weight:600}
+#can-i-try-it>p{padding:18px 24px;border:1px dashed var(--tan);border-radius:999px;color:var(--tan)}
+.doclist{list-style:none;padding:0;margin:1.4em 0 0;display:grid;gap:10px}
+.doclist a{display:flex;align-items:center;gap:16px;padding:14px 20px;border:1px solid var(--line2);border-radius:999px;text-decoration:none;color:var(--text);background:var(--panel)}
+.doclist .num{font-family:var(--mono);color:var(--orange);font-size:.9rem}
+@media (max-width:860px){
+  .hero{grid-template-columns:minmax(0,1fr);padding:48px 32px 40px 64px}
+  .hero::before{left:24px}
+  .hero-panel{display:none}
+  .smallprint{padding-left:64px}.smallprint::before{left:24px}
+  .block{grid-template-columns:minmax(0,1fr);gap:18px;padding:44px 0}
+  .block>h2{position:static}
+  .block>:not(h2){grid-column:1}
+}
+@media (max-width:640px){
+  .hero{margin-top:24px;padding:36px 20px 32px 44px;border-radius:22px}
+  .hero::before{left:16px;top:28px;bottom:28px;width:10px}
+  .subtitle{font-size:.72rem;letter-spacing:.2em;padding:8px 12px 8px 14px}
+  .smallprint{padding:16px 0 0 44px}.smallprint::before{left:16px;top:22px}
+  #can-i-try-it>p{border-radius:20px}
+}
+
+/* docs */
+.docbar{max-width:1240px;margin:28px auto 0}
+.doclist.compact{grid-template-columns:repeat(4,minmax(0,1fr));margin:0}
+.doclist.compact a{padding:10px 16px;font-size:.92rem;line-height:1.3;height:100%}
+.doclist a[aria-current]{background:var(--orange);border-color:var(--orange);color:#140c03}
+.doclist a[aria-current] .num{color:#140c03}
+.doc-layout{display:grid;grid-template-columns:230px minmax(0,var(--col));gap:64px;justify-content:center;max-width:1240px;margin:0 auto;padding-top:40px}
+.toc{position:sticky;top:24px;align-self:start;max-height:calc(100vh - 48px);overflow:auto;padding:18px 0 18px 18px;border-left:2px solid var(--line)}
+.toc-title{font-family:var(--mono);font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:0 0 .8em}
+.toc ol{list-style:none;padding:0;margin:0}
+.toc li{margin:0}
+.toc a{display:block;padding:5px 0;color:var(--muted);text-decoration:none;font-size:.95rem;line-height:1.35}
+.toc .toc-h3 a{padding-left:14px;font-size:.9rem}
+.toc a:hover{color:var(--text)}
+.toc a[aria-current]{color:var(--orange);font-weight:600}
+.doc{min-width:0}
+.doc h1{font-size:clamp(2rem,4.4vw,3rem);letter-spacing:-.02em;margin:0 0 .5em}
+.doc>h2:first-of-type{margin-top:1.6em}
+.doc-meta{color:var(--muted);font-size:1rem;border:1px solid var(--line);border-radius:16px;padding:14px 18px;background:var(--panel)}
+.prevnext{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:3.4em}
+.prevnext a{padding:12px 20px;border:1px solid var(--line2);border-radius:999px;text-decoration:none;color:var(--text)}
+.prevnext a:hover{border-color:var(--orange);color:var(--orange)}
+.prevnext .next{margin-left:auto}
+.legal{max-width:var(--col);margin:0 auto;padding:56px 0 0}
+.legal h2{margin-top:1em}
+.legal a{overflow-wrap:anywhere}
+
+/* diagrams */
+.diagram{display:block;width:100%;height:auto;margin:1.6em 0 2em}
+.dg-narrow{display:none}
+.dg-box{fill:var(--panel);stroke:var(--line2);stroke-width:1.5}
+.dg-room{stroke:var(--tan)}
+.dg-lm{stroke:var(--cyan)}
+.dg-say{stroke:var(--orange)}
+.dg-t{fill:var(--text);font:700 18px var(--sans)}
+.dg-s{fill:var(--muted);font:400 16px var(--sans)}
+.dg-start{font-style:italic}
+.dg-ok{fill:var(--ok)}
+.dg-no{fill:var(--rose)}
+.dg-l{fill:var(--cyan);font:500 14px var(--mono)}
+.dg-step{fill:var(--orange);font:700 15px var(--mono);letter-spacing:.12em}
+.dg-a{fill:none;stroke:var(--cyan);stroke-width:2}
+.dg-m{fill:var(--cyan)}
+
+/* footer */
+.site-foot{margin-top:96px;padding:32px 0 48px;border-top:1px solid var(--line)}
+.site-foot .bars{max-width:var(--col);padding:0;margin:0 auto 22px;height:6px}
+.site-foot p{max-width:var(--col);margin:0 auto 12px;padding:0;color:var(--muted);font-size:1rem}
+.legal-links a{color:var(--text)}
+
+@media (max-width:1000px){
+  .doc-layout{grid-template-columns:minmax(0,1fr);gap:0;max-width:var(--col)}
+  .toc{position:static;max-height:none;border-left:0;border:1px solid var(--line);border-radius:16px;padding:16px 20px;margin-bottom:8px;background:var(--panel)}
+  .doclist.compact{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:640px){
+  body{font-size:1.0625rem}
+  main{padding:0 16px}
+  .head-inner{padding:0 16px 14px}
+  .bars{padding:0 16px}
+  .site-foot{padding:28px 16px 40px}
+  .hero{padding-top:44px}
+  .video-poster,.video-frame{border-radius:14px}
+  .video-note{font-size:.85rem;padding:10px 12px}
+  .play{width:72px;height:50px;margin:-25px 0 0 -36px;top:42%}
+  .play::after{left:30px;top:15px;border-width:10px 0 10px 16px}
+  .doclist.compact{grid-template-columns:minmax(0,1fr)}
+  .doclist.compact a{border-radius:14px}
+  .dg-wide{display:none}
+  .dg-narrow{display:block}
+  h2{font-size:1.45rem}
+  .legal{padding-top:36px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body class="page-legal">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="head-inner">
+    <a class="brand" href="index.html">The Measure of a Machine</a>
+    <nav aria-label="Project"><a href="../technical.html#the-measure-of-a-machine">How it works</a></nav>
+  </div>
+  <div class="bars" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+</header>
+<main id="main">
+<article class="doc legal"><h1>Privacy: The Measure of a Machine pages</h1>
+<p>This page covers only The Measure of a Machine on panmox.org: its project page, its technical documents (on the site's technical page), its legal notice and this page. The rest of panmox.org, including AltNet Relay and Studio, has its own privacy policy: <a href="https://panmox.org/legal/privacy.html" rel="noreferrer">https://panmox.org/legal/privacy.html</a>.</p>
+<p>These pages are run by Gabriel Wenzel, a private person in the Czech Republic (contact: <a href="mailto:panmox-group@panmox.org">panmox-group@panmox.org</a>). The short answer: they handle almost no personal data.</p>
+<h3 id="what-these-pages-don-t-do">What these pages don't do</h3>
+<p>No account, no contact form, no comments. No advertising, no tracking across sites, and no cookies set by these pages. (If Cloudflare's security systems ever need to check that a visitor is not a bot, Cloudflare may set a short-lived security cookie, __cf_bm; it is used only for that check, not for tracking.) The only script they load from another site is Cloudflare's visitor statistics (below); they load no fonts from other sites.</p>
+<h3 id="hosting-and-server-logs">Hosting and server logs</h3>
+<p>The pages are hosted and delivered by Cloudflare, Inc. Like every web host, Cloudflare automatically processes technical details of each visit: your IP address, the date and time, the page requested and your browser type. If a page fails to load, your browser may also send Cloudflare a short network-error report. Cloudflare does this to deliver the pages and protect them from attacks, and keeps these records under its own retention rules (<a href="https://www.cloudflare.com/privacypolicy/" rel="noreferrer">https://www.cloudflare.com/privacypolicy/</a>). We do not use these records for anything else and do not combine them with other data. Cloudflare is a US company; transfers to it are covered by the EU-US Data Privacy Framework. The legal basis is our legitimate interest in running working, secure pages (Article 6(1)(f) GDPR).</p>
+<h3 id="visitor-statistics">Visitor statistics</h3>
+<p>These pages use Cloudflare Web Analytics to count visits. A small script from static.cloudflareinsights.com sends Cloudflare the page address, the page you came from, your browser type, and how long the page took to load; like any request, this includes your IP address. Cloudflare states that Web Analytics sets no cookies, stores nothing on your device, and does not track you across sites or fingerprint you. We see only totals (for example, how many visits a page had), never who visited. The legal basis is our legitimate interest in knowing how the pages are used (Article 6(1)(f) GDPR). A content or script blocker in your browser stops it.</p>
+<h3 id="newsletter">Newsletter</h3>
+<p>If you sign up for the PANMOX newsletter on one of these pages, the email address you enter is sent through Google Apps Script (Google) and handled as described in the main privacy policy: <a href="https://panmox.org/legal/privacy.html" rel="noreferrer">https://panmox.org/legal/privacy.html</a>. Nothing is sent until you submit the form.</p>
+<h3 id="email">Email</h3>
+<p>If you write to us, we use your email only to answer you, and delete it when the matter is finished.</p>
+<h3 id="your-rights">Your rights</h3>
+<p>You can ask what data about you we hold, and have it corrected or deleted, by writing to <a href="mailto:panmox-group@panmox.org">panmox-group@panmox.org</a>. You can also complain to the Czech data protection authority, Úřad pro ochranu osobních údajů (<a href="https://uoou.gov.cz" rel="noreferrer">https://uoou.gov.cz</a>).</p></article>
+</main>
+<footer class="site-foot"><div class="bars" aria-hidden="true"><span></span><span></span><span></span><span></span></div><p class="affil"><em>The Measure of a Machine is an independent fan project. It is not affiliated with, endorsed by or sponsored by Paramount or CBS Studios. Star Trek and related names are trademarks of their respective owners.</em></p><p class="legal-links"><a href="legal-notice.html">Legal notice</a> · <a href="privacy.html">Privacy</a></p></footer>
+<script>(function () {
+  // Video: nothing from YouTube loads until the visitor clicks.
+  var fig = document.querySelector('.video');
+  if (fig) {
+    var btn = fig.querySelector('.video-poster');
+    btn.addEventListener('click', function () {
+      var id = fig.getAttribute('data-youtube-id');
+      if (!/^[\w-]{6,20}$/.test(id || '')) return;
+      var f = document.createElement('iframe');
+      f.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+      f.title = fig.getAttribute('data-title') || '';
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.allowFullscreen = true;
+      f.referrerPolicy = 'strict-origin-when-cross-origin';
+      var box = document.createElement('div');
+      box.className = 'video-frame';
+      box.appendChild(f);
+      btn.replaceWith(box);
+      f.focus();
+    });
+  }
+  // Contents list: mark the section being read.
+  var links = document.querySelectorAll('.toc a');
+  if (!links.length) return;
+  var map = {};
+  links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+  var heads = Object.keys(map).map(function (id) { return document.getElementById(id); }).filter(Boolean);
+  var queued = false;
+  function update() {
+    queued = false;
+    var cur = heads[0];
+    heads.forEach(function (h) { if (h.getBoundingClientRect().top < window.innerHeight * 0.3) cur = h; });
+    links.forEach(function (a) { a.removeAttribute('aria-current'); });
+    if (cur) map[cur.id].setAttribute('aria-current', 'true');
+  }
+  window.addEventListener('scroll', function () {
+    if (!queued) { queued = true; setTimeout(update, 80); }
+  }, { passive: true });
+  update();
+})();
+</script>
+</body>
+</html>

@@ -737,5 +737,15 @@ footer .ftxt a:hover{color:var(--cyan);border-color:var(--cyan)}
 </script>
 <script src="nav-more.js?v=2"></script>
 <script src="waterline.js?v=2"></script>
+<script>
+/* YouTube refuses embeds on pages opened from disk (file://, no web address). There, show a link instead; online the player stays as it is. */
+if (location.protocol === 'file:') document.querySelectorAll('iframe[src*="youtube-nocookie.com/embed/"]').forEach(function (f) {
+  var id = f.src.split('/embed/')[1].split(/[?&#]/)[0], a = document.createElement('a');
+  a.href = 'https://www.youtube.com/watch?v=' + id; a.target = '_blank'; a.rel = 'noopener';
+  a.textContent = '▶  Watch on YouTube';
+  a.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:600 13px/1 ui-monospace,monospace;letter-spacing:3px;text-transform:uppercase;color:#ebe2d0;text-decoration:none;background:#05070d';
+  f.replaceWith(a);
+});
+</script>
 </body>
 </html>

@@ -587,6 +587,30 @@ section.relay-hero {
   .relay-film { margin-top: 36px; border-radius: 10px; }
 }
 
+/* ═══════════════════ THE MEASURE OF A MACHINE (fan project band, above Relay) ═══════════════════ */
+section.tmm-band {
+  position: relative; z-index: 5;
+  padding: calc(var(--nav-h, 64px) + 56px) 32px 72px;
+  text-align: center;
+}
+.tmm-bars { display: flex; gap: 6px; height: 8px; width: min(100%, 420px); margin: 0 auto 30px; }
+.tmm-bars span { border-radius: 999px; background: #ff9f45; flex: 6; }
+.tmm-bars span:nth-child(2) { background: #d9b98a; flex: 2; }
+.tmm-bars span:nth-child(3) { background: #7fd4e4; flex: 1; }
+.tmm-bars span:nth-child(4) { background: #ec93a9; flex: 3; }
+.tmm-title { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight: 700; font-size: clamp(36px, 5.4vw, 68px); letter-spacing: -.03em; line-height: 1.02; margin: 0 auto 14px; max-width: 900px; }
+.tmm-title a { color: var(--paper); text-decoration: none; }
+.tmm-title a:hover { color: #ff9f45; }
+.tmm-sub { font-family: var(--mono); font-size: 12px; letter-spacing: 5px; color: #ff9f45; margin: 0 0 18px; padding-left: 5px; }
+.tmm-line { font-size: clamp(18px, 2vw, 23px); color: var(--paper-dim); margin: 0 auto 28px; max-width: 36ch; line-height: 1.4; }
+.tmm-btn { display: inline-flex; font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; padding: 15px 28px; border-radius: 999px; text-decoration: none; color: #120c05; background: #ff9f45; border: 1px solid #ff9f45; transition: transform .3s, box-shadow .3s; }
+.tmm-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(255,159,69,.35); }
+.tmm-band + section.relay-hero { padding-top: 72px; border-top: 1px solid var(--rule); }
+@media (max-width: 720px) {
+  section.tmm-band { padding: calc(var(--nav-h, 64px) + 40px) 16px 56px; }
+  .tmm-band + section.relay-hero { padding-top: 56px; }
+}
+
 #pmxFxToggle { top: calc(var(--nav-h, 64px) + 12px) !important; }
 .relay-hero + .hero-split { padding-top: 40px; border-top: 1px solid var(--rule); }
 
@@ -954,6 +978,15 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
   </div>
 </div>
 
+<!-- ═══════════════════ THE MEASURE OF A MACHINE (personal fan project, not a PANMOX product) ═══════════════════ -->
+<section class="tmm-band" id="the-measure-of-a-machine" aria-labelledby="tmm-title">
+  <div class="tmm-bars" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+  <h2 class="tmm-title" id="tmm-title"><a href="the-measure-of-a-machine/index.html">The Measure of a Machine</a></h2>
+  <p class="tmm-sub">A STAR TREK FAN PRODUCTION</p>
+  <p class="tmm-line">Two androids wake up on a dead starship. There is no script.</p>
+  <a class="tmm-btn" href="the-measure-of-a-machine/index.html">Learn more</a>
+</section>
+
 <!-- ═══════════════════ ALTNET RELAY (appears by itself at 19:30 on Tue 13 Oct) ═══════════════════ -->
 <section class="relay-hero" id="altnet-relay">
   <h1 class="relay-title">AltNet <em>Relay.</em></h1>
@@ -1302,5 +1335,15 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
 </script>
 <script src="nav-more.js?v=2"></script>
 <script src="waterline.js?v=2"></script>
+<script>
+/* YouTube refuses embeds on pages opened from disk (file://, no web address). There, show a link instead; online the player stays as it is. */
+if (location.protocol === 'file:') document.querySelectorAll('iframe[src*="youtube-nocookie.com/embed/"]').forEach(function (f) {
+  var id = f.src.split('/embed/')[1].split(/[?&#]/)[0], a = document.createElement('a');
+  a.href = 'https://www.youtube.com/watch?v=' + id; a.target = '_blank'; a.rel = 'noopener';
+  a.textContent = '▶  Watch on YouTube';
+  a.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:600 13px/1 ui-monospace,monospace;letter-spacing:3px;text-transform:uppercase;color:#ebe2d0;text-decoration:none;background:#05070d';
+  f.replaceWith(a);
+});
+</script>
 </body>
 </html>
