@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' file:; style-src 'unsafe-inline'; script-src 'sha256-vo9KCvnp3Kmew6hdt71Zm/Sd3cZ5Zv/JsJumNivEISw=' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; frame-src https://www.youtube-nocookie.com; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' file:; style-src 'unsafe-inline'; script-src 'sha256-ZPnsTDcz73eQotyWHWSMVoQ98PgPtFDMRSqZFpXY9TQ=' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; frame-src https://www.youtube-nocookie.com; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="color-scheme" content="dark light">
 <title>Legal notice · The Measure of a Machine</title>
@@ -66,7 +66,7 @@ body.page-home{background:radial-gradient(ellipse 70% 45% at 85% -5%,rgba(255,15
 .hero-panel span:nth-child(6){width:28%;background:var(--rose)}
 .hero-panel span:nth-child(7){width:70%}
 .hero-panel span:nth-child(8){width:52%;background:var(--tan);opacity:.7}
-.video{margin:0 auto;max-width:900px}
+.video-wrap{margin:28px 0 0}.video{margin:0}
 .video-poster,.video-frame{display:block;position:relative;width:100%;aspect-ratio:16/9;border-radius:22px;overflow:hidden;border:1px solid var(--line2);background:#05070d;box-shadow:var(--shadow)}
 .video-poster{padding:0;cursor:pointer;font:inherit;color:#fff}
 .video-poster img{display:block;width:100%;height:100%;object-fit:cover}
@@ -75,7 +75,7 @@ body.page-home{background:radial-gradient(ellipse 70% 45% at 85% -5%,rgba(255,15
 .video-note{position:absolute;left:0;right:0;bottom:0;padding:14px 18px;background:rgba(5,7,13,.82);color:#f1ead9;font-size:.95rem;line-height:1.4}
 .video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .credit{font-size:.95rem;color:var(--muted);margin-top:8px}
-.smallprint{margin:20px 0 0;padding:18px 24px 18px 84px;color:var(--muted);font-size:.95rem;line-height:1.6;position:relative}
+.smallprint{margin:14px 0 0;padding:18px 24px 18px 84px;color:var(--muted);font-size:.95rem;line-height:1.6;position:relative}
 .smallprint::before{content:"";position:absolute;left:34px;top:24px;width:12px;height:12px;border-radius:999px;background:var(--line2)}
 .smallprint small{font-size:inherit}
 .sections{padding-top:40px}
@@ -234,6 +234,8 @@ body.page-home{background:radial-gradient(ellipse 70% 45% at 85% -5%,rgba(255,15
     btn.addEventListener('click', function () {
       var id = fig.getAttribute('data-youtube-id');
       if (!/^[\w-]{6,20}$/.test(id || '')) return;
+      // Opened from disk (file://): YouTube refuses embeds there, so open the video on YouTube instead.
+      if (location.protocol === 'file:') { window.open('https://www.youtube.com/watch?v=' + id, '_blank', 'noopener'); return; }
       var f = document.createElement('iframe');
       f.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
       f.title = fig.getAttribute('data-title') || '';

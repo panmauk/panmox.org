@@ -606,6 +606,15 @@ section.tmm-band {
 .tmm-btn { display: inline-flex; font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; padding: 15px 28px; border-radius: 999px; text-decoration: none; color: #120c05; background: #ff9f45; border: 1px solid #ff9f45; transition: transform .3s, box-shadow .3s; }
 .tmm-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(255,159,69,.35); }
 .tmm-band + section.relay-hero { padding-top: 72px; border-top: 1px solid var(--rule); }
+.tmm-video { position: relative; width: min(100%, 820px); margin: 44px auto 0; }
+.tmm-poster, .tmm-frame { display: block; position: relative; width: 100%; aspect-ratio: 16 / 9; padding: 0; border-radius: 14px; overflow: hidden; background: #05070d; border: 1px solid rgba(235,226,208,.12); box-shadow: 0 50px 140px rgba(0,0,0,.7), 0 0 90px rgba(255,159,69,.08); cursor: pointer; font: inherit; }
+.tmm-poster img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.tmm-play { position: absolute; left: 50%; top: 46%; width: 84px; height: 56px; margin: -28px 0 0 -42px; border-radius: 999px; background: #ff9f45; box-shadow: 0 10px 40px rgba(0,0,0,.5); transition: transform .3s; }
+.tmm-play::after { content: ""; position: absolute; left: 35px; top: 17px; border-style: solid; border-width: 11px 0 11px 18px; border-color: transparent transparent transparent #120c05; }
+.tmm-poster:hover .tmm-play { transform: scale(1.07); }
+.tmm-note { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 16px; background: rgba(5,7,13,.82); color: #f1ead9; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 14px; line-height: 1.4; text-align: left; }
+.tmm-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+@media (max-width: 720px) { .tmm-video { margin-top: 32px; } .tmm-poster, .tmm-frame { border-radius: 10px; } .tmm-note { font-size: 12.5px; padding: 9px 12px; } .tmm-play { width: 66px; height: 46px; margin: -23px 0 0 -33px; top: 42%; } .tmm-play::after { left: 27px; top: 13px; border-width: 10px 0 10px 16px; } }
 @media (max-width: 720px) {
   section.tmm-band { padding: calc(var(--nav-h, 64px) + 40px) 16px 56px; }
   .tmm-band + section.relay-hero { padding-top: 56px; }
@@ -985,6 +994,13 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
   <p class="tmm-sub">A STAR TREK FAN PRODUCTION</p>
   <p class="tmm-line">Two androids wake up on a dead starship. There is no script.</p>
   <a class="tmm-btn" href="the-measure-of-a-machine/index.html">Learn more</a>
+  <figure class="tmm-video" data-youtube-id="bKM8_lzZYtI">
+    <button type="button" class="tmm-poster" aria-label="Play the video. This loads it from YouTube.">
+      <img src="the-measure-of-a-machine/poster.svg" alt="" width="1280" height="720" loading="lazy">
+      <span class="tmm-play" aria-hidden="true"></span>
+      <span class="tmm-note">Clicking plays the video and loads it from YouTube (youtube-nocookie.com).</span>
+    </button>
+  </figure>
 </section>
 
 <!-- ═══════════════════ ALTNET RELAY (appears by itself at 19:30 on Tue 13 Oct) ═══════════════════ -->
@@ -1335,6 +1351,22 @@ footer .ftxt a:hover { color: var(--cyan); border-color: var(--cyan); }
 </script>
 <script src="nav-more.js?v=2"></script>
 <script src="waterline.js?v=2"></script>
+<script>
+/* The Measure of a Machine video: nothing loads from YouTube until the visitor clicks. */
+(function () {
+  var fig = document.querySelector('.tmm-video'); if (!fig) return;
+  var btn = fig.querySelector('.tmm-poster'), id = fig.getAttribute('data-youtube-id');
+  btn.addEventListener('click', function () {
+    if (location.protocol === 'file:') { window.open('https://www.youtube.com/watch?v=' + id, '_blank', 'noopener'); return; }
+    var f = document.createElement('iframe'), box = document.createElement('div');
+    f.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+    f.title = 'The Measure of a Machine';
+    f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    f.allowFullscreen = true; f.referrerPolicy = 'strict-origin-when-cross-origin';
+    box.className = 'tmm-frame'; box.appendChild(f); btn.replaceWith(box); f.focus();
+  });
+})();
+</script>
 <script>
 /* YouTube refuses embeds on pages opened from disk (file://, no web address). There, show a link instead; online the player stays as it is. */
 if (location.protocol === 'file:') document.querySelectorAll('iframe[src*="youtube-nocookie.com/embed/"]').forEach(function (f) {
